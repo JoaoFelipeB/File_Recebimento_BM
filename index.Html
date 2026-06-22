@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recebimento de NF</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1a73e8;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    header h1 { font-size: 1.2rem; }
+
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: #1a73e8;
+      border-bottom-color: #1a73e8;
+    }
+
+    .page { display: none; padding: 20px; }
+    .page.active { display: block; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #333;
+      transition: border 0.2s;
+      background: #fafafa;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #1a73e8;
+      background: white;
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+    }
+
+    .btn-primary:hover { background: #1558b0; }
+    .btn-primary:disabled { background: #aaa; cursor: not-allowed; }
+
+    .btn-success { background: #34a853; color: white; }
+    .btn-success:hover { background: #2d8e47; }
+    .btn-success:disabled { background: #aaa; cursor: not-allowed; }
+
+    .btn-outline {
+      background: white;
+      color: #1a73e8;
+      border: 2px solid #1a73e8;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .status-Pendente { background: #fff3cd; color: #856404; }
+    .status-Em-Conferência { background: #cfe2ff; color: #084298; }
+    .status-Recebido { background: #d1e7dd; color: #0f5132; }
+    .status-Divergência { background: #f8d7da; color: #842029; }
+
+    .nf-card {
+      background: white;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+      cursor: pointer;
+      border-left: 4px solid #1a73e8;
+      transition: transform 0.1s;
+    }
+
+    .nf-card:active { transform: scale(0.98); }
+
+    .nf-card .nf-number {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1a73e8;
+    }
+
+    .nf-card .nf-info {
+      font-size: 0.82rem;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .nf-card .nf-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .search-box input {
+      padding-left: 40px;
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      z-index: 9999;
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+
+    .toast.success { background: #34a853; }
+    .toast.error { background: #ea4335; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: flex-end;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h3 { font-size: 1.1rem; color: #1a73e8; }
+
+    .btn-close {
+      background: #f0f0f0;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 0.88rem;
+    }
+
+    .detail-row span:first-child { color: #888; }
+    .detail-row span:last-child { font-weight: 600; color: #333; }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #888;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #aaa;
+    }
+
+    .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
+
+    .required { color: #ea4335; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span style="font-size:1.5rem">📦</span>
+  <h1>Controle de Recebimento</h1>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPage('lista', this)">📋 Notas</div>
+  <div class="tab" onclick="showPage('novo', this)">➕ Novo</div>
+  <div class="tab" onclick="showPage('conferencia', this)">✅ Conferência</div>
+</div>
+
+<!-- ===================== LISTA ===================== -->
+<div id="page-lista" class="page active">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Buscar por NF ou Fornecedor..." oninput="filtrarLista()"/>
+  </div>
+  <div id="listaNF">
+    <div class="loading">⏳ Carregando notas fiscais...</div>
+  </div>
+</div>
+
+<!-- ===================== NOVO ===================== -->
+<div id="page-novo" class="page">
+  <div class="card">
+    <h2>📄 Novo Agendamento</h2>
+
+    <div class="form-group">
+      <label>Nº da Nota Fiscal <span class="required">*</span></label>
+      <input type="text" id="numeroNF" placeholder="Ex: NF-000001"/>
+    </div>
+
+    <div class="form-group">
+      <label>Tipo <span class="required">*</span></label>
+      <select id="tipo">
+        <option value="">Selecione...</option>
+        <option>Entrada</option>
+        <option>Devolução</option>
+        <option>Transferência</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Fornecedor <span class="required">*</span></label>
+      <input type="text" id="fornecedor" placeholder="Nome do fornecedor"/>
+    </div>
+
+    <div class="form-group">
+      <label>Conferente <span class="required">*</span></label>
+      <input type="text" id="conferente" placeholder="Nome do conferente"/>
+    </div>
+
+    <div class="form-group">
+      <label>Doca de Descarga <span class="required">*</span></label>
+      <select id="descarga">
+        <option value="">Selecione...</option>
+        <option>Doca 01</option>
+        <option>Doca 02</option>
+        <option>Doca 03</option>
+        <option>Doca 04</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Data de Agendamento <span class="required">*</span></label>
+      <input type="date" id="dataAgendamento"/>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>SKUs Solicitados</label>
+        <input type="number" id="skuSolicitados" placeholder="0"/>
+      </div>
+      <div class="form-group">
+        <label>Volume Solicitado</label>
+        <input type="number" id="volumeSolicitados" placeholder="0"/>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="btnSalvarAgendamento" onclick="salvarAgendamento()">💾 Salvar Agendamento</button>
+  </div>
+</div>
+
+<!-- ===================== CONFERÊNCIA ===================== -->
+<div id="page-conferencia" class="page">
+  <div class="card">
+    <h2>🔍 Buscar Nota Fiscal</h2>
+    <div class="form-group">
+      <input type="text" id="buscaConferencia" placeholder="Digite o número da NF..."/>
+    </div>
+    <button class="btn btn-outline" onclick="buscarNFConferencia()">🔍 Buscar</button>
+  </div>
+
+  <div id="formConferencia" style="display:none">
+    <div class="card">
+      <h2>✏️ Dados da Conferência</h2>
+
+      <div id="infoNFConferencia"></div>
+
+      <div class="form-group" style="margin-top:14px">
+        <label>Status <span class="required">*</span></label>
+        <select id="confStatus">
+          <option value="">Selecione...</option>
+          <option>Pendente</option>
+          <option>Em Conferência</option>
+          <option>Recebido</option>
+          <option>Divergência</option>
+        </select>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>SKUs Recebidos</label>
+          <input type="number" id="confSkuRecebido" placeholder="0"/>
+        </div>
+        <div class="form-group">
+          <label>Volume Recebido</label>
+          <input type="number" id="confVolumeRecebido" placeholder="0"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Data/Hora de Recebimento</label>
+        <input type="datetime-local" id="confDataHoraRecebimento"/>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>Início Conferência</label>
+          <input type="datetime-local" id="confInicio"/>
+        </div>
+        <div class="form-group">
+          <label>Fim Conferência</label>
+          <input type="datetime-local" id="confFim"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Observação</label>
+        <textarea id="confObservacao" placeholder="Descreva divergências ou observações..."></textarea>
+      </div>
+
+      <button class="btn btn-success" id="btnSalvarConferencia" onclick="salvarConferencia()">✅ Salvar Conferência</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MODAL DETALHES ===================== -->
+<div class="modal-overlay" id="modalOverlay" onclick="fecharModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitulo">Detalhes da NF</h3>
+      <button class="btn-close" onclick="fecharModal()">✕</button>
+    </div>
+    <div id="modalConteudo"></div>
+    <button class="btn btn-outline" style="margin-top:16px" onclick="abrirConferenciaDaModal()">
+      ✏️ Ir para Conferência
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ⚠️ SUBSTITUA PELA SUA URL DO APPS SCRIPT
+  const API_URL = "https://script.google.com/macros/s/AKfycbxiVms7NfwxKum-ovI7cgiWZcl2efnqYwXrKb89o6_aBNQ9j4BzonHVtVmC4fUvRhkl/exec";
+
+  let todasNFs = [];
+  let nfSelecionada = null;
+
+  // ===== NAVEGAÇÃO =====
+  function showPage(page, tabEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    tabEl.classList.add('active');
+    if (page === 'lista') carregarLista();
+  }
+
+  // ===== TOAST =====
+  function showToast(msg, tipo = '') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast ' + tipo;
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 3500);
+  }
+
+  // ===== CARREGAR LISTA =====
+  async function carregarLista() {
+    document.getElementById('listaNF').innerHTML = '<div class="loading">⏳ Carregando...</div>';
+    try {
+      const res = await fetch(API_URL);
+      const json = await res.json();
+      todasNFs = json.data || [];
+      renderizarLista(todasNFs);
+    } catch (e) {
+      document.getElementById('listaNF').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div>Erro ao carregar dados.<br>Verifique a URL do Apps Script.</div>';
+    }
+  }
+
+  function renderizarLista(lista) {
+    const container = document.getElementById('listaNF');
+    if (!lista.length) {
+      container.innerHTML = '<div class="empty-state"><div class="icon">📭</div>Nenhuma nota encontrada.</div>';
+      return;
+    }
+    container.innerHTML = lista.map(nf => `
+      <div class="nf-card" onclick="abrirModal('${nf['Numero da Nota Fiscal']}')">
+        <div class="nf-number">📄 ${nf['Numero da Nota Fiscal']}</div>
+        <div class="nf-info">🏢 ${nf['Fornecedor']} &nbsp;|&nbsp; 👤 ${nf['Conferente']}</div>
+        <div class="nf-footer">
+          <span class="nf-info">📅 ${nf['Data de Agendamento']} &nbsp;|&nbsp; 🚪 ${nf['Descarga']}</span>
+          <span class="status-badge status-${(nf['Status'] || 'Pendente').replace(' ', '-')}">${nf['Status'] || 'Pendente'}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filtrarLista() {
+    const termo = document.getElementById('searchInput').value.toLowerCase();
+    const filtradas = todasNFs.filter(nf =>
+      nf['Numero da Nota Fiscal']?.toLowerCase().includes(termo) ||
+      nf['Fornecedor']?.toLowerCase().includes(termo)
+    );
+    renderizarLista(filtradas);
+  }
+
+  // ===== MODAL =====
+  function abrirModal(numeroNF) {
+    nfSelecionada = todasNFs.find(nf => nf['Numero da Nota Fiscal'] === numeroNF);
+    if (!nfSelecionada) return;
+
+    document.getElementById('modalTitulo').textContent = '📄 ' + numeroNF;
+    document.getElementById('modalConteudo').innerHTML = `
+      <div class="detail-row"><span>Fornecedor</span><span>${nfSelecionada['Fornecedor'] || '-'}</span></div>
+      <div class="detail-row"><span>Conferente</span><span>${nfSelecionada['Conferente'] || '-'}</span></div>
+      <div class="detail-row"><span>Tipo</span><span>${nfSelecionada['Tipo'] || '-'}</span></div>
+      <div class="detail-row"><span>Descarga</span><span>${nfSelecionada['Descarga'] || '-'}</span></div>
+      <div class="detail-row"><span>Agendamento</span><span>${nfSelecionada['Data de Agendamento'] || '-'}</span></div>
+      <div class="detail-row"><span>SKUs Solicitados</span><span>${nfSelecionada['SKU Solicitados'] || '-'}</span></div>
+      <div class="detail-row"><span>Volume Solicitado</span><span>${nfSelecionada['Volume Solicitados'] || '-'}</span></div>
+      <div class="detail-row"><span>SKUs Recebidos</span><span>${nfSelecionada['SKUs Recebido'] || '-'}</span></div>
+      <div class="detail-row"><span>Volume Recebido</span><span>${nfSelecionada['Volume Recebido'] || '-'}</span></div>
+      <div class="detail-row"><span>Status</span><span>
+        <span class="status-badge status-${(nfSelecionada['Status'] || 'Pendente').replace(' ','-')}">
+          ${nfSelecionada['Status'] || 'Pendente'}
+        </span>
+      </span></div>
+      <div class="detail-row"><span>Observação</span><span>${nfSelecionada['Observacao'] || '-'}</span></div>
+    `;
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function fecharModal(e) {
+    if (!e || e.target === document.getElementById('modalOverlay') || e.type === 'click') {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+  }
+
+  function abrirConferenciaDaModal() {
+    fecharModal();
+    document.getElementById('buscaConferencia').value = nfSelecionada['Numero da Nota Fiscal'];
+    const tabConferencia = document.querySelectorAll('.tab')[2];
+    showPage('conferencia', tabConferencia);
+    buscarNFConferencia();
+  }
+
+  // ===== SALVAR AGENDAMENTO =====
+  async function salvarAgendamento() {
+    const campos = ['numeroNF', 'fornecedor', 'conferente', 'tipo', 'descarga', 'dataAgendamento'];
+    const labels = ['Nº da NF', 'Fornecedor', 'Conferente', 'Tipo', 'Descarga', 'Data de Agendamento'];
+
+    for (let i = 0; i < campos.length; i++) {
+      if (!document.getElementById(campos[i]).value.trim()) {
+        showToast('⚠️ Preencha: ' + labels[i], 'error');
+        return;
+      }
+    }
+
+    const btn = document.getElementById('btnSalvarAgendamento');
+    btn.disabled = true;
+    btn.textContent = '⏳ Salvando...';
+
+    const dados = {
+      acao: 'salvar',
+      numeroNF: document.getElementById('numeroNF').value.trim(),
+      conferente: document.getElementById('conferente').value.trim(),
+      descarga: document.getElementById('descarga').value,
+      dataAgendamento: document.getElementById('dataAgendamento').value,
+      dataHoraRecebimento: '',
+      fornecedor: document.getElementById('fornecedor').value.trim(),
+      skuSolicitados: document.getElementById('skuSolicitados').value || '0',
+      volumeSolicitados: document.getElementById('volumeSolicitados').value || '0',
+      skuRecebido: '',
+      volumeRecebido: '',
+      status: 'Pendente',
+      observacao: '',
+      tipo: document.getElementById('tipo').value,
+      dtHoraInicioConferencia: '',
+      dtHoraFinalizacaoConferencia: ''
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(dados)
+      });
+      const json = await res.json();
+
+      if (json.status === 'success' || json.success === true) {
+        showToast('✅ Agendamento salvo com sucesso!', 'success');
+        document.querySelectorAll('#page-novo input, #page-novo select').forEach(el => el.value = '');
+        carregarLista();
+      } else {
+        showToast('❌ Erro: ' + (json.message || 'Tente novamente.'), 'error');
+      }
+    } catch (e) {
+      showToast('❌ Erro ao salvar. Verifique a conexão.', 'error');
+      console.error('Erro salvarAgendamento:', e);
+    }
+
+    btn.disabled = false;
+    btn.textContent = '💾 Salvar Agendamento';
+  }
+
+  // ===== CONFERÊNCIA =====
+  function buscarNFConferencia() {
+    const termo = document.getElementById('buscaConferencia').value.trim().toLowerCase();
+    if (!termo) {
+      showToast('⚠️ Digite o número da NF.', 'error');
+      return;
+    }
+
+    const nf = todasNFs.find(n => n['Numero da Nota Fiscal']?.toLowerCase() === termo);
+
+    if (!nf) {
+      showToast('❌ NF não encontrada. Verifique o número.', 'error');
+      document.getElementById('formConferencia').style.display = 'none';
+      return;
+    }
+
+    nfSelecionada = nf;
+    document.getElementById('infoNFConferencia').innerHTML = `
+      <div style="background:#f0f7ff;padding:10px;border-radius:8px;margin-bottom:8px">
+        <strong>${nf['Numero da Nota Fiscal']}</strong> — ${nf['Fornecedor']}<br>
+        <small>Agendado: ${nf['Data de Agendamento']} | ${nf['Descarga']}</small>
+      </div>
+    `;
+
+    document.getElementById('confStatus').value = nf['Status'] || '';
+    document.getElementById('confSkuRecebido').value = nf['SKUs Recebido'] || '';
+    document.getElementById('confVolumeRecebido').value = nf['Volume Recebido'] || '';
+    document.getElementById('confObservacao').value = nf['Observacao'] || '';
+    document.getElementById('confDataHoraRecebimento').value = nf['Data e Hora de Recebimento'] || '';
+    document.getElementById('confInicio').value = nf['Dt e Hora Inicio Conferencia'] || '';
+    document.getElementById('confFim').value = nf['Dt e Hora Finalizacao Conferencia'] || '';
+
+    // Preenche data/hora atual se ainda não tiver
+    const agora = new Date().toISOString().slice(0, 16);
+    if (!document.getElementById('confInicio').value) {
+      document.getElementById('confInicio').value = agora;
+    }
+    if (!document.getElementById('confDataHoraRecebimento').value) {
+      document.getElementById('confDataHoraRecebimento').value = agora;
+    }
+
+    document.getElementById('formConferencia').style.display = 'block';
+  }
+
+  async function salvarConferencia() {
+    if (!nfSelecionada) {
+      showToast('⚠️ Nenhuma NF selecionada.', 'error');
+      return;
+    }
+    if (!document.getElementById('confStatus').value) {
+      showToast('⚠️ Selecione o Status.', 'error');
+      return;
+    }
+
+    const btn = document.getElementById('btnSalvarConferencia');
+    btn.disabled = true;
+    btn.textContent = '⏳ Salvando...';
+
+    const dados = {
+      acao: 'atualizar',
+      _update: true,
+      _key: nfSelecionada['Numero da Nota Fiscal'],
+      numeroNF: nfSelecionada['Numero da Nota Fiscal'],
+      fornecedor: nfSelecionada['Fornecedor'],
+      conferente: nfSelecionada['Conferente'],
+      tipo: nfSelecionada['Tipo'],
+      descarga: nfSelecionada['Descarga'],
+      dataAgendamento: nfSelecionada['Data de Agendamento'],
+      skuSolicitados: nfSelecionada['SKU Solicitados'],
+      volumeSolicitados: nfSelecionada['Volume Solicitados'],
+      skuRecebido: document.getElementById('confSkuRecebido').value,
+      volumeRecebido: document.getElementById('confVolumeRecebido').value,
+      status: document.getElementById('confStatus').value,
+      observacao: document.getElementById('confObservacao').value,
+      dataHoraRecebimento: document.getElementById('confDataHoraRecebimento').value,
+      dtHoraInicioConferencia: document.getElementById('confInicio').value,
+      dtHoraFinalizacaoConferencia: document.getElementById('confFim').value
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(dados)
+      });
+      const json = await res.json();
+
+      if (json.status === 'success' || json.success === true) {
+        showToast('✅ Conferência salva com sucesso!', 'success');
+        document.getElementById('formConferencia').style.display = 'none';
+        document.getElementById('buscaConferencia').value = '';
+        nfSelecionada = null;
+        carregarLista();
+      } else {
+        showToast('❌ Erro: ' + (json.message || 'Tente novamente.'), 'error');
+      }
+    } catch (e) {
+      showToast('❌ Erro ao salvar. Verifique a conexão.', 'error');
+      console.error('Erro salvarConferencia:', e);
+    }
+
+    btn.disabled = false;
+    btn.textContent = '✅ Salvar Conferência';
+  }
+
+  // ===== INIT =====
+  carregarLista();
+</script>
+</body>
+</html>
