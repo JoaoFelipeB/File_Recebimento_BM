@@ -1,728 +1,1267 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Recebimento de NF</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recebimento-BM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      min-height: 100vh;
-    }
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #1e3a5f, #0f2744);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #3b82f6;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-logo {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 800; color: white;
+        }
+        .header-title { font-size: 20px; font-weight: 700; color: #fff; }
+        .header-subtitle { font-size: 12px; color: #94a3b8; }
+        .header-date { font-size: 13px; color: #94a3b8; text-align: right; }
 
-    header {
-      background: #1a73e8;
-      color: white;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
+        /* ===== NAV ===== */
+        .nav {
+            background: #1e293b;
+            display: flex;
+            gap: 4px;
+            padding: 8px 24px;
+            border-bottom: 1px solid #334155;
+            overflow-x: auto;
+        }
+        .nav-btn {
+            padding: 8px 18px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .nav-btn:hover { background: #334155; color: #e2e8f0; }
+        .nav-btn.active { background: #3b82f6; color: white; }
 
-    header h1 { font-size: 1.2rem; }
+        /* ===== MAIN ===== */
+        .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
 
-    .tabs {
-      display: flex;
-      background: white;
-      border-bottom: 2px solid #e0e0e0;
-    }
+        /* ===== TELAS ===== */
+        .tela { display: none; }
+        .tela.active { display: block; }
 
-    .tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: 600;
-      color: #666;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-    }
+        .page-title {
+            font-size: 22px; font-weight: 700;
+            margin-bottom: 20px; color: #f1f5f9;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .page-title span { font-size: 24px; }
 
-    .tab.active {
-      color: #1a73e8;
-      border-bottom-color: #1a73e8;
-    }
+        /* ===== CARDS DASH ===== */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .dash-card {
+            background: #1e293b;
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid #334155;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .dash-card:hover { transform: translateY(-2px); }
+        .dash-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 4px;
+        }
+        .dash-card.blue::before { background: #3b82f6; }
+        .dash-card.green::before { background: #22c55e; }
+        .dash-card.yellow::before { background: #eab308; }
+        .dash-card.red::before { background: #ef4444; }
+        .dash-card.purple::before { background: #a855f7; }
+        .dash-card.cyan::before { background: #06b6d4; }
+        .dash-card.orange::before { background: #f97316; }
 
-    .page { display: none; padding: 20px; }
-    .page.active { display: block; }
+        .dash-card-icon { font-size: 28px; margin-bottom: 8px; }
+        .dash-card-value { font-size: 32px; font-weight: 800; color: #f1f5f9; }
+        .dash-card-label { font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+        /* ===== CARDS SKU/VOL/PESO ===== */
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .metric-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-card .val { font-size: 26px; font-weight: 800; color: #3b82f6; }
+        .metric-card .lbl { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600; }
 
-    .card h2 {
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #f0f0f0;
-    }
+        /* ===== TABLE ===== */
+        .table-wrap {
+            background: #1e293b;
+            border-radius: 14px;
+            border: 1px solid #334155;
+            overflow: hidden;
+        }
+        .table-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #334155;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .table-title { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th {
+            background: #0f172a;
+            padding: 12px 14px;
+            text-align: left;
+            color: #64748b;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        tbody tr { border-bottom: 1px solid #1e293b; transition: background 0.15s; }
+        tbody tr:hover { background: #263447; }
+        tbody td { padding: 11px 14px; color: #cbd5e1; }
+        tbody tr:last-child { border-bottom: none; }
 
-    .form-group {
-      margin-bottom: 14px;
-    }
+        /* ===== BADGE ===== */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .badge-seg { background: #1d4ed820; color: #60a5fa; border: 1px solid #1d4ed8; }
+        .badge-ter { background: #6d28d920; color: #a78bfa; border: 1px solid #6d28d9; }
+        .badge-qua { background: #0f766e20; color: #2dd4bf; border: 1px solid #0f766e; }
+        .badge-qui { background: #92400e20; color: #fbbf24; border: 1px solid #92400e; }
+        .badge-sex { background: #991b1b20; color: #f87171; border: 1px solid #991b1b; }
+        .badge-ok { background: #16653420; color: #4ade80; border: 1px solid #166534; }
+        .badge-pend { background: #7c280820; color: #fb923c; border: 1px solid #7c2d08; }
+        .badge-sim { background: #16653420; color: #4ade80; border: 1px solid #166534; }
+        .badge-nao { background: #7f1d1d20; color: #f87171; border: 1px solid #7f1d1d; }
+        .badge-trat { background: #78350f20; color: #fbbf24; border: 1px solid #78350f; }
+        .badge-atraso { background: #7f1d1d20; color: #f87171; border: 1px solid #7f1d1d; }
+        .badge-pontual { background: #16653420; color: #4ade80; border: 1px solid #166534; }
 
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #555;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        /* ===== BTN ===== */
+        .btn {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-success:hover { background: #16a34a; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #334155;
+            color: #94a3b8;
+        }
+        .btn-outline:hover { background: #334155; color: #e2e8f0; }
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      color: #333;
-      transition: border 0.2s;
-      background: #fafafa;
-    }
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 28px;
+            width: 90%;
+            max-width: 620px;
+            border: 1px solid #334155;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            font-size: 18px; font-weight: 700;
+            margin-bottom: 20px; color: #f1f5f9;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-close {
+            background: none; border: none;
+            color: #64748b; font-size: 20px;
+            cursor: pointer; padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .modal-close:hover { background: #334155; color: #f1f5f9; }
 
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #1a73e8;
-      background: white;
-    }
+        /* ===== FORM ===== */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+        .form-full { grid-column: 1 / -1; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; }
+        .form-group input, .form-group select, .form-group textarea {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #e2e8f0;
+            font-size: 13px;
+            transition: border 0.2s;
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 
-    textarea { resize: vertical; min-height: 80px; }
+        /* ===== FILTROS ===== */
+        .filtros-bar {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        .filtro-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
+        .filtro-group label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .filtro-group select, .filtro-group input {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: #e2e8f0;
+            font-size: 13px;
+        }
+        .filtro-group select:focus, .filtro-group input:focus {
+            outline: none; border-color: #3b82f6;
+        }
 
-    .row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+        /* ===== CHECKBOX BOXES ===== */
+        .check-boxes {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .check-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .check-box input[type="checkbox"] { display: none; }
+        .check-box .cb-icon {
+            width: 18px; height: 18px;
+            border: 2px solid #475569;
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .check-box.ok-box.checked { border-color: #22c55e; background: #16653410; }
+        .check-box.ok-box.checked .cb-icon { background: #22c55e; border-color: #22c55e; color: white; }
+        .check-box.trat-box.checked { border-color: #eab308; background: #78350f10; }
+        .check-box.trat-box.checked .cb-icon { background: #eab308; border-color: #eab308; color: white; }
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
+        /* ===== FORNECEDOR FIXO CARD ===== */
+        .dia-section { margin-bottom: 24px; }
+        .dia-title {
+            font-size: 14px; font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .dia-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #334155;
+        }
+        .fornec-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+        }
+        .fornec-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+        .fornec-card.confirmado {
+            border-color: #22c55e;
+            background: #16653410;
+        }
+        .fornec-card.nao-veio {
+            border-color: #ef4444;
+            background: #7f1d1d10;
+        }
+        .fornec-info { flex: 1; }
+        .fornec-nome { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+        .fornec-cod { font-size: 11px; color: #64748b; margin-top: 2px; }
+        .fornec-actions { display: flex; gap: 6px; }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .btn-confirmar { background: #16653440; color: #4ade80; border: 1px solid #166534; }
+        .btn-confirmar:hover, .fornec-card.confirmado .btn-confirmar { background: #22c55e; color: white; }
+        .btn-naoveio { background: #7f1d1d40; color: #f87171; border: 1px solid #7f1d1d; }
+        .btn-naoveio:hover, .fornec-card.nao-veio .btn-naoveio { background: #ef4444; color: white; }
+        .btn-reset-f { background: #33415540; color: #94a3b8; border: 1px solid #475569; }
+        .btn-reset-f:hover { background: #475569; color: #e2e8f0; }
 
-    .btn-primary {
-      background: #1a73e8;
-      color: white;
-    }
+        /* ===== HOJE HIGHLIGHT ===== */
+        .hoje-badge {
+            background: #3b82f6;
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
 
-    .btn-primary:hover { background: #1558b0; }
-    .btn-primary:disabled { background: #aaa; cursor: not-allowed; }
+        /* ===== PROGRESS BAR ===== */
+        .prog-bar-wrap { margin-top: 6px; }
+        .prog-bar-bg {
+            background: #0f172a;
+            border-radius: 20px;
+            height: 8px;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+        .prog-bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.5s;
+        }
+        .prog-label { font-size: 11px; color: #64748b; margin-top: 4px; display: flex; justify-content: space-between; }
 
-    .btn-success { background: #34a853; color: white; }
-    .btn-success:hover { background: #2d8e47; }
-    .btn-success:disabled { background: #aaa; cursor: not-allowed; }
+        /* ===== OCORRENCIA ===== */
+        .ocorr-section {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+        .ocorr-title { font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 10px; }
 
-    .btn-outline {
-      background: white;
-      color: #1a73e8;
-      border: 2px solid #1a73e8;
-    }
+        /* ===== HORARIO STATUS ===== */
+        .horario-ok { color: #4ade80; }
+        .horario-atraso { color: #f87171; }
 
-    .status-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #475569;
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state p { font-size: 14px; }
 
-    .status-Pendente { background: #fff3cd; color: #856404; }
-    .status-Em-Conferência { background: #cfe2ff; color: #084298; }
-    .status-Recebido { background: #d1e7dd; color: #0f5132; }
-    .status-Divergência { background: #f8d7da; color: #842029; }
+        /* ===== SECTION DIVIDER ===== */
+        .section-sep { height: 1px; background: #334155; margin: 20px 0; }
 
-    .nf-card {
-      background: white;
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-      cursor: pointer;
-      border-left: 4px solid #1a73e8;
-      transition: transform 0.1s;
-    }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .main { padding: 12px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-grid.cols3 { grid-template-columns: 1fr; }
+            .dash-grid { grid-template-columns: repeat(2, 1fr); }
+            .metrics-bar { grid-template-columns: 1fr; }
+        }
 
-    .nf-card:active { transform: scale(0.98); }
+        .tag-hoje {
+            display: inline-block;
+            background: #3b82f620;
+            color: #60a5fa;
+            border: 1px solid #3b82f6;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
 
-    .nf-card .nf-number {
-      font-weight: 700;
-      font-size: 1rem;
-      color: #1a73e8;
-    }
+        .dash-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+        @media (max-width: 700px) { .dash-row { grid-template-columns: 1fr; } }
 
-    .nf-card .nf-info {
-      font-size: 0.82rem;
-      color: #666;
-      margin-top: 4px;
-    }
+        .chart-block {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 20px;
+        }
+        .chart-title { font-size: 14px; font-weight: 700; color: #94a3b8; margin-bottom: 14px; }
 
-    .nf-card .nf-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
-    }
+        .lista-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #334155;
+            font-size: 13px;
+        }
+        .lista-item:last-child { border-bottom: none; }
+        .lista-item-nome { color: #cbd5e1; }
+        .lista-item-val { font-weight: 700; color: #f1f5f9; }
 
-    .search-box {
-      position: relative;
-      margin-bottom: 16px;
-    }
-
-    .search-box input {
-      padding-left: 40px;
-    }
-
-    .search-box::before {
-      content: '🔍';
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.9rem;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 24px;
-      font-size: 0.9rem;
-      z-index: 9999;
-      display: none;
-      animation: fadeIn 0.3s;
-    }
-
-    .toast.success { background: #34a853; }
-    .toast.error { background: #ea4335; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
-    }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 100;
-      align-items: flex-end;
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: white;
-      width: 100%;
-      max-height: 90vh;
-      border-radius: 20px 20px 0 0;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .modal-header h3 { font-size: 1.1rem; color: #1a73e8; }
-
-    .btn-close {
-      background: #f0f0f0;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #f5f5f5;
-      font-size: 0.88rem;
-    }
-
-    .detail-row span:first-child { color: #888; }
-    .detail-row span:last-child { font-weight: 600; color: #333; }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #888;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: #aaa;
-    }
-
-    .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
-
-    .required { color: #ea4335; }
-  </style>
+        .alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-info { background: #1e3a5f40; border: 1px solid #3b82f6; color: #93c5fd; }
+        .alert-warn { background: #78350f30; border: 1px solid #eab308; color: #fde68a; }
+    </style>
 </head>
 <body>
 
-<header>
-  <span style="font-size:1.5rem">📦</span>
-  <h1>Controle de Recebimento</h1>
-</header>
-
-<div class="tabs">
-  <div class="tab active" onclick="showPage('lista', this)">📋 Notas</div>
-  <div class="tab" onclick="showPage('novo', this)">➕ Novo</div>
-  <div class="tab" onclick="showPage('conferencia', this)">✅ Conferência</div>
-</div>
-
-<!-- ===================== LISTA ===================== -->
-<div id="page-lista" class="page active">
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Buscar por NF ou Fornecedor..." oninput="filtrarLista()"/>
-  </div>
-  <div id="listaNF">
-    <div class="loading">⏳ Carregando notas fiscais...</div>
-  </div>
-</div>
-
-<!-- ===================== NOVO ===================== -->
-<div id="page-novo" class="page">
-  <div class="card">
-    <h2>📄 Novo Agendamento</h2>
-
-    <div class="form-group">
-      <label>Nº da Nota Fiscal <span class="required">*</span></label>
-      <input type="text" id="numeroNF" placeholder="Ex: NF-000001"/>
-    </div>
-
-    <div class="form-group">
-      <label>Tipo <span class="required">*</span></label>
-      <select id="tipo">
-        <option value="">Selecione...</option>
-        <option>Entrada</option>
-        <option>Devolução</option>
-        <option>Transferência</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Fornecedor <span class="required">*</span></label>
-      <input type="text" id="fornecedor" placeholder="Nome do fornecedor"/>
-    </div>
-
-    <div class="form-group">
-      <label>Conferente <span class="required">*</span></label>
-      <input type="text" id="conferente" placeholder="Nome do conferente"/>
-    </div>
-
-    <div class="form-group">
-      <label>Doca de Descarga <span class="required">*</span></label>
-      <select id="descarga">
-        <option value="">Selecione...</option>
-        <option>Doca 01</option>
-        <option>Doca 02</option>
-        <option>Doca 03</option>
-        <option>Doca 04</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Data de Agendamento <span class="required">*</span></label>
-      <input type="date" id="dataAgendamento"/>
-    </div>
-
-    <div class="row-2">
-      <div class="form-group">
-        <label>SKUs Solicitados</label>
-        <input type="number" id="skuSolicitados" placeholder="0"/>
-      </div>
-      <div class="form-group">
-        <label>Volume Solicitado</label>
-        <input type="number" id="volumeSolicitados" placeholder="0"/>
-      </div>
-    </div>
-
-    <button class="btn btn-primary" id="btnSalvarAgendamento" onclick="salvarAgendamento()">💾 Salvar Agendamento</button>
-  </div>
-</div>
-
-<!-- ===================== CONFERÊNCIA ===================== -->
-<div id="page-conferencia" class="page">
-  <div class="card">
-    <h2>🔍 Buscar Nota Fiscal</h2>
-    <div class="form-group">
-      <input type="text" id="buscaConferencia" placeholder="Digite o número da NF..."/>
-    </div>
-    <button class="btn btn-outline" onclick="buscarNFConferencia()">🔍 Buscar</button>
-  </div>
-
-  <div id="formConferencia" style="display:none">
-    <div class="card">
-      <h2>✏️ Dados da Conferência</h2>
-
-      <div id="infoNFConferencia"></div>
-
-      <div class="form-group" style="margin-top:14px">
-        <label>Status <span class="required">*</span></label>
-        <select id="confStatus">
-          <option value="">Selecione...</option>
-          <option>Pendente</option>
-          <option>Em Conferência</option>
-          <option>Recebido</option>
-          <option>Divergência</option>
-        </select>
-      </div>
-
-      <div class="row-2">
-        <div class="form-group">
-          <label>SKUs Recebidos</label>
-          <input type="number" id="confSkuRecebido" placeholder="0"/>
+<!-- HEADER -->
+<div class="header">
+    <div class="header-left">
+        <div class="header-logo">BM</div>
+        <div>
+            <div class="header-title">Recebimento-BM</div>
+            <div class="header-subtitle">Sistema de Controle de Recebimento</div>
         </div>
-        <div class="form-group">
-          <label>Volume Recebido</label>
-          <input type="number" id="confVolumeRecebido" placeholder="0"/>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Data/Hora de Recebimento</label>
-        <input type="datetime-local" id="confDataHoraRecebimento"/>
-      </div>
-
-      <div class="row-2">
-        <div class="form-group">
-          <label>Início Conferência</label>
-          <input type="datetime-local" id="confInicio"/>
-        </div>
-        <div class="form-group">
-          <label>Fim Conferência</label>
-          <input type="datetime-local" id="confFim"/>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Observação</label>
-        <textarea id="confObservacao" placeholder="Descreva divergências ou observações..."></textarea>
-      </div>
-
-      <button class="btn btn-success" id="btnSalvarConferencia" onclick="salvarConferencia()">✅ Salvar Conferência</button>
     </div>
-  </div>
+    <div class="header-date" id="headerDate"></div>
 </div>
 
-<!-- ===================== MODAL DETALHES ===================== -->
-<div class="modal-overlay" id="modalOverlay" onclick="fecharModal(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="modalTitulo">Detalhes da NF</h3>
-      <button class="btn-close" onclick="fecharModal()">✕</button>
-    </div>
-    <div id="modalConteudo"></div>
-    <button class="btn btn-outline" style="margin-top:16px" onclick="abrirConferenciaDaModal()">
-      ✏️ Ir para Conferência
-    </button>
-  </div>
+<!-- NAV -->
+<div class="nav">
+    <button class="nav-btn active" onclick="showTela('dashboard')" id="nav-dashboard">📊 Dashboard</button>
+    <button class="nav-btn" onclick="showTela('fornecedores')" id="nav-fornecedores">🏭 Forn. Fixos</button>
+    <button class="nav-btn" onclick="showTela('notas')" id="nav-notas">📋 Notas Fiscais</button>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- MAIN -->
+<div class="main">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="tela active" id="tela-dashboard">
+        <div class="page-title"><span>📊</span> Dashboard — Resumo do Dia <span class="tag-hoje" id="dashDataHoje"></span></div>
+
+        <div class="alert alert-info">
+            ℹ️ Dados atualizados em tempo real conforme lançamentos na aba <strong>Notas Fiscais</strong>.
+        </div>
+
+        <!-- Indicadores principais -->
+        <div class="dash-grid">
+            <div class="dash-card blue">
+                <div class="dash-card-icon">🧾</div>
+                <div class="dash-card-value" id="d-totalNF">0</div>
+                <div class="dash-card-label">Notas Fiscais Hoje</div>
+            </div>
+            <div class="dash-card cyan">
+                <div class="dash-card-icon">🏭</div>
+                <div class="dash-card-value" id="d-fornDistintos">0</div>
+                <div class="dash-card-label">Fornecedores Distintos</div>
+            </div>
+            <div class="dash-card purple">
+                <div class="dash-card-icon">📌</div>
+                <div class="dash-card-value" id="d-fornFixosHoje">0</div>
+                <div class="dash-card-label">Forn. Fixos do Dia</div>
+            </div>
+            <div class="dash-card green">
+                <div class="dash-card-icon">✅</div>
+                <div class="dash-card-value" id="d-fornEntregou">0</div>
+                <div class="dash-card-label">Fixos que Entregaram</div>
+            </div>
+            <div class="dash-card red">
+                <div class="dash-card-icon">❌</div>
+                <div class="dash-card-value" id="d-fornNaoEntregou">0</div>
+                <div class="dash-card-label">Fixos que Não Entregaram</div>
+            </div>
+            <div class="dash-card yellow">
+                <div class="dash-card-icon">⚠️</div>
+                <div class="dash-card-value" id="d-emTratativa">0</div>
+                <div class="dash-card-label">Notas em Tratativa</div>
+            </div>
+            <div class="dash-card orange">
+                <div class="dash-card-icon">🕐</div>
+                <div class="dash-card-value" id="d-atrasos">0</div>
+                <div class="dash-card-label">Recebimentos com Atraso</div>
+            </div>
+        </div>
+
+        <!-- Métricas de Volume -->
+        <div class="metrics-bar">
+            <div class="metric-card">
+                <div class="val" id="d-totalSku">0</div>
+                <div class="lbl">📦 Total de SKUs</div>
+            </div>
+            <div class="metric-card">
+                <div class="val" id="d-totalVol">0</div>
+                <div class="lbl">📫 Volume (Caixas)</div>
+            </div>
+            <div class="metric-card">
+                <div class="val" id="d-totalPeso">0 kg</div>
+                <div class="lbl">⚖️ Peso Total (KG)</div>
+            </div>
+        </div>
+
+        <!-- Charts / Listas -->
+        <div class="dash-row">
+            <div class="chart-block">
+                <div class="chart-title">📈 Progresso de Entrega — Fornecedores Fixos</div>
+                <div id="progresso-fornec-lista"></div>
+            </div>
+            <div class="chart-block">
+                <div class="chart-title">🧾 Últimas Notas Registradas</div>
+                <div id="dash-ultimas-notas"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FORNECEDORES FIXOS ===== -->
+    <div class="tela" id="tela-fornecedores">
+        <div class="page-title"><span>🏭</span> Fornecedores Fixos — Confirmação de Entrega</div>
+
+        <div class="alert alert-warn">
+            ⚠️ Confirme os fornecedores que realizaram entrega hoje. Os dados refletem no <strong>Dashboard</strong>.
+        </div>
+
+        <div id="fornec-fixos-container"></div>
+    </div>
+
+    <!-- ===== NOTAS FISCAIS ===== -->
+    <div class="tela" id="tela-notas">
+        <div class="page-title"><span>📋</span> Notas Fiscais</div>
+
+        <!-- Métricas do dia -->
+        <div class="metrics-bar" style="margin-bottom:16px;">
+            <div class="metric-card">
+                <div class="val" id="n-totalSku">0</div>
+                <div class="lbl">📦 SKUs Totais</div>
+            </div>
+            <div class="metric-card">
+                <div class="val" id="n-totalVol">0</div>
+                <div class="lbl">📫 Caixas Totais</div>
+            </div>
+            <div class="metric-card">
+                <div class="val" id="n-totalPeso">0 kg</div>
+                <div class="lbl">⚖️ Peso Total</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros-bar">
+            <div class="filtro-group">
+                <label>📅 Data</label>
+                <input type="date" id="f-data" onchange="filtrarNotas()">
+            </div>
+            <div class="filtro-group">
+                <label>🏷️ Status</label>
+                <select id="f-status" onchange="filtrarNotas()">
+                    <option value="">Todos</option>
+                    <option value="Nota OK">✅ Nota OK</option>
+                    <option value="Em Tratativa">⚠️ Em Tratativa</option>
+                </select>
+            </div>
+            <div class="filtro-group">
+                <label>🏭 Fornecedor</label>
+                <select id="f-fornecedor" onchange="filtrarNotas()">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="filtro-group">
+                <label>👤 Conferente</label>
+                <select id="f-conferente" onchange="filtrarNotas()">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="filtro-group">
+                <label>⏱️ Horário</label>
+                <select id="f-horario" onchange="filtrarNotas()">
+                    <option value="">Todos</option>
+                    <option value="Pontual">✅ Pontual</option>
+                    <option value="Atraso">🔴 Atraso</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-outline" onclick="limparFiltros()" style="height:38px;">🔄 Limpar</button>
+            </div>
+        </div>
+
+        <!-- Ação -->
+        <div class="table-wrap">
+            <div class="table-header">
+                <div class="table-title">📋 Registros de Notas Fiscais</div>
+                <button class="btn btn-primary" onclick="abrirModalNota()">➕ Nova Nota</button>
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>NF</th>
+                            <th>Fornecedor</th>
+                            <th>Conferente</th>
+                            <th>Hora Entrada</th>
+                            <th>Horário</th>
+                            <th>SKU</th>
+                            <th>Volume (cx)</th>
+                            <th>Peso (kg)</th>
+                            <th>Status NF</th>
+                            <th>Ocorrência</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-notas"></tbody>
+                </table>
+            </div>
+            <div id="empty-notas" class="empty-state" style="display:none;">
+                <div class="icon">📭</div>
+                <p>Nenhuma nota encontrada.</p>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /main -->
+
+<!-- ===== MODAL NOTA ===== -->
+<div class="modal-overlay" id="modal-nota">
+    <div class="modal">
+        <div class="modal-title">
+            <span id="modal-nota-title">📋 Nova Nota Fiscal</span>
+            <button class="modal-close" onclick="fecharModalNota()">✕</button>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>📅 Data</label>
+                <input type="date" id="n-data">
+            </div>
+            <div class="form-group">
+                <label>🧾 Número da NF</label>
+                <input type="text" id="n-nf" placeholder="Ex: 123456">
+            </div>
+            <div class="form-group">
+                <label>🏭 Fornecedor</label>
+                <input type="text" id="n-fornecedor" placeholder="Nome do fornecedor" list="lista-fornecedores">
+                <datalist id="lista-fornecedores"></datalist>
+            </div>
+            <div class="form-group">
+                <label>👤 Conferente</label>
+                <input type="text" id="n-conferente" placeholder="Nome do conferente">
+            </div>
+            <div class="form-group">
+                <label>⏰ Hora de Entrada</label>
+                <input type="time" id="n-hora" onchange="verificarHorario()">
+            </div>
+            <div class="form-group">
+                <label>⏱️ Status de Horário</label>
+                <input type="text" id="n-status-horario" readonly placeholder="Automático" style="cursor:not-allowed; opacity:0.7;">
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+        <div style="font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:10px;">📦 Dados de Volume</div>
+        <div class="form-grid cols3">
+            <div class="form-group">
+                <label>SKU (Qtd)</label>
+                <input type="number" id="n-sku" placeholder="0" min="0">
+            </div>
+            <div class="form-group">
+                <label>Volume (Caixas)</label>
+                <input type="number" id="n-volume" placeholder="0" min="0">
+            </div>
+            <div class="form-group">
+                <label>Peso (KG)</label>
+                <input type="number" id="n-peso" placeholder="0.0" step="0.1" min="0">
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+        <div style="font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:10px;">🚦 Ocorrência / Status da NF</div>
+
+        <div class="check-boxes">
+            <label class="check-box ok-box" id="cb-ok-label" onclick="toggleStatus('ok')">
+                <input type="checkbox" id="cb-ok">
+                <div class="cb-icon" id="cb-ok-icon"></div>
+                <span style="font-size:13px; font-weight:600; color:#4ade80;">✅ Nota OK</span>
+            </label>
+            <label class="check-box trat-box" id="cb-trat-label" onclick="toggleStatus('trat')">
+                <input type="checkbox" id="cb-trat">
+                <div class="cb-icon" id="cb-trat-icon"></div>
+                <span style="font-size:13px; font-weight:600; color:#fbbf24;">⚠️ Em Tratativa</span>
+            </label>
+        </div>
+
+        <div class="form-group form-full" style="margin-top:14px;">
+            <label>📝 Descrição da Ocorrência</label>
+            <textarea id="n-ocorrencia" placeholder="Descreva a ocorrência ou observação (opcional)..."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-outline" onclick="fecharModalNota()">Cancelar</button>
+            <button class="btn btn-success" onclick="salvarNota()">💾 Salvar Nota</button>
+        </div>
+    </div>
+</div>
 
 <script>
-  // ⚠️ SUBSTITUA PELA SUA URL DO APPS SCRIPT
-  const API_URL = "https://script.google.com/macros/s/AKfycbxiVms7NfwxKum-ovI7cgiWZcl2efnqYwXrKb89o6_aBNQ9j4BzonHVtVmC4fUvRhkl/exec";
+// ============================================================
+// DADOS
+// ============================================================
 
-  let todasNFs = [];
-  let nfSelecionada = null;
+const FORNECEDORES_FIXOS = [
+    { nome: 'AMBEV S.A -F. PARAIBA', codigo: 17, dias: ['SEGUNDA', 'SEXTA'] },
+    { nome: 'EBANO DISTRIBUIDORA DE ALIMENTOS LT', codigo: 25, dias: ['SEGUNDA'] },
+    { nome: 'MULTIGIRO DISTRIBUIDORA LTDA', codigo: 118, dias: ['SEGUNDA'] },
+    { nome: 'REFRESCOS GUARARAPES LTDA(SOLAR)', codigo: 166, dias: ['SEGUNDA', 'TERCA'] },
+    { nome: 'NORDECE- NE REPRESENTACAO E DISTRIB', codigo: 13, dias: ['SEGUNDA', 'TERCA'] },
+    { nome: 'NORDIL - NORDESTE DISTRIB E LOGIST', codigo: 20, dias: ['TERCA'] },
+    { nome: 'RIOGRANDENSE DISTRIBUIDORA LTDA', codigo: 114, dias: ['QUARTA'] },
+    { nome: 'POLYBALAS DISTRIBUIDORA E LOGISTICA', codigo: 16, dias: ['QUINTA'] },
+    { nome: 'M.DIAS BRANCO S.A INDUSTRIA E COM', codigo: 139, dias: ['SEXTA'] },
+    { nome: 'SAO BRAZ SA IND E COMERCIO DE ALIME', codigo: 160, dias: ['SEXTA'] },
+];
 
-  // ===== NAVEGAÇÃO =====
-  function showPage(page, tabEl) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('page-' + page).classList.add('active');
-    tabEl.classList.add('active');
-    if (page === 'lista') carregarLista();
-  }
+const DIAS_SEMANA = ['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
+const DIAS_LABEL  = { SEGUNDA:'Segunda-Feira', TERCA:'Terça-Feira', QUARTA:'Quarta-Feira', QUINTA:'Quinta-Feira', SEXTA:'Sexta-Feira', SABADO:'Sábado', DOMINGO:'Domingo' };
+const BADGE_DIA   = { SEGUNDA:'badge-seg', TERCA:'badge-ter', QUARTA:'badge-qua', QUINTA:'badge-qui', SEXTA:'badge-sex' };
 
-  // ===== TOAST =====
-  function showToast(msg, tipo = '') {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.className = 'toast ' + tipo;
-    toast.style.display = 'block';
-    setTimeout(() => toast.style.display = 'none', 3500);
-  }
+let notas = JSON.parse(localStorage.getItem('bm-notas') || '[]');
+let confirmacoes = JSON.parse(localStorage.getItem('bm-confirmacoes') || '{}');
+let editIndex = -1;
+let statusSelecionado = '';
 
-  // ===== CARREGAR LISTA =====
-  async function carregarLista() {
-    document.getElementById('listaNF').innerHTML = '<div class="loading">⏳ Carregando...</div>';
-    try {
-      const res = await fetch(API_URL);
-      const json = await res.json();
-      todasNFs = json.data || [];
-      renderizarLista(todasNFs);
-    } catch (e) {
-      document.getElementById('listaNF').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div>Erro ao carregar dados.<br>Verifique a URL do Apps Script.</div>';
+// ============================================================
+// UTILS
+// ============================================================
+
+function getDiaSemanaHoje() {
+    return DIAS_SEMANA[new Date().getDay()];
+}
+
+function getDataHoje() {
+    return new Date().toISOString().split('T')[0];
+}
+
+function formatarData(d) {
+    if (!d) return '';
+    const [y,m,dia] = d.split('-');
+    return `${dia}/${m}/${y}`;
+}
+
+function verificarHorario() {
+    const hora = document.getElementById('n-hora').value;
+    const campo = document.getElementById('n-status-horario');
+    if (!hora) { campo.value = ''; return; }
+    const [h] = hora.split(':').map(Number);
+    if (h >= 6 && h < 12) {
+        campo.value = '✅ Pontual';
+        campo.style.color = '#4ade80';
+    } else if (h >= 12) {
+        campo.value = '🔴 Atraso';
+        campo.style.color = '#f87171';
+    } else {
+        campo.value = '';
     }
-  }
+}
 
-  function renderizarLista(lista) {
-    const container = document.getElementById('listaNF');
-    if (!lista.length) {
-      container.innerHTML = '<div class="empty-state"><div class="icon">📭</div>Nenhuma nota encontrada.</div>';
-      return;
+function getStatusHorario(hora) {
+    if (!hora) return 'Indefinido';
+    const [h] = hora.split(':').map(Number);
+    if (h >= 6 && h < 12) return 'Pontual';
+    if (h >= 12) return 'Atraso';
+    return 'Indefinido';
+}
+
+// ============================================================
+// NAVEGAÇÃO
+// ============================================================
+
+function showTela(nome) {
+    document.querySelectorAll('.tela').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tela-' + nome).classList.add('active');
+    document.getElementById('nav-' + nome).classList.add('active');
+    if (nome === 'dashboard') renderDashboard();
+    if (nome === 'fornecedores') renderFornecedores();
+    if (nome === 'notas') { renderNotas(); atualizarFiltros(); atualizarMetricasNotas(); }
+}
+
+// ============================================================
+// HEADER DATE
+// ============================================================
+
+function atualizarHeader() {
+    const agora = new Date();
+    const opts = { weekday:'long', day:'2-digit', month:'long', year:'numeric' };
+    document.getElementById('headerDate').innerHTML =
+        agora.toLocaleDateString('pt-BR', opts) + '<br>' +
+        agora.toLocaleTimeString('pt-BR');
+    document.getElementById('dashDataHoje').textContent =
+        agora.toLocaleDateString('pt-BR');
+}
+
+setInterval(atualizarHeader, 1000);
+atualizarHeader();
+
+// ============================================================
+// FORNECEDORES FIXOS
+// ============================================================
+
+function renderFornecedores() {
+    const diaHoje = getDiaSemanaHoje();
+    const container = document.getElementById('fornec-fixos-container');
+    const diasOrdem = ['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO','DOMINGO'];
+    let html = '';
+
+    diasOrdem.forEach(dia => {
+        const lista = FORNECEDORES_FIXOS.filter(f => f.dias.includes(dia));
+        if (!lista.length) return;
+
+        const isHoje = dia === diaHoje;
+        html += `<div class="dia-section">
+            <div class="dia-title">
+                <span class="badge ${BADGE_DIA[dia] || ''}">${DIAS_LABEL[dia]}</span>
+                ${isHoje ? '<span class="hoje-badge">📍 HOJE</span>' : ''}
+            </div>
+            <div class="fornec-cards">`;
+
+        lista.forEach(f => {
+            const key = `${dia}_${f.codigo}`;
+            const status = confirmacoes[key] || '';
+            const cardClass = status === 'confirmado' ? 'confirmado' : status === 'naoveio' ? 'nao-veio' : '';
+            const btnCClass = status === 'confirmado' ? 'btn-confirmar' : 'btn-confirmar';
+            const btnNClass = status === 'naoveio' ? 'btn-naoveio' : 'btn-naoveio';
+
+            html += `<div class="fornec-card ${cardClass}" id="fcard-${key}">
+                <div class="fornec-info">
+                    <div class="fornec-nome">${f.nome}</div>
+                    <div class="fornec-cod">Cód: ${f.codigo} &nbsp;|&nbsp; ${DIAS_LABEL[dia]}</div>
+                </div>
+                <div class="fornec-actions">
+                    <button class="btn-sm ${btnCClass}" onclick="confirmarFornec('${key}','confirmado')" title="Confirmou entrega">✅</button>
+                    <button class="btn-sm ${btnNClass}" onclick="confirmarFornec('${key}','naoveio')" title="Não veio">❌</button>
+                    <button class="btn-sm btn-reset-f" onclick="confirmarFornec('${key}','')" title="Limpar">↩</button>
+                </div>
+            </div>`;
+        });
+
+        html += `</div></div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+function confirmarFornec(key, status) {
+    if (status === '') {
+        delete confirmacoes[key];
+    } else {
+        confirmacoes[key] = status;
     }
-    container.innerHTML = lista.map(nf => `
-      <div class="nf-card" onclick="abrirModal('${nf['Numero da Nota Fiscal']}')">
-        <div class="nf-number">📄 ${nf['Numero da Nota Fiscal']}</div>
-        <div class="nf-info">🏢 ${nf['Fornecedor']} &nbsp;|&nbsp; 👤 ${nf['Conferente']}</div>
-        <div class="nf-footer">
-          <span class="nf-info">📅 ${nf['Data de Agendamento']} &nbsp;|&nbsp; 🚪 ${nf['Descarga']}</span>
-          <span class="status-badge status-${(nf['Status'] || 'Pendente').replace(' ', '-')}">${nf['Status'] || 'Pendente'}</span>
-        </div>
-      </div>
-    `).join('');
-  }
+    localStorage.setItem('bm-confirmacoes', JSON.stringify(confirmacoes));
+    renderFornecedores();
+}
 
-  function filtrarLista() {
-    const termo = document.getElementById('searchInput').value.toLowerCase();
-    const filtradas = todasNFs.filter(nf =>
-      nf['Numero da Nota Fiscal']?.toLowerCase().includes(termo) ||
-      nf['Fornecedor']?.toLowerCase().includes(termo)
-    );
-    renderizarLista(filtradas);
-  }
+// ============================================================
+// MODAL NOTA
+// ============================================================
 
-  // ===== MODAL =====
-  function abrirModal(numeroNF) {
-    nfSelecionada = todasNFs.find(nf => nf['Numero da Nota Fiscal'] === numeroNF);
-    if (!nfSelecionada) return;
+function abrirModalNota(idx = -1) {
+    editIndex = idx;
+    statusSelecionado = '';
+    document.getElementById('modal-nota-title').textContent = idx === -1 ? '📋 Nova Nota Fiscal' : '✏️ Editar Nota';
+    document.getElementById('modal-nota').classList.add('open');
 
-    document.getElementById('modalTitulo').textContent = '📄 ' + numeroNF;
-    document.getElementById('modalConteudo').innerHTML = `
-      <div class="detail-row"><span>Fornecedor</span><span>${nfSelecionada['Fornecedor'] || '-'}</span></div>
-      <div class="detail-row"><span>Conferente</span><span>${nfSelecionada['Conferente'] || '-'}</span></div>
-      <div class="detail-row"><span>Tipo</span><span>${nfSelecionada['Tipo'] || '-'}</span></div>
-      <div class="detail-row"><span>Descarga</span><span>${nfSelecionada['Descarga'] || '-'}</span></div>
-      <div class="detail-row"><span>Agendamento</span><span>${nfSelecionada['Data de Agendamento'] || '-'}</span></div>
-      <div class="detail-row"><span>SKUs Solicitados</span><span>${nfSelecionada['SKU Solicitados'] || '-'}</span></div>
-      <div class="detail-row"><span>Volume Solicitado</span><span>${nfSelecionada['Volume Solicitados'] || '-'}</span></div>
-      <div class="detail-row"><span>SKUs Recebidos</span><span>${nfSelecionada['SKUs Recebido'] || '-'}</span></div>
-      <div class="detail-row"><span>Volume Recebido</span><span>${nfSelecionada['Volume Recebido'] || '-'}</span></div>
-      <div class="detail-row"><span>Status</span><span>
-        <span class="status-badge status-${(nfSelecionada['Status'] || 'Pendente').replace(' ','-')}">
-          ${nfSelecionada['Status'] || 'Pendente'}
-        </span>
-      </span></div>
-      <div class="detail-row"><span>Observação</span><span>${nfSelecionada['Observacao'] || '-'}</span></div>
-    `;
-    document.getElementById('modalOverlay').classList.add('open');
-  }
-
-  function fecharModal(e) {
-    if (!e || e.target === document.getElementById('modalOverlay') || e.type === 'click') {
-      document.getElementById('modalOverlay').classList.remove('open');
+    if (idx === -1) {
+        document.getElementById('n-data').value = getDataHoje();
+        document.getElementById('n-nf').value = '';
+        document.getElementById('n-fornecedor').value = '';
+        document.getElementById('n-conferente').value = '';
+        document.getElementById('n-hora').value = '';
+        document.getElementById('n-status-horario').value = '';
+        document.getElementById('n-sku').value = '';
+        document.getElementById('n-volume').value = '';
+        document.getElementById('n-peso').value = '';
+        document.getElementById('n-ocorrencia').value = '';
+        setCbStatus('');
+    } else {
+        const n = notas[idx];
+        document.getElementById('n-data').value = n.data;
+        document.getElementById('n-nf').value = n.nf;
+        document.getElementById('n-fornecedor').value = n.fornecedor;
+        document.getElementById('n-conferente').value = n.conferente;
+        document.getElementById('n-hora').value = n.hora;
+        document.getElementById('n-sku').value = n.sku;
+        document.getElementById('n-volume').value = n.volume;
+        document.getElementById('n-peso').value = n.peso;
+        document.getElementById('n-ocorrencia').value = n.ocorrencia || '';
+        verificarHorario();
+        setCbStatus(n.status || '');
     }
-  }
 
-  function abrirConferenciaDaModal() {
-    fecharModal();
-    document.getElementById('buscaConferencia').value = nfSelecionada['Numero da Nota Fiscal'];
-    const tabConferencia = document.querySelectorAll('.tab')[2];
-    showPage('conferencia', tabConferencia);
-    buscarNFConferencia();
-  }
+    // Preencher datalist
+    const dl = document.getElementById('lista-fornecedores');
+    const nomes = [...new Set(FORNECEDORES_FIXOS.map(f => f.nome))];
+    const extras = [...new Set(notas.map(n2 => n2.fornecedor).filter(Boolean))];
+    const todos = [...new Set([...nomes, ...extras])];
+    dl.innerHTML = todos.map(n2 => `<option value="${n2}">`).join('');
+}
 
-  // ===== SALVAR AGENDAMENTO =====
-  async function salvarAgendamento() {
-    const campos = ['numeroNF', 'fornecedor', 'conferente', 'tipo', 'descarga', 'dataAgendamento'];
-    const labels = ['Nº da NF', 'Fornecedor', 'Conferente', 'Tipo', 'Descarga', 'Data de Agendamento'];
+function fecharModalNota() {
+    document.getElementById('modal-nota').classList.remove('open');
+}
 
-    for (let i = 0; i < campos.length; i++) {
-      if (!document.getElementById(campos[i]).value.trim()) {
-        showToast('⚠️ Preencha: ' + labels[i], 'error');
+function toggleStatus(tipo) {
+    if (tipo === 'ok') {
+        statusSelecionado = statusSelecionado === 'ok' ? '' : 'ok';
+    } else {
+        statusSelecionado = statusSelecionado === 'trat' ? '' : 'trat';
+    }
+    setCbStatus(statusSelecionado);
+}
+
+function setCbStatus(val) {
+    statusSelecionado = val;
+    const okLabel = document.getElementById('cb-ok-label');
+    const tratLabel = document.getElementById('cb-trat-label');
+    const okIcon = document.getElementById('cb-ok-icon');
+    const tratIcon = document.getElementById('cb-trat-icon');
+
+    if (val === 'ok') {
+        okLabel.classList.add('checked');
+        okIcon.textContent = '✓';
+        tratLabel.classList.remove('checked');
+        tratIcon.textContent = '';
+    } else if (val === 'trat') {
+        tratLabel.classList.add('checked');
+        tratIcon.textContent = '✓';
+        okLabel.classList.remove('checked');
+        okIcon.textContent = '';
+    } else {
+        okLabel.classList.remove('checked');
+        tratLabel.classList.remove('checked');
+        okIcon.textContent = '';
+        tratIcon.textContent = '';
+    }
+}
+
+function salvarNota() {
+    const nota = {
+        data: document.getElementById('n-data').value,
+        nf: document.getElementById('n-nf').value.trim(),
+        fornecedor: document.getElementById('n-fornecedor').value.trim(),
+        conferente: document.getElementById('n-conferente').value.trim(),
+        hora: document.getElementById('n-hora').value,
+        sku: parseFloat(document.getElementById('n-sku').value) || 0,
+        volume: parseFloat(document.getElementById('n-volume').value) || 0,
+        peso: parseFloat(document.getElementById('n-peso').value) || 0,
+        status: statusSelecionado === 'ok' ? 'Nota OK' : statusSelecionado === 'trat' ? 'Em Tratativa' : '',
+        ocorrencia: document.getElementById('n-ocorrencia').value.trim(),
+        horarioStatus: getStatusHorario(document.getElementById('n-hora').value),
+    };
+
+    if (!nota.data || !nota.fornecedor) {
+        alert('Preencha ao menos Data e Fornecedor.');
         return;
-      }
     }
 
-    const btn = document.getElementById('btnSalvarAgendamento');
-    btn.disabled = true;
-    btn.textContent = '⏳ Salvando...';
-
-    const dados = {
-      acao: 'salvar',
-      numeroNF: document.getElementById('numeroNF').value.trim(),
-      conferente: document.getElementById('conferente').value.trim(),
-      descarga: document.getElementById('descarga').value,
-      dataAgendamento: document.getElementById('dataAgendamento').value,
-      dataHoraRecebimento: '',
-      fornecedor: document.getElementById('fornecedor').value.trim(),
-      skuSolicitados: document.getElementById('skuSolicitados').value || '0',
-      volumeSolicitados: document.getElementById('volumeSolicitados').value || '0',
-      skuRecebido: '',
-      volumeRecebido: '',
-      status: 'Pendente',
-      observacao: '',
-      tipo: document.getElementById('tipo').value,
-      dtHoraInicioConferencia: '',
-      dtHoraFinalizacaoConferencia: ''
-    };
-
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(dados)
-      });
-      const json = await res.json();
-
-      if (json.status === 'success' || json.success === true) {
-        showToast('✅ Agendamento salvo com sucesso!', 'success');
-        document.querySelectorAll('#page-novo input, #page-novo select').forEach(el => el.value = '');
-        carregarLista();
-      } else {
-        showToast('❌ Erro: ' + (json.message || 'Tente novamente.'), 'error');
-      }
-    } catch (e) {
-      showToast('❌ Erro ao salvar. Verifique a conexão.', 'error');
-      console.error('Erro salvarAgendamento:', e);
+    if (editIndex === -1) {
+        notas.unshift(nota);
+    } else {
+        notas[editIndex] = nota;
     }
 
-    btn.disabled = false;
-    btn.textContent = '💾 Salvar Agendamento';
-  }
+    localStorage.setItem('bm-notas', JSON.stringify(notas));
+    fecharModalNota();
+    renderNotas();
+    atualizarFiltros();
+    atualizarMetricasNotas();
+}
 
-  // ===== CONFERÊNCIA =====
-  function buscarNFConferencia() {
-    const termo = document.getElementById('buscaConferencia').value.trim().toLowerCase();
-    if (!termo) {
-      showToast('⚠️ Digite o número da NF.', 'error');
-      return;
+// ============================================================
+// TABELA NOTAS
+// ============================================================
+
+let notasFiltradas = [];
+
+function renderNotas(lista = null) {
+    const tbody = document.getElementById('tabela-notas');
+    const empty = document.getElementById('empty-notas');
+    const dados = lista !== null ? lista : notas;
+    notasFiltradas = dados;
+
+    if (!dados.length) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+
+    tbody.innerHTML = dados.map((n, i) => {
+        const realIdx = notas.indexOf(n);
+        const statusBadge = n.status === 'Nota OK'
+            ? `<span class="badge badge-ok">✅ OK</span>`
+            : n.status === 'Em Tratativa'
+            ? `<span class="badge badge-trat">⚠️ Tratativa</span>`
+            : `<span class="badge badge-pend">— Pendente</span>`;
+        const horarioBadge = n.horarioStatus === 'Pontual'
+            ? `<span class="badge badge-pontual">✅ Pontual</span>`
+            : n.horarioStatus === 'Atraso'
+            ? `<span class="badge badge-atraso">🔴 Atraso</span>`
+            : `<span class="badge">—</span>`;
+
+        return `<tr>
+            <td>${formatarData(n.data)}</td>
+            <td><strong>${n.nf || '—'}</strong></td>
+            <td>${n.fornecedor}</td>
+            <td>${n.conferente || '—'}</td>
+            <td>${n.hora || '—'}</td>
+            <td>${horarioBadge}</td>
+            <td>${n.sku || '—'}</td>
+            <td>${n.volume || '—'}</td>
+            <td>${n.peso ? n.peso + ' kg' : '—'}</td>
+            <td>${statusBadge}</td>
+            <td style="max-width:180px; font-size:12px; color:#94a3b8;">${n.ocorrencia || '—'}</td>
+            <td>
+                <div style="display:flex;gap:4px;">
+                    <button class="btn-sm btn-confirmar" onclick="abrirModalNota(${realIdx})">✏️</button>
+                    <button class="btn-sm btn-naoveio" onclick="excluirNota(${realIdx})">🗑️</button>
+                </div>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function excluirNota(idx) {
+    if (!confirm('Excluir esta nota?')) return;
+    notas.splice(idx, 1);
+    localStorage.setItem('bm-notas', JSON.stringify(notas));
+    renderNotas();
+    atualizarFiltros();
+    atualizarMetricasNotas();
+}
+
+// ============================================================
+// FILTROS
+// ============================================================
+
+function atualizarFiltros() {
+    const fornSelect = document.getElementById('f-fornecedor');
+    const confSelect = document.getElementById('f-conferente');
+    const fAtual = fornSelect.value;
+    const cAtual = confSelect.value;
+
+    const fornecedores = [...new Set(notas.map(n => n.fornecedor).filter(Boolean))].sort();
+    const conferentes  = [...new Set(notas.map(n => n.conferente).filter(Boolean))].sort();
+
+    fornSelect.innerHTML = '<option value="">Todos</option>' +
+        fornecedores.map(f => `<option value="${f}" ${f===fAtual?'selected':''}>${f}</option>`).join('');
+    confSelect.innerHTML = '<option value="">Todos</option>' +
+        conferentes.map(c => `<option value="${c}" ${c===cAtual?'selected':''}>${c}</option>`).join('');
+}
+
+function filtrarNotas() {
+    const data     = document.getElementById('f-data').value;
+    const status   = document.getElementById('f-status').value;
+    const fornec   = document.getElementById('f-fornecedor').value;
+    const conf     = document.getElementById('f-conferente').value;
+    const horario  = document.getElementById('f-horario').value;
+
+    let resultado = notas.filter(n => {
+        if (data && n.data !== data) return false;
+        if (status && n.status !== status) return false;
+        if (fornec && n.fornecedor !== fornec) return false;
+        if (conf && n.conferente !== conf) return false;
+        if (horario && n.horarioStatus !== horario) return false;
+        return true;
+    });
+
+    renderNotas(resultado);
+    atualizarMetricasNotas(resultado);
+}
+
+function limparFiltros() {
+    document.getElementById('f-data').value = '';
+    document.getElementById('f-status').value = '';
+    document.getElementById('f-fornecedor').value = '';
+    document.getElementById('f-conferente').value = '';
+    document.getElementById('f-horario').value = '';
+    renderNotas();
+    atualizarMetricasNotas();
+}
+
+function atualizarMetricasNotas(lista = null) {
+    const dados = lista || notas;
+    const sku   = dados.reduce((s, n) => s + (n.sku || 0), 0);
+    const vol   = dados.reduce((s, n) => s + (n.volume || 0), 0);
+    const peso  = dados.reduce((s, n) => s + (n.peso || 0), 0);
+    document.getElementById('n-totalSku').textContent  = sku;
+    document.getElementById('n-totalVol').textContent  = vol;
+    document.getElementById('n-totalPeso').textContent = peso.toFixed(1) + ' kg';
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+
+function renderDashboard() {
+    const hoje = getDataHoje();
+    const diaHoje = getDiaSemanaHoje();
+    const notasHoje = notas.filter(n => n.data === hoje);
+
+    // Indicadores
+    const totalNF = notasHoje.length;
+    const fornDistintos = new Set(notasHoje.map(n => n.fornecedor)).size;
+    const fixosHoje = FORNECEDORES_FIXOS.filter(f => f.dias.includes(diaHoje));
+    const fixosHojeCount = fixosHoje.length;
+
+    let entregaram = 0, naoEntregaram = 0;
+    fixosHoje.forEach(f => {
+        const key = `${diaHoje}_${f.codigo}`;
+        if (confirmacoes[key] === 'confirmado') entregaram++;
+        else if (confirmacoes[key] === 'naoveio') naoEntregaram++;
+    });
+
+    const emTratativa = notasHoje.filter(n => n.status === 'Em Tratativa').length;
+    const atrasos = notasHoje.filter(n => n.horarioStatus === 'Atraso').length;
+
+    document.getElementById('d-totalNF').textContent = totalNF;
+    document.getElementById('d-fornDistintos').textContent = fornDistintos;
+    document.getElementById('d-fornFixosHoje').textContent = fixosHojeCount;
+    document.getElementById('d-fornEntregou').textContent = entregaram;
+    document.getElementById('d-fornNaoEntregou').textContent = naoEntregaram;
+    document.getElementById('d-emTratativa').textContent = emTratativa;
+    document.getElementById('d-atrasos').textContent = atrasos;
+
+    const sku  = notasHoje.reduce((s, n) => s + (n.sku || 0), 0);
+    const vol  = notasHoje.reduce((s, n) => s + (n.volume || 0), 0);
+    const peso = notasHoje.reduce((s, n) => s + (n.peso || 0), 0);
+    document.getElementById('d-totalSku').textContent  = sku;
+    document.getElementById('d-totalVol').textContent  = vol;
+    document.getElementById('d-totalPeso').textContent = peso.toFixed(1) + ' kg';
+
+    // Progresso fornecedores fixos hoje
+    const progEl = document.getElementById('progresso-fornec-lista');
+    if (!fixosHoje.length) {
+        progEl.innerHTML = '<div class="empty-state" style="padding:20px;"><div class="icon">📭</div><p>Sem fornecedores fixos hoje.</p></div>';
+    } else {
+        progEl.innerHTML = fixosHoje.map(f => {
+            const key = `${diaHoje}_${f.codigo}`;
+            const st = confirmacoes[key] || '';
+            const cor = st === 'confirmado' ? '#22c55e' : st === 'naoveio' ? '#ef4444' : '#334155';
+            const pct = st === 'confirmado' ? 100 : st === 'naoveio' ? 100 : 0;
+            const label = st === 'confirmado' ? '✅ Entregou' : st === 'naoveio' ? '❌ Não veio' : '⏳ Aguardando';
+            return `<div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+                    <span style="color:#cbd5e1;font-weight:600;">${f.nome.substring(0,30)}...</span>
+                    <span style="color:${cor};font-weight:700;">${label}</span>
+                </div>
+                <div class="prog-bar-bg">
+                    <div class="prog-bar-fill" style="width:${pct}%;background:${cor};"></div>
+                </div>
+            </div>`;
+        }).join('');
     }
 
-    const nf = todasNFs.find(n => n['Numero da Nota Fiscal']?.toLowerCase() === termo);
-
-    if (!nf) {
-      showToast('❌ NF não encontrada. Verifique o número.', 'error');
-      document.getElementById('formConferencia').style.display = 'none';
-      return;
+    // Últimas notas
+    const ultimasEl = document.getElementById('dash-ultimas-notas');
+    const ultimas = notas.slice(0, 8);
+    if (!ultimas.length) {
+        ultimasEl.innerHTML = '<div class="empty-state" style="padding:20px;"><div class="icon">📭</div><p>Nenhuma nota registrada.</p></div>';
+    } else {
+        ultimasEl.innerHTML = ultimas.map(n => {
+            const badge = n.status === 'Nota OK'
+                ? `<span class="badge badge-ok">OK</span>`
+                : n.status === 'Em Tratativa'
+                ? `<span class="badge badge-trat">Tratativa</span>`
+                : `<span class="badge badge-pend">Pendente</span>`;
+            return `<div class="lista-item">
+                <div>
+                    <div class="lista-item-nome">${n.fornecedor}</div>
+                    <div style="font-size:11px;color:#475569;">${formatarData(n.data)} ${n.hora ? '— ' + n.hora : ''}</div>
+                </div>
+                ${badge}
+            </div>`;
+        }).join('');
     }
+}
 
-    nfSelecionada = nf;
-    document.getElementById('infoNFConferencia').innerHTML = `
-      <div style="background:#f0f7ff;padding:10px;border-radius:8px;margin-bottom:8px">
-        <strong>${nf['Numero da Nota Fiscal']}</strong> — ${nf['Fornecedor']}<br>
-        <small>Agendado: ${nf['Data de Agendamento']} | ${nf['Descarga']}</small>
-      </div>
-    `;
+// ============================================================
+// INIT
+// ============================================================
 
-    document.getElementById('confStatus').value = nf['Status'] || '';
-    document.getElementById('confSkuRecebido').value = nf['SKUs Recebido'] || '';
-    document.getElementById('confVolumeRecebido').value = nf['Volume Recebido'] || '';
-    document.getElementById('confObservacao').value = nf['Observacao'] || '';
-    document.getElementById('confDataHoraRecebimento').value = nf['Data e Hora de Recebimento'] || '';
-    document.getElementById('confInicio').value = nf['Dt e Hora Inicio Conferencia'] || '';
-    document.getElementById('confFim').value = nf['Dt e Hora Finalizacao Conferencia'] || '';
-
-    // Preenche data/hora atual se ainda não tiver
-    const agora = new Date().toISOString().slice(0, 16);
-    if (!document.getElementById('confInicio').value) {
-      document.getElementById('confInicio').value = agora;
-    }
-    if (!document.getElementById('confDataHoraRecebimento').value) {
-      document.getElementById('confDataHoraRecebimento').value = agora;
-    }
-
-    document.getElementById('formConferencia').style.display = 'block';
-  }
-
-  async function salvarConferencia() {
-    if (!nfSelecionada) {
-      showToast('⚠️ Nenhuma NF selecionada.', 'error');
-      return;
-    }
-    if (!document.getElementById('confStatus').value) {
-      showToast('⚠️ Selecione o Status.', 'error');
-      return;
-    }
-
-    const btn = document.getElementById('btnSalvarConferencia');
-    btn.disabled = true;
-    btn.textContent = '⏳ Salvando...';
-
-    const dados = {
-      acao: 'atualizar',
-      _update: true,
-      _key: nfSelecionada['Numero da Nota Fiscal'],
-      numeroNF: nfSelecionada['Numero da Nota Fiscal'],
-      fornecedor: nfSelecionada['Fornecedor'],
-      conferente: nfSelecionada['Conferente'],
-      tipo: nfSelecionada['Tipo'],
-      descarga: nfSelecionada['Descarga'],
-      dataAgendamento: nfSelecionada['Data de Agendamento'],
-      skuSolicitados: nfSelecionada['SKU Solicitados'],
-      volumeSolicitados: nfSelecionada['Volume Solicitados'],
-      skuRecebido: document.getElementById('confSkuRecebido').value,
-      volumeRecebido: document.getElementById('confVolumeRecebido').value,
-      status: document.getElementById('confStatus').value,
-      observacao: document.getElementById('confObservacao').value,
-      dataHoraRecebimento: document.getElementById('confDataHoraRecebimento').value,
-      dtHoraInicioConferencia: document.getElementById('confInicio').value,
-      dtHoraFinalizacaoConferencia: document.getElementById('confFim').value
-    };
-
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(dados)
-      });
-      const json = await res.json();
-
-      if (json.status === 'success' || json.success === true) {
-        showToast('✅ Conferência salva com sucesso!', 'success');
-        document.getElementById('formConferencia').style.display = 'none';
-        document.getElementById('buscaConferencia').value = '';
-        nfSelecionada = null;
-        carregarLista();
-      } else {
-        showToast('❌ Erro: ' + (json.message || 'Tente novamente.'), 'error');
-      }
-    } catch (e) {
-      showToast('❌ Erro ao salvar. Verifique a conexão.', 'error');
-      console.error('Erro salvarConferencia:', e);
-    }
-
-    btn.disabled = false;
-    btn.textContent = '✅ Salvar Conferência';
-  }
-
-  // ===== INIT =====
-  carregarLista();
+renderDashboard();
 </script>
 </body>
 </html>
