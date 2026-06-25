@@ -5,110 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recebimento-BM</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <style>
-/* ============================================================
-   RESET & BASE
-============================================================ */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh;}
 :root{
-  --bg:#f0f2f5;
-  --surface:#ffffff;
-  --surface2:#f8f9fa;
-  --border:#d1d5db;
-  --border2:#e5e7eb;
-  --text:#1a1a1a;
-  --text2:#4b5563;
-  --text3:#9ca3af;
-  --primary:#1a1a1a;
-  --primary-hover:#333;
-  --accent:#374151;
-  --green:#16a34a;
-  --green-bg:#dcfce7;
-  --yellow:#b45309;
-  --yellow-bg:#fef3c7;
-  --red:#dc2626;
-  --red-bg:#fee2e2;
-  --blue:#1d4ed8;
-  --blue-bg:#dbeafe;
-  --purple:#7c3aed;
-  --purple-bg:#ede9fe;
-  --shadow:0 1px 4px rgba(0,0,0,0.1);
-  --shadow-md:0 4px 16px rgba(0,0,0,0.12);
+  --bg:#f0f2f5;--surface:#ffffff;--surface2:#f8f9fa;
+  --border:#d1d5db;--border2:#e5e7eb;
+  --text:#1a1a1a;--text2:#4b5563;--text3:#9ca3af;
+  --primary:#1a1a1a;--shadow:0 1px 4px rgba(0,0,0,0.1);--shadow-md:0 4px 16px rgba(0,0,0,0.12);
+  --green:#16a34a;--green-bg:#dcfce7;
+  --yellow:#b45309;--yellow-bg:#fef3c7;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#1d4ed8;--blue-bg:#dbeafe;
 }
 
-/* ============================================================
-   HEADER
-============================================================ */
-.header{
-  background:#1a1a1a;
-  padding:14px 28px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:3px solid #374151;
-  box-shadow:0 2px 8px rgba(0,0,0,0.2);
-}
+/* HEADER */
+.header{background:#1a1a1a;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 .header-left{display:flex;align-items:center;gap:14px;}
-.header-logo{
-  width:44px;height:44px;
-  background:#ffffff;
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;
-}
+.header-logo{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#1a1a1a;}
 .header-title{font-size:18px;font-weight:800;color:#fff;}
 .header-subtitle{font-size:11px;color:#9ca3af;margin-top:1px;}
 .header-date{font-size:12px;color:#9ca3af;text-align:right;line-height:1.6;}
 
-/* ============================================================
-   NAV
-============================================================ */
-.nav{
-  background:#ffffff;
-  display:flex;gap:4px;
-  padding:10px 28px;
-  border-bottom:1px solid var(--border);
-  box-shadow:var(--shadow);
-  overflow-x:auto;
-}
-.nav-btn{
-  padding:8px 18px;border:none;
-  background:transparent;color:var(--text2);
-  border-radius:8px;cursor:pointer;
-  font-size:13px;font-weight:600;
-  transition:all .2s;white-space:nowrap;
-  display:flex;align-items:center;gap:6px;
-}
+/* NAV */
+.nav{background:#fff;display:flex;gap:4px;padding:10px 28px;border-bottom:1px solid var(--border);box-shadow:var(--shadow);overflow-x:auto;}
+.nav-btn{padding:8px 18px;border:none;background:transparent;color:var(--text2);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 .nav-btn:hover{background:#f3f4f6;color:var(--text);}
-.nav-btn.active{background:#1a1a1a;color:#ffffff;}
+.nav-btn.active{background:#1a1a1a;color:#fff;}
 
-/* ============================================================
-   MAIN
-============================================================ */
+/* MAIN */
 .main{padding:24px 28px;max-width:1440px;margin:0 auto;}
 .tela{display:none;}
 .tela.active{display:block;}
-.page-title{
-  font-size:20px;font-weight:800;
-  margin-bottom:20px;color:var(--text);
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-}
+.page-title{font-size:20px;font-weight:800;margin-bottom:20px;color:var(--text);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 
-/* ============================================================
-   CARDS
-============================================================ */
-.cards-row{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:14px;margin-bottom:22px;
-}
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;padding:18px;
-  box-shadow:var(--shadow);
-  position:relative;overflow:hidden;
-  transition:transform .2s,box-shadow .2s;
-}
+/* CARDS */
+.cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;margin-bottom:22px;}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
 .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
 .card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;}
 .card.c-black::before{background:#1a1a1a;}
@@ -122,90 +57,38 @@ body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;min-heig
 .card-val{font-size:30px;font-weight:900;color:var(--text);}
 .card-lbl{font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
 
-/* ============================================================
-   CHARTS GRID
-============================================================ */
-.charts-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:16px;margin-bottom:22px;
-}
-.chart-box{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;padding:20px;
-  box-shadow:var(--shadow);
-}
-.chart-box-title{
-  font-size:13px;font-weight:800;
-  color:var(--text);margin-bottom:16px;
-  display:flex;align-items:center;gap:8px;
-}
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:22px;}
+.chart-box{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);}
+.chart-box-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:16px;}
 .chart-wrap{position:relative;height:200px;}
-.chart-wrap canvas{max-height:200px;}
 
-/* ============================================================
-   TABLE
-============================================================ */
-.table-wrap{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;overflow:hidden;
-  box-shadow:var(--shadow);
-}
-.table-header{
-  padding:14px 18px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  flex-wrap:wrap;gap:10px;
-  background:var(--surface2);
-}
+/* TABLE */
+.table-wrap{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.table-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px;background:var(--surface2);}
 .table-title{font-size:14px;font-weight:800;color:var(--text);}
 table{width:100%;border-collapse:collapse;font-size:13px;}
-thead th{
-  background:#f1f3f5;
-  padding:11px 14px;
-  text-align:left;color:var(--text2);
-  font-weight:800;text-transform:uppercase;
-  font-size:11px;letter-spacing:.4px;
-  border-bottom:1px solid var(--border);
-}
+thead th{background:#f1f3f5;padding:11px 14px;text-align:left;color:var(--text2);font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.4px;border-bottom:1px solid var(--border);}
 tbody tr{border-bottom:1px solid var(--border2);transition:background .15s;cursor:pointer;}
 tbody tr:hover{background:#f8f9fa;}
 tbody tr:last-child{border-bottom:none;}
 tbody td{padding:11px 14px;color:var(--text);}
 
-/* ============================================================
-   BADGES
-============================================================ */
-.badge{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 10px;border-radius:20px;
-  font-size:11px;font-weight:800;white-space:nowrap;
-}
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;white-space:nowrap;}
 .b-aguard  {background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}
 .b-conf    {background:var(--green-bg);color:var(--green);border:1px solid #86efac;}
 .b-div     {background:var(--yellow-bg);color:var(--yellow);border:1px solid #fcd34d;}
 .b-andamento{background:var(--blue-bg);color:var(--blue);border:1px solid #93c5fd;}
 .b-atrasado{background:var(--red-bg);color:var(--red);border:1px solid #fca5a5;}
-.b-pontual {background:var(--green-bg);color:var(--green);border:1px solid #86efac;}
-.b-ok      {background:var(--green-bg);color:var(--green);border:1px solid #86efac;}
-.b-trat    {background:var(--yellow-bg);color:var(--yellow);border:1px solid #fcd34d;}
-.b-seg     {background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
-.b-ter     {background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;}
-.b-qua     {background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
-.b-qui     {background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
-.b-sex     {background:#fff1f2;color:#be123c;border:1px solid #fecdd3;}
+.b-seg{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.b-ter{background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;}
+.b-qua{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
+.b-qui{background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
+.b-sex{background:#fff1f2;color:#be123c;border:1px solid #fecdd3;}
 
-/* ============================================================
-   BUTTONS
-============================================================ */
-.btn{
-  padding:9px 18px;border:none;border-radius:8px;
-  cursor:pointer;font-size:13px;font-weight:700;
-  transition:all .2s;display:inline-flex;align-items:center;gap:6px;
-  font-family:inherit;
-}
+/* BUTTONS */
+.btn{padding:9px 18px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:6px;font-family:inherit;}
 .btn-dark{background:#1a1a1a;color:#fff;}
 .btn-dark:hover{background:#333;}
 .btn-outline{background:#fff;border:1px solid var(--border);color:var(--text2);}
@@ -214,11 +97,9 @@ tbody td{padding:11px 14px;color:var(--text);}
 .btn-green:hover{background:#15803d;}
 .btn-red{background:#dc2626;color:#fff;}
 .btn-red:hover{background:#b91c1c;}
-.btn-sm{
-  padding:6px 12px;font-size:12px;border-radius:6px;
-  border:1px solid transparent;cursor:pointer;font-weight:700;
-  transition:all .2s;white-space:nowrap;font-family:inherit;
-}
+.btn-pdf{background:#dc2626;color:#fff;}
+.btn-pdf:hover{background:#b91c1c;}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:6px;border:1px solid transparent;cursor:pointer;font-weight:700;transition:all .2s;white-space:nowrap;font-family:inherit;}
 .bsm-edit{background:#f1f5f9;color:#374151;border-color:#d1d5db;}
 .bsm-edit:hover{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
 .bsm-del{background:#fff1f2;color:#dc2626;border-color:#fca5a5;}
@@ -230,78 +111,34 @@ tbody td{padding:11px 14px;color:var(--text);}
 .bsm-rst{background:#f3f4f6;color:#6b7280;border-color:#d1d5db;}
 .bsm-rst:hover{background:#374151;color:#fff;}
 
-/* ============================================================
-   MODAL
-============================================================ */
-.modal-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,0.45);z-index:1000;
-  align-items:center;justify-content:center;
-}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{
-  background:#fff;border-radius:16px;padding:28px;
-  width:90%;max-width:700px;
-  border:1px solid var(--border);
-  max-height:94vh;overflow-y:auto;
-  box-shadow:var(--shadow-md);
-}
-.modal-title{
-  font-size:17px;font-weight:800;
-  margin-bottom:20px;color:var(--text);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.modal-close{
-  background:none;border:none;color:var(--text3);
-  font-size:22px;cursor:pointer;padding:4px 8px;
-  border-radius:6px;line-height:1;
-}
-.modal-close:hover{background:#f3f4f6;color:var(--text);}
+.modal{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:700px;border:1px solid var(--border);max-height:94vh;overflow-y:auto;box-shadow:var(--shadow-md);}
+.modal-title{font-size:17px;font-weight:800;margin-bottom:20px;color:var(--text);display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;padding:4px 8px;border-radius:6px;line-height:1;}
+.modal-close:hover{background:#f3f4f6;}
 
-/* ============================================================
-   FORM
-============================================================ */
+/* FORM */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .form-grid.g3{grid-template-columns:1fr 1fr 1fr;}
 .form-full{grid-column:1/-1;}
 .fg{display:flex;flex-direction:column;gap:5px;}
 .fg label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
-.fg input,.fg select,.fg textarea{
-  background:#f8f9fa;border:1px solid var(--border);
-  border-radius:8px;padding:10px 12px;
-  color:var(--text);font-size:14px;
-  transition:border .2s;width:100%;font-family:inherit;
-}
-.fg input:focus,.fg select:focus,.fg textarea:focus{
-  outline:none;border-color:#1a1a1a;
-  box-shadow:0 0 0 3px rgba(26,26,26,0.08);
-  background:#fff;
-}
+.fg input,.fg select,.fg textarea{background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;transition:border .2s;width:100%;font-family:inherit;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(26,26,26,0.08);background:#fff;}
 .fg input[readonly]{background:#f3f4f6;cursor:not-allowed;color:var(--text2);}
 .fg input::placeholder{color:#9ca3af;}
 .fg textarea{resize:vertical;min-height:70px;}
-.fg select option{background:#fff;}
 .sep{height:1px;background:var(--border);margin:16px 0;}
 .sec-lbl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
 .form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;}
 
-/* ============================================================
-   STATUS BOXES
-============================================================ */
+/* STATUS BOXES */
 .status-boxes{display:flex;gap:12px;margin-bottom:14px;}
-.sb{
-  flex:1;padding:14px 16px;border-radius:10px;
-  border:2px solid var(--border);background:#f8f9fa;
-  cursor:pointer;display:flex;align-items:center;gap:10px;
-  transition:all .2s;user-select:none;
-}
+.sb{flex:1;padding:14px 16px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;user-select:none;}
 .sb:hover{border-color:#9ca3af;}
-.sb .sbck{
-  width:22px;height:22px;border-radius:6px;
-  border:2px solid #d1d5db;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;flex-shrink:0;transition:all .2s;
-}
+.sb .sbck{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
 .sb .sbtx{font-size:13px;font-weight:700;color:#6b7280;transition:color .2s;}
 .sb.sel-ok{border-color:#16a34a;background:#dcfce7;}
 .sb.sel-ok .sbck{background:#16a34a;border-color:#16a34a;color:#fff;}
@@ -310,141 +147,69 @@ tbody td{padding:11px 14px;color:var(--text);}
 .sb.sel-trat .sbck{background:#d97706;border-color:#d97706;color:#fff;}
 .sb.sel-trat .sbtx{color:#b45309;}
 
-/* ============================================================
-   FILTROS
-============================================================ */
-.filtros{
-  background:#fff;border:1px solid var(--border);
-  border-radius:12px;padding:14px 16px;
-  margin-bottom:14px;
-  display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;
-  box-shadow:var(--shadow);
-}
+/* FILTROS */
+.filtros{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;box-shadow:var(--shadow);}
 .fg-f{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;}
 .fg-f label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;}
-.fg-f select,.fg-f input{
-  background:#f8f9fa;border:1px solid var(--border);
-  border-radius:8px;padding:8px 10px;
-  color:var(--text);font-size:13px;font-family:inherit;
-}
+.fg-f select,.fg-f input{background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;font-family:inherit;}
 .fg-f select:focus,.fg-f input:focus{outline:none;border-color:#1a1a1a;}
 
-/* ============================================================
-   FORNECEDORES FIXOS
-============================================================ */
+/* FORNECEDORES FIXOS */
 .dia-sec{margin-bottom:22px;}
-.dia-title{
-  font-size:12px;font-weight:800;color:var(--text2);
-  text-transform:uppercase;letter-spacing:1px;
-  margin-bottom:10px;display:flex;align-items:center;gap:8px;
-}
+.dia-title{font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
 .dia-title::after{content:'';flex:1;height:1px;background:var(--border);}
 .hoje-pill{background:#1a1a1a;color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:800;}
 .fornec-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px;}
-.fc{
-  background:#fff;border:1px solid var(--border);
-  border-radius:12px;padding:14px 16px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  transition:all .2s;box-shadow:var(--shadow);
-}
+.fc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;box-shadow:var(--shadow);}
 .fc.conf{border-color:#86efac;background:#f0fdf4;}
-.fc.nv  {border-color:#fca5a5;background:#fff1f2;}
+.fc.nv{border-color:#fca5a5;background:#fff1f2;}
 .fc-info{flex:1;min-width:0;}
 .fc-nome{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.fc-cod {font-size:11px;color:var(--text3);margin-top:2px;}
+.fc-cod{font-size:11px;color:var(--text3);margin-top:2px;}
 .fc-actions{display:flex;gap:6px;flex-shrink:0;}
 
-/* ============================================================
-   CONFERÊNCIA
-============================================================ */
+/* CONFERÊNCIA */
 .conf-page{max-width:780px;margin:0 auto;}
-.conf-header-box{
-  background:#1a1a1a;color:#fff;
-  border-radius:14px;padding:22px 24px;
-  margin-bottom:20px;
-}
+.conf-header-box{background:#1a1a1a;color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:20px;}
 .conf-header-box h2{font-size:18px;font-weight:800;margin-bottom:4px;}
 .conf-header-box p{font-size:13px;color:#9ca3af;}
 .conf-meta{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;}
 .conf-meta-item{display:flex;flex-direction:column;gap:2px;}
 .conf-meta-item span:first-child{font-size:10px;color:#9ca3af;font-weight:700;text-transform:uppercase;}
 .conf-meta-item span:last-child{font-size:14px;font-weight:800;color:#fff;}
-
-.conf-section{
-  background:#fff;border:1px solid var(--border);
-  border-radius:14px;padding:20px;margin-bottom:16px;
-  box-shadow:var(--shadow);
-}
-.conf-section-title{
-  font-size:13px;font-weight:800;color:var(--text);
-  margin-bottom:16px;display:flex;align-items:center;gap:8px;
-}
-
-.comp-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:0;}
-.comp-table th{
-  background:#f1f3f5;padding:10px 12px;
-  text-align:left;font-size:11px;font-weight:800;
-  text-transform:uppercase;color:var(--text2);
-  border-bottom:1px solid var(--border);
-}
+.conf-section{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.conf-section-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;}
+.comp-table th{background:#f1f3f5;padding:10px 12px;text-align:left;font-size:11px;font-weight:800;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border);}
 .comp-table td{padding:10px 12px;border-bottom:1px solid var(--border2);}
 .comp-table tr:last-child td{border-bottom:none;}
 .comp-table .lbl{font-weight:700;color:var(--text2);}
 .comp-table .v-esp{color:var(--text2);}
 .comp-table .v-rec{font-weight:700;}
-.comp-table .v-ok {color:var(--green);}
+.comp-table .v-ok{color:var(--green);}
 .comp-table .v-div{color:var(--red);}
-.comp-table input[type="number"]{
-  background:#f8f9fa;border:1px solid var(--border);
-  border-radius:6px;padding:6px 10px;
-  color:var(--text);font-size:14px;font-weight:700;
-  width:100px;font-family:inherit;
-}
-.comp-table input[type="number"]:focus{
-  outline:none;border-color:#1a1a1a;background:#fff;
-}
-
-.timer-box{
-  background:#f8f9fa;border:1px solid var(--border);
-  border-radius:10px;padding:16px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;
-}
+.comp-table input[type="number"]{background:#f8f9fa;border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:14px;font-weight:700;width:100px;font-family:inherit;}
+.comp-table input[type="number"]:focus{outline:none;border-color:#1a1a1a;background:#fff;}
+.timer-box{background:#f8f9fa;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .timer-info span:first-child{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;}
 .timer-val{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:2px;font-variant-numeric:tabular-nums;}
-
-.resultado-box{
-  border-radius:12px;padding:18px 20px;
-  display:flex;align-items:center;gap:16px;
-  flex-wrap:wrap;
-}
-.resultado-box.ok  {background:#dcfce7;border:1px solid #86efac;}
-.resultado-box.div {background:#fef3c7;border:1px solid #fcd34d;}
+.resultado-box{border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.resultado-box.ok{background:#dcfce7;border:1px solid #86efac;}
+.resultado-box.div{background:#fef3c7;border:1px solid #fcd34d;}
 .resultado-box .res-icon{font-size:36px;}
 .resultado-box .res-text{flex:1;}
 .resultado-box .res-title{font-size:16px;font-weight:800;color:var(--text);}
 .resultado-box .res-sub{font-size:13px;color:var(--text2);margin-top:4px;}
-
-.alert{
-  padding:12px 16px;border-radius:10px;
-  font-size:13px;margin-bottom:16px;
-  display:flex;align-items:center;gap:10px;
-}
+.alert{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;}
 .alert-warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
-
 .empty-state{text-align:center;padding:44px;color:var(--text3);}
 .empty-state .ei{font-size:42px;margin-bottom:10px;}
-.empty-state p{font-size:14px;}
-
 .tag{background:#e5e7eb;color:#374151;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;}
 .metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
 .mc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow);}
 .mc .mv{font-size:26px;font-weight:900;color:#1a1a1a;}
 .mc .ml{font-size:11px;color:var(--text3);text-transform:uppercase;font-weight:700;margin-top:3px;}
-
-.prog-bg{background:#f3f4f6;border-radius:20px;height:8px;overflow:hidden;border:1px solid var(--border);}
-.prog-fill{height:100%;border-radius:20px;transition:width .5s;}
 
 @media(max-width:640px){
   .main{padding:12px;}
@@ -453,12 +218,13 @@ tbody td{padding:11px 14px;color:var(--text);}
   .metrics-row{grid-template-columns:1fr;}
   .status-boxes{flex-direction:column;}
   .charts-grid{grid-template-columns:1fr;}
+  .header{padding:10px 14px;}
+  .nav{padding:8px 10px;}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <div class="header-logo">BM</div>
@@ -470,26 +236,23 @@ tbody td{padding:11px 14px;color:var(--text);}
   <div class="header-date" id="headerDate"></div>
 </div>
 
-<!-- NAV -->
 <div class="nav">
-  <button class="nav-btn active" onclick="showTela('dashboard')"     id="nav-dashboard">📊 Dashboard</button>
-  <button class="nav-btn"        onclick="showTela('agendamentos')"  id="nav-agendamentos">📋 Agendamentos</button>
-  <button class="nav-btn"        onclick="showTela('conferencia')"   id="nav-conferencia">🔍 Conferência</button>
-  <button class="nav-btn"        onclick="showTela('fornecedores')"  id="nav-fornecedores">🏭 Forn. Fixos</button>
+  <button class="nav-btn active" onclick="showTela('dashboard')"    id="nav-dashboard">📊 Dashboard</button>
+  <button class="nav-btn"        onclick="showTela('agendamentos')" id="nav-agendamentos">📋 Agendamentos</button>
+  <button class="nav-btn"        onclick="showTela('conferencia')"  id="nav-conferencia">🔍 Conferência</button>
+  <button class="nav-btn"        onclick="showTela('fornecedores')" id="nav-fornecedores">🏭 Forn. Fixos</button>
 </div>
 
 <div class="main">
 
-<!-- ============================================================
-     DASHBOARD
-============================================================ -->
+<!-- DASHBOARD -->
 <div class="tela active" id="tela-dashboard">
   <div class="page-title">
     📊 Dashboard
     <span class="tag" id="dash-data-hoje"></span>
+    <button class="btn btn-pdf" onclick="exportarPDF()" style="margin-left:auto;">📄 Exportar Relatório PDF</button>
   </div>
 
-  <!-- Cards KPI -->
   <div class="cards-row">
     <div class="card c-black">
       <div class="card-icon">📋</div>
@@ -499,7 +262,7 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="card c-green">
       <div class="card-icon">✅</div>
       <div class="card-val" id="d-concluidos">0</div>
-      <div class="card-lbl">Concluídos</div>
+      <div class="card-lbl">Concluídos OK</div>
     </div>
     <div class="card c-yellow">
       <div class="card-icon">⚠️</div>
@@ -528,7 +291,6 @@ tbody td{padding:11px 14px;color:var(--text);}
     </div>
   </div>
 
-  <!-- Gráficos -->
   <div class="charts-grid">
     <div class="chart-box">
       <div class="chart-box-title">🍩 Status dos Agendamentos (Hoje)</div>
@@ -539,43 +301,32 @@ tbody td{padding:11px 14px;color:var(--text);}
       <div class="chart-wrap"><canvas id="chartBarDia"></canvas></div>
     </div>
     <div class="chart-box">
-      <div class="chart-box-title">⏱️ SLA de Conferência (min) — Últimos registros</div>
-      <div class="chart-wrap"><canvas id="chartSLA"></canvas></div>
-    </div>
-    <div class="chart-box">
       <div class="chart-box-title">📦 Volume Esperado vs Recebido (Hoje)</div>
       <div class="chart-wrap"><canvas id="chartVolume"></canvas></div>
     </div>
   </div>
 
-  <!-- Fixos do dia -->
   <div class="table-wrap">
     <div class="table-header">
-      <div class="table-title">🏭 Fixos do Dia — Confirmação</div>
+      <div class="table-title">🏭 Fornecedores Fixos do Dia</div>
     </div>
     <div style="overflow-x:auto;">
       <table>
-        <thead><tr>
-          <th>Fornecedor</th><th>Cód.</th><th>Status</th>
-        </tr></thead>
+        <thead><tr><th>Fornecedor</th><th>Cód.</th><th>Status</th></tr></thead>
         <tbody id="dash-fixos-tbody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ============================================================
-     AGENDAMENTOS
-============================================================ -->
+<!-- AGENDAMENTOS -->
 <div class="tela" id="tela-agendamentos">
   <div class="page-title">📋 Agendamentos</div>
-
   <div class="metrics-row">
     <div class="mc"><div class="mv" id="a-sku">0</div><div class="ml">📦 SKUs Esperados</div></div>
     <div class="mc"><div class="mv" id="a-vol">0</div><div class="ml">📫 Volume Esperado</div></div>
     <div class="mc"><div class="mv" id="a-peso">0 kg</div><div class="ml">⚖️ Peso Esperado</div></div>
   </div>
-
   <div class="filtros">
     <div class="fg-f"><label>📅 Data</label><input type="date" id="f-data" onchange="filtrarAgend()"></div>
     <div class="fg-f">
@@ -594,7 +345,6 @@ tbody td{padding:11px 14px;color:var(--text);}
       <button class="btn btn-outline" onclick="limparFiltrosAgend()">🔄 Limpar</button>
     </div>
   </div>
-
   <div class="table-wrap">
     <div class="table-header">
       <div class="table-title">📋 Lista de Agendamentos</div>
@@ -616,16 +366,12 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ============================================================
-     CONFERÊNCIA
-============================================================ -->
+<!-- CONFERÊNCIA -->
 <div class="tela" id="tela-conferencia">
-  <div class="conf-page" id="conf-page">
-    <!-- Estado inicial: selecionar agendamento -->
+  <div class="conf-page">
     <div id="conf-select-state">
       <div class="page-title">🔍 Conferência</div>
       <div class="alert alert-info">ℹ️ Clique em um agendamento na aba <strong>Agendamentos</strong> para iniciar a conferência, ou selecione abaixo.</div>
-
       <div class="table-wrap">
         <div class="table-header"><div class="table-title">📋 Selecione o Agendamento</div></div>
         <div style="overflow-x:auto;">
@@ -640,29 +386,18 @@ tbody td{padding:11px 14px;color:var(--text);}
       </div>
     </div>
 
-    <!-- Painel de conferência ativo -->
     <div id="conf-active-state" style="display:none;">
-
       <div class="conf-header-box">
         <h2 id="c-fornec-title">Fornecedor</h2>
-        <p id="c-nf-title">NF: — &nbsp;|&nbsp; Data: —</p>
+        <p id="c-nf-title">NF: — | Data: —</p>
         <div class="conf-meta">
-          <div class="conf-meta-item">
-            <span>Início</span><span id="c-inicio-label">—</span>
-          </div>
-          <div class="conf-meta-item">
-            <span>Fim</span><span id="c-fim-label">—</span>
-          </div>
-          <div class="conf-meta-item">
-            <span>Duração</span><span id="c-dur-label">—</span>
-          </div>
-          <div class="conf-meta-item">
-            <span>Pontualidade</span><span id="c-pont-label">—</span>
-          </div>
+          <div class="conf-meta-item"><span>Início</span><span id="c-inicio-label">—</span></div>
+          <div class="conf-meta-item"><span>Fim</span><span id="c-fim-label">—</span></div>
+          <div class="conf-meta-item"><span>Duração</span><span id="c-dur-label">—</span></div>
+          <div class="conf-meta-item"><span>Pontualidade</span><span id="c-pont-label">—</span></div>
         </div>
       </div>
 
-      <!-- Timer -->
       <div class="conf-section">
         <div class="conf-section-title">⏱️ Cronômetro da Conferência</div>
         <div class="timer-box">
@@ -671,14 +406,13 @@ tbody td{padding:11px 14px;color:var(--text);}
             <div class="timer-val" id="c-timer">00:00:00</div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-dark" id="btn-iniciar-conf" onclick="iniciarConferencia()">▶️ Iniciar Conferência</button>
+            <button class="btn btn-dark"  id="btn-iniciar-conf"   onclick="iniciarConferencia()">▶️ Iniciar Conferência</button>
             <button class="btn btn-green" id="btn-finalizar-conf" onclick="finalizarConferencia()" style="display:none;">✅ Finalizar</button>
             <button class="btn btn-outline" onclick="voltarListaConf()">← Voltar</button>
           </div>
         </div>
       </div>
 
-      <!-- Comparativo -->
       <div class="conf-section">
         <div class="conf-section-title">📊 Comparativo — Esperado vs. Recebido</div>
         <table class="comp-table">
@@ -706,7 +440,6 @@ tbody td{padding:11px 14px;color:var(--text);}
         </table>
       </div>
 
-      <!-- Conferente + Ocorrência -->
       <div class="conf-section">
         <div class="conf-section-title">📝 Conferente & Observações</div>
         <div class="form-grid">
@@ -716,55 +449,47 @@ tbody td{padding:11px 14px;color:var(--text);}
           </div>
           <div class="fg form-full">
             <label>📝 Ocorrências / Observações</label>
-            <textarea id="c-ocorrencia" placeholder="Descreva ocorrências, avarias, divergências ou qualquer observação..."></textarea>
+            <textarea id="c-ocorrencia" placeholder="Descreva ocorrências, avarias, divergências..."></textarea>
           </div>
         </div>
       </div>
 
-      <!-- Resultado -->
       <div id="conf-resultado" style="display:none;" class="conf-section">
         <div class="conf-section-title">🏁 Resultado da Conferência</div>
         <div class="resultado-box" id="conf-resultado-box">
           <div class="res-icon" id="c-res-icon">✅</div>
           <div class="res-text">
             <div class="res-title" id="c-res-title">—</div>
-            <div class="res-sub"  id="c-res-sub">—</div>
+            <div class="res-sub"   id="c-res-sub">—</div>
           </div>
         </div>
       </div>
-
-    </div><!-- /conf-active-state -->
+    </div>
   </div>
 </div>
 
-<!-- ============================================================
-     FORNECEDORES FIXOS
-============================================================ -->
+<!-- FORNECEDORES FIXOS -->
 <div class="tela" id="tela-fornecedores">
   <div class="page-title">🏭 Fornecedores Fixos — Confirmação de Entrega</div>
-  <div class="alert alert-warn">⚠️ Marque cada fornecedor conforme a situação do dia.</div>
+  <div class="alert alert-warn">⚠️ As confirmações são salvas por semana. A cada nova semana, tudo reinicia automaticamente.</div>
   <div id="fornec-fixos-container"></div>
 </div>
 
 </div><!-- /main -->
 
-<!-- ============================================================
-     MODAL AGENDAMENTO
-============================================================ -->
+<!-- MODAL AGENDAMENTO -->
 <div class="modal-overlay" id="modal-agend">
 <div class="modal">
   <div class="modal-title">
     <span id="modal-agend-title">📋 Novo Agendamento</span>
     <button class="modal-close" onclick="fecharModalAgend()">✕</button>
   </div>
-
   <div class="sec-lbl">📄 Identificação</div>
   <div class="form-grid">
     <div class="fg"><label>📅 Data Agendada</label><input type="date" id="m-data"></div>
     <div class="fg"><label>🧾 Número da NF</label><input type="text" id="m-nf" placeholder="Ex: 123456"></div>
     <div class="fg form-full"><label>🏭 Fornecedor</label><input type="text" id="m-fornec" placeholder="Digite o nome do fornecedor"></div>
   </div>
-
   <div class="sep"></div>
   <div class="sec-lbl">📦 Volumes Esperados</div>
   <div class="form-grid g3">
@@ -772,11 +497,10 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="fg"><label>Volume (Caixas)</label><input type="number" id="m-vol" placeholder="0" min="0"></div>
     <div class="fg"><label>Peso (KG)</label><input type="number" id="m-peso" placeholder="0.0" step="0.1" min="0"></div>
   </div>
-
   <div class="sep"></div>
   <div class="sec-lbl">🚦 Status da Nota Fiscal</div>
   <div class="status-boxes">
-    <div class="sb" id="sb-ok" onclick="selStatus('ok')">
+    <div class="sb" id="sb-ok"   onclick="selStatus('ok')">
       <div class="sbck" id="ck-ok"></div>
       <div class="sbtx">✅ Nota OK</div>
     </div>
@@ -785,84 +509,74 @@ tbody td{padding:11px 14px;color:var(--text);}
       <div class="sbtx">⚠️ Em Tratativa</div>
     </div>
   </div>
-
   <div class="sep"></div>
   <div class="sec-lbl">📝 Observações</div>
-  <div class="fg"><textarea id="m-obs" placeholder="Observações gerais sobre o agendamento..."></textarea></div>
-
+  <div class="fg"><textarea id="m-obs" placeholder="Observações gerais..."></textarea></div>
   <div class="form-actions">
     <button class="btn btn-outline" onclick="fecharModalAgend()">Cancelar</button>
-    <button class="btn btn-dark" onclick="salvarAgend()">💾 Salvar</button>
+    <button class="btn btn-dark"    onclick="salvarAgend()">💾 Salvar</button>
   </div>
 </div>
 </div>
 
 <script>
 /* ============================================================
-   DADOS & STORAGE
+   CONSTANTES
 ============================================================ */
 const FORNECEDORES_FIXOS=[
-  {nome:'AMBEV S.A -F. PARAIBA',           codigo:17,  dias:['SEGUNDA','SEXTA']},
-  {nome:'EBANO DISTRIBUIDORA DE ALIMENTOS', codigo:25,  dias:['SEGUNDA']},
-  {nome:'MULTIGIRO DISTRIBUIDORA LTDA',     codigo:118, dias:['SEGUNDA']},
-  {nome:'REFRESCOS GUARARAPES (SOLAR)',     codigo:166, dias:['SEGUNDA','TERCA']},
-  {nome:'NORDECE- NE REPRESENTACAO',        codigo:13,  dias:['SEGUNDA','TERCA']},
-  {nome:'NORDIL - NE DISTRIB E LOGIST',     codigo:20,  dias:['TERCA']},
-  {nome:'RIOGRANDENSE DISTRIBUIDORA',       codigo:114, dias:['QUARTA']},
-  {nome:'POLYBALAS DIST E LOGISTICA',       codigo:16,  dias:['QUINTA']},
-  {nome:'M.DIAS BRANCO S.A IND E COM',      codigo:139, dias:['SEXTA']},
-  {nome:'SAO BRAZ SA IND E COM ALIME',      codigo:160, dias:['SEXTA']},
+  {nome:'AMBEV S.A -F. PARAIBA',            codigo:17,  dias:['SEGUNDA','SEXTA']},
+  {nome:'EBANO DISTRIBUIDORA DE ALIMENTOS',  codigo:25,  dias:['SEGUNDA']},
+  {nome:'MULTIGIRO DISTRIBUIDORA LTDA',      codigo:118, dias:['SEGUNDA']},
+  {nome:'REFRESCOS GUARARAPES (SOLAR)',      codigo:166, dias:['SEGUNDA','TERCA']},
+  {nome:'NORDECE- NE REPRESENTACAO',         codigo:13,  dias:['SEGUNDA','TERCA']},
+  {nome:'NORDIL - NE DISTRIB E LOGIST',      codigo:20,  dias:['TERCA']},
+  {nome:'RIOGRANDENSE DISTRIBUIDORA',        codigo:114, dias:['QUARTA']},
+  {nome:'POLYBALAS DIST E LOGISTICA',        codigo:16,  dias:['QUINTA']},
+  {nome:'M.DIAS BRANCO S.A IND E COM',       codigo:139, dias:['SEXTA']},
+  {nome:'SAO BRAZ SA IND E COM ALIME',       codigo:160, dias:['SEXTA']},
 ];
 const DIAS_IDX  =['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
 const DIAS_LBL  ={SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
 const BADGE_DIA ={SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
 
-let agendamentos  = JSON.parse(localStorage.getItem('bm-agend') ||'[]');
-let confirmacoes  = JSON.parse(localStorage.getItem('bm-conf')  ||'{}');
-let editIdx       = -1;
-let statusAtual   = '';
+/* ============================================================
+   UTILITÁRIOS DE DATA / SEMANA
+============================================================ */
+const getDataHoje=()=>new Date().toISOString().split('T')[0];
+const getDiaHoje =()=>DIAS_IDX[new Date().getDay()];
+const fmtData    =d=>d?d.split('-').reverse().join('/'):'—';
+const fmtMin     =s=>{if(s==null)return'—';const m=Math.floor(s/60),se=s%60;return`${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;};
+const fmtHMS     =s=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),se=s%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;};
 
-// Timer conferência
-let timerInterval = null;
-let confInicio    = null;
-let confAgendIdx  = -1; // índice global do agendamento em conferência
-
-const save = ()=> localStorage.setItem('bm-agend', JSON.stringify(agendamentos));
-const saveConf = ()=> localStorage.setItem('bm-conf', JSON.stringify(confirmacoes));
+/* Retorna o número ISO da semana (ano + semana) — ex: "2025-W24" */
+function getChaveSemana(dataStr){
+  const d=dataStr?new Date(dataStr+'T12:00:00'):new Date();
+  const tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
+  const ano=tmp.getUTCFullYear();
+  const sem=Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
+  return`${ano}-W${String(sem).padStart(2,'0')}`;
+}
 
 /* ============================================================
-   UTILS
+   STORAGE
 ============================================================ */
-const getDiaHoje  = ()=> DIAS_IDX[new Date().getDay()];
-const getDataHoje = ()=> new Date().toISOString().split('T')[0];
-const fmtData     = d => d ? d.split('-').reverse().join('/') : '—';
-const fmtMin      = s => {
-  if(!s && s!==0) return '—';
-  const m=Math.floor(s/60), se=s%60;
-  return `${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;
-};
-const fmtHMS = s=>{
-  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),se=s%60;
-  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;
-};
+let agendamentos=JSON.parse(localStorage.getItem('bm-agend')||'[]');
+// confirmacoes fixos: { "2025-W24_SEGUNDA_17": "confirmado" | "naoveio" }
+let confirmacoes=JSON.parse(localStorage.getItem('bm-conf-v2')||'{}');
 
+const save     =()=>localStorage.setItem('bm-agend',JSON.stringify(agendamentos));
+const saveConf =()=>localStorage.setItem('bm-conf-v2',JSON.stringify(confirmacoes));
+
+/* ============================================================
+   STATUS AUTOMÁTICO
+============================================================ */
 function atualizarStatusAgendamentos(){
   const hoje=getDataHoje();
   agendamentos.forEach(a=>{
-    if(a.status==='Aguardando' && a.data < hoje) a.status='Atrasado';
+    if(a.status==='Aguardando'&&a.data<hoje) a.status='Atrasado';
   });
   save();
-}
-
-function badgeStatus(s){
-  const map={
-    'Aguardando':'<span class="badge b-aguard">⏳ Aguardando</span>',
-    'Em Conferência':'<span class="badge b-andamento">🔄 Em Conferência</span>',
-    'Concluído OK':'<span class="badge b-conf">✅ Concluído OK</span>',
-    'Concluído c/ Divergência':'<span class="badge b-div">⚠️ Divergência</span>',
-    'Atrasado':'<span class="badge b-atrasado">🚨 Atrasado</span>',
-  };
-  return map[s]||`<span class="badge b-aguard">${s}</span>`;
 }
 
 /* ============================================================
@@ -889,40 +603,32 @@ function showTela(nome){
   document.getElementById('nav-'+nome).classList.add('active');
   atualizarStatusAgendamentos();
   if(nome==='dashboard')    renderDashboard();
-  if(nome==='agendamentos') {atualizarFiltrosDin();renderAgend();}
+  if(nome==='agendamentos'){atualizarFiltrosDin();renderAgend();}
   if(nome==='conferencia')  renderConfLista();
   if(nome==='fornecedores') renderFornecedores();
 }
 
 /* ============================================================
-   STATUS BOXES
+   STATUS BOXES (MODAL)
 ============================================================ */
-function selStatus(t){
-  statusAtual = statusAtual===t ? '' : t;
-  renderStatusBoxes();
-}
+let statusAtual='';
+function selStatus(t){statusAtual=statusAtual===t?'':t;renderStatusBoxes();}
 function renderStatusBoxes(){
-  const sbOk=document.getElementById('sb-ok');
-  const sbTr=document.getElementById('sb-trat');
-  const ckOk=document.getElementById('ck-ok');
-  const ckTr=document.getElementById('ck-trat');
-  sbOk.className='sb'; sbTr.className='sb';
-  ckOk.textContent=''; ckTr.textContent='';
+  const sbOk=document.getElementById('sb-ok'),sbTr=document.getElementById('sb-trat');
+  const ckOk=document.getElementById('ck-ok'),ckTr=document.getElementById('ck-trat');
+  sbOk.className='sb';sbTr.className='sb';ckOk.textContent='';ckTr.textContent='';
   if(statusAtual==='ok'){sbOk.classList.add('sel-ok');ckOk.textContent='✓';}
   else if(statusAtual==='trat'){sbTr.classList.add('sel-trat');ckTr.textContent='✓';}
 }
-function setStatusInit(v){
-  statusAtual=v==='Nota OK'?'ok':v==='Em Tratativa'?'trat':'';
-  renderStatusBoxes();
-}
+function setStatusInit(v){statusAtual=v==='Nota OK'?'ok':v==='Em Tratativa'?'trat':'';renderStatusBoxes();}
 
 /* ============================================================
    MODAL AGENDAMENTO
 ============================================================ */
+let editIdx=-1;
 function abrirModalAgend(idx=-1){
   editIdx=idx;
-  document.getElementById('modal-agend-title').textContent=
-    idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
+  document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
   document.getElementById('modal-agend').classList.add('open');
   if(idx===-1){
     document.getElementById('m-data').value=getDataHoje();
@@ -941,67 +647,65 @@ function abrirModalAgend(idx=-1){
     setStatusInit(a.statusNF||'');
   }
 }
-function fecharModalAgend(){ document.getElementById('modal-agend').classList.remove('open'); }
+function fecharModalAgend(){document.getElementById('modal-agend').classList.remove('open');}
 
 function salvarAgend(){
   const fornec=document.getElementById('m-fornec').value.trim();
   const data  =document.getElementById('m-data').value;
   if(!data||!fornec){alert('Preencha ao menos a Data e o Fornecedor.');return;}
-
   const obj={
-    data, nf:document.getElementById('m-nf').value.trim(),
-    fornec,
-    skuEsp :parseFloat(document.getElementById('m-sku').value) ||0,
-    volEsp :parseFloat(document.getElementById('m-vol').value) ||0,
+    data,nf:document.getElementById('m-nf').value.trim(),fornec,
+    skuEsp :parseFloat(document.getElementById('m-sku').value)||0,
+    volEsp :parseFloat(document.getElementById('m-vol').value)||0,
     pesoEsp:parseFloat(document.getElementById('m-peso').value)||0,
-    statusNF: statusAtual==='ok'?'Nota OK':statusAtual==='trat'?'Em Tratativa':'',
-    obs: document.getElementById('m-obs').value.trim(),
-    status: editIdx===-1 ? (data<getDataHoje()?'Atrasado':'Aguardando')
-                         : agendamentos[editIdx].status,
-    // preserva dados de conferência se editar
-    confInicio  : editIdx===-1 ? null : agendamentos[editIdx].confInicio,
-    confFim     : editIdx===-1 ? null : agendamentos[editIdx].confFim,
-    confSLA     : editIdx===-1 ? null : agendamentos[editIdx].confSLA,
-    confConfer  : editIdx===-1 ? ''   : agendamentos[editIdx].confConfer,
-    confObs     : editIdx===-1 ? ''   : agendamentos[editIdx].confObs,
-    skuRec      : editIdx===-1 ? null : agendamentos[editIdx].skuRec,
-    volRec      : editIdx===-1 ? null : agendamentos[editIdx].volRec,
-    pesoRec     : editIdx===-1 ? null : agendamentos[editIdx].pesoRec,
+    statusNF:statusAtual==='ok'?'Nota OK':statusAtual==='trat'?'Em Tratativa':'',
+    obs:document.getElementById('m-obs').value.trim(),
+    status:editIdx===-1?(data<getDataHoje()?'Atrasado':'Aguardando'):agendamentos[editIdx].status,
+    confInicio:editIdx===-1?null:agendamentos[editIdx].confInicio,
+    confFim   :editIdx===-1?null:agendamentos[editIdx].confFim,
+    confSLA   :editIdx===-1?null:agendamentos[editIdx].confSLA,
+    confConfer:editIdx===-1?''  :agendamentos[editIdx].confConfer,
+    confObs   :editIdx===-1?''  :agendamentos[editIdx].confObs,
+    skuRec    :editIdx===-1?null:agendamentos[editIdx].skuRec,
+    volRec    :editIdx===-1?null:agendamentos[editIdx].volRec,
+    pesoRec   :editIdx===-1?null:agendamentos[editIdx].pesoRec,
+    _confInicioTs:editIdx===-1?null:agendamentos[editIdx]._confInicioTs,
   };
-
   if(editIdx===-1) agendamentos.unshift(obj);
   else             agendamentos[editIdx]=obj;
-
-  save();
-  fecharModalAgend();
-  atualizarFiltrosDin();
-  renderAgend();
+  save();fecharModalAgend();atualizarFiltrosDin();renderAgend();
 }
 
 /* ============================================================
    RENDER AGENDAMENTOS
 ============================================================ */
+function badgeStatus(s){
+  const map={
+    'Aguardando'               :'<span class="badge b-aguard">⏳ Aguardando</span>',
+    'Em Conferência'           :'<span class="badge b-andamento">🔄 Em Conferência</span>',
+    'Concluído OK'             :'<span class="badge b-conf">✅ Concluído OK</span>',
+    'Concluído c/ Divergência' :'<span class="badge b-div">⚠️ Divergência</span>',
+    'Atrasado'                 :'<span class="badge b-atrasado">🚨 Atrasado</span>',
+  };
+  return map[s]||`<span class="badge b-aguard">${s}</span>`;
+}
+
 function renderAgend(lista){
   const dados=lista!==undefined?lista:agendamentos;
   const tbody=document.getElementById('tbody-agend');
   const empty=document.getElementById('empty-agend');
-
-  // métricas
   const sku =dados.reduce((s,a)=>s+(a.skuEsp ||0),0);
   const vol =dados.reduce((s,a)=>s+(a.volEsp ||0),0);
   const peso=dados.reduce((s,a)=>s+(a.pesoEsp||0),0);
   document.getElementById('a-sku').textContent =sku;
   document.getElementById('a-vol').textContent =vol;
   document.getElementById('a-peso').textContent=peso.toFixed(1)+' kg';
-
   if(!dados.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-
   tbody.innerHTML=dados.map(a=>{
     const ri=agendamentos.indexOf(a);
-    const sla=a.confSLA!=null?fmtMin(a.confSLA):'—';
-    const podeConf=['Aguardando','Atrasado','Em Conferência'].includes(a.status);
-    return `<tr onclick="abrirConferencia(${ri})" title="Clique para conferir">
+    const sla=a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
+    return`<tr onclick="abrirConferencia(${ri})" title="Clique para conferir">
       <td>${fmtData(a.data)}</td>
       <td><strong>${a.nf||'—'}</strong></td>
       <td>${a.fornec||'—'}</td>
@@ -1021,30 +725,24 @@ function renderAgend(lista){
 }
 
 function excluirAgend(idx){
-  if(!confirm('Excluir este agendamento?')) return;
-  agendamentos.splice(idx,1);
-  save();atualizarFiltrosDin();renderAgend();
+  if(!confirm('Excluir este agendamento?'))return;
+  agendamentos.splice(idx,1);save();atualizarFiltrosDin();renderAgend();
 }
-
 function atualizarFiltrosDin(){
-  const sel=document.getElementById('f-fornec');
-  const at=sel.value;
+  const sel=document.getElementById('f-fornec'),at=sel.value;
   const lista=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
-  sel.innerHTML='<option value="">Todos</option>'+
-    lista.map(f=>`<option value="${f}" ${f===at?'selected':''}>${f}</option>`).join('');
+  sel.innerHTML='<option value="">Todos</option>'+lista.map(f=>`<option value="${f}" ${f===at?'selected':''}>${f}</option>`).join('');
 }
-
 function filtrarAgend(){
   const d=document.getElementById('f-data').value;
   const s=document.getElementById('f-status').value;
   const f=document.getElementById('f-fornec').value;
-  const r=agendamentos.filter(a=>{
+  renderAgend(agendamentos.filter(a=>{
     if(d&&a.data!==d)return false;
     if(s&&a.status!==s)return false;
     if(f&&a.fornec!==f)return false;
     return true;
-  });
-  renderAgend(r);
+  }));
 }
 function limparFiltrosAgend(){
   ['f-data','f-status','f-fornec'].forEach(id=>document.getElementById(id).value='');
@@ -1054,17 +752,17 @@ function limparFiltrosAgend(){
 /* ============================================================
    CONFERÊNCIA
 ============================================================ */
+let timerInterval=null,confInicio=null,confAgendIdx=-1;
+
 function renderConfLista(){
   const tbody=document.getElementById('conf-lista-tbody');
   const empty=document.getElementById('conf-lista-empty');
-  const disponiveis=agendamentos.filter(a=>
-    ['Aguardando','Atrasado','Em Conferência'].includes(a.status)
-  );
-  if(!disponiveis.length){tbody.innerHTML='';empty.style.display='block';return;}
+  const disp=agendamentos.filter(a=>['Aguardando','Atrasado','Em Conferência'].includes(a.status));
+  if(!disp.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  tbody.innerHTML=disponiveis.map(a=>{
+  tbody.innerHTML=disp.map(a=>{
     const ri=agendamentos.indexOf(a);
-    return `<tr>
+    return`<tr>
       <td>${fmtData(a.data)}</td>
       <td><strong>${a.nf||'—'}</strong></td>
       <td>${a.fornec||'—'}</td>
@@ -1077,61 +775,36 @@ function renderConfLista(){
 function abrirConferencia(idx){
   confAgendIdx=idx;
   const a=agendamentos[idx];
-
-  // Navega para aba conferência
   document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tela-conferencia').classList.add('active');
   document.getElementById('nav-conferencia').classList.add('active');
-
-  // Mostra painel ativo
   document.getElementById('conf-select-state').style.display='none';
   document.getElementById('conf-active-state').style.display='block';
 
-  // Preenche cabeçalho
   document.getElementById('c-fornec-title').textContent=a.fornec||'Fornecedor';
   document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'}  |  Data Agendada: ${fmtData(a.data)}`;
-
-  // Pontualidade
-  const hoje=getDataHoje();
-  const pont=a.data===hoje?'✅ Pontual':'🔴 Atrasado';
-  document.getElementById('c-pont-label').textContent=pont;
-
-  // Volumes esperados
-  document.getElementById('c-sku-esp').textContent =a.skuEsp ||'0';
-  document.getElementById('c-vol-esp').textContent =a.volEsp ||'0';
+  document.getElementById('c-pont-label').textContent=a.data===getDataHoje()?'✅ Pontual':'🔴 Atrasado';
+  document.getElementById('c-sku-esp').textContent =a.skuEsp||'0';
+  document.getElementById('c-vol-esp').textContent =a.volEsp||'0';
   document.getElementById('c-peso-esp').textContent=a.pesoEsp?a.pesoEsp+' kg':'0 kg';
 
-  // Se já tem conferência iniciada
   if(a.confInicio){
     document.getElementById('c-inicio-label').textContent=a.confInicio;
     document.getElementById('btn-iniciar-conf').style.display='none';
-
-    // Habilita inputs
-    ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>{
-      document.getElementById(id).disabled=false;
-    });
-
+    ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>document.getElementById(id).disabled=false);
     if(a.confFim){
-      // Já finalizado — mostra resultado
       document.getElementById('c-fim-label').textContent=a.confFim;
-      document.getElementById('c-dur-label').textContent=fmtMin(a.confSLA)+'min';
+      document.getElementById('c-dur-label').textContent=fmtMin(a.confSLA)+' min';
       document.getElementById('c-sku-rec').value =a.skuRec??'';
       document.getElementById('c-vol-rec').value =a.volRec??'';
       document.getElementById('c-peso-rec').value=a.pesoRec??'';
       document.getElementById('c-conferente').value=a.confConfer||'';
       document.getElementById('c-ocorrencia').value=a.confObs||'';
       document.getElementById('btn-finalizar-conf').style.display='none';
-      calcDiverg();
-      mostrarResultado();
-      // Trava inputs
-      ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>{
-        document.getElementById(id).disabled=true;
-      });
-      document.getElementById('c-conferente').disabled=true;
-      document.getElementById('c-ocorrencia').disabled=true;
+      calcDiverg();mostrarResultado();
+      ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>document.getElementById(id).disabled=true);
     } else {
-      // Em andamento: retoma timer
       document.getElementById('btn-finalizar-conf').style.display='';
       document.getElementById('c-sku-rec').value =a.skuRec??'';
       document.getElementById('c-vol-rec').value =a.volRec??'';
@@ -1142,21 +815,15 @@ function abrirConferencia(idx){
       iniciarTimer();
     }
   } else {
-    // Novo
     document.getElementById('c-inicio-label').textContent='—';
     document.getElementById('c-fim-label').textContent='—';
     document.getElementById('c-dur-label').textContent='—';
     document.getElementById('btn-iniciar-conf').style.display='';
     document.getElementById('btn-finalizar-conf').style.display='none';
     document.getElementById('c-timer').textContent='00:00:00';
-    ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>{
-      document.getElementById(id).value='';
-      document.getElementById(id).disabled=true;
-    });
-    document.getElementById('c-conferente').value='';
-    document.getElementById('c-conferente').disabled=false;
-    document.getElementById('c-ocorrencia').value='';
-    document.getElementById('c-ocorrencia').disabled=false;
+    ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>{document.getElementById(id).value='';document.getElementById(id).disabled=true;});
+    document.getElementById('c-conferente').value='';document.getElementById('c-conferente').disabled=false;
+    document.getElementById('c-ocorrencia').value='';document.getElementById('c-ocorrencia').disabled=false;
     document.getElementById('conf-resultado').style.display='none';
     ['c-sku-div','c-vol-div','c-peso-div'].forEach(id=>document.getElementById(id).textContent='—');
   }
@@ -1170,114 +837,79 @@ function voltarListaConf(){
 }
 
 function iniciarConferencia(){
-  const agora=new Date();
-  confInicio=agora;
+  const agora=new Date();confInicio=agora;
   const horaStr=agora.toLocaleTimeString('pt-BR');
   document.getElementById('c-inicio-label').textContent=horaStr;
   document.getElementById('btn-iniciar-conf').style.display='none';
   document.getElementById('btn-finalizar-conf').style.display='';
-
-  // Habilita inputs
-  ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>{
-    document.getElementById(id).disabled=false;
-  });
-
-  // Salva no agendamento
+  ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>document.getElementById(id).disabled=false);
   agendamentos[confAgendIdx].status='Em Conferência';
   agendamentos[confAgendIdx].confInicio=horaStr;
   agendamentos[confAgendIdx]._confInicioTs=agora.toISOString();
   agendamentos[confAgendIdx].confFim=null;
-  save();
-  iniciarTimer();
+  save();iniciarTimer();
 }
 
 function iniciarTimer(){
-  if(timerInterval) clearInterval(timerInterval);
+  if(timerInterval)clearInterval(timerInterval);
   timerInterval=setInterval(()=>{
-    const seg=Math.floor((new Date()-confInicio)/1000);
-    document.getElementById('c-timer').textContent=fmtHMS(seg);
+    document.getElementById('c-timer').textContent=fmtHMS(Math.floor((new Date()-confInicio)/1000));
   },1000);
 }
 
 function finalizarConferencia(){
-  const agora=new Date();
-  const horaStr=agora.toLocaleTimeString('pt-BR');
-  const sla=Math.floor((agora-confInicio)/1000); // em segundos
-
+  const agora=new Date(),horaStr=agora.toLocaleTimeString('pt-BR');
+  const sla=Math.floor((agora-confInicio)/1000);
   clearInterval(timerInterval);timerInterval=null;
   document.getElementById('c-fim-label').textContent=horaStr;
-  document.getElementById('c-dur-label').textContent=fmtMin(sla)+'min';
+  document.getElementById('c-dur-label').textContent=fmtMin(sla)+' min';
   document.getElementById('btn-finalizar-conf').style.display='none';
-
-  const skuRec =parseFloat(document.getElementById('c-sku-rec').value) ||0;
-  const volRec =parseFloat(document.getElementById('c-vol-rec').value) ||0;
+  const skuRec =parseFloat(document.getElementById('c-sku-rec').value)||0;
+  const volRec =parseFloat(document.getElementById('c-vol-rec').value)||0;
   const pesoRec=parseFloat(document.getElementById('c-peso-rec').value)||0;
   const conf   =document.getElementById('c-conferente').value.trim();
   const obs    =document.getElementById('c-ocorrencia').value.trim();
-
   const a=agendamentos[confAgendIdx];
   const temDiv=(skuRec!==a.skuEsp)||(volRec!==a.volEsp)||(pesoRec!==a.pesoEsp);
-  a.status   = temDiv?'Concluído c/ Divergência':'Concluído OK';
-  a.confFim  = horaStr;
-  a.confSLA  = sla;
-  a.skuRec   = skuRec;
-  a.volRec   = volRec;
-  a.pesoRec  = pesoRec;
-  a.confConfer=conf;
-  a.confObs  = obs;
+  a.status=temDiv?'Concluído c/ Divergência':'Concluído OK';
+  a.confFim=horaStr;a.confSLA=sla;
+  a.skuRec=skuRec;a.volRec=volRec;a.pesoRec=pesoRec;
+  a.confConfer=conf;a.confObs=obs;
   save();
-
-  // Trava inputs
-  ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>document.getElementById(id).disabled=true);
-  document.getElementById('c-conferente').disabled=true;
-  document.getElementById('c-ocorrencia').disabled=true;
-
-  calcDiverg();
-  mostrarResultado();
+  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>document.getElementById(id).disabled=true);
+  calcDiverg();mostrarResultado();
 }
 
 function calcDiverg(){
   const a=confAgendIdx>=0?agendamentos[confAgendIdx]:null;
-  if(!a) return;
-  const campos=[
-    {rec:'c-sku-rec', esp:a.skuEsp,  div:'c-sku-div',  sufixo:''},
-    {rec:'c-vol-rec', esp:a.volEsp,  div:'c-vol-div',  sufixo:' cx'},
-    {rec:'c-peso-rec',esp:a.pesoEsp, div:'c-peso-div', sufixo:' kg'},
-  ];
-  campos.forEach(c=>{
-    const inp=document.getElementById(c.rec);
-    const divEl=document.getElementById(c.div);
+  if(!a)return;
+  [{rec:'c-sku-rec',esp:a.skuEsp,div:'c-sku-div',suf:''},{rec:'c-vol-rec',esp:a.volEsp,div:'c-vol-div',suf:' cx'},{rec:'c-peso-rec',esp:a.pesoEsp,div:'c-peso-div',suf:' kg'}].forEach(c=>{
+    const inp=document.getElementById(c.rec),divEl=document.getElementById(c.div);
     if(!inp.value){divEl.textContent='—';divEl.className='';return;}
-    const val=parseFloat(inp.value)||0;
-    const diff=val-(c.esp||0);
-    if(diff===0){
-      divEl.textContent='✅ OK';
-      divEl.className='v-rec v-ok';
-    } else {
-      divEl.textContent=(diff>0?'+':'')+diff.toFixed(diff%1===0?0:1)+c.sufixo;
-      divEl.className='v-rec v-div';
-    }
+    const diff=(parseFloat(inp.value)||0)-(c.esp||0);
+    if(diff===0){divEl.textContent='✅ OK';divEl.className='v-rec v-ok';}
+    else{divEl.textContent=(diff>0?'+':'')+diff.toFixed(diff%1===0?0:1)+c.suf;divEl.className='v-rec v-div';}
   });
 }
 
 function mostrarResultado(){
   const a=agendamentos[confAgendIdx];
   const temDiv=a.status==='Concluído c/ Divergência';
-  const box=document.getElementById('conf-resultado-box');
   document.getElementById('conf-resultado').style.display='block';
-  box.className='resultado-box '+(temDiv?'div':'ok');
+  document.getElementById('conf-resultado-box').className='resultado-box '+(temDiv?'div':'ok');
   document.getElementById('c-res-icon').textContent=temDiv?'⚠️':'✅';
-  document.getElementById('c-res-title').textContent=
-    temDiv?'Conferência concluída com divergências':'Conferência concluída com sucesso';
-  const slaMin=fmtMin(a.confSLA);
-  const pont=a.data===getDataHoje()?'Pontual':'Atrasado';
+  document.getElementById('c-res-title').textContent=temDiv?'Concluída com divergências':'Concluída com sucesso';
   document.getElementById('c-res-sub').textContent=
-    `SLA: ${slaMin} min  |  Pontualidade: ${pont}  |  Conferente: ${a.confConfer||'—'}`;
+    `SLA: ${fmtMin(a.confSLA)} min  |  Pontualidade: ${a.data===getDataHoje()?'Pontual':'Atrasado'}  |  Conferente: ${a.confConfer||'—'}`;
 }
 
 /* ============================================================
-   FORNECEDORES FIXOS
+   FORNECEDORES FIXOS — CHAVE POR SEMANA
 ============================================================ */
+function getKeyFixo(dia,codigo){
+  return`${getChaveSemana()}_${dia}_${codigo}`;
+}
+
 function renderFornecedores(){
   const diaHoje=getDiaHoje();
   const container=document.getElementById('fornec-fixos-container');
@@ -1285,7 +917,7 @@ function renderFornecedores(){
   let html='';
   diasOrdem.forEach(dia=>{
     const lista=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(dia));
-    if(!lista.length) return;
+    if(!lista.length)return;
     const isHoje=dia===diaHoje;
     html+=`<div class="dia-sec">
       <div class="dia-title">
@@ -1294,13 +926,13 @@ function renderFornecedores(){
       </div>
       <div class="fornec-cards">`;
     lista.forEach(f=>{
-      const key=`${dia}_${f.codigo}`;
+      const key=getKeyFixo(dia,f.codigo);
       const st=confirmacoes[key]||'';
-      const cardCls=st==='confirmado'?'conf':st==='naoveio'?'nv':'';
-      html+=`<div class="fc ${cardCls}" id="fc-${key}">
+      const cc=st==='confirmado'?'conf':st==='naoveio'?'nv':'';
+      html+=`<div class="fc ${cc}" id="fc-${key}">
         <div class="fc-info">
           <div class="fc-nome" title="${f.nome}">${f.nome}</div>
-          <div class="fc-cod">Cód: ${f.codigo}</div>
+          <div class="fc-cod">Cód: ${f.codigo} &nbsp;|&nbsp; Semana: ${getChaveSemana()}</div>
         </div>
         <div class="fc-actions">
           <button class="btn-sm bsm-conf ${st==='confirmado'?'ativo':''}" onclick="confFixo('${key}','confirmado')">✅ Entregou</button>
@@ -1315,7 +947,7 @@ function renderFornecedores(){
 }
 
 function confFixo(key,st){
-  if(st==='') delete confirmacoes[key];
+  if(st==='')delete confirmacoes[key];
   else confirmacoes[key]=st;
   saveConf();renderFornecedores();
 }
@@ -1323,7 +955,15 @@ function confFixo(key,st){
 /* ============================================================
    DASHBOARD
 ============================================================ */
-let chartDonut=null,chartBarDia=null,chartSLA=null,chartVolume=null;
+let chartDonut=null,chartBarDia=null,chartVolume=null;
+
+function getTotalHoje(){
+  const hoje=getDataHoje();
+  const diaHoje=getDiaHoje();
+  const agendHoje=agendamentos.filter(a=>a.data===hoje).length;
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje)).length;
+  return agendHoje+fixosHoje;
+}
 
 function renderDashboard(){
   atualizarStatusAgendamentos();
@@ -1331,107 +971,66 @@ function renderDashboard(){
   const diaHoje=getDiaHoje();
   const hj=agendamentos.filter(a=>a.data===hoje);
 
-  const total=hj.length;
-  const conc =hj.filter(a=>a.status==='Concluído OK').length;
-  const divg =hj.filter(a=>a.status==='Concluído c/ Divergência').length;
-  const and  =hj.filter(a=>a.status==='Em Conferência').length;
-  const agua =hj.filter(a=>a.status==='Aguardando').length;
-  const atr  =agendamentos.filter(a=>a.status==='Atrasado').length;
+  // Total = agendamentos manuais + fixos do dia
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const totalHoje=hj.length+fixosHoje.length;
+
+  const conc=hj.filter(a=>a.status==='Concluído OK').length;
+  const divg=hj.filter(a=>a.status==='Concluído c/ Divergência').length;
+  const and =hj.filter(a=>a.status==='Em Conferência').length;
+  const agua=hj.filter(a=>a.status==='Aguardando').length;
+  const atr =agendamentos.filter(a=>a.status==='Atrasado').length;
 
   const slaLista=agendamentos.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
   const slaMed  =slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
 
-  document.getElementById('d-total').textContent    =total;
-  document.getElementById('d-concluidos').textContent=conc;
+  document.getElementById('d-total').textContent      =totalHoje;
+  document.getElementById('d-concluidos').textContent =conc;
   document.getElementById('d-divergencias').textContent=divg;
-  document.getElementById('d-andamento').textContent =and;
-  document.getElementById('d-aguardando').textContent=agua;
-  document.getElementById('d-atrasados').textContent =atr;
-  document.getElementById('d-sla').textContent       =slaMed!=null?fmtMin(slaMed)+'min':'—';
+  document.getElementById('d-andamento').textContent  =and;
+  document.getElementById('d-aguardando').textContent =agua;
+  document.getElementById('d-atrasados').textContent  =atr;
+  document.getElementById('d-sla').textContent        =slaMed!=null?fmtMin(slaMed)+' min':'—';
 
-  // Gráfico Donut
+  // Donut
   const ctxD=document.getElementById('chartDonut').getContext('2d');
-  if(chartDonut) chartDonut.destroy();
+  if(chartDonut)chartDonut.destroy();
   chartDonut=new Chart(ctxD,{
     type:'doughnut',
     data:{
       labels:['Concluído OK','Divergência','Em Conferência','Aguardando'],
-      datasets:[{
-        data:[conc,divg,and,agua],
-        backgroundColor:['#16a34a','#d97706','#1d4ed8','#9ca3af'],
-        borderColor:'#fff',borderWidth:2,
-      }]
+      datasets:[{data:[conc,divg,and,agua],backgroundColor:['#16a34a','#d97706','#1d4ed8','#9ca3af'],borderColor:'#fff',borderWidth:2}]
     },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},
-      cutout:'65%',
-    }
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},cutout:'65%'}
   });
 
-  // Gráfico Barra por dia
+  // Barra por dia
   const porDia={SEGUNDA:0,TERCA:0,QUARTA:0,QUINTA:0,SEXTA:0};
   agendamentos.forEach(a=>{
     const d=new Date(a.data+'T12:00:00');
     const dia=DIAS_IDX[d.getDay()];
-    if(porDia[dia]!==undefined) porDia[dia]++;
+    if(porDia[dia]!==undefined)porDia[dia]++;
+  });
+  // Soma fixos por dia
+  FORNECEDORES_FIXOS.forEach(f=>{
+    f.dias.forEach(d=>{if(porDia[d]!==undefined)porDia[d]++;});
   });
   const ctxB=document.getElementById('chartBarDia').getContext('2d');
-  if(chartBarDia) chartBarDia.destroy();
+  if(chartBarDia)chartBarDia.destroy();
   chartBarDia=new Chart(ctxB,{
     type:'bar',
     data:{
       labels:['Seg','Ter','Qua','Qui','Sex'],
-      datasets:[{
-        label:'Agendamentos',
-        data:Object.values(porDia),
-        backgroundColor:'#1a1a1a',
-        borderRadius:6,
-        borderSkipped:false,
-      }]
+      datasets:[{label:'Agendamentos',data:Object.values(porDia),backgroundColor:'#1a1a1a',borderRadius:6,borderSkipped:false}]
     },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        y:{beginAtZero:true,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#f3f4f6'}},
-        x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}},
-      }
-    }
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{y:{beginAtZero:true,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#f3f4f6'}},x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}
   });
 
-  // Gráfico SLA
-  const slaData=agendamentos.filter(a=>a.confSLA!=null).slice(0,10).reverse();
-  const ctxS=document.getElementById('chartSLA').getContext('2d');
-  if(chartSLA) chartSLA.destroy();
-  chartSLA=new Chart(ctxS,{
-    type:'line',
-    data:{
-      labels:slaData.map(a=>a.fornec?a.fornec.split(' ')[0]:'?'),
-      datasets:[{
-        label:'SLA (min)',
-        data:slaData.map(a=>Math.round(a.confSLA/60)),
-        borderColor:'#1a1a1a',
-        backgroundColor:'rgba(26,26,26,0.08)',
-        borderWidth:2,pointRadius:5,
-        pointBackgroundColor:'#1a1a1a',
-        tension:.3,fill:true,
-      }]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},
-        x:{ticks:{color:'#374151',font:{size:10}},grid:{display:false}},
-      }
-    }
-  });
-
-  // Gráfico Volume esperado x recebido (hoje)
+  // Volume esperado x recebido
   const hjConf=hj.filter(a=>a.volRec!=null);
   const ctxV=document.getElementById('chartVolume').getContext('2d');
-  if(chartVolume) chartVolume.destroy();
+  if(chartVolume)chartVolume.destroy();
   chartVolume=new Chart(ctxV,{
     type:'bar',
     data:{
@@ -1441,35 +1040,186 @@ function renderDashboard(){
         {label:'Recebido',data:hjConf.map(a=>a.volRec),backgroundColor:'#1a1a1a',borderRadius:4,borderSkipped:false},
       ]
     },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151'}}},
-      scales:{
-        y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},
-        x:{ticks:{color:'#374151',font:{size:10}},grid:{display:false}},
-      }
-    }
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151'}}},
+      scales:{y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},x:{ticks:{color:'#374151',font:{size:10}},grid:{display:false}}}}
   });
 
-  // Tabela fixos
-  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  // Tabela fixos do dia
   const tbFixos=document.getElementById('dash-fixos-tbody');
   if(!fixosHoje.length){
     tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;
   } else {
     tbFixos.innerHTML=fixosHoje.map(f=>{
-      const k=`${diaHoje}_${f.codigo}`;
+      const k=getKeyFixo(diaHoje,f.codigo);
       const st=confirmacoes[k]||'';
       const badge=st==='confirmado'?'<span class="badge b-conf">✅ Entregou</span>':
                   st==='naoveio'   ?'<span class="badge b-atrasado">❌ Não veio</span>':
                                     '<span class="badge b-aguard">⏳ Aguardando</span>';
-      return `<tr>
-        <td><strong>${f.nome}</strong></td>
-        <td>${f.codigo}</td>
-        <td>${badge}</td>
-      </tr>`;
+      return`<tr><td><strong>${f.nome}</strong></td><td>${f.codigo}</td><td>${badge}</td></tr>`;
     }).join('');
   }
+}
+
+/* ============================================================
+   EXPORTAR PDF
+============================================================ */
+function exportarPDF(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const hoje=getDataHoje();
+  const diaHoje=getDiaHoje();
+  const dataFmt=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  const hj=agendamentos.filter(a=>a.data===hoje);
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const totalHoje=hj.length+fixosHoje.length;
+  const conc=hj.filter(a=>a.status==='Concluído OK').length;
+  const divg=hj.filter(a=>a.status==='Concluído c/ Divergência').length;
+  const atr =agendamentos.filter(a=>a.status==='Atrasado').length;
+  const slaLista=agendamentos.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
+  const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
+
+  let y=15;
+  const W=210,lm=14;
+
+  // Cabeçalho
+  doc.setFillColor(26,26,26);
+  doc.rect(0,0,W,28,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(18);doc.setFont('helvetica','bold');
+  doc.text('RECEBIMENTO-BM',lm,12);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text('Relatório Operacional de Recebimento',lm,18);
+  doc.text(dataFmt,lm,24);
+  doc.setTextColor(26,26,26);
+  y=36;
+
+  // Indicadores
+  doc.setFontSize(11);doc.setFont('helvetica','bold');
+  doc.text('INDICADORES DO DIA',lm,y);y+=6;
+  doc.setDrawColor(200,200,200);doc.setLineWidth(0.3);doc.line(lm,y,W-lm,y);y+=5;
+
+  const kpis=[
+    ['Agendamentos Hoje',totalHoje],
+    ['Concluídos OK',conc],
+    ['Com Divergência',divg],
+    ['Atrasados',atr],
+    ['Tempo Médio de Conferência',slaMed!=null?fmtMin(slaMed)+' min':'—'],
+    ['Fornecedores Fixos do Dia',fixosHoje.length],
+  ];
+  doc.autoTable({
+    startY:y,margin:{left:lm,right:lm},
+    head:[['Indicador','Valor']],
+    body:kpis,
+    styles:{fontSize:10,cellPadding:3},
+    headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+    alternateRowStyles:{fillColor:[245,245,245]},
+    columnStyles:{0:{cellWidth:120},1:{cellWidth:60,halign:'center',fontStyle:'bold'}},
+  });
+  y=doc.lastAutoTable.finalY+10;
+
+  // Agendamentos concluídos
+  doc.setFontSize(11);doc.setFont('helvetica','bold');
+  doc.text('AGENDAMENTOS CONCLUÍDOS',lm,y);y+=6;
+  doc.line(lm,y,W-lm,y);y+=2;
+  const concList=agendamentos.filter(a=>['Concluído OK','Concluído c/ Divergência'].includes(a.status));
+  if(concList.length){
+    doc.autoTable({
+      startY:y,margin:{left:lm,right:lm},
+      head:[['Data','NF','Fornecedor','Status','SLA','Conferente']],
+      body:concList.map(a=>[
+        fmtData(a.data),
+        a.nf||'—',
+        a.fornec||'—',
+        a.status,
+        a.confSLA!=null?fmtMin(a.confSLA)+' min':'—',
+        a.confConfer||'—',
+      ]),
+      styles:{fontSize:8,cellPadding:2},
+      headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[245,245,245]},
+    });
+    y=doc.lastAutoTable.finalY+10;
+  } else {
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(150,150,150);
+    doc.text('Nenhum agendamento concluído.',lm,y+5);
+    doc.setTextColor(26,26,26);y+=12;
+  }
+
+  // Agendamentos não cumpridos / atrasados
+  if(y>250){doc.addPage();y=15;}
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(26,26,26);
+  doc.text('PENDÊNCIAS E ATRASOS',lm,y);y+=6;
+  doc.line(lm,y,W-lm,y);y+=2;
+  const pendList=agendamentos.filter(a=>['Aguardando','Atrasado','Em Conferência'].includes(a.status));
+  if(pendList.length){
+    doc.autoTable({
+      startY:y,margin:{left:lm,right:lm},
+      head:[['Data','NF','Fornecedor','Status']],
+      body:pendList.map(a=>[fmtData(a.data),a.nf||'—',a.fornec||'—',a.status]),
+      styles:{fontSize:8,cellPadding:2},
+      headStyles:{fillColor:[220,38,38],textColor:255,fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[255,245,245]},
+    });
+    y=doc.lastAutoTable.finalY+10;
+  } else {
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(22,163,74);
+    doc.text('✓ Nenhuma pendência ou atraso registrado.',lm,y+5);
+    doc.setTextColor(26,26,26);y+=12;
+  }
+
+  // Divergências
+  if(y>240){doc.addPage();y=15;}
+  const divList=agendamentos.filter(a=>a.status==='Concluído c/ Divergência');
+  if(divList.length){
+    doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(26,26,26);
+    doc.text('DETALHAMENTO DE DIVERGÊNCIAS',lm,y);y+=6;
+    doc.line(lm,y,W-lm,y);y+=2;
+    doc.autoTable({
+      startY:y,margin:{left:lm,right:lm},
+      head:[['Fornecedor','SKU Esp.','SKU Rec.','Vol. Esp.','Vol. Rec.','Peso Esp.','Peso Rec.','Ocorrência']],
+      body:divList.map(a=>[
+        a.fornec||'—',
+        a.skuEsp??'—',a.skuRec??'—',
+        a.volEsp??'—',a.volRec??'—',
+        a.pesoEsp??'—',a.pesoRec??'—',
+        a.confObs||'—',
+      ]),
+      styles:{fontSize:7,cellPadding:2},
+      headStyles:{fillColor:[180,83,9],textColor:255,fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[255,250,240]},
+    });
+    y=doc.lastAutoTable.finalY+10;
+  }
+
+  // Fornecedores fixos
+  if(y>240){doc.addPage();y=15;}
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(26,26,26);
+  doc.text('FORNECEDORES FIXOS — STATUS DO DIA',lm,y);y+=6;
+  doc.line(lm,y,W-lm,y);y+=2;
+  if(fixosHoje.length){
+    doc.autoTable({
+      startY:y,margin:{left:lm,right:lm},
+      head:[['Fornecedor','Cód.','Status']],
+      body:fixosHoje.map(f=>{
+        const k=getKeyFixo(diaHoje,f.codigo);
+        const st=confirmacoes[k]||'';
+        return[f.nome,f.codigo,st==='confirmado'?'✓ Entregou':st==='naoveio'?'✗ Não veio':'Aguardando'];
+      }),
+      styles:{fontSize:9,cellPadding:3},
+      headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[245,245,245]},
+    });
+  }
+
+  // Rodapé
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i);
+    doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(150,150,150);
+    doc.text(`Recebimento-BM  |  Gerado em ${new Date().toLocaleString('pt-BR')}  |  Página ${i} de ${pages}`,lm,292);
+  }
+
+  doc.save(`Relatorio_Recebimento_${hoje}.pdf`);
 }
 
 /* ============================================================
