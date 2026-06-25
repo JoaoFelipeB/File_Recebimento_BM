@@ -1,801 +1,1312 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sistema de Agendamento</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recebimento-BM</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh;}
+:root{
+  --bg:#f0f2f5;--surface:#ffffff;--surface2:#f8f9fa;
+  --border:#d1d5db;--border2:#e5e7eb;
+  --text:#1a1a1a;--text2:#4b5563;--text3:#9ca3af;
+  --primary:#1a1a1a;--shadow:0 1px 4px rgba(0,0,0,0.1);--shadow-md:0 4px 16px rgba(0,0,0,0.12);
+  --green:#16a34a;--green-bg:#dcfce7;
+  --yellow:#b45309;--yellow-bg:#fef3c7;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#1d4ed8;--blue-bg:#dbeafe;
+  --nordil:#7c3aed;--nordil-bg:#ede9fe;--nordil-border:#c4b5fd;
+}
+.header{background:#1a1a1a;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+.header-left{display:flex;align-items:center;gap:14px;}
+.header-logo{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#1a1a1a;}
+.header-title{font-size:18px;font-weight:800;color:#fff;}
+.header-subtitle{font-size:11px;color:#9ca3af;margin-top:1px;}
+.header-date{font-size:12px;color:#9ca3af;text-align:right;line-height:1.6;}
+.nav{background:#fff;display:flex;gap:4px;padding:10px 28px;border-bottom:1px solid var(--border);box-shadow:var(--shadow);overflow-x:auto;}
+.nav-btn{padding:8px 18px;border:none;background:transparent;color:var(--text2);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.nav-btn:hover{background:#f3f4f6;color:var(--text);}
+.nav-btn.active{background:#1a1a1a;color:#fff;}
+.main{padding:24px 28px;max-width:1440px;margin:0 auto;}
+.tela{display:none;}
+.tela.active{display:block;}
+.page-title{font-size:20px;font-weight:800;margin-bottom:20px;color:var(--text);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px;}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;}
+.card.c-black::before{background:#1a1a1a;}
+.card.c-green::before{background:#16a34a;}
+.card.c-red::before{background:#dc2626;}
+.card.c-yellow::before{background:#d97706;}
+.card.c-blue::before{background:#1d4ed8;}
+.card.c-purple::before{background:#7c3aed;}
+.card.c-gray::before{background:#6b7280;}
+.card-icon{font-size:22px;margin-bottom:6px;}
+.card-val{font-size:26px;font-weight:900;color:var(--text);}
+.card-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
+.comp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px;}
+.ccard{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.ccard::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;}
+.ccard.cc-sku::before{background:#4f46e5;}
+.ccard.cc-vol::before{background:#0d9488;}
+.ccard.cc-peso::before{background:#ea580c;}
+.ccard-title{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
+.ccard-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.ccard-lbl{font-size:11px;color:var(--text2);font-weight:600;}
+.ccard-val{font-size:16px;font-weight:900;color:var(--text);}
+.ccard-val.v-rec{color:#16a34a;}
+.ccard-bar{height:6px;border-radius:3px;background:#e5e7eb;margin-top:8px;overflow:hidden;}
+.ccard-bar-fill{height:100%;border-radius:3px;transition:width .5s;}
+.ccard-bar-fill.sku-fill{background:#4f46e5;}
+.ccard-bar-fill.vol-fill{background:#0d9488;}
+.ccard-bar-fill.peso-fill{background:#ea580c;}
+.ccard-bar-fill.over{background:#dc2626;}
+.ccard-diff{margin-top:8px;padding-top:8px;border-top:1px solid var(--border2);font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;}
+.diff-ok{color:#16a34a;}
+.diff-div{color:#dc2626;}
+.diff-neu{color:#6b7280;}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:22px;}
+.chart-box{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);}
+.chart-box-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:16px;}
+.chart-wrap{position:relative;height:200px;}
+.table-wrap{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.table-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px;background:var(--surface2);}
+.table-title{font-size:14px;font-weight:800;color:var(--text);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{background:#f1f3f5;padding:11px 14px;text-align:left;color:var(--text2);font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.4px;border-bottom:1px solid var(--border);}
+tbody tr{border-bottom:1px solid var(--border2);transition:background .15s;cursor:pointer;}
+tbody tr:hover{background:#f8f9fa;}
+tbody tr:last-child{border-bottom:none;}
+tbody td{padding:11px 14px;color:var(--text);}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;white-space:nowrap;}
+.b-aguard    {background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}
+.b-conf      {background:var(--green-bg);color:var(--green);border:1px solid #86efac;}
+.b-nfinal    {background:#fef3c7;color:#92400e;border:1px solid #fcd34d;}
+.b-andamento {background:var(--blue-bg);color:var(--blue);border:1px solid #93c5fd;}
+.b-atrasado  {background:var(--red-bg);color:var(--red);border:1px solid #fca5a5;}
+.b-nfok      {background:#dcfce7;color:#15803d;border:1px solid #86efac;}
+.b-nftrat    {background:#fef3c7;color:#92400e;border:1px solid #fcd34d;}
+.b-nfnone    {background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;}
+.b-editado   {background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;}
+.b-nordil    {background:#ede9fe;color:#7c3aed;border:1px solid #c4b5fd;}
+.b-nordil-no {background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;}
+.b-seg{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.b-ter{background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;}
+.b-qua{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
+.b-qui{background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
+.b-sex{background:#fff1f2;color:#be123c;border:1px solid #fecdd3;}
+.btn{padding:9px 18px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:6px;font-family:inherit;}
+.btn-dark{background:#1a1a1a;color:#fff;}
+.btn-dark:hover{background:#333;}
+.btn-outline{background:#fff;border:1px solid var(--border);color:var(--text2);}
+.btn-outline:hover{background:#f3f4f6;}
+.btn-green{background:#16a34a;color:#fff;}
+.btn-green:hover{background:#15803d;}
+.btn-purple{background:#7c3aed;color:#fff;}
+.btn-purple:hover{background:#6d28d9;}
+.btn-pdf{background:#dc2626;color:#fff;}
+.btn-pdf:hover{background:#b91c1c;}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:6px;border:1px solid transparent;cursor:pointer;font-weight:700;transition:all .2s;white-space:nowrap;font-family:inherit;}
+.bsm-edit{background:#f1f5f9;color:#374151;border-color:#d1d5db;}
+.bsm-edit:hover{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
+.bsm-del{background:#fff1f2;color:#dc2626;border-color:#fca5a5;}
+.bsm-del:hover{background:#dc2626;color:#fff;}
+.bsm-conf{background:#dcfce7;color:#16a34a;border-color:#86efac;}
+.bsm-conf:hover,.bsm-conf.ativo{background:#16a34a;color:#fff;border-color:#16a34a;}
+.bsm-nv{background:#fee2e2;color:#dc2626;border-color:#fca5a5;}
+.bsm-nv:hover,.bsm-nv.ativo{background:#dc2626;color:#fff;border-color:#dc2626;}
+.bsm-rst{background:#f3f4f6;color:#6b7280;border-color:#d1d5db;}
+.bsm-rst:hover{background:#374151;color:#fff;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:720px;border:1px solid var(--border);max-height:94vh;overflow-y:auto;box-shadow:var(--shadow-md);}
+.modal-title{font-size:17px;font-weight:800;margin-bottom:20px;color:var(--text);display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;padding:4px 8px;border-radius:6px;line-height:1;}
+.modal-close:hover{background:#f3f4f6;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid.g3{grid-template-columns:1fr 1fr 1fr;}
+.form-full{grid-column:1/-1;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
+.fg input,.fg select,.fg textarea{background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;transition:border .2s;width:100%;font-family:inherit;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(26,26,26,0.08);background:#fff;}
+.fg textarea{resize:vertical;min-height:70px;}
+.sep{height:1px;background:var(--border);margin:16px 0;}
+.sec-lbl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.flags-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px;}
+.sb{padding:12px 14px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;user-select:none;}
+.sb:hover{border-color:#9ca3af;}
+.sb .sbck{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
+.sb .sbtx{font-size:12px;font-weight:700;color:#6b7280;transition:color .2s;line-height:1.3;}
+.sb.sel-ok{border-color:#16a34a;background:#dcfce7;}
+.sb.sel-ok .sbck{background:#16a34a;border-color:#16a34a;color:#fff;}
+.sb.sel-ok .sbtx{color:#16a34a;}
+.sb.sel-trat{border-color:#d97706;background:#fef3c7;}
+.sb.sel-trat .sbck{background:#d97706;border-color:#d97706;color:#fff;}
+.sb.sel-trat .sbtx{color:#b45309;}
+.sb.sel-nordil{border-color:#7c3aed;background:#ede9fe;}
+.sb.sel-nordil .sbck{background:#7c3aed;border-color:#7c3aed;color:#fff;}
+.sb.sel-nordil .sbtx{color:#7c3aed;}
+.status-conf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:8px;}
+.sc-opt{padding:10px 14px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;text-align:center;transition:all .2s;user-select:none;}
+.sc-opt:hover{border-color:#9ca3af;}
+.sc-opt .sc-ico{font-size:20px;margin-bottom:4px;}
+.sc-opt .sc-lbl{font-size:11px;font-weight:800;color:#6b7280;}
+.sc-opt.sel-aguard   {border-color:#9ca3af;background:#f3f4f6;}
+.sc-opt.sel-aguard .sc-lbl{color:#374151;}
+.sc-opt.sel-andamento{border-color:#1d4ed8;background:#dbeafe;}
+.sc-opt.sel-andamento .sc-lbl{color:#1d4ed8;}
+.sc-opt.sel-ok       {border-color:#16a34a;background:#dcfce7;}
+.sc-opt.sel-ok .sc-lbl{color:#16a34a;}
+.sc-opt.sel-nfinal   {border-color:#d97706;background:#fef3c7;}
+.sc-opt.sel-nfinal .sc-lbl{color:#92400e;}
+.sc-opt.sel-atrasado {border-color:#dc2626;background:#fee2e2;}
+.sc-opt.sel-atrasado .sc-lbl{color:#dc2626;}
+.filtros{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;box-shadow:var(--shadow);}
+.fg-f{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;}
+.fg-f label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;}
+.fg-f select,.fg-f input{background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;font-family:inherit;}
+.fg-f select:focus,.fg-f input:focus{outline:none;border-color:#1a1a1a;}
+.dia-sec{margin-bottom:22px;}
+.dia-title{font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.dia-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.hoje-pill{background:#1a1a1a;color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:800;}
+.fornec-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px;}
+.fc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;box-shadow:var(--shadow);}
+.fc.conf{border-color:#86efac;background:#f0fdf4;}
+.fc.nv{border-color:#fca5a5;background:#fff1f2;}
+.fc-info{flex:1;min-width:0;}
+.fc-nome{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fc-cod{font-size:11px;color:var(--text3);margin-top:2px;}
+.fc-actions{display:flex;gap:6px;flex-shrink:0;}
+.conf-page{max-width:780px;margin:0 auto;}
+.conf-header-box{background:#1a1a1a;color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:20px;}
+.conf-header-box h2{font-size:18px;font-weight:800;margin-bottom:4px;}
+.conf-header-box p{font-size:13px;color:#9ca3af;}
+.conf-meta{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;}
+.conf-meta-item span:first-child{font-size:10px;color:#9ca3af;font-weight:700;text-transform:uppercase;}
+.conf-meta-item span:last-child{font-size:14px;font-weight:800;color:#fff;}
+.conf-section{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.conf-section-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;}
+.comp-table th{background:#f1f3f5;padding:10px 12px;text-align:left;font-size:11px;font-weight:800;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border);}
+.comp-table td{padding:10px 12px;border-bottom:1px solid var(--border2);}
+.comp-table tr:last-child td{border-bottom:none;}
+.comp-table .lbl{font-weight:700;color:var(--text2);}
+.comp-table .v-ok{color:var(--green);}
+.comp-table .v-div{color:var(--red);}
+.comp-table input[type="number"]{background:#f8f9fa;border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:14px;font-weight:700;width:100px;font-family:inherit;}
+.comp-table input[type="number"]:focus{outline:none;border-color:#1a1a1a;background:#fff;}
+.comp-table input[type="number"]:disabled{background:#f3f4f6;color:#9ca3af;}
+.timer-box{background:#f8f9fa;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.timer-val{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:2px;}
+.resultado-box{border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.resultado-box.ok {background:#dcfce7;border:1px solid #86efac;}
+.resultado-box.div{background:#fef3c7;border:1px solid #fcd34d;}
+.res-icon{font-size:36px;}
+.res-title{font-size:16px;font-weight:800;color:var(--text);}
+.res-sub{font-size:13px;color:var(--text2);margin-top:4px;}
+.edit-banner{background:#ede9fe;border:1px solid #c4b5fd;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:13px;color:#6d28d9;font-weight:700;}
+.eb-icon{font-size:20px;}
+.eb-text{flex:1;}
+.eb-time{font-size:11px;color:#7c3aed;font-weight:600;}
+.alert{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;}
+.alert-warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
+.empty-state{text-align:center;padding:44px;color:var(--text3);}
+.empty-state .ei{font-size:42px;margin-bottom:10px;}
+.tag{background:#e5e7eb;color:#374151;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;}
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.mc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow);}
+.mc .mv{font-size:26px;font-weight:900;color:#1a1a1a;}
+.mc .ml{font-size:11px;color:var(--text3);text-transform:uppercase;font-weight:700;margin-top:3px;}
+.dash-section-title{font-size:13px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px;display:flex;align-items:center;gap:8px;}
+.dash-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      color: #333;
-    }
+/* SYNC INDICATOR */
+.sync-bar{position:fixed;bottom:16px;right:16px;background:#1a1a1a;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
+.sync-bar.show{opacity:1;}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;}
+.sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
-    header {
-      background: #1a73e8;
-      color: white;
-      padding: 16px 24px;
-      font-size: 1.3rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    nav {
-      background: #fff;
-      display: flex;
-      gap: 4px;
-      padding: 10px 24px;
-      border-bottom: 2px solid #e0e0e0;
-      flex-wrap: wrap;
-    }
-
-    nav button {
-      padding: 8px 18px;
-      border: none;
-      border-radius: 20px;
-      background: #e8f0fe;
-      color: #1a73e8;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    nav button.active, nav button:hover {
-      background: #1a73e8;
-      color: white;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 24px auto;
-      padding: 0 16px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-    }
-
-    .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      color: #1a73e8;
-      border-bottom: 2px solid #e8f0fe;
-      padding-bottom: 8px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    @media(max-width: 600px) {
-      .form-grid { grid-template-columns: 1fr; }
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .form-group label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      padding: 9px 12px;
-      border: 1.5px solid #d0d7e2;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: border 0.2s;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: #1a73e8;
-    }
-
-    .full-width { grid-column: 1 / -1; }
-
-    .btn {
-      padding: 10px 22px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-
-    .btn-primary { background: #1a73e8; color: white; }
-    .btn-primary:hover { background: #1557b0; }
-    .btn-success { background: #34a853; color: white; }
-    .btn-success:hover { background: #2d8c47; }
-    .btn-danger { background: #ea4335; color: white; }
-    .btn-danger:hover { background: #c5221f; }
-    .btn-warning { background: #fbbc04; color: #333; }
-    .btn-warning:hover { background: #f0a800; }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    thead tr {
-      background: #e8f0fe;
-      color: #1a73e8;
-    }
-
-    th, td {
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    tbody tr:hover { background: #f7f9ff; }
-
-    .badge {
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 600;
-    }
-
-    .badge-agendado   { background: #e8f0fe; color: #1a73e8; }
-    .badge-concluido  { background: #e6f4ea; color: #34a853; }
-    .badge-cancelado  { background: #fce8e6; color: #ea4335; }
-    .badge-pendente   { background: #fff8e1; color: #f9ab00; }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #323232;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      z-index: 9999;
-    }
-
-    .toast.show { opacity: 1; }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #888;
-      font-size: 0.95rem;
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .stat-card {
-      background: white;
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    }
-
-    .stat-card .num {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #1a73e8;
-    }
-
-    .stat-card .label {
-      font-size: 0.8rem;
-      color: #777;
-      margin-top: 4px;
-    }
-
-    .page { display: none; }
-    .page.active { display: block; }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .search-bar input {
-      flex: 1;
-      padding: 9px 14px;
-      border: 1.5px solid #d0d7e2;
-      border-radius: 8px;
-      font-size: 0.93rem;
-      outline: none;
-    }
-
-    .search-bar input:focus { border-color: #1a73e8; }
-
-    .action-btns { display: flex; gap: 5px; }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: white;
-      border-radius: 14px;
-      padding: 28px;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    }
-
-    .modal h3 {
-      margin-bottom: 18px;
-      color: #1a73e8;
-    }
-
-    .modal .btn-row { justify-content: flex-end; }
-  </style>
+@media(max-width:640px){
+  .main{padding:12px;}
+  .form-grid,.form-grid.g3{grid-template-columns:1fr;}
+  .cards-row{grid-template-columns:repeat(2,1fr);}
+  .comp-cards{grid-template-columns:1fr;}
+  .metrics-row{grid-template-columns:1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .header{padding:10px 14px;}
+  .nav{padding:8px 10px;}
+  .status-conf-grid{grid-template-columns:repeat(2,1fr);}
+  .flags-grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
 
-<header>📅 Sistema de Agendamento</header>
-
-<nav>
-  <button class="active" onclick="showPage('dashboard')">🏠 Dashboard</button>
-  <button onclick="showPage('agendamentos')">📋 Agendamentos</button>
-  <button onclick="showPage('novo')">➕ Novo Agendamento</button>
-  <button onclick="showPage('clientes')">👥 Clientes</button>
-  <button onclick="showPage('servicos')">🛠️ Serviços</button>
-</nav>
-
-<div class="container">
-
-  <!-- DASHBOARD -->
-  <div id="page-dashboard" class="page active">
-    <div class="stat-grid" id="stats"></div>
-    <div class="card">
-      <h2>📅 Próximos Agendamentos</h2>
-      <div id="proximos-lista"><div class="loading">Carregando...</div></div>
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">BM</div>
+    <div>
+      <div class="header-title">Recebimento-BM</div>
+      <div class="header-subtitle">Sistema de Controle de Recebimento</div>
     </div>
   </div>
-
-  <!-- AGENDAMENTOS -->
-  <div id="page-agendamentos" class="page">
-    <div class="card">
-      <h2>📋 Todos os Agendamentos</h2>
-      <div class="search-bar">
-        <input type="text" id="busca" placeholder="🔍 Buscar por nome, serviço ou status..." oninput="filtrarAgendamentos()"/>
-        <select id="filtro-status" onchange="filtrarAgendamentos()">
-          <option value="">Todos os status</option>
-          <option>Agendado</option>
-          <option>Concluído</option>
-          <option>Cancelado</option>
-          <option>Pendente</option>
-        </select>
-      </div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Cliente</th>
-              <th>Serviço</th>
-              <th>Data</th>
-              <th>Hora</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-agendamentos">
-            <tr><td colspan="7" class="loading">Carregando...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- NOVO AGENDAMENTO -->
-  <div id="page-novo" class="page">
-    <div class="card">
-      <h2>➕ Novo Agendamento</h2>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Cliente</label>
-          <input type="text" id="novo-cliente" placeholder="Nome do cliente"/>
-        </div>
-        <div class="form-group">
-          <label>Telefone</label>
-          <input type="text" id="novo-telefone" placeholder="(xx) xxxxx-xxxx"/>
-        </div>
-        <div class="form-group">
-          <label>Serviço</label>
-          <input type="text" id="novo-servico" placeholder="Tipo de serviço"/>
-        </div>
-        <div class="form-group">
-          <label>Data</label>
-          <input type="date" id="novo-data"/>
-        </div>
-        <div class="form-group">
-          <label>Hora</label>
-          <input type="time" id="novo-hora"/>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="novo-status">
-            <option>Agendado</option>
-            <option>Pendente</option>
-            <option>Concluído</option>
-            <option>Cancelado</option>
-          </select>
-        </div>
-        <div class="form-group full-width">
-          <label>Observações</label>
-          <textarea id="novo-obs" rows="3" placeholder="Observações adicionais..."></textarea>
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="salvarNovoAgendamento()">💾 Salvar Agendamento</button>
-        <button class="btn btn-warning" onclick="limparFormulario()">🔄 Limpar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CLIENTES -->
-  <div id="page-clientes" class="page">
-    <div class="card">
-      <h2>👥 Clientes Cadastrados</h2>
-      <div style="overflow-x:auto">
-        <table>
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Telefone</th>
-              <th>Agendamentos</th>
-              <th>Último Serviço</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-clientes">
-            <tr><td colspan="4" class="loading">Carregando...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- SERVIÇOS -->
-  <div id="page-servicos" class="page">
-    <div class="card">
-      <h2>🛠️ Serviços Mais Solicitados</h2>
-      <div style="overflow-x:auto">
-        <table>
-          <thead>
-            <tr>
-              <th>Serviço</th>
-              <th>Total de Agendamentos</th>
-              <th>Concluídos</th>
-              <th>Pendentes/Agendados</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-servicos">
-            <tr><td colspan="4" class="loading">Carregando...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
+  <div class="header-date" id="headerDate"></div>
 </div>
 
-<!-- MODAL EDIÇÃO -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal">
-    <h3>✏️ Editar Agendamento</h3>
-    <div class="form-grid">
-      <input type="hidden" id="edit-index"/>
-      <div class="form-group">
-        <label>Cliente</label>
-        <input type="text" id="edit-cliente"/>
-      </div>
-      <div class="form-group">
-        <label>Telefone</label>
-        <input type="text" id="edit-telefone"/>
-      </div>
-      <div class="form-group">
-        <label>Serviço</label>
-        <input type="text" id="edit-servico"/>
-      </div>
-      <div class="form-group">
-        <label>Data</label>
-        <input type="date" id="edit-data"/>
-      </div>
-      <div class="form-group">
-        <label>Hora</label>
-        <input type="time" id="edit-hora"/>
-      </div>
-      <div class="form-group">
-        <label>Status</label>
-        <select id="edit-status">
-          <option>Agendado</option>
-          <option>Pendente</option>
-          <option>Concluído</option>
-          <option>Cancelado</option>
-        </select>
-      </div>
-      <div class="form-group full-width">
-        <label>Observações</label>
-        <textarea id="edit-obs" rows="3"></textarea>
-      </div>
+<div class="nav">
+  <button class="nav-btn active" onclick="showTela('dashboard')"    id="nav-dashboard">📊 Dashboard</button>
+  <button class="nav-btn"        onclick="showTela('agendamentos')" id="nav-agendamentos">📋 Agendamentos</button>
+  <button class="nav-btn"        onclick="showTela('conferencia')"  id="nav-conferencia">🔍 Conferência</button>
+  <button class="nav-btn"        onclick="showTela('fornecedores')" id="nav-fornecedores">🏭 Forn. Fixos</button>
+</div>
+
+<div class="main">
+
+<!-- ════════════════════ DASHBOARD ════════════════════ -->
+<div class="tela active" id="tela-dashboard">
+  <div class="page-title">
+    📊 Dashboard
+    <span class="tag" id="dash-data-hoje"></span>
+    <button class="btn btn-pdf" onclick="exportarPDF()" style="margin-left:auto;">📄 Exportar PDF</button>
+  </div>
+  <div class="dash-section-title">🚦 Status de Hoje</div>
+  <div class="cards-row">
+    <div class="card c-black"><div class="card-icon">📋</div><div class="card-val" id="d-total">0</div><div class="card-lbl">Agendamentos Hoje</div></div>
+    <div class="card c-green"><div class="card-icon">✅</div><div class="card-val" id="d-concluidos">0</div><div class="card-lbl">Concluídos OK</div></div>
+    <div class="card c-yellow"><div class="card-icon">🔶</div><div class="card-val" id="d-nfinal">0</div><div class="card-lbl">Não Finalizados</div></div>
+    <div class="card c-blue"><div class="card-icon">🔄</div><div class="card-val" id="d-andamento">0</div><div class="card-lbl">Em Conferência</div></div>
+    <div class="card c-gray"><div class="card-icon">⏳</div><div class="card-val" id="d-aguardando">0</div><div class="card-lbl">Aguardando</div></div>
+    <div class="card c-red"><div class="card-icon">🚨</div><div class="card-val" id="d-atrasados">0</div><div class="card-lbl">Atrasados</div></div>
+    <div class="card c-purple"><div class="card-icon">⏱️</div><div class="card-val" id="d-sla">—</div><div class="card-lbl">Tempo Médio Conf.</div></div>
+  </div>
+  <div class="dash-section-title">📦 Comparativo — Agendado vs. Recebido (Hoje)</div>
+  <div class="comp-cards">
+    <div class="ccard cc-sku">
+      <div class="ccard-title">📦 SKU</div>
+      <div class="ccard-row"><span class="ccard-lbl">Agendado</span><span class="ccard-val" id="cc-sku-esp">0</span></div>
+      <div class="ccard-row"><span class="ccard-lbl">Recebido</span><span class="ccard-val v-rec" id="cc-sku-rec">0</span></div>
+      <div class="ccard-bar"><div class="ccard-bar-fill sku-fill" id="cc-sku-bar" style="width:0%"></div></div>
+      <div class="ccard-diff" id="cc-sku-diff"><span class="diff-neu">— sem dados</span></div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="salvarEdicao()">💾 Salvar</button>
-      <button class="btn btn-warning" onclick="fecharModal()">Cancelar</button>
+    <div class="ccard cc-vol">
+      <div class="ccard-title">📫 Volume (Caixas)</div>
+      <div class="ccard-row"><span class="ccard-lbl">Agendado</span><span class="ccard-val" id="cc-vol-esp">0</span></div>
+      <div class="ccard-row"><span class="ccard-lbl">Recebido</span><span class="ccard-val v-rec" id="cc-vol-rec">0</span></div>
+      <div class="ccard-bar"><div class="ccard-bar-fill vol-fill" id="cc-vol-bar" style="width:0%"></div></div>
+      <div class="ccard-diff" id="cc-vol-diff"><span class="diff-neu">— sem dados</span></div>
+    </div>
+    <div class="ccard cc-peso">
+      <div class="ccard-title">⚖️ Peso (kg)</div>
+      <div class="ccard-row"><span class="ccard-lbl">Agendado</span><span class="ccard-val" id="cc-peso-esp">0 kg</span></div>
+      <div class="ccard-row"><span class="ccard-lbl">Recebido</span><span class="ccard-val v-rec" id="cc-peso-rec">0 kg</span></div>
+      <div class="ccard-bar"><div class="ccard-bar-fill peso-fill" id="cc-peso-bar" style="width:0%"></div></div>
+      <div class="ccard-diff" id="cc-peso-diff"><span class="diff-neu">— sem dados</span></div>
+    </div>
+  </div>
+  <div class="dash-section-title">📈 Gráficos</div>
+  <div class="charts-grid">
+    <div class="chart-box"><div class="chart-box-title">🍩 Status dos Agendamentos (Hoje)</div><div class="chart-wrap"><canvas id="chartDonut"></canvas></div></div>
+    <div class="chart-box"><div class="chart-box-title">📅 Agendamentos por Dia da Semana</div><div class="chart-wrap"><canvas id="chartBarDia"></canvas></div></div>
+    <div class="chart-box"><div class="chart-box-title">📦 SKU / Volume / Peso — Agendado vs. Recebido</div><div class="chart-wrap"><canvas id="chartVolume"></canvas></div></div>
+  </div>
+  <div class="dash-section-title">🏭 Fornecedores Fixos do Dia</div>
+  <div class="table-wrap">
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>Fornecedor</th><th>Cód.</th><th>Status</th></tr></thead>
+        <tbody id="dash-fixos-tbody"></tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- ════════════════════ AGENDAMENTOS ════════════════════ -->
+<div class="tela" id="tela-agendamentos">
+  <div class="page-title">📋 Agendamentos</div>
+  <div class="metrics-row">
+    <div class="mc"><div class="mv" id="a-sku">0</div><div class="ml">📦 SKUs Esperados</div></div>
+    <div class="mc"><div class="mv" id="a-vol">0</div><div class="ml">📫 Volume Esperado</div></div>
+    <div class="mc"><div class="mv" id="a-peso">0 kg</div><div class="ml">⚖️ Peso Esperado</div></div>
+  </div>
+  <div class="filtros">
+    <div class="fg-f"><label>📅 Data Agendada</label><input type="date" id="f-data" onchange="filtrarAgend()"></div>
+    <div class="fg-f"><label>📋 Dt. Solicitação</label><input type="date" id="f-datasolic" onchange="filtrarAgend()"></div>
+    <div class="fg-f">
+      <label>🚦 Status Conf.</label>
+      <select id="f-status" onchange="filtrarAgend()">
+        <option value="">Todos</option>
+        <option value="Aguardando">⏳ Aguardando</option>
+        <option value="Em Conferência">🔄 Em Conferência</option>
+        <option value="Concluído OK">✅ Concluído OK</option>
+        <option value="Não Finalizado">🔶 Não Finalizado</option>
+        <option value="Atrasado">🚨 Atrasado</option>
+      </select>
+    </div>
+    <div class="fg-f">
+      <label>🧾 Status NF</label>
+      <select id="f-nf" onchange="filtrarAgend()">
+        <option value="">Todas</option>
+        <option value="Nota OK">✅ Nota OK</option>
+        <option value="Em Tratativa">⚠️ Em Tratativa</option>
+      </select>
+    </div>
+    <div class="fg-f">
+      <label>🔀 Via Nordil</label>
+      <select id="f-nordil" onchange="filtrarAgend()">
+        <option value="">Todos</option>
+        <option value="sim">🔀 Via Nordil</option>
+        <option value="nao">Sem Nordil</option>
+      </select>
+    </div>
+    <div class="fg-f"><label>🏭 Fornecedor</label><select id="f-fornec" onchange="filtrarAgend()"><option value="">Todos</option></select></div>
+    <div style="display:flex;align-items:flex-end;">
+      <button class="btn btn-outline" onclick="limparFiltrosAgend()">🔄 Limpar</button>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header">
+      <div class="table-title">📋 Lista de Agendamentos</div>
+      <button class="btn btn-dark" onclick="abrirModalAgend()">➕ Novo Agendamento</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr>
+          <th>Dt. Solicitação</th><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th>
+          <th>SKU Esp.</th><th>Vol. Esp.</th><th>Peso Esp.</th>
+          <th>Via Nordil</th><th>Status NF</th><th>Status Conf.</th><th>SLA</th><th>Ações</th>
+        </tr></thead>
+        <tbody id="tbody-agend"></tbody>
+      </table>
+    </div>
+    <div id="empty-agend" class="empty-state" style="display:none;">
+      <div class="ei">📭</div><p>Nenhum agendamento encontrado.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ CONFERÊNCIA ════════════════════ -->
+<div class="tela" id="tela-conferencia">
+  <div class="conf-page">
+    <div id="conf-select-state">
+      <div class="page-title">🔍 Conferência</div>
+      <div class="alert alert-info">ℹ️ Clique em um agendamento ou selecione abaixo para iniciar a conferência.</div>
+      <div class="table-wrap">
+        <div class="table-header"><div class="table-title">📋 Selecione o Agendamento</div></div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th><th>Via Nordil</th><th>Status</th><th>Ação</th></tr></thead>
+            <tbody id="conf-lista-tbody"></tbody>
+          </table>
+        </div>
+        <div id="conf-lista-empty" class="empty-state" style="display:none;">
+          <div class="ei">📭</div><p>Nenhum agendamento disponível para conferência.</p>
+        </div>
+      </div>
+    </div>
+    <div id="conf-active-state" style="display:none;">
+      <div class="edit-banner" id="edit-banner" style="display:none;">
+        <span class="eb-icon">✏️</span>
+        <div class="eb-text">
+          <div>Conferência editada — dados alterados em relação ao registro original.</div>
+          <div class="eb-time" id="edit-banner-time"></div>
+        </div>
+        <span class="badge b-editado">Editado</span>
+      </div>
+      <div class="conf-header-box">
+        <h2 id="c-fornec-title">Fornecedor</h2>
+        <p id="c-nf-title">NF: — | Data: —</p>
+        <div class="conf-meta">
+          <div class="conf-meta-item"><span>Início</span><span id="c-inicio-label">—</span></div>
+          <div class="conf-meta-item"><span>Fim</span><span id="c-fim-label">—</span></div>
+          <div class="conf-meta-item"><span>Duração</span><span id="c-dur-label">—</span></div>
+          <div class="conf-meta-item"><span>Pontualidade</span><span id="c-pont-label">—</span></div>
+        </div>
+      </div>
+      <div class="conf-section">
+        <div class="conf-section-title">⏱️ Cronômetro</div>
+        <div class="timer-box">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Tempo decorrido</div>
+            <div class="timer-val" id="c-timer">00:00:00</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-dark"    id="btn-iniciar-conf"   onclick="iniciarConferencia()">▶️ Iniciar</button>
+            <button class="btn btn-green"   id="btn-finalizar-conf" onclick="finalizarConferencia()" style="display:none;">✅ Finalizar</button>
+            <button class="btn btn-purple"  id="btn-editar-conf"    onclick="habilitarEdicao()"      style="display:none;">✏️ Editar</button>
+            <button class="btn btn-dark"    id="btn-salvar-edicao"  onclick="salvarEdicao()"         style="display:none;">💾 Salvar</button>
+            <button class="btn btn-outline" onclick="voltarListaConf()">← Voltar</button>
+          </div>
+        </div>
+      </div>
+      <div class="conf-section">
+        <div class="conf-section-title">🚦 Alterar Status da Conferência</div>
+        <div class="status-conf-grid" id="status-conf-grid">
+          <div class="sc-opt" data-val="Aguardando"     onclick="selecionarStatusConf('Aguardando')"><div class="sc-ico">⏳</div><div class="sc-lbl">Aguardando</div></div>
+          <div class="sc-opt" data-val="Em Conferência" onclick="selecionarStatusConf('Em Conferência')"><div class="sc-ico">🔄</div><div class="sc-lbl">Em Conferência</div></div>
+          <div class="sc-opt" data-val="Concluído OK"   onclick="selecionarStatusConf('Concluído OK')"><div class="sc-ico">✅</div><div class="sc-lbl">Concluído OK</div></div>
+          <div class="sc-opt" data-val="Não Finalizado" onclick="selecionarStatusConf('Não Finalizado')"><div class="sc-ico">🔶</div><div class="sc-lbl">Não Finalizado</div></div>
+          <div class="sc-opt" data-val="Atrasado"       onclick="selecionarStatusConf('Atrasado')"><div class="sc-ico">🚨</div><div class="sc-lbl">Atrasado</div></div>
+        </div>
+      </div>
+      <div class="conf-section">
+        <div class="conf-section-title">📊 Comparativo — Esperado vs. Recebido</div>
+        <table class="comp-table">
+          <thead><tr><th>Item</th><th>Esperado</th><th>Recebido</th><th>Divergência</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lbl">📦 SKU</td>
+              <td id="c-sku-esp">—</td>
+              <td><input type="number" id="c-sku-rec" min="0" placeholder="0" oninput="calcDiverg()" disabled></td>
+              <td id="c-sku-div">—</td>
+            </tr>
+            <tr>
+              <td class="lbl">📫 Volume (Cx)</td>
+              <td id="c-vol-esp">—</td>
+              <td><input type="number" id="c-vol-rec" min="0" placeholder="0" oninput="calcDiverg()" disabled></td>
+              <td id="c-vol-div">—</td>
+            </tr>
+            <tr>
+              <td class="lbl">⚖️ Peso (kg)</td>
+              <td id="c-peso-esp">—</td>
+              <td><input type="number" id="c-peso-rec" min="0" step="0.1" placeholder="0.0" oninput="calcDiverg()" disabled></td>
+              <td id="c-peso-div">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="conf-section">
+        <div class="conf-section-title">📝 Conferente & Observações</div>
+        <div class="form-grid">
+          <div class="fg form-full"><label>👤 Conferente Responsável</label><input type="text" id="c-conferente" placeholder="Nome do conferente"></div>
+          <div class="fg form-full"><label>📝 Ocorrências / Observações</label><textarea id="c-ocorrencia" placeholder="Descreva ocorrências, avarias, divergências..."></textarea></div>
+        </div>
+      </div>
+      <div id="conf-resultado" style="display:none;" class="conf-section">
+        <div class="conf-section-title">🏁 Resultado</div>
+        <div class="resultado-box" id="conf-resultado-box">
+          <div class="res-icon" id="c-res-icon">✅</div>
+          <div><div class="res-title" id="c-res-title">—</div><div class="res-sub" id="c-res-sub">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ FORNECEDORES FIXOS ════════════════════ -->
+<div class="tela" id="tela-fornecedores">
+  <div class="page-title">🏭 Fornecedores Fixos — Confirmação de Entrega</div>
+  <div class="alert alert-warn">⚠️ As confirmações são salvas por semana. A cada nova semana, tudo reinicia automaticamente.</div>
+  <div id="fornec-fixos-container"></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ════════════════════ MODAL AGENDAMENTO ════════════════════ -->
+<div class="modal-overlay" id="modal-agend">
+<div class="modal">
+  <div class="modal-title">
+    <span id="modal-agend-title">📋 Novo Agendamento</span>
+    <button class="modal-close" onclick="fecharModalAgend()">✕</button>
+  </div>
+  <div class="sec-lbl">📄 Identificação</div>
+  <div class="form-grid">
+    <div class="fg"><label>📋 Data de Solicitação</label><input type="date" id="m-datasolic"></div>
+    <div class="fg"><label>📅 Data Agendada</label><input type="date" id="m-data"></div>
+    <div class="fg"><label>🧾 Número da NF</label><input type="text" id="m-nf" placeholder="Ex: 123456"></div>
+    <div class="fg"><label>🏭 Fornecedor</label><input type="text" id="m-fornec" placeholder="Digite o nome do fornecedor"></div>
+  </div>
+  <div class="sep"></div>
+  <div class="sec-lbl">📦 Volumes Esperados</div>
+  <div class="form-grid g3">
+    <div class="fg"><label>SKU (Itens)</label><input type="number" id="m-sku"  placeholder="0"   min="0"></div>
+    <div class="fg"><label>Volume (Cx)</label><input type="number" id="m-vol"  placeholder="0"   min="0"></div>
+    <div class="fg"><label>Peso (KG)</label>  <input type="number" id="m-peso" placeholder="0.0" step="0.1" min="0"></div>
+  </div>
+  <div class="sep"></div>
+  <div class="sec-lbl">🏷️ Flags</div>
+  <div class="flags-grid">
+    <div class="sb" id="sb-ok"     onclick="selFlag('nf','ok')">    <div class="sbck" id="ck-ok"></div>    <div class="sbtx">✅ Nota OK</div></div>
+    <div class="sb" id="sb-trat"   onclick="selFlag('nf','trat')">  <div class="sbck" id="ck-trat"></div>  <div class="sbtx">⚠️ Em Tratativa</div></div>
+    <div class="sb" id="sb-nordil" onclick="selFlag('nordil','sim')"><div class="sbck" id="ck-nordil"></div><div class="sbtx">🔀 Via Nordil</div></div>
+  </div>
+  <div class="sep"></div>
+  <div class="sec-lbl">📝 Observações</div>
+  <div class="fg"><textarea id="m-obs" placeholder="Observações gerais..."></textarea></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:22px;">
+    <button class="btn btn-outline" onclick="fecharModalAgend()">Cancelar</button>
+    <button class="btn btn-dark"    onclick="salvarAgend()">💾 Salvar</button>
+  </div>
+</div>
+</div>
+
+<!-- SYNC BAR -->
+<div class="sync-bar" id="sync-bar">
+  <div class="sync-dot" id="sync-dot"></div>
+  <span id="sync-msg">Sincronizado</span>
+</div>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
-  const ABA = 'agendamentos';
+/* ══════════════════════════════════════════════════════
+   CONFIGURAÇÃO DO GOOGLE SHEETS
+   ══════════════════════════════════════════════════════ */
+const API_URL = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
+const ABA_AGEND = 'agendamentos';
+const ABA_CONF  = 'confirmacoes';
 
-  let agendamentos = [];
-  let agendamentosFiltrados = [];
+/* ── Sync UI ── */
+function showSync(msg, syncing=true){
+  const bar=document.getElementById('sync-bar');
+  const dot=document.getElementById('sync-dot');
+  document.getElementById('sync-msg').textContent=msg;
+  dot.className='sync-dot'+(syncing?' syncing':'');
+  bar.classList.add('show');
+  if(!syncing) setTimeout(()=>bar.classList.remove('show'),2500);
+}
 
-  // ──────────────────────────────────────────────
-  // NAVEGAÇÃO
-  // ──────────────────────────────────────────────
-  function showPage(page) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-' + page).classList.add('active');
-    event.target.classList.add('active');
+/* ══════════════════════════════════════════════════════
+   BANCO DE DADOS — Google Sheets (com fallback localStorage)
+   ══════════════════════════════════════════════════════ */
 
-    if (page === 'dashboard') renderDashboard();
-    if (page === 'agendamentos') renderTabela();
-    if (page === 'clientes') renderClientes();
-    if (page === 'servicos') renderServicos();
-  }
+/* Converte linha da planilha → objeto agendamento */
+function rowToAgend(r){
+  return {
+    dataSolic    : r[0]||'',
+    data         : r[1]||'',
+    nf           : r[2]||'',
+    fornec       : r[3]||'',
+    skuEsp       : parseFloat(r[4])||0,
+    volEsp       : parseFloat(r[5])||0,
+    pesoEsp      : parseFloat(r[6])||0,
+    statusNF     : r[7]||'',
+    viaNoRdil    : r[8]==='true'||r[8]===true,
+    obs          : r[9]||'',
+    status       : r[10]||'Aguardando',
+    confInicio   : r[11]||null,
+    confFim      : r[12]||null,
+    confSLA      : r[13]!==''&&r[13]!=null?parseFloat(r[13]):null,
+    confConfer   : r[14]||'',
+    confObs      : r[15]||'',
+    skuRec       : r[16]!==''&&r[16]!=null?parseFloat(r[16]):null,
+    volRec       : r[17]!==''&&r[17]!=null?parseFloat(r[17]):null,
+    pesoRec      : r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
+    _confInicioTs: r[19]||null,
+    editadoEm    : r[20]||null,
+  };
+}
 
-  // ──────────────────────────────────────────────
-  // TOAST
-  // ──────────────────────────────────────────────
-  function toast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
-  }
+/* Converte objeto agendamento → linha da planilha */
+function agendToRow(a){
+  return [
+    a.dataSolic||'', a.data||'', a.nf||'', a.fornec||'',
+    a.skuEsp||0, a.volEsp||0, a.pesoEsp||0,
+    a.statusNF||'', a.viaNoRdil?'true':'false', a.obs||'',
+    a.status||'Aguardando',
+    a.confInicio||'', a.confFim||'',
+    a.confSLA!=null?a.confSLA:'',
+    a.confConfer||'', a.confObs||'',
+    a.skuRec!=null?a.skuRec:'',
+    a.volRec!=null?a.volRec:'',
+    a.pesoRec!=null?a.pesoRec:'',
+    a._confInicioTs||'', a.editadoEm||''
+  ];
+}
 
-  // ──────────────────────────────────────────────
-  // CARREGAR DADOS
-  // ──────────────────────────────────────────────
-  async function carregarDados() {
-    try {
-      const res = await fetch(`${API_URL}?aba=${ABA}`);
-      const json = await res.json();
-      if (json.ok && json.data.length > 1) {
-        const [header, ...rows] = json.data;
-        agendamentos = rows.map((r, i) => ({
-          id: i,
-          cliente:   r[0] || '',
-          telefone:  r[1] || '',
-          servico:   r[2] || '',
-          data:      r[3] || '',
-          hora:      r[4] || '',
-          status:    r[5] || 'Agendado',
-          obs:       r[6] || ''
-        }));
-      } else {
-        agendamentos = [];
-      }
-      agendamentosFiltrados = [...agendamentos];
-      renderDashboard();
-    } catch (e) {
-      toast('❌ Erro ao carregar dados. Verifique a URL do Apps Script.');
+/* Cabeçalho da aba agendamentos */
+const HEADER_AGEND = [
+  'dataSolic','data','nf','fornec','skuEsp','volEsp','pesoEsp',
+  'statusNF','viaNoRdil','obs','status',
+  'confInicio','confFim','confSLA','confConfer','confObs',
+  'skuRec','volRec','pesoRec','_confInicioTs','editadoEm'
+];
+
+/* Cabeçalho da aba confirmacoes */
+const HEADER_CONF = ['chave','valor'];
+
+/* Carrega TUDO do Sheets na inicialização */
+async function carregarDoSheets(){
+  showSync('Carregando dados…', true);
+  try {
+    // Agendamentos
+    const resA = await fetch(`${API_URL}?aba=${ABA_AGEND}`);
+    const jsonA = await resA.json();
+    if(jsonA.ok && jsonA.data.length > 1){
+      const [, ...rows] = jsonA.data;
+      agendamentos = rows.map(rowToAgend);
+      localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos));
     }
+
+    // Confirmações fornecedores fixos
+    const resC = await fetch(`${API_URL}?aba=${ABA_CONF}`);
+    const jsonC = await resC.json();
+    if(jsonC.ok && jsonC.data.length > 1){
+      confirmacoes = {};
+      const [, ...rowsC] = jsonC.data;
+      rowsC.forEach(r=>{ if(r[0]) confirmacoes[r[0]] = r[1]; });
+      localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));
+    }
+
+    showSync('Sincronizado ✓', false);
+  } catch(e){
+    console.warn('Sheets offline — usando localStorage.', e);
+    showSync('Offline — dados locais', false);
   }
+  atualizarStatusAgendamentos();
+  renderDashboard();
+}
 
-  // ──────────────────────────────────────────────
-  // SALVAR TUDO NA PLANILHA
-  // ──────────────────────────────────────────────
-  async function salvarPlanilha() {
-    const header = ['Cliente', 'Telefone', 'Serviço', 'Data', 'Hora', 'Status', 'Observações'];
-    const rows = agendamentos.map(a => [
-      a.cliente, a.telefone, a.servico, a.data, a.hora, a.status, a.obs
-    ]);
-    const dados = [header, ...rows];
-
+/* Salva agendamentos no Sheets */
+async function salvarAgendSheets(){
+  showSync('Salvando…', true);
+  try {
+    const dados = [HEADER_AGEND, ...agendamentos.map(agendToRow)];
     await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify({ aba: ABA, acao: 'salvar', dados })
+      method : 'POST',
+      body   : JSON.stringify({ aba: ABA_AGEND, acao: 'salvar', dados }),
     });
+    showSync('Salvo ✓', false);
+  } catch(e){
+    console.warn('Erro ao salvar no Sheets.', e);
+    showSync('Erro ao salvar', false);
   }
+}
 
-  // ──────────────────────────────────────────────
-  // DASHBOARD
-  // ──────────────────────────────────────────────
-  function renderDashboard() {
-    const total     = agendamentos.length;
-    const hoje      = new Date().toISOString().split('T')[0];
-    const deHoje    = agendamentos.filter(a => a.data === hoje).length;
-    const concluidos= agendamentos.filter(a => a.status === 'Concluído').length;
-    const pendentes = agendamentos.filter(a => a.status === 'Pendente' || a.status === 'Agendado').length;
-
-    document.getElementById('stats').innerHTML = `
-      <div class="stat-card"><div class="num">${total}</div><div class="label">Total</div></div>
-      <div class="stat-card"><div class="num">${deHoje}</div><div class="label">Hoje</div></div>
-      <div class="stat-card"><div class="num">${concluidos}</div><div class="label">Concluídos</div></div>
-      <div class="stat-card"><div class="num">${pendentes}</div><div class="label">Pendentes/Agendados</div></div>
-    `;
-
-    const proximos = agendamentos
-      .filter(a => a.data >= hoje && a.status !== 'Cancelado')
-      .sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora))
-      .slice(0, 5);
-
-    if (proximos.length === 0) {
-      document.getElementById('proximos-lista').innerHTML = '<p style="color:#999;text-align:center;padding:20px">Nenhum agendamento próximo.</p>';
-      return;
-    }
-
-    document.getElementById('proximos-lista').innerHTML = `
-      <table>
-        <thead><tr><th>Cliente</th><th>Serviço</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
-        <tbody>
-          ${proximos.map(a => `
-            <tr>
-              <td>${a.cliente}</td>
-              <td>${a.servico}</td>
-              <td>${formatarData(a.data)}</td>
-              <td>${a.hora}</td>
-              <td><span class="badge badge-${a.status.toLowerCase()}">${a.status}</span></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
-  }
-
-  // ──────────────────────────────────────────────
-  // TABELA DE AGENDAMENTOS
-  // ──────────────────────────────────────────────
-  function renderTabela() {
-    agendamentosFiltrados = [...agendamentos];
-    filtrarAgendamentos();
-  }
-
-  function filtrarAgendamentos() {
-    const busca  = document.getElementById('busca').value.toLowerCase();
-    const status = document.getElementById('filtro-status').value;
-
-    agendamentosFiltrados = agendamentos.filter(a => {
-      const texto = (a.cliente + a.servico + a.status + a.telefone).toLowerCase();
-      const okBusca  = texto.includes(busca);
-      const okStatus = !status || a.status === status;
-      return okBusca && okStatus;
+/* Salva confirmações de fornecedores fixos no Sheets */
+async function salvarConfSheets(){
+  showSync('Salvando…', true);
+  try {
+    const dados = [
+      HEADER_CONF,
+      ...Object.entries(confirmacoes).map(([k,v])=>[k,v])
+    ];
+    await fetch(API_URL, {
+      method : 'POST',
+      body   : JSON.stringify({ aba: ABA_CONF, acao: 'salvar', dados }),
     });
+    showSync('Salvo ✓', false);
+  } catch(e){
+    console.warn('Erro ao salvar confirmações.', e);
+    showSync('Erro ao salvar', false);
+  }
+}
 
-    const tbody = document.getElementById('tabela-agendamentos');
-    if (agendamentosFiltrados.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7" class="loading">Nenhum resultado encontrado.</td></tr>';
-      return;
+/* Wrappers que substituem os antigos save() e saveConf() */
+function save(){
+  localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos));
+  salvarAgendSheets();
+}
+function saveConf(){
+  localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));
+  salvarConfSheets();
+}
+
+/* ══════════════════════════════════════════════════════
+   DADOS EM MEMÓRIA (idêntico ao original)
+   ══════════════════════════════════════════════════════ */
+let agendamentos = JSON.parse(localStorage.getItem('bm-agend-v2')||'[]');
+let confirmacoes = JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
+
+/* ─── FORNECEDORES FIXOS ─── */
+const FORNECEDORES_FIXOS=[
+  {nome:'AMBEV S.A -F. PARAIBA',           codigo:17,  dias:['SEGUNDA','SEXTA']},
+  {nome:'EBANO DISTRIBUIDORA DE ALIMENTOS', codigo:25,  dias:['SEGUNDA']},
+  {nome:'MULTIGIRO DISTRIBUIDORA LTDA',     codigo:118, dias:['SEGUNDA']},
+  {nome:'REFRESCOS GUARARAPES (SOLAR)',      codigo:166, dias:['SEGUNDA','TERCA']},
+  {nome:'NORDECE- NE REPRESENTACAO',        codigo:13,  dias:['SEGUNDA','TERCA']},
+  {nome:'NORDIL - NE DISTRIB E LOGIST',     codigo:20,  dias:['TERCA']},
+  {nome:'RIOGRANDENSE DISTRIBUIDORA',       codigo:114, dias:['QUARTA']},
+  {nome:'POLYBALAS DIST E LOGISTICA',       codigo:16,  dias:['QUINTA']},
+  {nome:'M.DIAS BRANCO S.A IND E COM',      codigo:139, dias:['SEXTA']},
+  {nome:'SAO BRAZ SA IND E COM ALIME',      codigo:160, dias:['SEXTA']},
+];
+const DIAS_IDX =['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
+const DIAS_LBL ={SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
+const BADGE_DIA={SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
+
+/* ─── STATUS ─── */
+const STATUS_BADGE={
+  'Aguardando'    :'<span class="badge b-aguard">⏳ Aguardando</span>',
+  'Em Conferência':'<span class="badge b-andamento">🔄 Em Conferência</span>',
+  'Concluído OK'  :'<span class="badge b-conf">✅ Concluído OK</span>',
+  'Não Finalizado':'<span class="badge b-nfinal">🔶 Não Finalizado</span>',
+  'Atrasado'      :'<span class="badge b-atrasado">🚨 Atrasado</span>',
+};
+const STATUS_CONF_CLASS={
+  'Aguardando'    :'sel-aguard',
+  'Em Conferência':'sel-andamento',
+  'Concluído OK'  :'sel-ok',
+  'Não Finalizado':'sel-nfinal',
+  'Atrasado'      :'sel-atrasado',
+};
+
+/* ─── UTILS ─── */
+const getDataHoje=()=>new Date().toISOString().split('T')[0];
+const getDiaHoje =()=>DIAS_IDX[new Date().getDay()];
+const fmtData    =d=>d?d.split('-').reverse().join('/'):'—';
+const fmtMin     =s=>{if(s==null)return'—';const m=Math.floor(s/60),se=s%60;return`${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`};
+const fmtHMS     =s=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),se=s%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`};
+
+function getChaveSemana(){
+  const d=new Date(),tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
+  const ano=tmp.getUTCFullYear(),sem=Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
+  return`${ano}-W${String(sem).padStart(2,'0')}`;
+}
+
+/* ─── STATUS AUTO ─── */
+function atualizarStatusAgendamentos(){
+  const hoje=getDataHoje();
+  agendamentos.forEach(a=>{if(a.status==='Aguardando'&&a.data<hoje)a.status='Atrasado';});
+}
+
+/* ─── HEADER ─── */
+function atualizarHeader(){
+  const n=new Date();
+  document.getElementById('headerDate').innerHTML=
+    n.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'<br>'+n.toLocaleTimeString('pt-BR');
+  document.getElementById('dash-data-hoje').textContent=n.toLocaleDateString('pt-BR');
+}
+setInterval(atualizarHeader,1000); atualizarHeader();
+
+/* ─── NAVEGAÇÃO ─── */
+function showTela(nome){
+  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tela-'+nome).classList.add('active');
+  document.getElementById('nav-'+nome).classList.add('active');
+  atualizarStatusAgendamentos();
+  if(nome==='dashboard')    renderDashboard();
+  if(nome==='agendamentos'){atualizarFiltrosDin();renderAgend();}
+  if(nome==='conferencia')  renderConfLista();
+  if(nome==='fornecedores') renderFornecedores();
+}
+
+/* ─── FLAGS MODAL ─── */
+let flagNF='', flagNordil='';
+function selFlag(grupo,valor){
+  if(grupo==='nf') flagNF=(flagNF===valor)?'':valor;
+  else flagNordil=(flagNordil===valor)?'':valor;
+  renderFlags();
+}
+function renderFlags(){
+  const sbOk=document.getElementById('sb-ok'),ckOk=document.getElementById('ck-ok');
+  sbOk.className='sb';ckOk.textContent='';
+  if(flagNF==='ok'){sbOk.classList.add('sel-ok');ckOk.textContent='✓';}
+  const sbTr=document.getElementById('sb-trat'),ckTr=document.getElementById('ck-trat');
+  sbTr.className='sb';ckTr.textContent='';
+  if(flagNF==='trat'){sbTr.classList.add('sel-trat');ckTr.textContent='✓';}
+  const sbN=document.getElementById('sb-nordil'),ckN=document.getElementById('ck-nordil');
+  sbN.className='sb';ckN.textContent='';
+  if(flagNordil==='sim'){sbN.classList.add('sel-nordil');ckN.textContent='✓';}
+}
+function setFlagsInit(statusNF,viaNoRdil){
+  flagNF    =statusNF==='Nota OK'?'ok':statusNF==='Em Tratativa'?'trat':'';
+  flagNordil=viaNoRdil?'sim':'';
+  renderFlags();
+}
+
+/* ─── MODAL AGENDAMENTO ─── */
+let editIdx=-1;
+function abrirModalAgend(idx=-1){
+  editIdx=idx;
+  document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
+  document.getElementById('modal-agend').classList.add('open');
+  if(idx===-1){
+    document.getElementById('m-datasolic').value=getDataHoje();
+    document.getElementById('m-data').value=getDataHoje();
+    ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
+    ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
+    setFlagsInit('',false);
+  } else {
+    const a=agendamentos[idx];
+    document.getElementById('m-datasolic').value=a.dataSolic||'';
+    document.getElementById('m-data').value=a.data||'';
+    document.getElementById('m-nf').value=a.nf||'';
+    document.getElementById('m-fornec').value=a.fornec||'';
+    document.getElementById('m-sku').value=a.skuEsp||'';
+    document.getElementById('m-vol').value=a.volEsp||'';
+    document.getElementById('m-peso').value=a.pesoEsp||'';
+    document.getElementById('m-obs').value=a.obs||'';
+    setFlagsInit(a.statusNF||'',a.viaNoRdil||false);
+  }
+}
+function fecharModalAgend(){document.getElementById('modal-agend').classList.remove('open');}
+
+function salvarAgend(){
+  const fornec=document.getElementById('m-fornec').value.trim();
+  const data  =document.getElementById('m-data').value;
+  if(!data||!fornec){alert('Preencha ao menos a Data Agendada e o Fornecedor.');return;}
+  const obj={
+    dataSolic:document.getElementById('m-datasolic').value||'',
+    data,nf:document.getElementById('m-nf').value.trim(),fornec,
+    skuEsp :parseFloat(document.getElementById('m-sku').value)||0,
+    volEsp :parseFloat(document.getElementById('m-vol').value)||0,
+    pesoEsp:parseFloat(document.getElementById('m-peso').value)||0,
+    statusNF  :flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
+    viaNoRdil :flagNordil==='sim',
+    obs:document.getElementById('m-obs').value.trim(),
+    status:editIdx===-1?(data<getDataHoje()?'Atrasado':'Aguardando'):agendamentos[editIdx].status,
+    confInicio:editIdx===-1?null:agendamentos[editIdx].confInicio,
+    confFim   :editIdx===-1?null:agendamentos[editIdx].confFim,
+    confSLA   :editIdx===-1?null:agendamentos[editIdx].confSLA,
+    confConfer:editIdx===-1?'':agendamentos[editIdx].confConfer,
+    confObs   :editIdx===-1?'':agendamentos[editIdx].confObs,
+    skuRec :editIdx===-1?null:agendamentos[editIdx].skuRec,
+    volRec :editIdx===-1?null:agendamentos[editIdx].volRec,
+    pesoRec:editIdx===-1?null:agendamentos[editIdx].pesoRec,
+    _confInicioTs:editIdx===-1?null:agendamentos[editIdx]._confInicioTs,
+    editadoEm:editIdx===-1?null:agendamentos[editIdx].editadoEm,
+  };
+  if(editIdx===-1) agendamentos.unshift(obj);
+  else             agendamentos[editIdx]=obj;
+  save(); fecharModalAgend(); atualizarFiltrosDin(); renderAgend();
+}
+
+/* ─── BADGES ─── */
+function badgeNF(v){
+  if(v==='Nota OK')      return'<span class="badge b-nfok">✅ Nota OK</span>';
+  if(v==='Em Tratativa') return'<span class="badge b-nftrat">⚠️ Em Tratativa</span>';
+  return'<span class="badge b-nfnone">— Sem info</span>';
+}
+function badgeNordil(v){return v?'<span class="badge b-nordil">🔀 Via Nordil</span>':'<span class="badge b-nordil-no">—</span>';}
+function badgeStatus(s){return STATUS_BADGE[s]||`<span class="badge b-aguard">${s}</span>`;}
+
+/* ─── RENDER AGENDAMENTOS ─── */
+function renderAgend(lista){
+  const dados=lista!==undefined?lista:agendamentos;
+  const tbody=document.getElementById('tbody-agend');
+  const empty=document.getElementById('empty-agend');
+  document.getElementById('a-sku').textContent  =dados.reduce((s,a)=>s+(a.skuEsp||0),0);
+  document.getElementById('a-vol').textContent  =dados.reduce((s,a)=>s+(a.volEsp||0),0);
+  document.getElementById('a-peso').textContent =dados.reduce((s,a)=>s+(a.pesoEsp||0),0).toFixed(1)+' kg';
+  if(!dados.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=dados.map(a=>{
+    const ri=agendamentos.indexOf(a);
+    const sla=a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
+    const editBadge=a.editadoEm?'<span class="badge b-editado" style="margin-left:4px;">✏️</span>':'';
+    return`<tr onclick="abrirConferencia(${ri})" title="Clique para conferir">
+      <td>${fmtData(a.dataSolic)||'—'}</td>
+      <td>${fmtData(a.data)}</td>
+      <td><strong>${a.nf||'—'}</strong></td>
+      <td>${a.fornec||'—'}</td>
+      <td>${a.skuEsp||'—'}</td>
+      <td>${a.volEsp||'—'}</td>
+      <td>${a.pesoEsp?a.pesoEsp+' kg':'—'}</td>
+      <td>${badgeNordil(a.viaNoRdil)}</td>
+      <td>${badgeNF(a.statusNF)}</td>
+      <td>${badgeStatus(a.status)}${editBadge}</td>
+      <td>${sla}</td>
+      <td onclick="event.stopPropagation()">
+        <div style="display:flex;gap:5px;">
+          <button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>
+          <button class="btn-sm bsm-del"  onclick="excluirAgend(${ri})">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function excluirAgend(idx){if(!confirm('Excluir este agendamento?'))return;agendamentos.splice(idx,1);save();atualizarFiltrosDin();renderAgend();}
+
+function atualizarFiltrosDin(){
+  const sel=document.getElementById('f-fornec'),at=sel.value;
+  const lista=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">Todos</option>'+lista.map(f=>`<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
+}
+
+function filtrarAgend(){
+  const d  =document.getElementById('f-data').value;
+  const ds =document.getElementById('f-datasolic').value;
+  const s  =document.getElementById('f-status').value;
+  const nf =document.getElementById('f-nf').value;
+  const nrd=document.getElementById('f-nordil').value;
+  const f  =document.getElementById('f-fornec').value;
+  renderAgend(agendamentos.filter(a=>{
+    if(d  &&a.data!==d)        return false;
+    if(ds &&a.dataSolic!==ds)  return false;
+    if(s  &&a.status!==s)      return false;
+    if(nf &&a.statusNF!==nf)   return false;
+    if(nrd==='sim'&&!a.viaNoRdil) return false;
+    if(nrd==='nao'&& a.viaNoRdil) return false;
+    if(f  &&a.fornec!==f)      return false;
+    return true;
+  }));
+}
+function limparFiltrosAgend(){
+  ['f-data','f-datasolic','f-status','f-nf','f-nordil','f-fornec'].forEach(id=>document.getElementById(id).value='');
+  renderAgend();
+}
+
+/* ─── CONFERÊNCIA ─── */
+let timerInterval=null,confInicio=null,confAgendIdx=-1;
+
+function renderConfLista(){
+  const tbody=document.getElementById('conf-lista-tbody');
+  const empty=document.getElementById('conf-lista-empty');
+  const disp=agendamentos.filter(a=>['Aguardando','Atrasado','Em Conferência','Não Finalizado'].includes(a.status));
+  if(!disp.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=disp.map(a=>{
+    const ri=agendamentos.indexOf(a);
+    return`<tr>
+      <td>${fmtData(a.data)}</td>
+      <td><strong>${a.nf||'—'}</strong></td>
+      <td>${a.fornec||'—'}</td>
+      <td>${badgeNordil(a.viaNoRdil)}</td>
+      <td>${badgeStatus(a.status)}</td>
+      <td><button class="btn btn-dark" style="padding:6px 14px;font-size:12px;" onclick="abrirConferencia(${ri})">🔍 Conferir</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function abrirConferencia(idx){
+  confAgendIdx=idx;
+  const a=agendamentos[idx];
+  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tela-conferencia').classList.add('active');
+  document.getElementById('nav-conferencia').classList.add('active');
+  document.getElementById('conf-select-state').style.display='none';
+  document.getElementById('conf-active-state').style.display='block';
+  const banner=document.getElementById('edit-banner');
+  if(a.editadoEm){banner.style.display='flex';document.getElementById('edit-banner-time').textContent='Última edição: '+a.editadoEm;}
+  else banner.style.display='none';
+  document.getElementById('c-fornec-title').textContent=a.fornec+(a.viaNoRdil?' 🔀':'')||'Fornecedor';
+  document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'}  |  Data Agendada: ${fmtData(a.data)}${a.dataSolic?' | Solicitação: '+fmtData(a.dataSolic):''}`;
+  document.getElementById('c-pont-label').textContent=a.data===getDataHoje()?'✅ Pontual':'🔴 Atrasado';
+  document.getElementById('c-sku-esp').textContent=a.skuEsp||'0';
+  document.getElementById('c-vol-esp').textContent=a.volEsp||'0';
+  document.getElementById('c-peso-esp').textContent=a.pesoEsp?a.pesoEsp+' kg':'0 kg';
+  renderStatusConfGrid(a.status);
+  if(a.confInicio){
+    document.getElementById('c-inicio-label').textContent=a.confInicio;
+    document.getElementById('btn-iniciar-conf').style.display='none';
+    if(a.confFim){
+      document.getElementById('c-fim-label').textContent=a.confFim;
+      document.getElementById('c-dur-label').textContent=fmtMin(a.confSLA)+' min';
+      document.getElementById('c-sku-rec').value=a.skuRec??'';
+      document.getElementById('c-vol-rec').value=a.volRec??'';
+      document.getElementById('c-peso-rec').value=a.pesoRec??'';
+      document.getElementById('c-conferente').value=a.confConfer||'';
+      document.getElementById('c-ocorrencia').value=a.confObs||'';
+      ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>document.getElementById(id).disabled=true);
+      document.getElementById('btn-finalizar-conf').style.display='none';
+      document.getElementById('btn-editar-conf').style.display='';
+      document.getElementById('btn-salvar-edicao').style.display='none';
+      calcDiverg(); mostrarResultado();
+    } else {
+      document.getElementById('c-fim-label').textContent='—';
+      document.getElementById('c-dur-label').textContent='—';
+      document.getElementById('btn-finalizar-conf').style.display='';
+      document.getElementById('btn-editar-conf').style.display='none';
+      document.getElementById('btn-salvar-edicao').style.display='none';
+      ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>document.getElementById(id).disabled=false);
+      document.getElementById('c-sku-rec').value=a.skuRec??'';
+      document.getElementById('c-vol-rec').value=a.volRec??'';
+      document.getElementById('c-peso-rec').value=a.pesoRec??'';
+      document.getElementById('c-conferente').value=a.confConfer||'';
+      document.getElementById('c-ocorrencia').value=a.confObs||'';
+      document.getElementById('c-conferente').disabled=false;
+      document.getElementById('c-ocorrencia').disabled=false;
+      confInicio=new Date(a._confInicioTs);
+      iniciarTimer();
     }
-
-    tbody.innerHTML = agendamentosFiltrados.map((a, i) => `
-      <tr>
-        <td>${i + 1}</td>
-        <td><strong>${a.cliente}</strong><br><small>${a.telefone}</small></td>
-        <td>${a.servico}</td>
-        <td>${formatarData(a.data)}</td>
-        <td>${a.hora}</td>
-        <td><span class="badge badge-${a.status.toLowerCase()}">${a.status}</span></td>
-        <td>
-          <div class="action-btns">
-            <button class="btn btn-primary" style="padding:5px 10px;font-size:0.8rem" onclick="abrirModal(${a.id})">✏️</button>
-            <button class="btn btn-danger"  style="padding:5px 10px;font-size:0.8rem" onclick="excluir(${a.id})">🗑️</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+  } else {
+    document.getElementById('c-inicio-label').textContent='—';
+    document.getElementById('c-fim-label').textContent='—';
+    document.getElementById('c-dur-label').textContent='—';
+    document.getElementById('btn-iniciar-conf').style.display='';
+    document.getElementById('btn-finalizar-conf').style.display='none';
+    document.getElementById('btn-editar-conf').style.display='none';
+    document.getElementById('btn-salvar-edicao').style.display='none';
+    document.getElementById('c-timer').textContent='00:00:00';
+    ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>{document.getElementById(id).value='';document.getElementById(id).disabled=true;});
+    document.getElementById('c-conferente').value='';document.getElementById('c-conferente').disabled=false;
+    document.getElementById('c-ocorrencia').value='';document.getElementById('c-ocorrencia').disabled=false;
+    document.getElementById('conf-resultado').style.display='none';
+    ['c-sku-div','c-vol-div','c-peso-div'].forEach(id=>document.getElementById(id).textContent='—');
   }
+}
 
-  // ──────────────────────────────────────────────
-  // NOVO AGENDAMENTO
-  // ──────────────────────────────────────────────
-  async function salvarNovoAgendamento() {
-    const cliente  = document.getElementById('novo-cliente').value.trim();
-    const telefone = document.getElementById('novo-telefone').value.trim();
-    const servico  = document.getElementById('novo-servico').value.trim();
-    const data     = document.getElementById('novo-data').value;
-    const hora     = document.getElementById('novo-hora').value;
-    const status   = document.getElementById('novo-status').value;
-    const obs      = document.getElementById('novo-obs').value.trim();
-
-    if (!cliente || !servico || !data || !hora) {
-      toast('⚠️ Preencha os campos obrigatórios: Cliente, Serviço, Data e Hora.');
-      return;
-    }
-
-    agendamentos.push({ id: agendamentos.length, cliente, telefone, servico, data, hora, status, obs });
-    await salvarPlanilha();
-    toast('✅ Agendamento salvo com sucesso!');
-    limparFormulario();
-  }
-
-  function limparFormulario() {
-    ['novo-cliente','novo-telefone','novo-servico','novo-data','novo-hora','novo-obs'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('novo-status').value = 'Agendado';
-  }
-
-  // ──────────────────────────────────────────────
-  // EDIÇÃO
-  // ──────────────────────────────────────────────
-  function abrirModal(id) {
-    const a = agendamentos.find(x => x.id === id);
-    if (!a) return;
-    document.getElementById('edit-index').value   = id;
-    document.getElementById('edit-cliente').value  = a.cliente;
-    document.getElementById('edit-telefone').value = a.telefone;
-    document.getElementById('edit-servico').value  = a.servico;
-    document.getElementById('edit-data').value     = a.data;
-    document.getElementById('edit-hora').value     = a.hora;
-    document.getElementById('edit-status').value   = a.status;
-    document.getElementById('edit-obs').value      = a.obs;
-    document.getElementById('modal-overlay').classList.add('open');
-  }
-
-  function fecharModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
-  }
-
-  async function salvarEdicao() {
-    const id = parseInt(document.getElementById('edit-index').value);
-    const idx = agendamentos.findIndex(x => x.id === id);
-    if (idx === -1) return;
-
-    agendamentos[idx] = {
-      id,
-      cliente:  document.getElementById('edit-cliente').value.trim(),
-      telefone: document.getElementById('edit-telefone').value.trim(),
-      servico:  document.getElementById('edit-servico').value.trim(),
-      data:     document.getElementById('edit-data').value,
-      hora:     document.getElementById('edit-hora').value,
-      status:   document.getElementById('edit-status').value,
-      obs:      document.getElementById('edit-obs').value.trim()
-    };
-
-    await salvarPlanilha();
-    fecharModal();
-    renderTabela();
-    toast('✅ Agendamento atualizado!');
-  }
-
-  // ──────────────────────────────────────────────
-  // EXCLUIR
-  // ──────────────────────────────────────────────
-  async function excluir(id) {
-    if (!confirm('Tem certeza que deseja excluir este agendamento?')) return;
-    agendamentos = agendamentos.filter(a => a.id !== id);
-    await salvarPlanilha();
-    renderTabela();
-    toast('🗑️ Agendamento excluído.');
-  }
-
-  // ──────────────────────────────────────────────
-  // CLIENTES
-  // ──────────────────────────────────────────────
-  function renderClientes() {
-    const mapa = {};
-    agendamentos.forEach(a => {
-      if (!mapa[a.cliente]) mapa[a.cliente] = { telefone: a.telefone, count: 0, ultimo: '' };
-      mapa[a.cliente].count++;
-      if (a.data > mapa[a.cliente].ultimo) mapa[a.cliente].ultimo = a.servico;
-    });
-
-    const tbody = document.getElementById('tabela-clientes');
-    const lista = Object.entries(mapa);
-    if (lista.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" class="loading">Nenhum cliente encontrado.</td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = lista.map(([nome, d]) => `
-      <tr>
-        <td><strong>${nome}</strong></td>
-        <td>${d.telefone || '-'}</td>
-        <td>${d.count}</td>
-        <td>${d.ultimo || '-'}</td>
-      </tr>
-    `).join('');
-  }
-
-  // ──────────────────────────────────────────────
-  // SERVIÇOS
-  // ──────────────────────────────────────────────
-  function renderServicos() {
-    const mapa = {};
-    agendamentos.forEach(a => {
-      if (!mapa[a.servico]) mapa[a.servico] = { total: 0, concluidos: 0, ativos: 0 };
-      mapa[a.servico].total++;
-      if (a.status === 'Concluído') mapa[a.servico].concluidos++;
-      if (a.status === 'Agendado' || a.status === 'Pendente') mapa[a.servico].ativos++;
-    });
-
-    const tbody = document.getElementById('tabela-servicos');
-    const lista = Object.entries(mapa).sort((a, b) => b[1].total - a[1].total);
-    if (lista.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" class="loading">Nenhum serviço encontrado.</td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = lista.map(([nome, d]) => `
-      <tr>
-        <td><strong>${nome}</strong></td>
-        <td>${d.total}</td>
-        <td>${d.concluidos}</td>
-        <td>${d.ativos}</td>
-      </tr>
-    `).join('');
-  }
-
-  // ──────────────────────────────────────────────
-  // UTILITÁRIOS
-  // ──────────────────────────────────────────────
-  function formatarData(data) {
-    if (!data) return '-';
-    const [y, m, d] = data.split('-');
-    return `${d}/${m}/${y}`;
-  }
-
-  // Fechar modal clicando fora
-  document.getElementById('modal-overlay').addEventListener('click', function(e) {
-    if (e.target === this) fecharModal();
+function renderStatusConfGrid(statusAtualConf){
+  document.querySelectorAll('#status-conf-grid .sc-opt').forEach(el=>{
+    el.className='sc-opt';
+    if(el.dataset.val===statusAtualConf)el.classList.add(STATUS_CONF_CLASS[statusAtualConf]||'');
   });
+}
+function selecionarStatusConf(novoStatus){
+  if(confAgendIdx<0)return;
+  agendamentos[confAgendIdx].status=novoStatus;
+  save(); renderStatusConfGrid(novoStatus);
+  if(['Concluído OK','Não Finalizado'].includes(novoStatus)) mostrarResultado();
+  else document.getElementById('conf-resultado').style.display='none';
+}
+function voltarListaConf(){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  document.getElementById('conf-select-state').style.display='';
+  document.getElementById('conf-active-state').style.display='none';
+  renderConfLista();
+}
+function iniciarConferencia(){
+  const agora=new Date(); confInicio=agora;
+  const horaStr=agora.toLocaleTimeString('pt-BR');
+  document.getElementById('c-inicio-label').textContent=horaStr;
+  document.getElementById('btn-iniciar-conf').style.display='none';
+  document.getElementById('btn-finalizar-conf').style.display='';
+  ['c-sku-rec','c-vol-rec','c-peso-rec'].forEach(id=>document.getElementById(id).disabled=false);
+  agendamentos[confAgendIdx].status='Em Conferência';
+  agendamentos[confAgendIdx].confInicio=horaStr;
+  agendamentos[confAgendIdx]._confInicioTs=agora.toISOString();
+  agendamentos[confAgendIdx].confFim=null;
+  save(); renderStatusConfGrid('Em Conferência'); iniciarTimer();
+}
+function iniciarTimer(){
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{document.getElementById('c-timer').textContent=fmtHMS(Math.floor((new Date()-confInicio)/1000));},1000);
+}
+function finalizarConferencia(){
+  const agora=new Date(),horaStr=agora.toLocaleTimeString('pt-BR'),sla=Math.floor((agora-confInicio)/1000);
+  clearInterval(timerInterval);timerInterval=null;
+  document.getElementById('c-fim-label').textContent=horaStr;
+  document.getElementById('c-dur-label').textContent=fmtMin(sla)+' min';
+  document.getElementById('btn-finalizar-conf').style.display='none';
+  document.getElementById('btn-editar-conf').style.display='';
+  const a=agendamentos[confAgendIdx];
+  a.status='Concluído OK';a.confFim=horaStr;a.confSLA=sla;
+  a.skuRec=parseFloat(document.getElementById('c-sku-rec').value)||0;
+  a.volRec=parseFloat(document.getElementById('c-vol-rec').value)||0;
+  a.pesoRec=parseFloat(document.getElementById('c-peso-rec').value)||0;
+  a.confConfer=document.getElementById('c-conferente').value.trim();
+  a.confObs=document.getElementById('c-ocorrencia').value.trim();
+  save();
+  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>document.getElementById(id).disabled=true);
+  renderStatusConfGrid('Concluído OK'); calcDiverg(); mostrarResultado();
+}
+function habilitarEdicao(){
+  document.getElementById('btn-editar-conf').style.display='none';
+  document.getElementById('btn-salvar-edicao').style.display='';
+  document.getElementById('conf-resultado').style.display='none';
+  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>document.getElementById(id).disabled=false);
+  const b=document.getElementById('edit-banner');
+  b.style.display='flex';
+  document.getElementById('edit-banner-time').textContent='Editando agora — clique em "Salvar" para confirmar.';
+}
+function salvarEdicao(){
+  const agora=new Date().toLocaleString('pt-BR'),a=agendamentos[confAgendIdx];
+  a.skuRec=parseFloat(document.getElementById('c-sku-rec').value)||0;
+  a.volRec=parseFloat(document.getElementById('c-vol-rec').value)||0;
+  a.pesoRec=parseFloat(document.getElementById('c-peso-rec').value)||0;
+  a.confConfer=document.getElementById('c-conferente').value.trim();
+  a.confObs=document.getElementById('c-ocorrencia').value.trim();
+  a.editadoEm=agora; save();
+  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('btn-salvar-edicao').style.display='none';
+  document.getElementById('btn-editar-conf').style.display='';
+  document.getElementById('edit-banner-time').textContent='Última edição: '+agora;
+  calcDiverg(); mostrarResultado();
+}
+function calcDiverg(){
+  const a=confAgendIdx>=0?agendamentos[confAgendIdx]:null;if(!a)return;
+  [{rec:'c-sku-rec',esp:a.skuEsp,div:'c-sku-div',suf:''},{rec:'c-vol-rec',esp:a.volEsp,div:'c-vol-div',suf:' cx'},{rec:'c-peso-rec',esp:a.pesoEsp,div:'c-peso-div',suf:' kg'}].forEach(c=>{
+    const inp=document.getElementById(c.rec),el=document.getElementById(c.div);
+    if(!inp.value){el.textContent='—';el.className='';return;}
+    const diff=(parseFloat(inp.value)||0)-(c.esp||0);
+    if(diff===0){el.textContent='✅ OK';el.className='v-ok';}
+    else{el.textContent=(diff>0?'+':'')+diff.toFixed(diff%1===0?0:1)+c.suf;el.className='v-div';}
+  });
+}
+function mostrarResultado(){
+  const a=agendamentos[confAgendIdx];
+  const isOK=a.status==='Concluído OK';
+  document.getElementById('conf-resultado').style.display='block';
+  document.getElementById('conf-resultado-box').className='resultado-box '+(isOK?'ok':'div');
+  document.getElementById('c-res-icon').textContent=isOK?'✅':'🔶';
+  document.getElementById('c-res-title').textContent=a.status;
+  document.getElementById('c-res-sub').textContent=`SLA: ${fmtMin(a.confSLA)} min  |  ${a.data===getDataHoje()?'Pontual':'Atrasado'}  |  Conferente: ${a.confConfer||'—'}`;
+}
 
-  // INIT
-  carregarDados();
+/* ─── FORNECEDORES FIXOS ─── */
+function getKeyFixo(dia,codigo){return`${getChaveSemana()}_${dia}_${codigo}`;}
+function renderFornecedores(){
+  const diaHoje=getDiaHoje(),container=document.getElementById('fornec-fixos-container');
+  const diasOrdem=['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA'];
+  let html='';
+  diasOrdem.forEach(dia=>{
+    const lista=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(dia));
+    if(!lista.length)return;
+    const isHoje=dia===diaHoje;
+    html+=`<div class="dia-sec"><div class="dia-title"><span class="badge ${BADGE_DIA[dia]||''}">${DIAS_LBL[dia]}</span>${isHoje?'<span class="hoje-pill">📍 HOJE</span>':''}</div><div class="fornec-cards">`;
+    lista.forEach(f=>{
+      const key=getKeyFixo(dia,f.codigo),st=confirmacoes[key]||'';
+      const cc=st==='confirmado'?'conf':st==='naoveio'?'nv':'';
+      html+=`<div class="fc ${cc}" id="fc-${key}"><div class="fc-info"><div class="fc-nome" title="${f.nome}">${f.nome}</div><div class="fc-cod">Cód: ${f.codigo} &nbsp;|&nbsp; Semana: ${getChaveSemana()}</div></div><div class="fc-actions"><button class="btn-sm bsm-conf ${st==='confirmado'?'ativo':''}" onclick="confFixo('${key}','confirmado')">✅ Entregou</button><button class="btn-sm bsm-nv ${st==='naoveio'?'ativo':''}" onclick="confFixo('${key}','naoveio')">❌ Não veio</button><button class="btn-sm bsm-rst" onclick="confFixo('${key}','')">↩</button></div></div>`;
+    });
+    html+=`</div></div>`;
+  });
+  container.innerHTML=html;
+}
+function confFixo(key,st){
+  if(st==='') delete confirmacoes[key];
+  else confirmacoes[key]=st;
+  saveConf();
+  renderFornecedores();
+}
+
+/* ─── DASHBOARD ─── */
+let chartDonut=null,chartBarDia=null,chartVolume=null;
+function renderDashboard(){
+  atualizarStatusAgendamentos();
+  const hoje=getDataHoje(),diaHoje=getDiaHoje();
+  const hj=agendamentos.filter(a=>a.data===hoje);
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const totalHoje=hj.length+fixosHoje.length;
+  const conc  =hj.filter(a=>a.status==='Concluído OK').length;
+  const nfinal=hj.filter(a=>a.status==='Não Finalizado').length;
+  const and   =hj.filter(a=>a.status==='Em Conferência').length;
+  const agua  =hj.filter(a=>a.status==='Aguardando').length;
+  const atr   =agendamentos.filter(a=>a.status==='Atrasado').length;
+  const slaLista=agendamentos.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
+  const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
+  document.getElementById('d-total').textContent     =totalHoje;
+  document.getElementById('d-concluidos').textContent=conc;
+  document.getElementById('d-nfinal').textContent    =nfinal;
+  document.getElementById('d-andamento').textContent =and;
+  document.getElementById('d-aguardando').textContent=agua;
+  document.getElementById('d-atrasados').textContent =atr;
+  document.getElementById('d-sla').textContent       =slaMed!=null?fmtMin(slaMed)+' min':'—';
+  const hjConf=hj.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
+  const skuEspT =hj.reduce((s,a)=>s+(a.skuEsp||0),0),  skuRecT =hjConf.reduce((s,a)=>s+(a.skuRec||0),0);
+  const volEspT =hj.reduce((s,a)=>s+(a.volEsp||0),0),  volRecT =hjConf.reduce((s,a)=>s+(a.volRec||0),0);
+  const pesoEspT=hj.reduce((s,a)=>s+(a.pesoEsp||0),0), pesoRecT=hjConf.reduce((s,a)=>s+(a.pesoRec||0),0);
+  function setComp(eId,rId,bId,dId,esp,rec,cls){
+    document.getElementById(eId).textContent=cls==='peso-fill'?esp.toFixed(1)+' kg':esp;
+    document.getElementById(rId).textContent=cls==='peso-fill'?rec.toFixed(1)+' kg':rec;
+    const pct=esp>0?Math.min((rec/esp)*100,150):0;
+    const bar=document.getElementById(bId);bar.style.width=pct+'%';
+    bar.className=`ccard-bar-fill ${cls}${pct>100?' over':''}`;
+    const dEl=document.getElementById(dId);
+    if(!hjConf.length){dEl.innerHTML='<span class="diff-neu">— sem conferências</span>';return;}
+    const diff=rec-esp,suf=cls==='peso-fill'?' kg':'';
+    if(diff===0) dEl.innerHTML='<span class="diff-ok">✅ Sem divergência</span>';
+    else if(diff>0) dEl.innerHTML=`<span class="diff-div">▲ +${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a mais</span>`;
+    else            dEl.innerHTML=`<span class="diff-div">▼ ${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a menos</span>`;
+  }
+  setComp('cc-sku-esp','cc-sku-rec','cc-sku-bar','cc-sku-diff',skuEspT,skuRecT,'sku-fill');
+  setComp('cc-vol-esp','cc-vol-rec','cc-vol-bar','cc-vol-diff',volEspT,volRecT,'vol-fill');
+  setComp('cc-peso-esp','cc-peso-rec','cc-peso-bar','cc-peso-diff',pesoEspT,pesoRecT,'peso-fill');
+  const ctxD=document.getElementById('chartDonut').getContext('2d');
+  if(chartDonut)chartDonut.destroy();
+  chartDonut=new Chart(ctxD,{type:'doughnut',data:{
+    labels:['Concluído OK','Não Finalizado','Em Conferência','Aguardando'],
+    datasets:[{data:[conc,nfinal,and,agua],backgroundColor:['#16a34a','#d97706','#1d4ed8','#9ca3af'],borderColor:'#fff',borderWidth:2}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},cutout:'65%'}});
+  const porDia={SEGUNDA:0,TERCA:0,QUARTA:0,QUINTA:0,SEXTA:0};
+  agendamentos.forEach(a=>{const d=new Date(a.data+'T12:00:00'),dia=DIAS_IDX[d.getDay()];if(porDia[dia]!==undefined)porDia[dia]++;});
+  FORNECEDORES_FIXOS.forEach(f=>f.dias.forEach(d=>{if(porDia[d]!==undefined)porDia[d]++;}));
+  const ctxB=document.getElementById('chartBarDia').getContext('2d');
+  if(chartBarDia)chartBarDia.destroy();
+  chartBarDia=new Chart(ctxB,{type:'bar',data:{
+    labels:['Seg','Ter','Qua','Qui','Sex'],
+    datasets:[{label:'Agendamentos',data:Object.values(porDia),backgroundColor:'#1a1a1a',borderRadius:6,borderSkipped:false}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#f3f4f6'}},x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
+  const ctxV=document.getElementById('chartVolume').getContext('2d');
+  if(chartVolume)chartVolume.destroy();
+  chartVolume=new Chart(ctxV,{type:'bar',data:{
+    labels:['SKU','Volume (Cx)','Peso (kg)'],
+    datasets:[
+      {label:'Agendado',data:[skuEspT,volEspT,pesoEspT],backgroundColor:'#9ca3af',borderRadius:4,borderSkipped:false},
+      {label:'Recebido',data:[skuRecT,volRecT,pesoRecT],backgroundColor:'#1a1a1a',borderRadius:4,borderSkipped:false},
+    ]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151'}}},
+    scales:{y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
+  const tbFixos=document.getElementById('dash-fixos-tbody');
+  if(!fixosHoje.length){tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;}
+  else tbFixos.innerHTML=fixosHoje.map(f=>{
+    const k=getKeyFixo(diaHoje,f.codigo),st=confirmacoes[k]||'';
+    const badge=st==='confirmado'?'<span class="badge b-conf">✅ Entregou</span>':st==='naoveio'?'<span class="badge b-atrasado">❌ Não veio</span>':'<span class="badge b-aguard">⏳ Aguardando</span>';
+    return`<tr><td><strong>${f.nome}</strong></td><td>${f.codigo}</td><td>${badge}</td></tr>`;
+  }).join('');
+}
+
+/* ─── PDF ─── */
+function exportarPDF(){
+  const{jsPDF}=window.jspdf,doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const hoje=getDataHoje(),diaHoje=getDiaHoje();
+  const dataFmt=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  const hj=agendamentos.filter(a=>a.data===hoje);
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const conc=hj.filter(a=>a.status==='Concluído OK').length;
+  const nfinal=hj.filter(a=>a.status==='Não Finalizado').length;
+  const atr=agendamentos.filter(a=>a.status==='Atrasado').length;
+  const slaLista=agendamentos.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
+  const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
+  const hjConf=hj.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
+  const skuEsp=hj.reduce((s,a)=>s+(a.skuEsp||0),0),skuRec=hjConf.reduce((s,a)=>s+(a.skuRec||0),0);
+  const volEsp=hj.reduce((s,a)=>s+(a.volEsp||0),0),volRec=hjConf.reduce((s,a)=>s+(a.volRec||0),0);
+  const pesoEsp=hj.reduce((s,a)=>s+(a.pesoEsp||0),0),pesoRec=hjConf.reduce((s,a)=>s+(a.pesoRec||0),0);
+  let y=15;const W=210,lm=14;
+  doc.setFillColor(26,26,26);doc.rect(0,0,W,28,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text('RECEBIMENTO-BM',lm,12);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Relatório Operacional de Recebimento',lm,18);doc.text(dataFmt,lm,24);
+  doc.setTextColor(26,26,26);y=36;
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('INDICADORES DO DIA',lm,y);y+=6;
+  doc.setDrawColor(200,200,200);doc.setLineWidth(0.3);doc.line(lm,y,W-lm,y);y+=4;
+  doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Indicador','Valor']],body:[
+    ['Total Agendamentos',hj.length+fixosHoje.length],
+    ['Concluídos OK',conc],['Não Finalizados',nfinal],['Atrasados',atr],
+    ['Via Nordil',agendamentos.filter(a=>a.viaNoRdil).length],
+    ['Tempo Médio Conferência',slaMed!=null?fmtMin(slaMed)+' min':'—'],
+    ['Fornecedores Fixos Hoje',fixosHoje.length],
+  ],styles:{fontSize:10,cellPadding:3},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+  alternateRowStyles:{fillColor:[245,245,245]},columnStyles:{0:{cellWidth:120},1:{cellWidth:60,halign:'center',fontStyle:'bold'}}});
+  y=doc.lastAutoTable.finalY+10;
+  if(y>240){doc.addPage();y=15;}
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('COMPARATIVO — AGENDADO vs. RECEBIDO',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=4;
+  doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Indicador','Agendado','Recebido','Diferença']],body:[
+    ['SKU',skuEsp,skuRec,(skuRec-skuEsp)>=0?'+'+(skuRec-skuEsp):(skuRec-skuEsp)],
+    ['Volume (Cx)',volEsp,volRec,(volRec-volEsp)>=0?'+'+(volRec-volEsp):(volRec-volEsp)],
+    ['Peso (kg)',pesoEsp.toFixed(1),pesoRec.toFixed(1),(pesoRec-pesoEsp)>=0?'+'+(pesoRec-pesoEsp).toFixed(1):(pesoRec-pesoEsp).toFixed(1)],
+  ],styles:{fontSize:10,cellPadding:3},headStyles:{fillColor:[79,70,229],textColor:255,fontStyle:'bold'},
+  alternateRowStyles:{fillColor:[245,245,255]},columnStyles:{1:{halign:'center'},2:{halign:'center',fontStyle:'bold'},3:{halign:'center',fontStyle:'bold'}}});
+  y=doc.lastAutoTable.finalY+10;
+  if(y>240){doc.addPage();y=15;}
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('AGENDAMENTOS CONCLUÍDOS',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=2;
+  const concList=agendamentos.filter(a=>['Concluído OK','Não Finalizado'].includes(a.status));
+  if(concList.length){
+    doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Via Nordil','Status NF','Status','SLA','Editado']],
+    body:concList.map(a=>[fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',a.viaNoRdil?'Sim':'—',a.statusNF||'—',a.status,a.confSLA!=null?fmtMin(a.confSLA)+' min':'—',a.editadoEm?'Sim':'—']),
+    styles:{fontSize:7,cellPadding:2},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[245,245,245]}});
+    y=doc.lastAutoTable.finalY+10;
+  }
+  if(y>240){doc.addPage();y=15;}
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('PENDÊNCIAS E ATRASOS',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=2;
+  const pendList=agendamentos.filter(a=>['Aguardando','Atrasado','Em Conferência'].includes(a.status));
+  if(pendList.length){
+    doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Via Nordil','Status']],
+    body:pendList.map(a=>[fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',a.viaNoRdil?'Sim':'—',a.status]),
+    styles:{fontSize:8,cellPadding:2},headStyles:{fillColor:[220,38,38],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[255,245,245]}});
+  } else {
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(22,163,74);doc.text('✓ Nenhuma pendência registrada.',lm,y+5);
+    doc.setTextColor(26,26,26);
+  }
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(150,150,150);
+    doc.text(`Recebimento-BM  |  Gerado em ${new Date().toLocaleString('pt-BR')}  |  Página ${i} de ${pages}`,lm,292);}
+  doc.save(`Relatorio_Recebimento_${hoje}.pdf`);
+}
+
+/* ── INIT ── */
+carregarDoSheets();
 </script>
 </body>
 </html>
