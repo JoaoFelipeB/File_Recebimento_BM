@@ -95,7 +95,6 @@ tbody td{padding:11px 14px;color:var(--text);}
 .b-editado   {background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;}
 .b-nordil    {background:#ede9fe;color:#7c3aed;border:1px solid #c4b5fd;}
 .b-nordil-no {background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;}
-/* ── NOVAS BADGES ── */
 .b-encaixe   {background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;}
 .b-reagend   {background:#fdf4ff;color:#a21caf;border:1px solid #e879f9;}
 .b-seg{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
@@ -141,10 +140,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 .fg textarea{resize:vertical;min-height:70px;}
 .sep{height:1px;background:var(--border);margin:16px 0;}
 .sec-lbl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
-
-/* ── FLAGS GRID agora com 4 colunas (2x2) ── */
 .flags-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
-
 .sb{padding:12px 14px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;user-select:none;}
 .sb:hover{border-color:#9ca3af;}
 .sb .sbck{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
@@ -158,11 +154,9 @@ tbody td{padding:11px 14px;color:var(--text);}
 .sb.sel-nordil{border-color:#7c3aed;background:#ede9fe;}
 .sb.sel-nordil .sbck{background:#7c3aed;border-color:#7c3aed;color:#fff;}
 .sb.sel-nordil .sbtx{color:#7c3aed;}
-/* ── FLAG ENCAIXE ── */
 .sb.sel-encaixe{border-color:#c2410c;background:#fff7ed;}
 .sb.sel-encaixe .sbck{background:#c2410c;border-color:#c2410c;color:#fff;}
 .sb.sel-encaixe .sbtx{color:#c2410c;}
-
 .status-conf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:8px;}
 .sc-opt{padding:10px 14px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;text-align:center;transition:all .2s;user-select:none;}
 .sc-opt:hover{border-color:#9ca3af;}
@@ -238,14 +232,11 @@ tbody td{padding:11px 14px;color:var(--text);}
 .mc .ml{font-size:11px;color:var(--text3);text-transform:uppercase;font-weight:700;margin-top:3px;}
 .dash-section-title{font-size:13px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px;display:flex;align-items:center;gap:8px;}
 .dash-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
-
-/* SYNC INDICATOR */
 .sync-bar{position:fixed;bottom:16px;right:16px;background:#1a1a1a;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
 .sync-bar.show{opacity:1;}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;}
 .sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-
 @media(max-width:640px){
   .main{padding:12px;}
   .form-grid,.form-grid.g3{grid-template-columns:1fr;}
@@ -282,16 +273,43 @@ tbody td{padding:11px 14px;color:var(--text);}
 
 <div class="main">
 
-<!-- ════════════════════ DASHBOARD ════════════════════ -->
+<!-- DASHBOARD -->
 <div class="tela active" id="tela-dashboard">
   <div class="page-title">
     📊 Dashboard
     <span class="tag" id="dash-data-hoje"></span>
     <button class="btn btn-pdf" onclick="exportarPDF()" style="margin-left:auto;">📄 Exportar PDF</button>
   </div>
-  <div class="dash-section-title">🚦 Status de Hoje</div>
+  <div class="filtros">
+    <div class="fg-f">
+      <label>📅 Data Agendada</label>
+      <input type="date" id="df-data" onchange="renderDashboard()">
+    </div>
+    <div class="fg-f">
+      <label>🚦 Status</label>
+      <select id="df-status" onchange="renderDashboard()">
+        <option value="">Todos</option>
+        <option value="Aguardando">⏳ Aguardando</option>
+        <option value="Em Conferência">🔄 Em Conferência</option>
+        <option value="Concluído OK">✅ Concluído OK</option>
+        <option value="Não Finalizado">🔶 Não Finalizado</option>
+        <option value="Atrasado">🚨 Atrasado</option>
+      </select>
+    </div>
+    <div class="fg-f">
+      <label>🏭 Fornecedor</label>
+      <select id="df-fornec" onchange="renderDashboard()">
+        <option value="">Todos</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:flex-end;">
+      <button class="btn btn-outline" onclick="limparFiltrosDash()">🔄 Limpar</button>
+    </div>
+  </div>
+
+  <div class="dash-section-title">🚦 Status</div>
   <div class="cards-row">
-    <div class="card c-black"><div class="card-icon">📋</div><div class="card-val" id="d-total">0</div><div class="card-lbl">Agendamentos Hoje</div></div>
+    <div class="card c-black"><div class="card-icon">📋</div><div class="card-val" id="d-total">0</div><div class="card-lbl">Total</div></div>
     <div class="card c-green"><div class="card-icon">✅</div><div class="card-val" id="d-concluidos">0</div><div class="card-lbl">Concluídos OK</div></div>
     <div class="card c-yellow"><div class="card-icon">🔶</div><div class="card-val" id="d-nfinal">0</div><div class="card-lbl">Não Finalizados</div></div>
     <div class="card c-blue"><div class="card-icon">🔄</div><div class="card-val" id="d-andamento">0</div><div class="card-lbl">Em Conferência</div></div>
@@ -299,7 +317,8 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="card c-red"><div class="card-icon">🚨</div><div class="card-val" id="d-atrasados">0</div><div class="card-lbl">Atrasados</div></div>
     <div class="card c-purple"><div class="card-icon">⏱️</div><div class="card-val" id="d-sla">—</div><div class="card-lbl">Tempo Médio Conf.</div></div>
   </div>
-  <div class="dash-section-title">📦 Comparativo — Agendado vs. Recebido (Hoje)</div>
+
+  <div class="dash-section-title">📦 Comparativo — Agendado vs. Recebido</div>
   <div class="comp-cards">
     <div class="ccard cc-sku">
       <div class="ccard-title">📦 SKU</div>
@@ -323,12 +342,14 @@ tbody td{padding:11px 14px;color:var(--text);}
       <div class="ccard-diff" id="cc-peso-diff"><span class="diff-neu">— sem dados</span></div>
     </div>
   </div>
+
   <div class="dash-section-title">📈 Gráficos</div>
   <div class="charts-grid">
-    <div class="chart-box"><div class="chart-box-title">🍩 Status dos Agendamentos (Hoje)</div><div class="chart-wrap"><canvas id="chartDonut"></canvas></div></div>
+    <div class="chart-box"><div class="chart-box-title">🍩 Status dos Agendamentos</div><div class="chart-wrap"><canvas id="chartDonut"></canvas></div></div>
     <div class="chart-box"><div class="chart-box-title">📅 Agendamentos por Dia da Semana</div><div class="chart-wrap"><canvas id="chartBarDia"></canvas></div></div>
     <div class="chart-box"><div class="chart-box-title">📦 SKU / Volume / Peso — Agendado vs. Recebido</div><div class="chart-wrap"><canvas id="chartVolume"></canvas></div></div>
   </div>
+
   <div class="dash-section-title">🏭 Fornecedores Fixos do Dia</div>
   <div class="table-wrap">
     <div style="overflow-x:auto;">
@@ -340,7 +361,7 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ════════════════════ AGENDAMENTOS ════════════════════ -->
+<!-- AGENDAMENTOS -->
 <div class="tela" id="tela-agendamentos">
   <div class="page-title">📋 Agendamentos</div>
   <div class="metrics-row">
@@ -378,7 +399,6 @@ tbody td{padding:11px 14px;color:var(--text);}
         <option value="nao">Sem Nordil</option>
       </select>
     </div>
-    <!-- ── FILTRO ENCAIXE ── -->
     <div class="fg-f">
       <label>📌 Encaixe</label>
       <select id="f-encaixe" onchange="filtrarAgend()">
@@ -387,7 +407,6 @@ tbody td{padding:11px 14px;color:var(--text);}
         <option value="nao">Sem Encaixe</option>
       </select>
     </div>
-    <!-- ── FILTRO REAGENDADO ── -->
     <div class="fg-f">
       <label>🔁 Reagendado</label>
       <select id="f-reagend" onchange="filtrarAgend()">
@@ -422,7 +441,7 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ════════════════════ CONFERÊNCIA ════════════════════ -->
+<!-- CONFERÊNCIA -->
 <div class="tela" id="tela-conferencia">
   <div class="conf-page">
     <div id="conf-select-state">
@@ -530,7 +549,7 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ════════════════════ FORNECEDORES FIXOS ════════════════════ -->
+<!-- FORNECEDORES FIXOS -->
 <div class="tela" id="tela-fornecedores">
   <div class="page-title">🏭 Fornecedores Fixos — Confirmação de Entrega</div>
   <div class="alert alert-warn">⚠️ As confirmações são salvas por semana. A cada nova semana, tudo reinicia automaticamente.</div>
@@ -539,7 +558,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 
 </div><!-- /main -->
 
-<!-- ════════════════════ MODAL AGENDAMENTO ════════════════════ -->
+<!-- MODAL AGENDAMENTO -->
 <div class="modal-overlay" id="modal-agend">
 <div class="modal">
   <div class="modal-title">
@@ -562,7 +581,6 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
   <div class="sep"></div>
   <div class="sec-lbl">🏷️ Flags</div>
-  <!-- 4 flags em grade 2x2 -->
   <div class="flags-grid">
     <div class="sb" id="sb-ok"      onclick="selFlag('nf','ok')">      <div class="sbck" id="ck-ok"></div>     <div class="sbtx">✅ Nota OK</div></div>
     <div class="sb" id="sb-trat"    onclick="selFlag('nf','trat')">    <div class="sbck" id="ck-trat"></div>   <div class="sbtx">⚠️ Em Tratativa</div></div>
@@ -588,7 +606,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 <script>
 /* ══════════════════════════════════════════════════════
    CONFIGURAÇÃO DO GOOGLE SHEETS
-   ══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 const API_URL   = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
 const ABA_AGEND = 'agendamentos';
 const ABA_CONF  = 'confirmacoes';
@@ -605,13 +623,7 @@ function showSync(msg, syncing=true){
 
 /* ══════════════════════════════════════════════════════
    BANCO DE DADOS
-   ══════════════════════════════════════════════════════ */
-
-/* Linha planilha → objeto
-   ATENÇÃO: adicionamos duas colunas ao final:
-   [21] encaixe   (boolean string)
-   [22] reagendado (boolean string)
-*/
+══════════════════════════════════════════════════════ */
 function rowToAgend(r){
   return {
     dataSolic    : r[0]||'',
@@ -635,13 +647,12 @@ function rowToAgend(r){
     pesoRec      : r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
     _confInicioTs: r[19]||null,
     editadoEm    : r[20]||null,
-    encaixe      : r[21]==='true'||r[21]===true,   // ← NOVO
-    reagendado   : r[22]==='true'||r[22]===true,   // ← NOVO
-    dataOriginal : r[23]||'',                        // ← NOVO (data antes do primeiro reagend.)
+    encaixe      : r[21]==='true'||r[21]===true,
+    reagendado   : r[22]==='true'||r[22]===true,
+    dataOriginal : r[23]||'',
   };
 }
 
-/* Objeto → linha planilha */
 function agendToRow(a){
   return [
     a.dataSolic||'', a.data||'', a.nf||'', a.fornec||'',
@@ -655,9 +666,9 @@ function agendToRow(a){
     a.volRec!=null?a.volRec:'',
     a.pesoRec!=null?a.pesoRec:'',
     a._confInicioTs||'', a.editadoEm||'',
-    a.encaixe?'true':'false',      // ← NOVO [21]
-    a.reagendado?'true':'false',   // ← NOVO [22]
-    a.dataOriginal||'',            // ← NOVO [23]
+    a.encaixe?'true':'false',
+    a.reagendado?'true':'false',
+    a.dataOriginal||'',
   ];
 }
 
@@ -666,9 +677,8 @@ const HEADER_AGEND = [
   'statusNF','viaNoRdil','obs','status',
   'confInicio','confFim','confSLA','confConfer','confObs',
   'skuRec','volRec','pesoRec','_confInicioTs','editadoEm',
-  'encaixe','reagendado','dataOriginal'   // ← NOVO
+  'encaixe','reagendado','dataOriginal'
 ];
-
 const HEADER_CONF = ['chave','valor'];
 
 /* ── Sheets load/save ── */
@@ -722,7 +732,7 @@ function saveConf(){ localStorage.setItem('bm-conf-v2',  JSON.stringify(confirma
 
 /* ══════════════════════════════════════════════════════
    DADOS EM MEMÓRIA
-   ══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 let agendamentos = JSON.parse(localStorage.getItem('bm-agend-v2')||'[]');
 let confirmacoes = JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
 
@@ -800,8 +810,8 @@ function showTela(nome){
 }
 
 /* ══════════════════════════════════════════════════════
-   FLAGS — agora com 4 estados: nf / nordil / encaixe
-   ══════════════════════════════════════════════════════ */
+   FLAGS
+══════════════════════════════════════════════════════ */
 let flagNF='', flagNordil='', flagEncaixe='';
 
 function selFlag(grupo, valor){
@@ -812,22 +822,18 @@ function selFlag(grupo, valor){
 }
 
 function renderFlags(){
-  // Nota OK
   const sbOk=document.getElementById('sb-ok'),ckOk=document.getElementById('ck-ok');
   sbOk.className='sb'; ckOk.textContent='';
   if(flagNF==='ok'){sbOk.classList.add('sel-ok');ckOk.textContent='✓';}
 
-  // Em Tratativa
   const sbTr=document.getElementById('sb-trat'),ckTr=document.getElementById('ck-trat');
   sbTr.className='sb'; ckTr.textContent='';
   if(flagNF==='trat'){sbTr.classList.add('sel-trat');ckTr.textContent='✓';}
 
-  // Via Nordil
   const sbN=document.getElementById('sb-nordil'),ckN=document.getElementById('ck-nordil');
   sbN.className='sb'; ckN.textContent='';
   if(flagNordil==='sim'){sbN.classList.add('sel-nordil');ckN.textContent='✓';}
 
-  // Encaixe ← NOVO
   const sbE=document.getElementById('sb-encaixe'),ckE=document.getElementById('ck-encaixe');
   sbE.className='sb'; ckE.textContent='';
   if(flagEncaixe==='sim'){sbE.classList.add('sel-encaixe');ckE.textContent='✓';}
@@ -842,7 +848,7 @@ function setFlagsInit(statusNF, viaNoRdil, encaixe){
 
 /* ══════════════════════════════════════════════════════
    MODAL AGENDAMENTO
-   ══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 let editIdx=-1;
 
 function abrirModalAgend(idx=-1){
@@ -872,30 +878,23 @@ function abrirModalAgend(idx=-1){
 function fecharModalAgend(){document.getElementById('modal-agend').classList.remove('open');}
 
 /* ══════════════════════════════════════════════════════
-   SALVAR AGENDAMENTO — com lógica de reagendamento
-   ══════════════════════════════════════════════════════ */
+   SALVAR AGENDAMENTO
+══════════════════════════════════════════════════════ */
 function salvarAgend(){
   const fornec = document.getElementById('m-fornec').value.trim();
   const data   = document.getElementById('m-data').value;
   if(!data||!fornec){alert('Preencha ao menos a Data Agendada e o Fornecedor.');return;}
 
-  /* ── Verifica reagendamento (só em edição) ── */
   let isReagend = false;
   let dataOriginal = '';
 
   if(editIdx !== -1){
     const ant = agendamentos[editIdx];
     const dataAnterior = ant.data || '';
-
     if(data !== dataAnterior){
-      // Data mudou → pergunta se é reagendamento
-      isReagend = confirm(
-        `⚠️ A data foi alterada de ${fmtData(dataAnterior)} para ${fmtData(data)}.\n\nÉ um reagendamento?`
-      );
-      // Preserva a data original (a mais antiga registrada)
+      isReagend = confirm(`⚠️ A data foi alterada de ${fmtData(dataAnterior)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
       dataOriginal = ant.dataOriginal || dataAnterior;
     } else {
-      // Data não mudou → mantém estado anterior de reagendado
       isReagend    = ant.reagendado    || false;
       dataOriginal = ant.dataOriginal  || '';
     }
@@ -911,9 +910,9 @@ function salvarAgend(){
     pesoEsp      : parseFloat(document.getElementById('m-peso').value)||0,
     statusNF     : flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
     viaNoRdil    : flagNordil==='sim',
-    encaixe      : flagEncaixe==='sim',     // ← NOVO
-    reagendado   : isReagend,               // ← NOVO
-    dataOriginal : dataOriginal,            // ← NOVO
+    encaixe      : flagEncaixe==='sim',
+    reagendado   : isReagend,
+    dataOriginal : dataOriginal,
     obs          : document.getElementById('m-obs').value.trim(),
     status       : editIdx===-1?(data<getDataHoje()?'Atrasado':'Aguardando'):ant.status,
     confInicio   : ant.confInicio   ?? null,
@@ -941,11 +940,10 @@ function badgeNF(v){
   return'<span class="badge b-nfnone">— Sem info</span>';
 }
 function badgeNordil(v)  { return v?'<span class="badge b-nordil">🔀 Nordil</span>':''; }
-function badgeEncaixe(v) { return v?'<span class="badge b-encaixe">📌 Encaixe</span>':''; }  // ← NOVO
-function badgeReagend(v) { return v?'<span class="badge b-reagend">🔁 Reagendado</span>':''; } // ← NOVO
+function badgeEncaixe(v) { return v?'<span class="badge b-encaixe">📌 Encaixe</span>':''; }
+function badgeReagend(v) { return v?'<span class="badge b-reagend">🔁 Reagendado</span>':''; }
 function badgeStatus(s)  { return STATUS_BADGE[s]||`<span class="badge b-aguard">${s}</span>`; }
 
-/* Helper — monta coluna "Flags" (Nordil + Encaixe + Reagendado) */
 function badgeFlags(a){
   return [badgeNordil(a.viaNoRdil), badgeEncaixe(a.encaixe), badgeReagend(a.reagendado)]
     .filter(Boolean).join(' ') || '—';
@@ -1004,8 +1002,8 @@ function filtrarAgend(){
   const s      = document.getElementById('f-status').value;
   const nf     = document.getElementById('f-nf').value;
   const nrd    = document.getElementById('f-nordil').value;
-  const enc    = document.getElementById('f-encaixe').value;   // ← NOVO
-  const rea    = document.getElementById('f-reagend').value;   // ← NOVO
+  const enc    = document.getElementById('f-encaixe').value;
+  const rea    = document.getElementById('f-reagend').value;
   const f      = document.getElementById('f-fornec').value;
 
   renderAgend(agendamentos.filter(a=>{
@@ -1015,10 +1013,10 @@ function filtrarAgend(){
     if(nf  && a.statusNF!==nf)    return false;
     if(nrd==='sim' && !a.viaNoRdil)  return false;
     if(nrd==='nao' &&  a.viaNoRdil)  return false;
-    if(enc==='sim' && !a.encaixe)    return false;   // ← NOVO
-    if(enc==='nao' &&  a.encaixe)    return false;   // ← NOVO
-    if(rea==='sim' && !a.reagendado) return false;   // ← NOVO
-    if(rea==='nao' &&  a.reagendado) return false;   // ← NOVO
+    if(enc==='sim' && !a.encaixe)    return false;
+    if(enc==='nao' &&  a.encaixe)    return false;
+    if(rea==='sim' && !a.reagendado) return false;
+    if(rea==='nao' &&  a.reagendado) return false;
     if(f   && a.fornec!==f)       return false;
     return true;
   }));
@@ -1030,7 +1028,9 @@ function limparFiltrosAgend(){
   renderAgend();
 }
 
-/* ─── CONFERÊNCIA ─── */
+/* ══════════════════════════════════════════════════════
+   CONFERÊNCIA
+══════════════════════════════════════════════════════ */
 let timerInterval=null,confInicio=null,confAgendIdx=-1;
 
 function renderConfLista(){
@@ -1218,7 +1218,9 @@ function mostrarResultado(){
   document.getElementById('c-res-sub').textContent=`SLA: ${fmtMin(a.confSLA)} min  |  ${a.data===getDataHoje()?'Pontual':'Atrasado'}  |  Conferente: ${a.confConfer||'—'}`;
 }
 
-/* ─── FORNECEDORES FIXOS ─── */
+/* ══════════════════════════════════════════════════════
+   FORNECEDORES FIXOS
+══════════════════════════════════════════════════════ */
 function getKeyFixo(dia,codigo){return`${getChaveSemana()}_${dia}_${codigo}`;}
 function renderFornecedores(){
   const diaHoje=getDiaHoje(),container=document.getElementById('fornec-fixos-container');
@@ -1245,116 +1247,215 @@ function confFixo(key,st){
   renderFornecedores();
 }
 
-/* ─── DASHBOARD ─── */
-let chartDonut=null,chartBarDia=null,chartVolume=null;
+/* ══════════════════════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════════════════════ */
+let chartDonut=null, chartBarDia=null, chartVolume=null;
+
+function atualizarFiltrosDash(){
+  const sel = document.getElementById('df-fornec');
+  const at  = sel.value;
+  const lista = [...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">Todos</option>' +
+    lista.map(f=>`<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
+}
+
+function limparFiltrosDash(){
+  document.getElementById('df-data').value   = '';
+  document.getElementById('df-status').value = '';
+  document.getElementById('df-fornec').value = '';
+  renderDashboard();
+}
+
+/* ── CORREÇÃO PRINCIPAL: filtro inteligente ── */
+function getDadosDashFiltrado(){
+  const fData   = document.getElementById('df-data')?.value   || '';
+  const fStatus = document.getElementById('df-status')?.value || '';
+  const fFornec = document.getElementById('df-fornec')?.value || '';
+  const semFiltro = !fData && !fStatus && !fFornec;
+  const hoje = getDataHoje();
+
+  return agendamentos.filter(a => {
+    if(semFiltro){
+      // Sem filtro: mostra agendamentos de hoje OU com conferência iniciada hoje
+      const eHoje     = a.data === hoje;
+      const confHoje  = a._confInicioTs && a._confInicioTs.startsWith(hoje);
+      return eHoje || confHoje;
+    }
+    if(fData   && a.data   !== fData)   return false;
+    if(fStatus && a.status !== fStatus) return false;
+    if(fFornec && a.fornec !== fFornec) return false;
+    return true;
+  });
+}
+
 function renderDashboard(){
   atualizarStatusAgendamentos();
-  const hoje=getDataHoje(),diaHoje=getDiaHoje();
-  const hj=agendamentos.filter(a=>a.data===hoje);
-  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
-  const totalHoje=hj.length+fixosHoje.length;
-  const conc  =hj.filter(a=>a.status==='Concluído OK').length;
-  const nfinal=hj.filter(a=>a.status==='Não Finalizado').length;
-  const and   =hj.filter(a=>a.status==='Em Conferência').length;
-  const agua  =hj.filter(a=>a.status==='Aguardando').length;
-  const atr   =agendamentos.filter(a=>a.status==='Atrasado').length;
-  const slaLista=agendamentos.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
-  const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
-  document.getElementById('d-total').textContent     =totalHoje;
-  document.getElementById('d-concluidos').textContent=conc;
-  document.getElementById('d-nfinal').textContent    =nfinal;
-  document.getElementById('d-andamento').textContent =and;
-  document.getElementById('d-aguardando').textContent=agua;
-  document.getElementById('d-atrasados').textContent =atr;
-  document.getElementById('d-sla').textContent       =slaMed!=null?fmtMin(slaMed)+' min':'—';
-  const hjConf=hj.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
-  const skuEspT =hj.reduce((s,a)=>s+(a.skuEsp||0),0),  skuRecT =hjConf.reduce((s,a)=>s+(a.skuRec||0),0);
-  const volEspT =hj.reduce((s,a)=>s+(a.volEsp||0),0),  volRecT =hjConf.reduce((s,a)=>s+(a.volRec||0),0);
-  const pesoEspT=hj.reduce((s,a)=>s+(a.pesoEsp||0),0), pesoRecT=hjConf.reduce((s,a)=>s+(a.pesoRec||0),0);
+  atualizarFiltrosDash();
+
+  const hoje    = getDataHoje();
+  const diaHoje = getDiaHoje();
+  const dados   = getDadosDashFiltrado();
+
+  const fData   = document.getElementById('df-data')?.value   || '';
+  const fStatus = document.getElementById('df-status')?.value || '';
+  const fFornec = document.getElementById('df-fornec')?.value || '';
+  const semFiltro = !fData && !fStatus && !fFornec;
+
+  // Tag de data
+  const tagEl = document.getElementById('dash-data-hoje');
+  if(semFiltro)      tagEl.textContent = new Date().toLocaleDateString('pt-BR');
+  else if(fData)     tagEl.textContent = fmtData(fData);
+  else               tagEl.textContent = 'Filtro aplicado';
+
+  // Fixos só aparecem quando visualizando hoje
+  const mostrarFixos = semFiltro || fData === hoje;
+  const fixosHoje    = mostrarFixos ? FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje)) : [];
+
+  // ── Cards ──
+  const conc   = dados.filter(a=>a.status==='Concluído OK').length;
+  const nfinal = dados.filter(a=>a.status==='Não Finalizado').length;
+  const and    = dados.filter(a=>a.status==='Em Conferência').length;
+  const agua   = dados.filter(a=>a.status==='Aguardando').length;
+  const atr    = dados.filter(a=>a.status==='Atrasado').length;
+  const total  = dados.length + (semFiltro ? fixosHoje.length : 0);
+
+  const slaLista = dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
+  const slaMed   = slaLista.length ? Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length) : null;
+
+  document.getElementById('d-total').textContent      = total;
+  document.getElementById('d-concluidos').textContent = conc;
+  document.getElementById('d-nfinal').textContent     = nfinal;
+  document.getElementById('d-andamento').textContent  = and;
+  document.getElementById('d-aguardando').textContent = agua;
+  document.getElementById('d-atrasados').textContent  = atr;
+  document.getElementById('d-sla').textContent        = slaMed!=null ? fmtMin(slaMed)+' min' : '—';
+
+  // ── Comparativo ──
+  const dadosConf = dados.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
+  const skuEspT   = dados.reduce((s,a)=>s+(a.skuEsp||0),0);
+  const skuRecT   = dadosConf.reduce((s,a)=>s+(a.skuRec||0),0);
+  const volEspT   = dados.reduce((s,a)=>s+(a.volEsp||0),0);
+  const volRecT   = dadosConf.reduce((s,a)=>s+(a.volRec||0),0);
+  const pesoEspT  = dados.reduce((s,a)=>s+(a.pesoEsp||0),0);
+  const pesoRecT  = dadosConf.reduce((s,a)=>s+(a.pesoRec||0),0);
+
   function setComp(eId,rId,bId,dId,esp,rec,cls){
-    document.getElementById(eId).textContent=cls==='peso-fill'?esp.toFixed(1)+' kg':esp;
-    document.getElementById(rId).textContent=cls==='peso-fill'?rec.toFixed(1)+' kg':rec;
-    const pct=esp>0?Math.min((rec/esp)*100,150):0;
-    const bar=document.getElementById(bId);bar.style.width=pct+'%';
-    bar.className=`ccard-bar-fill ${cls}${pct>100?' over':''}`;
-    const dEl=document.getElementById(dId);
-    if(!hjConf.length){dEl.innerHTML='<span class="diff-neu">— sem conferências</span>';return;}
-    const diff=rec-esp,suf=cls==='peso-fill'?' kg':'';
-    if(diff===0) dEl.innerHTML='<span class="diff-ok">✅ Sem divergência</span>';
+    document.getElementById(eId).textContent = cls==='peso-fill' ? esp.toFixed(1)+' kg' : esp;
+    document.getElementById(rId).textContent = cls==='peso-fill' ? rec.toFixed(1)+' kg' : rec;
+    const pct = esp>0 ? Math.min((rec/esp)*100,150) : 0;
+    const bar = document.getElementById(bId);
+    bar.style.width = pct+'%';
+    bar.className   = `ccard-bar-fill ${cls}${pct>100?' over':''}`;
+    const dEl = document.getElementById(dId);
+    if(!dadosConf.length){dEl.innerHTML='<span class="diff-neu">— sem conferências</span>';return;}
+    const diff=rec-esp, suf=cls==='peso-fill'?' kg':'';
+    if(diff===0)    dEl.innerHTML='<span class="diff-ok">✅ Sem divergência</span>';
     else if(diff>0) dEl.innerHTML=`<span class="diff-div">▲ +${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a mais</span>`;
     else            dEl.innerHTML=`<span class="diff-div">▼ ${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a menos</span>`;
   }
   setComp('cc-sku-esp','cc-sku-rec','cc-sku-bar','cc-sku-diff',skuEspT,skuRecT,'sku-fill');
   setComp('cc-vol-esp','cc-vol-rec','cc-vol-bar','cc-vol-diff',volEspT,volRecT,'vol-fill');
   setComp('cc-peso-esp','cc-peso-rec','cc-peso-bar','cc-peso-diff',pesoEspT,pesoRecT,'peso-fill');
-  const ctxD=document.getElementById('chartDonut').getContext('2d');
-  if(chartDonut)chartDonut.destroy();
-  chartDonut=new Chart(ctxD,{type:'doughnut',data:{
-    labels:['Concluído OK','Não Finalizado','Em Conferência','Aguardando'],
-    datasets:[{data:[conc,nfinal,and,agua],backgroundColor:['#16a34a','#d97706','#1d4ed8','#9ca3af'],borderColor:'#fff',borderWidth:2}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},cutout:'65%'}});
+
+  // ── Gráfico Donut ──
+  const ctxD = document.getElementById('chartDonut').getContext('2d');
+  if(chartDonut) chartDonut.destroy();
+  chartDonut = new Chart(ctxD,{type:'doughnut',data:{
+    labels:['Concluído OK','Não Finalizado','Em Conferência','Aguardando','Atrasado'],
+    datasets:[{data:[conc,nfinal,and,agua,atr],
+      backgroundColor:['#16a34a','#d97706','#1d4ed8','#9ca3af','#dc2626'],
+      borderColor:'#fff',borderWidth:2}]
+  },options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},
+    cutout:'65%'}});
+
+  // ── Gráfico por Dia — apenas dados reais dos agendamentos filtrados ──
   const porDia={SEGUNDA:0,TERCA:0,QUARTA:0,QUINTA:0,SEXTA:0};
-  agendamentos.forEach(a=>{const d=new Date(a.data+'T12:00:00'),dia=DIAS_IDX[d.getDay()];if(porDia[dia]!==undefined)porDia[dia]++;});
-  FORNECEDORES_FIXOS.forEach(f=>f.dias.forEach(d=>{if(porDia[d]!==undefined)porDia[d]++;}));
-  const ctxB=document.getElementById('chartBarDia').getContext('2d');
-  if(chartBarDia)chartBarDia.destroy();
-  chartBarDia=new Chart(ctxB,{type:'bar',data:{
+  dados.forEach(a=>{
+    const d=new Date(a.data+'T12:00:00'), dia=DIAS_IDX[d.getDay()];
+    if(porDia[dia]!==undefined) porDia[dia]++;
+  });
+  // Fornecedores fixos NÃO são somados aqui — evita distorção dos dados reais
+  const ctxB = document.getElementById('chartBarDia').getContext('2d');
+  if(chartBarDia) chartBarDia.destroy();
+  chartBarDia = new Chart(ctxB,{type:'bar',data:{
     labels:['Seg','Ter','Qua','Qui','Sex'],
     datasets:[{label:'Agendamentos',data:Object.values(porDia),backgroundColor:'#1a1a1a',borderRadius:6,borderSkipped:false}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-    scales:{y:{beginAtZero:true,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#f3f4f6'}},x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
-  const ctxV=document.getElementById('chartVolume').getContext('2d');
-  if(chartVolume)chartVolume.destroy();
-  chartVolume=new Chart(ctxV,{type:'bar',data:{
+  },options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#f3f4f6'}},
+            x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
+
+  // ── Gráfico Volume ──
+  const ctxV = document.getElementById('chartVolume').getContext('2d');
+  if(chartVolume) chartVolume.destroy();
+  chartVolume = new Chart(ctxV,{type:'bar',data:{
     labels:['SKU','Volume (Cx)','Peso (kg)'],
     datasets:[
-      {label:'Agendado',data:[skuEspT,volEspT,pesoEspT],backgroundColor:'#9ca3af',borderRadius:4,borderSkipped:false},
-      {label:'Recebido',data:[skuRecT,volRecT,pesoRecT],backgroundColor:'#1a1a1a',borderRadius:4,borderSkipped:false},
+      {label:'Agendado', data:[skuEspT,volEspT,pesoEspT],backgroundColor:'#9ca3af',borderRadius:4,borderSkipped:false},
+      {label:'Recebido', data:[skuRecT,volRecT,pesoRecT],backgroundColor:'#1a1a1a',borderRadius:4,borderSkipped:false},
     ]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151'}}},
-    scales:{y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
-  const tbFixos=document.getElementById('dash-fixos-tbody');
-  if(!fixosHoje.length){tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;}
-  else tbFixos.innerHTML=fixosHoje.map(f=>{
-    const k=getKeyFixo(diaHoje,f.codigo),st=confirmacoes[k]||'';
-    const badge=st==='confirmado'?'<span class="badge b-conf">✅ Entregou</span>':st==='naoveio'?'<span class="badge b-atrasado">❌ Não veio</span>':'<span class="badge b-aguard">⏳ Aguardando</span>';
-    return`<tr><td><strong>${f.nome}</strong></td><td>${f.codigo}</td><td>${badge}</td></tr>`;
-  }).join('');
+  },options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151'}}},
+    scales:{y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},
+            x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
+
+  // ── Tabela Fixos ──
+  const tbFixos = document.getElementById('dash-fixos-tbody');
+  if(!fixosHoje.length){
+    tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">${mostrarFixos?'Nenhum fornecedor fixo hoje.':'Selecione a data de hoje para ver os fornecedores fixos.'}</td></tr>`;
+  } else {
+    tbFixos.innerHTML = fixosHoje.map(f=>{
+      const k=getKeyFixo(diaHoje,f.codigo), st=confirmacoes[k]||'';
+      const badge=st==='confirmado'?'<span class="badge b-conf">✅ Entregou</span>':
+                  st==='naoveio'  ?'<span class="badge b-atrasado">❌ Não veio</span>':
+                                   '<span class="badge b-aguard">⏳ Aguardando</span>';
+      return`<tr><td><strong>${f.nome}</strong></td><td>${f.codigo}</td><td>${badge}</td></tr>`;
+    }).join('');
+  }
 }
 
-/* ─── PDF ─── */
+/* ══════════════════════════════════════════════════════
+   PDF
+══════════════════════════════════════════════════════ */
 function exportarPDF(){
   const{jsPDF}=window.jspdf,doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const hoje=getDataHoje(),diaHoje=getDiaHoje();
   const dataFmt=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-  const hj=agendamentos.filter(a=>a.data===hoje);
+
+  const dados   = getDadosDashFiltrado();
   const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
-  const conc=hj.filter(a=>a.status==='Concluído OK').length;
-  const nfinal=hj.filter(a=>a.status==='Não Finalizado').length;
-  const atr=agendamentos.filter(a=>a.status==='Atrasado').length;
-  const slaLista=agendamentos.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
-  const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
-  const hjConf=hj.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
-  const skuEsp=hj.reduce((s,a)=>s+(a.skuEsp||0),0),skuRec=hjConf.reduce((s,a)=>s+(a.skuRec||0),0);
-  const volEsp=hj.reduce((s,a)=>s+(a.volEsp||0),0),volRec=hjConf.reduce((s,a)=>s+(a.volRec||0),0);
-  const pesoEsp=hj.reduce((s,a)=>s+(a.pesoEsp||0),0),pesoRec=hjConf.reduce((s,a)=>s+(a.pesoRec||0),0);
-  let y=15;const W=210,lm=14;
+
+  const conc   =dados.filter(a=>a.status==='Concluído OK').length;
+  const nfinal =dados.filter(a=>a.status==='Não Finalizado').length;
+  const atr    =dados.filter(a=>a.status==='Atrasado').length;
+  const slaLista=dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
+  const slaMed =slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
+
+  const dadosConf=dados.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
+  const skuEsp=dados.reduce((s,a)=>s+(a.skuEsp||0),0), skuRec=dadosConf.reduce((s,a)=>s+(a.skuRec||0),0);
+  const volEsp=dados.reduce((s,a)=>s+(a.volEsp||0),0), volRec=dadosConf.reduce((s,a)=>s+(a.volRec||0),0);
+  const pesoEsp=dados.reduce((s,a)=>s+(a.pesoEsp||0),0),pesoRec=dadosConf.reduce((s,a)=>s+(a.pesoRec||0),0);
+
+  let y=15; const W=210,lm=14;
   doc.setFillColor(26,26,26);doc.rect(0,0,W,28,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text('RECEBIMENTO-BM',lm,12);
   doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Relatório Operacional de Recebimento',lm,18);doc.text(dataFmt,lm,24);
   doc.setTextColor(26,26,26);y=36;
-  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('INDICADORES DO DIA',lm,y);y+=6;
+
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('INDICADORES',lm,y);y+=6;
   doc.setDrawColor(200,200,200);doc.setLineWidth(0.3);doc.line(lm,y,W-lm,y);y+=4;
   doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Indicador','Valor']],body:[
-    ['Total Agendamentos',hj.length+fixosHoje.length],
+    ['Total no Filtro',dados.length],
     ['Concluídos OK',conc],['Não Finalizados',nfinal],['Atrasados',atr],
-    ['Via Nordil',agendamentos.filter(a=>a.viaNoRdil).length],
-    ['Encaixe',agendamentos.filter(a=>a.encaixe).length],
-    ['Reagendados',agendamentos.filter(a=>a.reagendado).length],
+    ['Via Nordil',dados.filter(a=>a.viaNoRdil).length],
+    ['Encaixe',dados.filter(a=>a.encaixe).length],
+    ['Reagendados',dados.filter(a=>a.reagendado).length],
     ['Tempo Médio Conferência',slaMed!=null?fmtMin(slaMed)+' min':'—'],
-    ['Fornecedores Fixos Hoje',fixosHoje.length],
   ],styles:{fontSize:10,cellPadding:3},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
   alternateRowStyles:{fillColor:[245,245,245]},columnStyles:{0:{cellWidth:120},1:{cellWidth:60,halign:'center',fontStyle:'bold'}}});
+
   y=doc.lastAutoTable.finalY+10;
   if(y>240){doc.addPage();y=15;}
   doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('COMPARATIVO — AGENDADO vs. RECEBIDO',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=4;
@@ -1364,39 +1465,45 @@ function exportarPDF(){
     ['Peso (kg)',pesoEsp.toFixed(1),pesoRec.toFixed(1),(pesoRec-pesoEsp)>=0?'+'+(pesoRec-pesoEsp).toFixed(1):(pesoRec-pesoEsp).toFixed(1)],
   ],styles:{fontSize:10,cellPadding:3},headStyles:{fillColor:[79,70,229],textColor:255,fontStyle:'bold'},
   alternateRowStyles:{fillColor:[245,245,255]},columnStyles:{1:{halign:'center'},2:{halign:'center',fontStyle:'bold'},3:{halign:'center',fontStyle:'bold'}}});
+
   y=doc.lastAutoTable.finalY+10;
   if(y>240){doc.addPage();y=15;}
   doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('AGENDAMENTOS CONCLUÍDOS',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=2;
-  const concList=agendamentos.filter(a=>['Concluído OK','Não Finalizado'].includes(a.status));
+  const concList=dados.filter(a=>['Concluído OK','Não Finalizado'].includes(a.status));
   if(concList.length){
     doc.autoTable({startY:y,margin:{left:lm,right:lm},
       head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Nordil','Encaixe','Reagend.','Status NF','Status','SLA']],
       body:concList.map(a=>[
         fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',
-        a.viaNoRdil?'Sim':'—', a.encaixe?'Sim':'—', a.reagendado?'Sim':'—',
+        a.viaNoRdil?'Sim':'—',a.encaixe?'Sim':'—',a.reagendado?'Sim':'—',
         a.statusNF||'—',a.status,a.confSLA!=null?fmtMin(a.confSLA)+' min':'—'
       ]),
       styles:{fontSize:7,cellPadding:2},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[245,245,245]}});
     y=doc.lastAutoTable.finalY+10;
   }
+
   if(y>240){doc.addPage();y=15;}
   doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('PENDÊNCIAS E ATRASOS',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=2;
-  const pendList=agendamentos.filter(a=>['Aguardando','Atrasado','Em Conferência'].includes(a.status));
+  const pendList=dados.filter(a=>['Aguardando','Atrasado','Em Conferência'].includes(a.status));
   if(pendList.length){
     doc.autoTable({startY:y,margin:{left:lm,right:lm},
       head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Nordil','Encaixe','Reagend.','Status']],
       body:pendList.map(a=>[
         fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',
-        a.viaNoRdil?'Sim':'—', a.encaixe?'Sim':'—', a.reagendado?'Sim':'—', a.status
+        a.viaNoRdil?'Sim':'—',a.encaixe?'Sim':'—',a.reagendado?'Sim':'—',a.status
       ]),
       styles:{fontSize:8,cellPadding:2},headStyles:{fillColor:[220,38,38],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[255,245,245]}});
   } else {
-    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(22,163,74);doc.text('✓ Nenhuma pendência registrada.',lm,y+5);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(22,163,74);
+    doc.text('Nenhuma pendência registrada.',lm,y+5);
     doc.setTextColor(26,26,26);
   }
+
   const pages=doc.internal.getNumberOfPages();
-  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(150,150,150);
-    doc.text(`Recebimento-BM  |  Gerado em ${new Date().toLocaleString('pt-BR')}  |  Página ${i} de ${pages}`,lm,292);}
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(150,150,150);
+    doc.text(`Recebimento-BM  |  Gerado em ${new Date().toLocaleString('pt-BR')}  |  Página ${i} de ${pages}`,lm,292);
+  }
   doc.save(`Relatorio_Recebimento_${hoje}.pdf`);
 }
 
