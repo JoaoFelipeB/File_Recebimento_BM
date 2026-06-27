@@ -95,6 +95,9 @@ tbody td{padding:11px 14px;color:var(--text);}
 .b-editado   {background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;}
 .b-nordil    {background:#ede9fe;color:#7c3aed;border:1px solid #c4b5fd;}
 .b-nordil-no {background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;}
+/* ── NOVAS BADGES ── */
+.b-encaixe   {background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;}
+.b-reagend   {background:#fdf4ff;color:#a21caf;border:1px solid #e879f9;}
 .b-seg{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
 .b-ter{background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;}
 .b-qua{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
@@ -138,7 +141,10 @@ tbody td{padding:11px 14px;color:var(--text);}
 .fg textarea{resize:vertical;min-height:70px;}
 .sep{height:1px;background:var(--border);margin:16px 0;}
 .sec-lbl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
-.flags-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px;}
+
+/* ── FLAGS GRID agora com 4 colunas (2x2) ── */
+.flags-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+
 .sb{padding:12px 14px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;user-select:none;}
 .sb:hover{border-color:#9ca3af;}
 .sb .sbck{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
@@ -152,6 +158,11 @@ tbody td{padding:11px 14px;color:var(--text);}
 .sb.sel-nordil{border-color:#7c3aed;background:#ede9fe;}
 .sb.sel-nordil .sbck{background:#7c3aed;border-color:#7c3aed;color:#fff;}
 .sb.sel-nordil .sbtx{color:#7c3aed;}
+/* ── FLAG ENCAIXE ── */
+.sb.sel-encaixe{border-color:#c2410c;background:#fff7ed;}
+.sb.sel-encaixe .sbck{background:#c2410c;border-color:#c2410c;color:#fff;}
+.sb.sel-encaixe .sbtx{color:#c2410c;}
+
 .status-conf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:8px;}
 .sc-opt{padding:10px 14px;border-radius:10px;border:2px solid var(--border);background:#f8f9fa;cursor:pointer;text-align:center;transition:all .2s;user-select:none;}
 .sc-opt:hover{border-color:#9ca3af;}
@@ -367,6 +378,24 @@ tbody td{padding:11px 14px;color:var(--text);}
         <option value="nao">Sem Nordil</option>
       </select>
     </div>
+    <!-- ── FILTRO ENCAIXE ── -->
+    <div class="fg-f">
+      <label>📌 Encaixe</label>
+      <select id="f-encaixe" onchange="filtrarAgend()">
+        <option value="">Todos</option>
+        <option value="sim">📌 Encaixe</option>
+        <option value="nao">Sem Encaixe</option>
+      </select>
+    </div>
+    <!-- ── FILTRO REAGENDADO ── -->
+    <div class="fg-f">
+      <label>🔁 Reagendado</label>
+      <select id="f-reagend" onchange="filtrarAgend()">
+        <option value="">Todos</option>
+        <option value="sim">🔁 Reagendado</option>
+        <option value="nao">Não Reagendado</option>
+      </select>
+    </div>
     <div class="fg-f"><label>🏭 Fornecedor</label><select id="f-fornec" onchange="filtrarAgend()"><option value="">Todos</option></select></div>
     <div style="display:flex;align-items:flex-end;">
       <button class="btn btn-outline" onclick="limparFiltrosAgend()">🔄 Limpar</button>
@@ -382,7 +411,7 @@ tbody td{padding:11px 14px;color:var(--text);}
         <thead><tr>
           <th>Dt. Solicitação</th><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th>
           <th>SKU Esp.</th><th>Vol. Esp.</th><th>Peso Esp.</th>
-          <th>Via Nordil</th><th>Status NF</th><th>Status Conf.</th><th>SLA</th><th>Ações</th>
+          <th>Flags</th><th>Status NF</th><th>Status Conf.</th><th>SLA</th><th>Ações</th>
         </tr></thead>
         <tbody id="tbody-agend"></tbody>
       </table>
@@ -403,7 +432,7 @@ tbody td{padding:11px 14px;color:var(--text);}
         <div class="table-header"><div class="table-title">📋 Selecione o Agendamento</div></div>
         <div style="overflow-x:auto;">
           <table>
-            <thead><tr><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th><th>Via Nordil</th><th>Status</th><th>Ação</th></tr></thead>
+            <thead><tr><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th><th>Flags</th><th>Status</th><th>Ação</th></tr></thead>
             <tbody id="conf-lista-tbody"></tbody>
           </table>
         </div>
@@ -533,10 +562,12 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
   <div class="sep"></div>
   <div class="sec-lbl">🏷️ Flags</div>
+  <!-- 4 flags em grade 2x2 -->
   <div class="flags-grid">
-    <div class="sb" id="sb-ok"     onclick="selFlag('nf','ok')">    <div class="sbck" id="ck-ok"></div>    <div class="sbtx">✅ Nota OK</div></div>
-    <div class="sb" id="sb-trat"   onclick="selFlag('nf','trat')">  <div class="sbck" id="ck-trat"></div>  <div class="sbtx">⚠️ Em Tratativa</div></div>
-    <div class="sb" id="sb-nordil" onclick="selFlag('nordil','sim')"><div class="sbck" id="ck-nordil"></div><div class="sbtx">🔀 Via Nordil</div></div>
+    <div class="sb" id="sb-ok"      onclick="selFlag('nf','ok')">      <div class="sbck" id="ck-ok"></div>     <div class="sbtx">✅ Nota OK</div></div>
+    <div class="sb" id="sb-trat"    onclick="selFlag('nf','trat')">    <div class="sbck" id="ck-trat"></div>   <div class="sbtx">⚠️ Em Tratativa</div></div>
+    <div class="sb" id="sb-nordil"  onclick="selFlag('nordil','sim')"> <div class="sbck" id="ck-nordil"></div> <div class="sbtx">🔀 Via Nordil</div></div>
+    <div class="sb" id="sb-encaixe" onclick="selFlag('encaixe','sim')"><div class="sbck" id="ck-encaixe"></div><div class="sbtx">📌 Encaixe</div></div>
   </div>
   <div class="sep"></div>
   <div class="sec-lbl">📝 Observações</div>
@@ -558,7 +589,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 /* ══════════════════════════════════════════════════════
    CONFIGURAÇÃO DO GOOGLE SHEETS
    ══════════════════════════════════════════════════════ */
-const API_URL = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
+const API_URL   = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
 const ABA_AGEND = 'agendamentos';
 const ABA_CONF  = 'confirmacoes';
 
@@ -573,10 +604,14 @@ function showSync(msg, syncing=true){
 }
 
 /* ══════════════════════════════════════════════════════
-   BANCO DE DADOS — Google Sheets (com fallback localStorage)
+   BANCO DE DADOS
    ══════════════════════════════════════════════════════ */
 
-/* Converte linha da planilha → objeto agendamento */
+/* Linha planilha → objeto
+   ATENÇÃO: adicionamos duas colunas ao final:
+   [21] encaixe   (boolean string)
+   [22] reagendado (boolean string)
+*/
 function rowToAgend(r){
   return {
     dataSolic    : r[0]||'',
@@ -600,10 +635,13 @@ function rowToAgend(r){
     pesoRec      : r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
     _confInicioTs: r[19]||null,
     editadoEm    : r[20]||null,
+    encaixe      : r[21]==='true'||r[21]===true,   // ← NOVO
+    reagendado   : r[22]==='true'||r[22]===true,   // ← NOVO
+    dataOriginal : r[23]||'',                        // ← NOVO (data antes do primeiro reagend.)
   };
 }
 
-/* Converte objeto agendamento → linha da planilha */
+/* Objeto → linha planilha */
 function agendToRow(a){
   return [
     a.dataSolic||'', a.data||'', a.nf||'', a.fornec||'',
@@ -616,26 +654,27 @@ function agendToRow(a){
     a.skuRec!=null?a.skuRec:'',
     a.volRec!=null?a.volRec:'',
     a.pesoRec!=null?a.pesoRec:'',
-    a._confInicioTs||'', a.editadoEm||''
+    a._confInicioTs||'', a.editadoEm||'',
+    a.encaixe?'true':'false',      // ← NOVO [21]
+    a.reagendado?'true':'false',   // ← NOVO [22]
+    a.dataOriginal||'',            // ← NOVO [23]
   ];
 }
 
-/* Cabeçalho da aba agendamentos */
 const HEADER_AGEND = [
   'dataSolic','data','nf','fornec','skuEsp','volEsp','pesoEsp',
   'statusNF','viaNoRdil','obs','status',
   'confInicio','confFim','confSLA','confConfer','confObs',
-  'skuRec','volRec','pesoRec','_confInicioTs','editadoEm'
+  'skuRec','volRec','pesoRec','_confInicioTs','editadoEm',
+  'encaixe','reagendado','dataOriginal'   // ← NOVO
 ];
 
-/* Cabeçalho da aba confirmacoes */
 const HEADER_CONF = ['chave','valor'];
 
-/* Carrega TUDO do Sheets na inicialização */
+/* ── Sheets load/save ── */
 async function carregarDoSheets(){
   showSync('Carregando dados…', true);
   try {
-    // Agendamentos
     const resA = await fetch(`${API_URL}?aba=${ABA_AGEND}`);
     const jsonA = await resA.json();
     if(jsonA.ok && jsonA.data.length > 1){
@@ -643,8 +682,6 @@ async function carregarDoSheets(){
       agendamentos = rows.map(rowToAgend);
       localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos));
     }
-
-    // Confirmações fornecedores fixos
     const resC = await fetch(`${API_URL}?aba=${ABA_CONF}`);
     const jsonC = await resC.json();
     if(jsonC.ok && jsonC.data.length > 1){
@@ -653,7 +690,6 @@ async function carregarDoSheets(){
       rowsC.forEach(r=>{ if(r[0]) confirmacoes[r[0]] = r[1]; });
       localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));
     }
-
     showSync('Sincronizado ✓', false);
   } catch(e){
     console.warn('Sheets offline — usando localStorage.', e);
@@ -663,53 +699,29 @@ async function carregarDoSheets(){
   renderDashboard();
 }
 
-/* Salva agendamentos no Sheets */
 async function salvarAgendSheets(){
   showSync('Salvando…', true);
   try {
     const dados = [HEADER_AGEND, ...agendamentos.map(agendToRow)];
-    await fetch(API_URL, {
-      method : 'POST',
-      body   : JSON.stringify({ aba: ABA_AGEND, acao: 'salvar', dados }),
-    });
+    await fetch(API_URL, {method:'POST', body:JSON.stringify({aba:ABA_AGEND, acao:'salvar', dados})});
     showSync('Salvo ✓', false);
-  } catch(e){
-    console.warn('Erro ao salvar no Sheets.', e);
-    showSync('Erro ao salvar', false);
-  }
+  } catch(e){ showSync('Erro ao salvar', false); }
 }
 
-/* Salva confirmações de fornecedores fixos no Sheets */
 async function salvarConfSheets(){
   showSync('Salvando…', true);
   try {
-    const dados = [
-      HEADER_CONF,
-      ...Object.entries(confirmacoes).map(([k,v])=>[k,v])
-    ];
-    await fetch(API_URL, {
-      method : 'POST',
-      body   : JSON.stringify({ aba: ABA_CONF, acao: 'salvar', dados }),
-    });
+    const dados = [HEADER_CONF, ...Object.entries(confirmacoes).map(([k,v])=>[k,v])];
+    await fetch(API_URL, {method:'POST', body:JSON.stringify({aba:ABA_CONF, acao:'salvar', dados})});
     showSync('Salvo ✓', false);
-  } catch(e){
-    console.warn('Erro ao salvar confirmações.', e);
-    showSync('Erro ao salvar', false);
-  }
+  } catch(e){ showSync('Erro ao salvar', false); }
 }
 
-/* Wrappers que substituem os antigos save() e saveConf() */
-function save(){
-  localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos));
-  salvarAgendSheets();
-}
-function saveConf(){
-  localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));
-  salvarConfSheets();
-}
+function save()    { localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos)); salvarAgendSheets(); }
+function saveConf(){ localStorage.setItem('bm-conf-v2',  JSON.stringify(confirmacoes)); salvarConfSheets();  }
 
 /* ══════════════════════════════════════════════════════
-   DADOS EM MEMÓRIA (idêntico ao original)
+   DADOS EM MEMÓRIA
    ══════════════════════════════════════════════════════ */
 let agendamentos = JSON.parse(localStorage.getItem('bm-agend-v2')||'[]');
 let confirmacoes = JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
@@ -731,7 +743,6 @@ const DIAS_IDX =['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO']
 const DIAS_LBL ={SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
 const BADGE_DIA={SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
 
-/* ─── STATUS ─── */
 const STATUS_BADGE={
   'Aguardando'    :'<span class="badge b-aguard">⏳ Aguardando</span>',
   'Em Conferência':'<span class="badge b-andamento">🔄 Em Conferência</span>',
@@ -761,7 +772,6 @@ function getChaveSemana(){
   return`${ano}-W${String(sem).padStart(2,'0')}`;
 }
 
-/* ─── STATUS AUTO ─── */
 function atualizarStatusAgendamentos(){
   const hoje=getDataHoje();
   agendamentos.forEach(a=>{if(a.status==='Aguardando'&&a.data<hoje)a.status='Atrasado';});
@@ -789,32 +799,52 @@ function showTela(nome){
   if(nome==='fornecedores') renderFornecedores();
 }
 
-/* ─── FLAGS MODAL ─── */
-let flagNF='', flagNordil='';
-function selFlag(grupo,valor){
-  if(grupo==='nf') flagNF=(flagNF===valor)?'':valor;
-  else flagNordil=(flagNordil===valor)?'':valor;
-  renderFlags();
-}
-function renderFlags(){
-  const sbOk=document.getElementById('sb-ok'),ckOk=document.getElementById('ck-ok');
-  sbOk.className='sb';ckOk.textContent='';
-  if(flagNF==='ok'){sbOk.classList.add('sel-ok');ckOk.textContent='✓';}
-  const sbTr=document.getElementById('sb-trat'),ckTr=document.getElementById('ck-trat');
-  sbTr.className='sb';ckTr.textContent='';
-  if(flagNF==='trat'){sbTr.classList.add('sel-trat');ckTr.textContent='✓';}
-  const sbN=document.getElementById('sb-nordil'),ckN=document.getElementById('ck-nordil');
-  sbN.className='sb';ckN.textContent='';
-  if(flagNordil==='sim'){sbN.classList.add('sel-nordil');ckN.textContent='✓';}
-}
-function setFlagsInit(statusNF,viaNoRdil){
-  flagNF    =statusNF==='Nota OK'?'ok':statusNF==='Em Tratativa'?'trat':'';
-  flagNordil=viaNoRdil?'sim':'';
+/* ══════════════════════════════════════════════════════
+   FLAGS — agora com 4 estados: nf / nordil / encaixe
+   ══════════════════════════════════════════════════════ */
+let flagNF='', flagNordil='', flagEncaixe='';
+
+function selFlag(grupo, valor){
+  if(grupo==='nf')      flagNF      = (flagNF===valor)      ? '' : valor;
+  if(grupo==='nordil')  flagNordil  = (flagNordil===valor)  ? '' : valor;
+  if(grupo==='encaixe') flagEncaixe = (flagEncaixe===valor) ? '' : valor;
   renderFlags();
 }
 
-/* ─── MODAL AGENDAMENTO ─── */
+function renderFlags(){
+  // Nota OK
+  const sbOk=document.getElementById('sb-ok'),ckOk=document.getElementById('ck-ok');
+  sbOk.className='sb'; ckOk.textContent='';
+  if(flagNF==='ok'){sbOk.classList.add('sel-ok');ckOk.textContent='✓';}
+
+  // Em Tratativa
+  const sbTr=document.getElementById('sb-trat'),ckTr=document.getElementById('ck-trat');
+  sbTr.className='sb'; ckTr.textContent='';
+  if(flagNF==='trat'){sbTr.classList.add('sel-trat');ckTr.textContent='✓';}
+
+  // Via Nordil
+  const sbN=document.getElementById('sb-nordil'),ckN=document.getElementById('ck-nordil');
+  sbN.className='sb'; ckN.textContent='';
+  if(flagNordil==='sim'){sbN.classList.add('sel-nordil');ckN.textContent='✓';}
+
+  // Encaixe ← NOVO
+  const sbE=document.getElementById('sb-encaixe'),ckE=document.getElementById('ck-encaixe');
+  sbE.className='sb'; ckE.textContent='';
+  if(flagEncaixe==='sim'){sbE.classList.add('sel-encaixe');ckE.textContent='✓';}
+}
+
+function setFlagsInit(statusNF, viaNoRdil, encaixe){
+  flagNF      = statusNF==='Nota OK'?'ok':statusNF==='Em Tratativa'?'trat':'';
+  flagNordil  = viaNoRdil?'sim':'';
+  flagEncaixe = encaixe?'sim':'';
+  renderFlags();
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL AGENDAMENTO
+   ══════════════════════════════════════════════════════ */
 let editIdx=-1;
+
 function abrirModalAgend(idx=-1){
   editIdx=idx;
   document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
@@ -824,7 +854,7 @@ function abrirModalAgend(idx=-1){
     document.getElementById('m-data').value=getDataHoje();
     ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
     ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
-    setFlagsInit('',false);
+    setFlagsInit('',false,false);
   } else {
     const a=agendamentos[idx];
     document.getElementById('m-datasolic').value=a.dataSolic||'';
@@ -835,38 +865,72 @@ function abrirModalAgend(idx=-1){
     document.getElementById('m-vol').value=a.volEsp||'';
     document.getElementById('m-peso').value=a.pesoEsp||'';
     document.getElementById('m-obs').value=a.obs||'';
-    setFlagsInit(a.statusNF||'',a.viaNoRdil||false);
+    setFlagsInit(a.statusNF||'', a.viaNoRdil||false, a.encaixe||false);
   }
 }
+
 function fecharModalAgend(){document.getElementById('modal-agend').classList.remove('open');}
 
+/* ══════════════════════════════════════════════════════
+   SALVAR AGENDAMENTO — com lógica de reagendamento
+   ══════════════════════════════════════════════════════ */
 function salvarAgend(){
-  const fornec=document.getElementById('m-fornec').value.trim();
-  const data  =document.getElementById('m-data').value;
+  const fornec = document.getElementById('m-fornec').value.trim();
+  const data   = document.getElementById('m-data').value;
   if(!data||!fornec){alert('Preencha ao menos a Data Agendada e o Fornecedor.');return;}
-  const obj={
-    dataSolic:document.getElementById('m-datasolic').value||'',
-    data,nf:document.getElementById('m-nf').value.trim(),fornec,
-    skuEsp :parseFloat(document.getElementById('m-sku').value)||0,
-    volEsp :parseFloat(document.getElementById('m-vol').value)||0,
-    pesoEsp:parseFloat(document.getElementById('m-peso').value)||0,
-    statusNF  :flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
-    viaNoRdil :flagNordil==='sim',
-    obs:document.getElementById('m-obs').value.trim(),
-    status:editIdx===-1?(data<getDataHoje()?'Atrasado':'Aguardando'):agendamentos[editIdx].status,
-    confInicio:editIdx===-1?null:agendamentos[editIdx].confInicio,
-    confFim   :editIdx===-1?null:agendamentos[editIdx].confFim,
-    confSLA   :editIdx===-1?null:agendamentos[editIdx].confSLA,
-    confConfer:editIdx===-1?'':agendamentos[editIdx].confConfer,
-    confObs   :editIdx===-1?'':agendamentos[editIdx].confObs,
-    skuRec :editIdx===-1?null:agendamentos[editIdx].skuRec,
-    volRec :editIdx===-1?null:agendamentos[editIdx].volRec,
-    pesoRec:editIdx===-1?null:agendamentos[editIdx].pesoRec,
-    _confInicioTs:editIdx===-1?null:agendamentos[editIdx]._confInicioTs,
-    editadoEm:editIdx===-1?null:agendamentos[editIdx].editadoEm,
+
+  /* ── Verifica reagendamento (só em edição) ── */
+  let isReagend = false;
+  let dataOriginal = '';
+
+  if(editIdx !== -1){
+    const ant = agendamentos[editIdx];
+    const dataAnterior = ant.data || '';
+
+    if(data !== dataAnterior){
+      // Data mudou → pergunta se é reagendamento
+      isReagend = confirm(
+        `⚠️ A data foi alterada de ${fmtData(dataAnterior)} para ${fmtData(data)}.\n\nÉ um reagendamento?`
+      );
+      // Preserva a data original (a mais antiga registrada)
+      dataOriginal = ant.dataOriginal || dataAnterior;
+    } else {
+      // Data não mudou → mantém estado anterior de reagendado
+      isReagend    = ant.reagendado    || false;
+      dataOriginal = ant.dataOriginal  || '';
+    }
+  }
+
+  const ant = editIdx !== -1 ? agendamentos[editIdx] : {};
+
+  const obj = {
+    dataSolic    : document.getElementById('m-datasolic').value||'',
+    data, nf     : document.getElementById('m-nf').value.trim(), fornec,
+    skuEsp       : parseFloat(document.getElementById('m-sku').value)||0,
+    volEsp       : parseFloat(document.getElementById('m-vol').value)||0,
+    pesoEsp      : parseFloat(document.getElementById('m-peso').value)||0,
+    statusNF     : flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
+    viaNoRdil    : flagNordil==='sim',
+    encaixe      : flagEncaixe==='sim',     // ← NOVO
+    reagendado   : isReagend,               // ← NOVO
+    dataOriginal : dataOriginal,            // ← NOVO
+    obs          : document.getElementById('m-obs').value.trim(),
+    status       : editIdx===-1?(data<getDataHoje()?'Atrasado':'Aguardando'):ant.status,
+    confInicio   : ant.confInicio   ?? null,
+    confFim      : ant.confFim      ?? null,
+    confSLA      : ant.confSLA      ?? null,
+    confConfer   : ant.confConfer   ?? '',
+    confObs      : ant.confObs      ?? '',
+    skuRec       : ant.skuRec       ?? null,
+    volRec       : ant.volRec       ?? null,
+    pesoRec      : ant.pesoRec      ?? null,
+    _confInicioTs: ant._confInicioTs ?? null,
+    editadoEm    : ant.editadoEm    ?? null,
   };
+
   if(editIdx===-1) agendamentos.unshift(obj);
   else             agendamentos[editIdx]=obj;
+
   save(); fecharModalAgend(); atualizarFiltrosDin(); renderAgend();
 }
 
@@ -876,24 +940,35 @@ function badgeNF(v){
   if(v==='Em Tratativa') return'<span class="badge b-nftrat">⚠️ Em Tratativa</span>';
   return'<span class="badge b-nfnone">— Sem info</span>';
 }
-function badgeNordil(v){return v?'<span class="badge b-nordil">🔀 Via Nordil</span>':'<span class="badge b-nordil-no">—</span>';}
-function badgeStatus(s){return STATUS_BADGE[s]||`<span class="badge b-aguard">${s}</span>`;}
+function badgeNordil(v)  { return v?'<span class="badge b-nordil">🔀 Nordil</span>':''; }
+function badgeEncaixe(v) { return v?'<span class="badge b-encaixe">📌 Encaixe</span>':''; }  // ← NOVO
+function badgeReagend(v) { return v?'<span class="badge b-reagend">🔁 Reagendado</span>':''; } // ← NOVO
+function badgeStatus(s)  { return STATUS_BADGE[s]||`<span class="badge b-aguard">${s}</span>`; }
+
+/* Helper — monta coluna "Flags" (Nordil + Encaixe + Reagendado) */
+function badgeFlags(a){
+  return [badgeNordil(a.viaNoRdil), badgeEncaixe(a.encaixe), badgeReagend(a.reagendado)]
+    .filter(Boolean).join(' ') || '—';
+}
 
 /* ─── RENDER AGENDAMENTOS ─── */
 function renderAgend(lista){
-  const dados=lista!==undefined?lista:agendamentos;
-  const tbody=document.getElementById('tbody-agend');
-  const empty=document.getElementById('empty-agend');
-  document.getElementById('a-sku').textContent  =dados.reduce((s,a)=>s+(a.skuEsp||0),0);
-  document.getElementById('a-vol').textContent  =dados.reduce((s,a)=>s+(a.volEsp||0),0);
-  document.getElementById('a-peso').textContent =dados.reduce((s,a)=>s+(a.pesoEsp||0),0).toFixed(1)+' kg';
+  const dados = lista !== undefined ? lista : agendamentos;
+  const tbody = document.getElementById('tbody-agend');
+  const empty = document.getElementById('empty-agend');
+
+  document.getElementById('a-sku').textContent  = dados.reduce((s,a)=>s+(a.skuEsp||0),0);
+  document.getElementById('a-vol').textContent  = dados.reduce((s,a)=>s+(a.volEsp||0),0);
+  document.getElementById('a-peso').textContent = dados.reduce((s,a)=>s+(a.pesoEsp||0),0).toFixed(1)+' kg';
+
   if(!dados.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  tbody.innerHTML=dados.map(a=>{
-    const ri=agendamentos.indexOf(a);
-    const sla=a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
-    const editBadge=a.editadoEm?'<span class="badge b-editado" style="margin-left:4px;">✏️</span>':'';
-    return`<tr onclick="abrirConferencia(${ri})" title="Clique para conferir">
+
+  tbody.innerHTML = dados.map(a=>{
+    const ri = agendamentos.indexOf(a);
+    const sla = a.confSLA!=null ? fmtMin(a.confSLA)+' min' : '—';
+    const editBadge = a.editadoEm ? '<span class="badge b-editado" style="margin-left:4px;">✏️</span>' : '';
+    return `<tr onclick="abrirConferencia(${ri})" title="Clique para conferir">
       <td>${fmtData(a.dataSolic)||'—'}</td>
       <td>${fmtData(a.data)}</td>
       <td><strong>${a.nf||'—'}</strong></td>
@@ -901,7 +976,7 @@ function renderAgend(lista){
       <td>${a.skuEsp||'—'}</td>
       <td>${a.volEsp||'—'}</td>
       <td>${a.pesoEsp?a.pesoEsp+' kg':'—'}</td>
-      <td>${badgeNordil(a.viaNoRdil)}</td>
+      <td style="white-space:nowrap;">${badgeFlags(a)}</td>
       <td>${badgeNF(a.statusNF)}</td>
       <td>${badgeStatus(a.status)}${editBadge}</td>
       <td>${sla}</td>
@@ -924,25 +999,34 @@ function atualizarFiltrosDin(){
 }
 
 function filtrarAgend(){
-  const d  =document.getElementById('f-data').value;
-  const ds =document.getElementById('f-datasolic').value;
-  const s  =document.getElementById('f-status').value;
-  const nf =document.getElementById('f-nf').value;
-  const nrd=document.getElementById('f-nordil').value;
-  const f  =document.getElementById('f-fornec').value;
+  const d      = document.getElementById('f-data').value;
+  const ds     = document.getElementById('f-datasolic').value;
+  const s      = document.getElementById('f-status').value;
+  const nf     = document.getElementById('f-nf').value;
+  const nrd    = document.getElementById('f-nordil').value;
+  const enc    = document.getElementById('f-encaixe').value;   // ← NOVO
+  const rea    = document.getElementById('f-reagend').value;   // ← NOVO
+  const f      = document.getElementById('f-fornec').value;
+
   renderAgend(agendamentos.filter(a=>{
-    if(d  &&a.data!==d)        return false;
-    if(ds &&a.dataSolic!==ds)  return false;
-    if(s  &&a.status!==s)      return false;
-    if(nf &&a.statusNF!==nf)   return false;
-    if(nrd==='sim'&&!a.viaNoRdil) return false;
-    if(nrd==='nao'&& a.viaNoRdil) return false;
-    if(f  &&a.fornec!==f)      return false;
+    if(d   && a.data!==d)         return false;
+    if(ds  && a.dataSolic!==ds)   return false;
+    if(s   && a.status!==s)       return false;
+    if(nf  && a.statusNF!==nf)    return false;
+    if(nrd==='sim' && !a.viaNoRdil)  return false;
+    if(nrd==='nao' &&  a.viaNoRdil)  return false;
+    if(enc==='sim' && !a.encaixe)    return false;   // ← NOVO
+    if(enc==='nao' &&  a.encaixe)    return false;   // ← NOVO
+    if(rea==='sim' && !a.reagendado) return false;   // ← NOVO
+    if(rea==='nao' &&  a.reagendado) return false;   // ← NOVO
+    if(f   && a.fornec!==f)       return false;
     return true;
   }));
 }
+
 function limparFiltrosAgend(){
-  ['f-data','f-datasolic','f-status','f-nf','f-nordil','f-fornec'].forEach(id=>document.getElementById(id).value='');
+  ['f-data','f-datasolic','f-status','f-nf','f-nordil','f-encaixe','f-reagend','f-fornec']
+    .forEach(id=>document.getElementById(id).value='');
   renderAgend();
 }
 
@@ -961,7 +1045,7 @@ function renderConfLista(){
       <td>${fmtData(a.data)}</td>
       <td><strong>${a.nf||'—'}</strong></td>
       <td>${a.fornec||'—'}</td>
-      <td>${badgeNordil(a.viaNoRdil)}</td>
+      <td style="white-space:nowrap;">${badgeFlags(a)}</td>
       <td>${badgeStatus(a.status)}</td>
       <td><button class="btn btn-dark" style="padding:6px 14px;font-size:12px;" onclick="abrirConferencia(${ri})">🔍 Conferir</button></td>
     </tr>`;
@@ -980,8 +1064,8 @@ function abrirConferencia(idx){
   const banner=document.getElementById('edit-banner');
   if(a.editadoEm){banner.style.display='flex';document.getElementById('edit-banner-time').textContent='Última edição: '+a.editadoEm;}
   else banner.style.display='none';
-  document.getElementById('c-fornec-title').textContent=a.fornec+(a.viaNoRdil?' 🔀':'')||'Fornecedor';
-  document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'}  |  Data Agendada: ${fmtData(a.data)}${a.dataSolic?' | Solicitação: '+fmtData(a.dataSolic):''}`;
+  document.getElementById('c-fornec-title').textContent=a.fornec+(a.viaNoRdil?' 🔀':'')+(a.encaixe?' 📌':'')+(a.reagendado?' 🔁':'')||'Fornecedor';
+  document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'}  |  Data Agendada: ${fmtData(a.data)}${a.dataSolic?' | Solicitação: '+fmtData(a.dataSolic):''}${a.reagendado&&a.dataOriginal?' | Original: '+fmtData(a.dataOriginal):''}`;
   document.getElementById('c-pont-label').textContent=a.data===getDataHoje()?'✅ Pontual':'🔴 Atrasado';
   document.getElementById('c-sku-esp').textContent=a.skuEsp||'0';
   document.getElementById('c-vol-esp').textContent=a.volEsp||'0';
@@ -1265,6 +1349,8 @@ function exportarPDF(){
     ['Total Agendamentos',hj.length+fixosHoje.length],
     ['Concluídos OK',conc],['Não Finalizados',nfinal],['Atrasados',atr],
     ['Via Nordil',agendamentos.filter(a=>a.viaNoRdil).length],
+    ['Encaixe',agendamentos.filter(a=>a.encaixe).length],
+    ['Reagendados',agendamentos.filter(a=>a.reagendado).length],
     ['Tempo Médio Conferência',slaMed!=null?fmtMin(slaMed)+' min':'—'],
     ['Fornecedores Fixos Hoje',fixosHoje.length],
   ],styles:{fontSize:10,cellPadding:3},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
@@ -1283,18 +1369,27 @@ function exportarPDF(){
   doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('AGENDAMENTOS CONCLUÍDOS',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=2;
   const concList=agendamentos.filter(a=>['Concluído OK','Não Finalizado'].includes(a.status));
   if(concList.length){
-    doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Via Nordil','Status NF','Status','SLA','Editado']],
-    body:concList.map(a=>[fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',a.viaNoRdil?'Sim':'—',a.statusNF||'—',a.status,a.confSLA!=null?fmtMin(a.confSLA)+' min':'—',a.editadoEm?'Sim':'—']),
-    styles:{fontSize:7,cellPadding:2},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[245,245,245]}});
+    doc.autoTable({startY:y,margin:{left:lm,right:lm},
+      head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Nordil','Encaixe','Reagend.','Status NF','Status','SLA']],
+      body:concList.map(a=>[
+        fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',
+        a.viaNoRdil?'Sim':'—', a.encaixe?'Sim':'—', a.reagendado?'Sim':'—',
+        a.statusNF||'—',a.status,a.confSLA!=null?fmtMin(a.confSLA)+' min':'—'
+      ]),
+      styles:{fontSize:7,cellPadding:2},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[245,245,245]}});
     y=doc.lastAutoTable.finalY+10;
   }
   if(y>240){doc.addPage();y=15;}
   doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('PENDÊNCIAS E ATRASOS',lm,y);y+=6;doc.line(lm,y,W-lm,y);y+=2;
   const pendList=agendamentos.filter(a=>['Aguardando','Atrasado','Em Conferência'].includes(a.status));
   if(pendList.length){
-    doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Via Nordil','Status']],
-    body:pendList.map(a=>[fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',a.viaNoRdil?'Sim':'—',a.status]),
-    styles:{fontSize:8,cellPadding:2},headStyles:{fillColor:[220,38,38],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[255,245,245]}});
+    doc.autoTable({startY:y,margin:{left:lm,right:lm},
+      head:[['Dt.Solic.','Dt.Agend.','NF','Fornecedor','Nordil','Encaixe','Reagend.','Status']],
+      body:pendList.map(a=>[
+        fmtData(a.dataSolic)||'—',fmtData(a.data),a.nf||'—',a.fornec||'—',
+        a.viaNoRdil?'Sim':'—', a.encaixe?'Sim':'—', a.reagendado?'Sim':'—', a.status
+      ]),
+      styles:{fontSize:8,cellPadding:2},headStyles:{fillColor:[220,38,38],textColor:255,fontStyle:'bold'},alternateRowStyles:{fillColor:[255,245,245]}});
   } else {
     doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(22,163,74);doc.text('✓ Nenhuma pendência registrada.',lm,y+5);
     doc.setTextColor(26,26,26);
