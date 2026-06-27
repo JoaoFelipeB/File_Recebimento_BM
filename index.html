@@ -236,9 +236,6 @@ tbody td{padding:11px 14px;color:var(--text);}
 .sync-bar.show{opacity:1;}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;}
 .sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite;}
-/* Semana nav */
-.semana-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.semana-label{font-size:13px;font-weight:800;color:#1a1a1a;white-space:nowrap;min-width:180px;text-align:center;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 @media(max-width:640px){
   .main{padding:12px;}
@@ -280,20 +277,14 @@ tbody td{padding:11px 14px;color:var(--text);}
 <div class="tela active" id="tela-dashboard">
   <div class="page-title">
     📊 Dashboard
-    <span class="tag" id="dash-periodo-label"></span>
     <button class="btn btn-pdf" onclick="exportarPDF()" style="margin-left:auto;">📄 Exportar PDF</button>
   </div>
 
   <!-- Filtros Dashboard -->
   <div class="filtros">
-    <!-- Navegação por semana -->
-    <div class="fg-f" style="flex:none;">
-      <label>📅 Período (Semana)</label>
-      <div class="semana-nav">
-        <button class="btn btn-outline" style="padding:7px 12px;" onclick="navSemana(-1)">◀</button>
-        <span class="semana-label" id="dash-semana-label">—</span>
-        <button class="btn btn-outline" style="padding:7px 12px;" onclick="navSemana(1)">▶</button>
-      </div>
+    <div class="fg-f" style="min-width:160px;max-width:200px;">
+      <label>📅 Mês do Recebimento</label>
+      <input type="month" id="df-mes" onchange="renderDashboard()">
     </div>
     <div class="fg-f">
       <label>🚦 Status</label>
@@ -312,8 +303,14 @@ tbody td{padding:11px 14px;color:var(--text);}
         <option value="">Todos</option>
       </select>
     </div>
+    <div class="fg-f">
+      <label>👤 Conferente</label>
+      <select id="df-conferente" onchange="renderDashboard()">
+        <option value="">Todos</option>
+      </select>
+    </div>
     <div style="display:flex;align-items:flex-end;">
-      <button class="btn btn-outline" onclick="limparFiltrosDash()">🔄 Hoje</button>
+      <button class="btn btn-outline" onclick="limparFiltrosDash()">🔄 Limpar</button>
     </div>
   </div>
 
@@ -356,7 +353,7 @@ tbody td{padding:11px 14px;color:var(--text);}
   <div class="dash-section-title">📈 Gráficos</div>
   <div class="charts-grid">
     <div class="chart-box"><div class="chart-box-title">🍩 Status dos Agendamentos</div><div class="chart-wrap"><canvas id="chartDonut"></canvas></div></div>
-    <div class="chart-box"><div class="chart-box-title">📅 Agendamentos por Dia da Semana</div><div class="chart-wrap"><canvas id="chartBarDia"></canvas></div></div>
+    <div class="chart-box"><div class="chart-box-title">📅 Agendamentos por Dia</div><div class="chart-wrap"><canvas id="chartBarDia"></canvas></div></div>
     <div class="chart-box"><div class="chart-box-title">📦 SKU / Volume / Peso — Agendado vs. Recebido</div><div class="chart-wrap"><canvas id="chartVolume"></canvas></div></div>
   </div>
 
@@ -380,7 +377,6 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="mc"><div class="mv" id="a-peso">0 kg</div><div class="ml">⚖️ Peso Esperado</div></div>
   </div>
   <div class="filtros">
-    <!-- Filtro intervalo de datas (agendada) -->
     <div class="fg-f" style="min-width:140px;">
       <label>📅 Dt. Agendada (De)</label>
       <input type="date" id="f-data-de" onchange="filtrarAgend()">
@@ -644,11 +640,7 @@ function showSync(msg, syncing=true){
 
 /* ══════════════════════════════════════════════════════
    UTILS DE DATA
-   — Todas as datas são armazenadas como 'YYYY-MM-DD' (string pura)
-   — NUNCA fazemos new Date('YYYY-MM-DD') pois desloca 1 dia no UTC-3
 ══════════════════════════════════════════════════════ */
-
-/** Retorna 'YYYY-MM-DD' de hoje no fuso local */
 function getDataHoje(){
   const d=new Date();
   const y=d.getFullYear();
@@ -657,33 +649,19 @@ function getDataHoje(){
   return `${y}-${m}-${dd}`;
 }
 
-/** Formata 'YYYY-MM-DD' → 'DD/MM/AAAA' sem risco de fuso */
 function fmtData(s){
   if(!s||typeof s!=='string')return'—';
-  // Remove possível sufixo ISO (ex: "2026-06-25T03:00:00.000Z" → pega só a parte da data)
-  const raw = s.split('T')[0];
-  const parts = raw.split('-');
+  const raw=s.split('T')[0];
+  const parts=raw.split('-');
   if(parts.length!==3)return s;
   return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
-/** Normaliza qualquer string de data para 'YYYY-MM-DD' */
 function normalizaData(s){
   if(!s)return'';
-  return s.split('T')[0]; // remove sufixo ISO se houver
+  return s.split('T')[0];
 }
 
-/** Retorna 'YYYY-MM-DD' do primeiro dia da semana ISO (segunda) de um offset */
-function getInicioSemana(offsetSemanas=0){
-  const hoje=new Date();
-  const diaSemana=hoje.getDay(); // 0=dom
-  const diasAteSegunda=diaSemana===0?-6:1-diaSemana;
-  const seg=new Date(hoje);
-  seg.setDate(hoje.getDate()+diasAteSegunda+offsetSemanas*7);
-  return `${seg.getFullYear()}-${String(seg.getMonth()+1).padStart(2,'0')}-${String(seg.getDate()).padStart(2,'0')}`;
-}
-
-/** Adiciona N dias a uma string 'YYYY-MM-DD' */
 function addDias(dataStr, n){
   const parts=dataStr.split('-');
   const d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
@@ -691,66 +669,63 @@ function addDias(dataStr, n){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-/** Verifica se dataStr está entre de e ate (inclusive), todas 'YYYY-MM-DD' */
 function dataEntre(dataStr, de, ate){
   return dataStr >= de && dataStr <= ate;
 }
 
-/** Dia da semana (index 0=dom) a partir de 'YYYY-MM-DD' sem fuso */
 function diaDaSemana(dataStr){
   const parts=dataStr.split('-');
-  // Cria date local sem risco de UTC shift
   const d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
   return d.getDay();
 }
 
-const getDiaHoje = ()=>DIAS_IDX[new Date().getDay()];
+const getDiaHoje=()=>DIAS_IDX[new Date().getDay()];
 
 /* ══════════════════════════════════════════════════════
    BANCO DE DADOS
 ══════════════════════════════════════════════════════ */
 function rowToAgend(r){
   return {
-    dataSolic    : normalizaData(r[0]||''),
-    data         : normalizaData(r[1]||''),
-    nf           : r[2]||'',
-    fornec       : r[3]||'',
-    skuEsp       : parseFloat(r[4])||0,
-    volEsp       : parseFloat(r[5])||0,
-    pesoEsp      : parseFloat(r[6])||0,
-    statusNF     : r[7]||'',
-    viaNoRdil    : r[8]==='true'||r[8]===true,
-    obs          : r[9]||'',
-    status       : r[10]||'Aguardando',
-    confInicio   : r[11]||null,
-    confFim      : r[12]||null,
-    confSLA      : r[13]!==''&&r[13]!=null?parseFloat(r[13]):null,
-    confConfer   : r[14]||'',
-    confObs      : r[15]||'',
-    skuRec       : r[16]!==''&&r[16]!=null?parseFloat(r[16]):null,
-    volRec       : r[17]!==''&&r[17]!=null?parseFloat(r[17]):null,
-    pesoRec      : r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
-    _confInicioTs: r[19]||null,
-    editadoEm    : r[20]||null,
-    encaixe      : r[21]==='true'||r[21]===true,
-    reagendado   : r[22]==='true'||r[22]===true,
-    dataOriginal : normalizaData(r[23]||''),
+    dataSolic    :normalizaData(r[0]||''),
+    data         :normalizaData(r[1]||''),
+    nf           :r[2]||'',
+    fornec       :r[3]||'',
+    skuEsp       :parseFloat(r[4])||0,
+    volEsp       :parseFloat(r[5])||0,
+    pesoEsp      :parseFloat(r[6])||0,
+    statusNF     :r[7]||'',
+    viaNoRdil    :r[8]==='true'||r[8]===true,
+    obs          :r[9]||'',
+    status       :r[10]||'Aguardando',
+    confInicio   :r[11]||null,
+    confFim      :r[12]||null,
+    confSLA      :r[13]!==''&&r[13]!=null?parseFloat(r[13]):null,
+    confConfer   :r[14]||'',
+    confObs      :r[15]||'',
+    skuRec       :r[16]!==''&&r[16]!=null?parseFloat(r[16]):null,
+    volRec       :r[17]!==''&&r[17]!=null?parseFloat(r[17]):null,
+    pesoRec      :r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
+    _confInicioTs:r[19]||null,
+    editadoEm    :r[20]||null,
+    encaixe      :r[21]==='true'||r[21]===true,
+    reagendado   :r[22]==='true'||r[22]===true,
+    dataOriginal :normalizaData(r[23]||''),
   };
 }
 
 function agendToRow(a){
   return [
-    a.dataSolic||'', a.data||'', a.nf||'', a.fornec||'',
-    a.skuEsp||0, a.volEsp||0, a.pesoEsp||0,
-    a.statusNF||'', a.viaNoRdil?'true':'false', a.obs||'',
+    a.dataSolic||'',a.data||'',a.nf||'',a.fornec||'',
+    a.skuEsp||0,a.volEsp||0,a.pesoEsp||0,
+    a.statusNF||'',a.viaNoRdil?'true':'false',a.obs||'',
     a.status||'Aguardando',
-    a.confInicio||'', a.confFim||'',
+    a.confInicio||'',a.confFim||'',
     a.confSLA!=null?a.confSLA:'',
-    a.confConfer||'', a.confObs||'',
+    a.confConfer||'',a.confObs||'',
     a.skuRec!=null?a.skuRec:'',
     a.volRec!=null?a.volRec:'',
     a.pesoRec!=null?a.pesoRec:'',
-    a._confInicioTs||'', a.editadoEm||'',
+    a._confInicioTs||'',a.editadoEm||'',
     a.encaixe?'true':'false',
     a.reagendado?'true':'false',
     a.dataOriginal||'',
@@ -761,8 +736,8 @@ const HEADER_AGEND=['dataSolic','data','nf','fornec','skuEsp','volEsp','pesoEsp'
 const HEADER_CONF=['chave','valor'];
 
 async function carregarDoSheets(){
-  showSync('Carregando dados…', true);
-  try {
+  showSync('Carregando dados…',true);
+  try{
     const resA=await fetch(`${API_URL}?aba=${ABA_AGEND}`);
     const jsonA=await resA.json();
     if(jsonA.ok&&jsonA.data.length>1){
@@ -779,7 +754,7 @@ async function carregarDoSheets(){
       localStorage.setItem('bm-conf-v2',JSON.stringify(confirmacoes));
     }
     showSync('Sincronizado ✓',false);
-  } catch(e){
+  }catch(e){
     console.warn('Sheets offline.',e);
     showSync('Offline — dados locais',false);
   }
@@ -795,6 +770,7 @@ async function salvarAgendSheets(){
     showSync('Salvo ✓',false);
   }catch(e){showSync('Erro ao salvar',false);}
 }
+
 async function salvarConfSheets(){
   showSync('Salvando…',true);
   try{
@@ -867,7 +843,7 @@ function atualizarHeader(){
   document.getElementById('headerDate').innerHTML=
     n.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'<br>'+n.toLocaleTimeString('pt-BR');
 }
-setInterval(atualizarHeader,1000); atualizarHeader();
+setInterval(atualizarHeader,1000);atualizarHeader();
 
 /* ── NAVEGAÇÃO ── */
 function showTela(nome){
@@ -929,7 +905,7 @@ function abrirModalAgend(idx=-1){
     ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
     ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
     setFlagsInit('',false,false);
-  } else {
+  }else{
     const a=agendamentos[idx];
     document.getElementById('m-datasolic').value=a.dataSolic||'';
     document.getElementById('m-data').value=a.data||'';
@@ -944,7 +920,6 @@ function abrirModalAgend(idx=-1){
 }
 function fecharModalAgend(){document.getElementById('modal-agend').classList.remove('open');}
 
-/* ── SALVAR AGENDAMENTO ── */
 function salvarAgend(){
   const fornec=document.getElementById('m-fornec').value.trim();
   const data  =document.getElementById('m-data').value;
@@ -956,7 +931,7 @@ function salvarAgend(){
     if(data!==ant.data){
       isReagend=confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
       dataOriginal=ant.dataOriginal||ant.data;
-    } else {
+    }else{
       isReagend   =ant.reagendado   ||false;
       dataOriginal=ant.dataOriginal ||'';
     }
@@ -1053,40 +1028,38 @@ function atualizarFiltrosDin(){
   sel.innerHTML='<option value="">Todos</option>'+lista.map(f=>`<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
 }
 
-/* ── FILTRAR AGENDAMENTOS (intervalo de datas) ── */
+/* ── FILTRAR AGENDAMENTOS ── */
 function filtrarAgend(){
-  const de    =document.getElementById('f-data-de').value;
-  const ate   =document.getElementById('f-data-ate').value;
-  const ds    =document.getElementById('f-datasolic').value;
-  const s     =document.getElementById('f-status').value;
-  const nf    =document.getElementById('f-nf').value;
-  const nrd   =document.getElementById('f-nordil').value;
-  const enc   =document.getElementById('f-encaixe').value;
-  const rea   =document.getElementById('f-reagend').value;
-  const f     =document.getElementById('f-fornec').value;
+  const de  =document.getElementById('f-data-de').value;
+  const ate  =document.getElementById('f-data-ate').value;
+  const ds   =document.getElementById('f-datasolic').value;
+  const s    =document.getElementById('f-status').value;
+  const nf   =document.getElementById('f-nf').value;
+  const nrd  =document.getElementById('f-nordil').value;
+  const enc  =document.getElementById('f-encaixe').value;
+  const rea  =document.getElementById('f-reagend').value;
+  const f    =document.getElementById('f-fornec').value;
 
   renderAgend(agendamentos.filter(a=>{
-    if(de  && a.data < de)          return false;
-    if(ate && a.data > ate)         return false;
-    if(ds  && a.dataSolic!==ds)     return false;
-    if(s   && a.status!==s)         return false;
-    if(nf  && a.statusNF!==nf)      return false;
-    if(nrd==='sim'&&!a.viaNoRdil)   return false;
-    if(nrd==='nao'&& a.viaNoRdil)   return false;
-    if(enc==='sim'&&!a.encaixe)     return false;
-    if(enc==='nao'&& a.encaixe)     return false;
-    if(rea==='sim'&&!a.reagendado)  return false;
-    if(rea==='nao'&& a.reagendado)  return false;
-    if(f   && a.fornec!==f)         return false;
+    if(de  && a.data < de)         return false;
+    if(ate && a.data > ate)        return false;
+    if(ds  && a.dataSolic!==ds)    return false;
+    if(s   && a.status!==s)        return false;
+    if(nf  && a.statusNF!==nf)     return false;
+    if(nrd==='sim'&&!a.viaNoRdil)  return false;
+    if(nrd==='nao'&& a.viaNoRdil)  return false;
+    if(enc==='sim'&&!a.encaixe)    return false;
+    if(enc==='nao'&& a.encaixe)    return false;
+    if(rea==='sim'&&!a.reagendado) return false;
+    if(rea==='nao'&& a.reagendado) return false;
+    if(f   && a.fornec!==f)        return false;
     return true;
   }));
 }
 
-/* Define o mês atual como default nos filtros de agendamentos */
 function setDefaultFiltrosAgend(){
   const hoje=getDataHoje();
-  const primeiroDia=hoje.substring(0,7)+'-01'; // YYYY-MM-01
-  // último dia do mês
+  const primeiroDia=hoje.substring(0,7)+'-01';
   const parts=hoje.split('-');
   const ultimoDia=new Date(parseInt(parts[0]),parseInt(parts[1]),0);
   const ultimoDiaStr=`${ultimoDia.getFullYear()}-${String(ultimoDia.getMonth()+1).padStart(2,'0')}-${String(ultimoDia.getDate()).padStart(2,'0')}`;
@@ -1103,49 +1076,44 @@ function limparFiltrosAgend(){
 }
 
 /* ══════════════════════════════════════════════════════
-   DASHBOARD — NAVEGAÇÃO POR SEMANA
+   DASHBOARD — FILTRO POR MÊS
 ══════════════════════════════════════════════════════ */
-let dashOffsetSemana=0; // 0 = semana atual
 
-function navSemana(dir){
-  dashOffsetSemana+=dir;
-  renderDashboard();
+function setDefaultFiltrosDash(){
+  document.getElementById('df-mes').value=getDataHoje().substring(0,7);
 }
 
 function limparFiltrosDash(){
-  dashOffsetSemana=0;
+  setDefaultFiltrosDash();
   document.getElementById('df-status').value='';
   document.getElementById('df-fornec').value='';
+  document.getElementById('df-conferente').value='';
   renderDashboard();
 }
 
-function getRangoSemana(){
-  const seg=getInicioSemana(dashOffsetSemana);
-  const sex=addDias(seg,4); // sexta-feira
-  return{de:seg,ate:sex};
-}
-
 function atualizarFiltrosDash(){
-  const sel=document.getElementById('df-fornec'),at=sel.value;
-  const lista=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
-  sel.innerHTML='<option value="">Todos</option>'+lista.map(f=>`<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
+  // Fornecedor
+  const selF=document.getElementById('df-fornec'),atF=selF.value;
+  const listaF=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
+  selF.innerHTML='<option value="">Todos</option>'+listaF.map(f=>`<option value="${f}"${f===atF?' selected':''}>${f}</option>`).join('');
+
+  // Conferente
+  const selC=document.getElementById('df-conferente'),atC=selC.value;
+  const listaC=[...new Set(agendamentos.map(a=>a.confConfer).filter(Boolean))].sort();
+  selC.innerHTML='<option value="">Todos</option>'+listaC.map(c=>`<option value="${c}"${c===atC?' selected':''}>${c}</option>`).join('');
 }
 
-/* ── Filtro principal do Dashboard ── */
 function getDadosDashFiltrado(){
+  const mes    =document.getElementById('df-mes')?.value||'';
   const fStatus=document.getElementById('df-status')?.value||'';
   const fFornec=document.getElementById('df-fornec')?.value||'';
-  const {de,ate}=getRangoSemana();
-  const hoje=getDataHoje();
+  const fConfer=document.getElementById('df-conferente')?.value||'';
 
   return agendamentos.filter(a=>{
-    // Período: agendamentos da semana selecionada OU conferidos dentro da semana
-    const dataAgend = a.data||'';
-    const confTs    = a._confInicioTs?a._confInicioTs.substring(0,10):'';
-    const naJanela  = dataEntre(dataAgend,de,ate) || (confTs && dataEntre(confTs,de,ate));
-    if(!naJanela) return false;
-    if(fStatus && a.status!==fStatus) return false;
-    if(fFornec && a.fornec!==fFornec) return false;
+    if(mes    && !(a.data||'').startsWith(mes)) return false;
+    if(fStatus && a.status!==fStatus)           return false;
+    if(fFornec && a.fornec!==fFornec)           return false;
+    if(fConfer && a.confConfer!==fConfer)       return false;
     return true;
   });
 }
@@ -1161,20 +1129,9 @@ function renderDashboard(){
 
   const hoje   =getDataHoje();
   const diaHoje=getDiaHoje();
-  const {de,ate}=getRangoSemana();
   const dados  =getDadosDashFiltrado();
-
-  // Atualiza label da semana
-  document.getElementById('dash-semana-label').textContent=`${fmtData(de)} — ${fmtData(ate)}`;
-
-  // Período no topo
-  const isHojeSemana = dashOffsetSemana===0;
-  document.getElementById('dash-periodo-label').textContent=
-    isHojeSemana?'Semana Atual':dashOffsetSemana<0?`${Math.abs(dashOffsetSemana)} sem. atrás`:`${dashOffsetSemana} sem. à frente`;
-
-  // Fixos só quando visualizando semana atual
-  const mostrarFixos=isHojeSemana;
-  const fixosHoje=mostrarFixos?FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje)):[];
+  const mostrarFixos=true;
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
 
   // ── Cards ──
   const conc  =dados.filter(a=>a.status==='Concluído OK').length;
@@ -1182,7 +1139,7 @@ function renderDashboard(){
   const and   =dados.filter(a=>a.status==='Em Conferência').length;
   const agua  =dados.filter(a=>a.status==='Aguardando').length;
   const atr   =dados.filter(a=>a.status==='Atrasado').length;
-  const total =dados.length+(mostrarFixos?fixosHoje.length:0);
+  const total =dados.length;
 
   const slaLista=dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
   const slaMed  =slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
@@ -1234,18 +1191,14 @@ function renderDashboard(){
     plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},
     cutout:'65%'}});
 
-  // ── Gráfico por dia da semana (Seg→Sex da janela) ──
+  // ── Gráfico por dia do mês filtrado ──
   const porDia={};
-  for(let i=0;i<5;i++){
-    const d=addDias(de,i);
-    porDia[d]=0;
-  }
   dados.forEach(a=>{
     const d=a.data||'';
-    if(porDia[d]!==undefined)porDia[d]++;
+    if(d) porDia[d]=(porDia[d]||0)+1;
   });
-
-  const labDia=Object.keys(porDia).map(d=>{
+  const diasOrdenados=Object.keys(porDia).sort();
+  const labDia=diasOrdenados.map(d=>{
     const idx=diaDaSemana(d);
     return`${NOMES_DIA_PT[idx]} ${fmtData(d).substring(0,5)}`;
   });
@@ -1254,8 +1207,9 @@ function renderDashboard(){
   if(chartBarDia)chartBarDia.destroy();
   chartBarDia=new Chart(ctxB,{type:'bar',data:{
     labels:labDia,
-    datasets:[{label:'Agendamentos',data:Object.values(porDia),
-      backgroundColor:Object.keys(porDia).map(d=>d===hoje?'#16a34a':'#1a1a1a'),
+    datasets:[{label:'Agendamentos',
+      data:diasOrdenados.map(d=>porDia[d]),
+      backgroundColor:diasOrdenados.map(d=>d===hoje?'#16a34a':'#1a1a1a'),
       borderRadius:6,borderSkipped:false}]
   },options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false}},
@@ -1279,8 +1233,8 @@ function renderDashboard(){
   // ── Tabela Fixos ──
   const tbFixos=document.getElementById('dash-fixos-tbody');
   if(!fixosHoje.length){
-    tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">${mostrarFixos?'Nenhum fornecedor fixo hoje.':'Navegue para a semana atual para ver os fornecedores fixos.'}</td></tr>`;
-  } else {
+    tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;
+  }else{
     tbFixos.innerHTML=fixosHoje.map(f=>{
       const k=getKeyFixo(diaHoje,f.codigo),st=confirmacoes[k]||'';
       const badge=st==='confirmado'?'<span class="badge b-conf">✅ Entregou</span>':
@@ -1350,7 +1304,7 @@ function abrirConferencia(idx){
       document.getElementById('btn-editar-conf').style.display='';
       document.getElementById('btn-salvar-edicao').style.display='none';
       calcDiverg();mostrarResultado();
-    } else {
+    }else{
       document.getElementById('c-fim-label').textContent='—';
       document.getElementById('c-dur-label').textContent='—';
       document.getElementById('btn-finalizar-conf').style.display='';
@@ -1367,7 +1321,7 @@ function abrirConferencia(idx){
       confInicio=new Date(a._confInicioTs);
       iniciarTimer();
     }
-  } else {
+  }else{
     document.getElementById('c-inicio-label').textContent='—';
     document.getElementById('c-fim-label').textContent='—';
     document.getElementById('c-dur-label').textContent='—';
@@ -1516,7 +1470,7 @@ function exportarPDF(){
   const{jsPDF}=window.jspdf,doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const hoje=getDataHoje(),diaHoje=getDiaHoje();
   const dataFmt=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-  const{de,ate}=getRangoSemana();
+  const mes=document.getElementById('df-mes')?.value||getDataHoje().substring(0,7);
   const dados=getDadosDashFiltrado();
   const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
 
@@ -1536,7 +1490,7 @@ function exportarPDF(){
   doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text('RECEBIMENTO-BM',lm,12);
   doc.setFontSize(9);doc.setFont('helvetica','normal');
   doc.text('Relatório Operacional de Recebimento',lm,18);
-  doc.text(`Período: ${fmtData(de)} — ${fmtData(ate)}`,lm,23);
+  doc.text(`Mês de referência: ${mes}`,lm,23);
   doc.text(dataFmt,lm,28);
   doc.setTextColor(26,26,26);y=40;
 
@@ -1549,4 +1503,43 @@ function exportarPDF(){
     ['Encaixe',dados.filter(a=>a.encaixe).length],
     ['Reagendados',dados.filter(a=>a.reagendado).length],
     ['Tempo Médio Conferência',slaMed!=null?fmtMin(slaMed)+' min':'—'],
-  ],styles
+  ],styles:{fontSize:10,cellPadding:4},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+  alternateRowStyles:{fillColor:[248,249,250]}});
+
+  y=doc.lastAutoTable.finalY+10;
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('COMPARATIVO — AGENDADO vs. RECEBIDO',lm,y);y+=6;
+  doc.line(lm,y,W-lm,y);y+=4;
+  doc.autoTable({startY:y,margin:{left:lm,right:lm},head:[['Item','Agendado','Recebido','Diferença']],body:[
+    ['SKU',skuEsp,skuRec,skuRec-skuEsp],
+    ['Volume (Cx)',volEsp,volRec,volRec-volEsp],
+    ['Peso (kg)',pesoEsp.toFixed(1),pesoRec.toFixed(1),(pesoRec-pesoEsp).toFixed(1)],
+  ],styles:{fontSize:10,cellPadding:4},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+  alternateRowStyles:{fillColor:[248,249,250]}});
+
+  y=doc.lastAutoTable.finalY+10;
+  if(dados.length){
+    doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('AGENDAMENTOS DO PERÍODO',lm,y);y+=6;
+    doc.line(lm,y,W-lm,y);y+=4;
+    doc.autoTable({startY:y,margin:{left:lm,right:lm},
+      head:[['Dt. Agendada','NF','Fornecedor','Status','SLA','Conferente']],
+      body:dados.map(a=>[fmtData(a.data),a.nf||'—',a.fornec||'—',a.status,a.confSLA!=null?fmtMin(a.confSLA)+' min':'—',a.confConfer||'—']),
+      styles:{fontSize:9,cellPadding:3},headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[248,249,250]}});
+  }
+
+  doc.save(`Recebimento-BM_${mes}.pdf`);
+}
+
+/* ══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════ */
+async function init(){
+  setDefaultFiltrosDash();
+  setDefaultFiltrosAgend();
+  atualizarFiltrosDin();
+  await carregarDoSheets();
+}
+init();
+</script>
+</body>
+</html>
