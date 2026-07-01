@@ -248,17 +248,14 @@ tbody td{padding:11px 14px;color:var(--text);}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;}
 .sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-/* SLA Bemais */
 .sla-bemais-box{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13px;}
 .sla-bemais-val{font-size:22px;font-weight:900;color:#16a34a;}
 .sla-bemais-lbl{font-size:11px;color:#15803d;font-weight:700;text-transform:uppercase;}
-/* Popup Ocorrências */
 .popup-obs{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;}
 .popup-obs.open{display:flex;}
 .popup-obs-box{background:#fff;border-radius:14px;padding:24px;width:90%;max-width:480px;box-shadow:var(--shadow-md);border:1px solid var(--border);}
 .popup-obs-title{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
 .popup-obs-text{background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap;min-height:60px;}
-/* Tela Acompanhamento */
 .acomp-page{max-width:900px;margin:0 auto;}
 .acomp-header{background:#1a1a1a;color:#fff;border-radius:14px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .acomp-title{font-size:20px;font-weight:900;}
@@ -275,9 +272,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 .acomp-row-nome{font-size:13px;font-weight:700;}
 .acomp-row-meta{font-size:11px;color:var(--text3);margin-top:2px;}
 .acomp-update{font-size:11px;color:var(--text3);text-align:center;padding:10px;}
-/* Fornecedor fixo pré-agendado badge */
 .b-fixo{background:#f0fdf4;color:#15803d;border:1px solid #86efac;}
-/* SLA indicator */
 .sla-indicator{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:800;}
 .sla-ok{background:#dcfce7;color:#16a34a;}
 .sla-warn{background:#fef3c7;color:#92400e;}
@@ -420,7 +415,6 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="mc"><div class="mv" id="a-peso">0 kg</div><div class="ml">⚖️ Peso Esperado</div></div>
   </div>
 
-  <!-- Card SLA Bemais -->
   <div class="sla-bemais-box" style="margin-bottom:14px;" id="agend-sla-bemais-box">
     <div>
       <div class="sla-bemais-lbl">⏱️ SLA Médio — Agendamento → Liberação Bemais</div>
@@ -527,8 +521,6 @@ tbody td{padding:11px 14px;color:var(--text);}
   <div class="conf-page">
     <div id="conf-select-state">
       <div class="page-title">🔍 Conferência</div>
-
-      <!-- Filtros Conferência -->
       <div class="filtros">
         <div class="fg-f" style="min-width:140px;">
           <label>📅 Dt. Agendada (De)</label>
@@ -561,7 +553,6 @@ tbody td{padding:11px 14px;color:var(--text);}
           <button class="btn btn-outline" onclick="limparFiltrosConf()">🔄 Limpar</button>
         </div>
       </div>
-
       <div class="alert alert-info">ℹ️ Clique em um agendamento para iniciar a conferência.</div>
       <div class="table-wrap">
         <div class="table-header"><div class="table-title">📋 Selecione o Agendamento</div></div>
@@ -688,24 +679,19 @@ tbody td{padding:11px 14px;color:var(--text);}
         <button class="btn btn-outline" onclick="renderAcompanhamento()" style="color:#fff;border-color:rgba(255,255,255,0.3);">🔄 Atualizar</button>
       </div>
     </div>
-
     <div class="acomp-cards" id="acomp-cards"></div>
-
     <div class="acomp-section">
       <div class="acomp-section-title">📅 Agendado para Hoje</div>
       <div id="acomp-hoje-list"></div>
     </div>
-
     <div class="acomp-section">
       <div class="acomp-section-title">✅ Já Recebidos Hoje</div>
       <div id="acomp-recebidos-list"></div>
     </div>
-
     <div class="acomp-section">
       <div class="acomp-section-title">⏳ Pendentes / Em Conferência</div>
       <div id="acomp-pendentes-list"></div>
     </div>
-
     <div class="acomp-update" id="acomp-update-time"></div>
   </div>
 </div>
@@ -721,9 +707,9 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
   <div class="sec-lbl">📄 Identificação</div>
   <div class="form-grid g4">
-    <div class="fg"><label>📋 Data de Solicitação</label><input type="date" id="m-datasolic"></div>
-    <div class="fg"><label>📅 Data Agendada</label><input type="date" id="m-data"></div>
-    <div class="fg"><label>🏬 Liberação Bemais</label><input type="date" id="m-dataliberacao"></div>
+    <div class="fg"><label>📋 Data de Solicitação</label><input type="datetime-local" id="m-datasolic"></div>
+    <div class="fg"><label>📅 Data Agendada</label><input type="datetime-local" id="m-data"></div>
+    <div class="fg"><label>🏬 Liberação Bemais</label><input type="datetime-local" id="m-dataliberacao"></div>
     <div class="fg"><label>🧾 Número da NF</label><input type="text" id="m-nf" placeholder="Ex: 123456"></div>
   </div>
   <div class="fg" style="margin-top:10px;">
@@ -755,7 +741,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 </div>
 </div>
 
-<!-- ══════════════ MODAL FORNECEDOR FIXO (editar SKU/Vol/Peso) ══════════════ -->
+<!-- ══════════════ MODAL FORNECEDOR FIXO ══════════════ -->
 <div class="modal-overlay" id="modal-fixo">
 <div class="modal" style="max-width:420px;">
   <div class="modal-title">
@@ -815,38 +801,88 @@ function showSync(msg,syncing=true){
 /* ══════════════════════════════════════════════════════
    UTILS
 ══════════════════════════════════════════════════════ */
+
+// Retorna data local no formato YYYY-MM-DD (sem bug de fuso horário)
 function getDataHoje(){
-  const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
   return`${y}-${m}-${dd}`;
 }
+
+// Retorna datetime local no formato YYYY-MM-DDTHH:MM para inputs datetime-local
+function getDatetimeLocal(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  const hh=String(d.getHours()).padStart(2,'0');
+  const mi=String(d.getMinutes()).padStart(2,'0');
+  return`${y}-${m}-${dd}T${hh}:${mi}`;
+}
+
+// Formata string de data/datetime para exibição DD/MM/YYYY ou DD/MM/YYYY HH:MM
 function fmtData(s){
   if(!s||typeof s!=='string')return'—';
-  const raw=s.split('T')[0],parts=raw.split('-');
-  if(parts.length!==3)return s;
-  return`${parts[2]}/${parts[1]}/${parts[0]}`;
+  // Suporta ISO (2025-07-01T08:30) e date puro (2025-07-01)
+  const partes=s.split('T');
+  const datePart=partes[0];
+  const timePart=partes[1]?partes[1].substring(0,5):null;
+  const dp=datePart.split('-');
+  if(dp.length!==3)return s;
+  const dataFmt=`${dp[2]}/${dp[1]}/${dp[0]}`;
+  return timePart&&timePart!=='00:00'?`${dataFmt} ${timePart}`:dataFmt;
 }
-function normalizaData(s){if(!s)return'';return s.split('T')[0];}
-function diaDaSemana(dataStr){
-  const parts=dataStr.split('-'),d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
-  return d.getDay();
+
+// Extrai apenas YYYY-MM-DD de qualquer string de data
+function soData(s){
+  if(!s)return'';
+  return s.split('T')[0];
 }
-const getDiaHoje=()=>DIAS_IDX[new Date().getDay()];
+
+function normalizaData(s){
+  if(!s)return'';
+  // Mantém o datetime completo se existir, senão só a data
+  return s.trim();
+}
+
+// Retorna o dia da semana LOCAL corretamente (sem bug UTC)
+// usando componentes locais do Date
+function getDiaSemanaLocal(dataStr){
+  // dataStr pode ser YYYY-MM-DD ou YYYY-MM-DDTHH:MM
+  const parts=soData(dataStr).split('-');
+  // Cria data usando construtor local (ano, mês-1, dia) — sem conversão UTC
+  const d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
+  return d.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sab
+}
+
+// Retorna o nome do dia de hoje no padrão do sistema (SEGUNDA, TERCA...)
+function getDiaHoje(){
+  const d=new Date();
+  return DIAS_IDX[d.getDay()];
+}
+
 const fmtMin=s=>{if(s==null)return'—';const m=Math.floor(s/60),se=s%60;return`${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;};
 const fmtHMS=s=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),se=s%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;};
 
-// Diferença em dias entre duas datas YYYY-MM-DD
-function diffDias(de, ate){
+// Diferença em dias entre duas datas (extrai só a parte date)
+function diffDias(de,ate){
   if(!de||!ate)return null;
-  const p1=de.split('-'),p2=ate.split('-');
+  const p1=soData(de).split('-');
+  const p2=soData(ate).split('-');
   const d1=new Date(parseInt(p1[0]),parseInt(p1[1])-1,parseInt(p1[2]));
   const d2=new Date(parseInt(p2[0]),parseInt(p2[1])-1,parseInt(p2[2]));
   return Math.round((d2-d1)/(1000*60*60*24));
 }
 
 function getChaveSemana(){
-  const d=new Date(),tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
-  tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
-  const ano=tmp.getUTCFullYear(),sem=Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
+  const d=new Date();
+  const tmp=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  tmp.setDate(tmp.getDate()+4-(tmp.getDay()||7));
+  const ano=tmp.getFullYear();
+  const inicio=new Date(ano,0,1);
+  const sem=Math.ceil((((tmp-inicio)/86400000)+1)/7);
   return`${ano}-W${String(sem).padStart(2,'0')}`;
 }
 
@@ -865,6 +901,8 @@ const FORNECEDORES_FIXOS=[
   {nome:'M.DIAS BRANCO S.A IND E COM',      codigo:139, dias:['SEXTA']},
   {nome:'SAO BRAZ SA IND E COM ALIME',      codigo:160, dias:['SEXTA']},
 ];
+
+// DIAS_IDX[0]=DOMINGO, [1]=SEGUNDA, [2]=TERCA, [3]=QUARTA, [4]=QUINTA, [5]=SEXTA, [6]=SABADO
 const DIAS_IDX=['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
 const DIAS_LBL={SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
 const BADGE_DIA={SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
@@ -916,8 +954,8 @@ function rowToAgend(r){
     encaixe       :r[21]==='true'||r[21]===true,
     reagendado    :r[22]==='true'||r[22]===true,
     dataOriginal  :normalizaData(r[23]||''),
-    dataLiberacao :normalizaData(r[24]||''),  // NOVO: Liberação Bemais
-    fixo          :r[25]==='true'||r[25]===true, // NOVO: é fixo
+    dataLiberacao :normalizaData(r[24]||''),
+    fixo          :r[25]==='true'||r[25]===true,
   };
 }
 function agendToRow(a){
@@ -936,8 +974,8 @@ function agendToRow(a){
     a.encaixe?'true':'false',
     a.reagendado?'true':'false',
     a.dataOriginal||'',
-    a.dataLiberacao||'',  // NOVO
-    a.fixo?'true':'false',// NOVO
+    a.dataLiberacao||'',
+    a.fixo?'true':'false',
   ];
 }
 const HEADER_AGEND=['dataSolic','data','nf','fornec','skuEsp','volEsp','pesoEsp','statusNF','viaNoRdil','obs','status','confInicio','confFim','confSLA','confConfer','confObs','skuRec','volRec','pesoRec','_confInicioTs','editadoEm','encaixe','reagendado','dataOriginal','dataLiberacao','fixo'];
@@ -993,38 +1031,37 @@ let confirmacoes=JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
 
 /* ══════════════════════════════════════════════════════
    INJETAR FIXOS DA SEMANA
-   Garante que toda semana os fornecedores fixos existam
-   na lista de agendamentos para cada dia
+   Usa construtor local (ano, mês-1, dia) para evitar
+   bug de fuso horário ao calcular dia da semana
 ══════════════════════════════════════════════════════ */
-function getInicioSemana(offset=0){
-  // Retorna segunda-feira da semana atual (offset em semanas)
+function getInicioSemanaLocal(){
   const hoje=new Date();
-  const diaSemana=hoje.getDay(); // 0=Dom, 1=Seg...
+  const diaSemana=hoje.getDay(); // 0=Dom
+  // diff para chegar na segunda-feira
   const diff=diaSemana===0?-6:1-diaSemana;
-  const seg=new Date(hoje);
-  seg.setDate(hoje.getDate()+diff+(offset*7));
-  return seg;
+  return new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()+diff);
 }
 
-function getDataDiaSemana(diaNome, offsetSemanas=0){
-  const mapa={SEGUNDA:1,TERCA:2,QUARTA:3,QUINTA:4,SEXTA:5};
-  const seg=getInicioSemana(offsetSemanas);
-  const target=new Date(seg);
-  target.setDate(seg.getDate()+(mapa[diaNome]||0));
-  const y=target.getFullYear(),m=String(target.getMonth()+1).padStart(2,'0'),d=String(target.getDate()).padStart(2,'0');
+function getDataDiaSemana(diaNome){
+  // Mapa: nome do dia → offset em relação à segunda-feira
+  const mapa={SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4,SABADO:5};
+  const seg=getInicioSemanaLocal();
+  const offset=mapa[diaNome]??0;
+  const target=new Date(seg.getFullYear(),seg.getMonth(),seg.getDate()+offset);
+  const y=target.getFullYear();
+  const m=String(target.getMonth()+1).padStart(2,'0');
+  const d=String(target.getDate()).padStart(2,'0');
   return`${y}-${m}-${d}`;
 }
 
 function injetarFixosSemana(){
-  const chaveSemana=getChaveSemana();
   FORNECEDORES_FIXOS.forEach(f=>{
     f.dias.forEach(dia=>{
       const dataAlvo=getDataDiaSemana(dia);
-      // Verifica se já existe um agendamento fixo para este fornecedor nessa semana/dia
       const jaExiste=agendamentos.some(a=>
         a.fixo===true&&
         a.fornec===f.nome&&
-        a.data===dataAlvo
+        soData(a.data)===dataAlvo
       );
       if(!jaExiste){
         agendamentos.unshift({
@@ -1062,11 +1099,13 @@ function injetarFixosSemana(){
 }
 
 /* ══════════════════════════════════════════════════════
-   STATUS
+   STATUS — compara somente a parte date
 ══════════════════════════════════════════════════════ */
 function atualizarStatusAgendamentos(){
   const hoje=getDataHoje();
-  agendamentos.forEach(a=>{if(a.status==='Aguardando'&&a.data<hoje)a.status='Atrasado';});
+  agendamentos.forEach(a=>{
+    if(a.status==='Aguardando'&&soData(a.data)<hoje)a.status='Atrasado';
+  });
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1135,8 +1174,9 @@ function abrirModalAgend(idx=-1){
   document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
   document.getElementById('modal-agend').classList.add('open');
   if(idx===-1){
-    document.getElementById('m-datasolic').value=getDataHoje();
-    document.getElementById('m-data').value=getDataHoje();
+    const dt=getDatetimeLocal();
+    document.getElementById('m-datasolic').value=dt;
+    document.getElementById('m-data').value=dt;
     document.getElementById('m-dataliberacao').value='';
     ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
     ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
@@ -1165,9 +1205,10 @@ function salvarAgend(){
   let isReagend=false,dataOriginal='';
   if(editIdx!==-1){
     const ant=agendamentos[editIdx];
-    if(data!==ant.data){
+    // Compara apenas a parte date para detectar reagendamento
+    if(soData(data)!==soData(ant.data)){
       isReagend=confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
-      dataOriginal=ant.dataOriginal||ant.data;
+      dataOriginal=ant.dataOriginal||soData(ant.data);
     }else{
       isReagend   =ant.reagendado   ||false;
       dataOriginal=ant.dataOriginal ||'';
@@ -1175,6 +1216,7 @@ function salvarAgend(){
   }
 
   const ant=editIdx!==-1?agendamentos[editIdx]:{};
+  const hoje=getDataHoje();
   const obj={
     dataSolic    :document.getElementById('m-datasolic').value||'',
     data,
@@ -1189,7 +1231,7 @@ function salvarAgend(){
     reagendado   :isReagend,
     dataOriginal,
     obs          :document.getElementById('m-obs').value.trim(),
-    status       :editIdx===-1?(data<getDataHoje()?'Atrasado':'Aguardando'):ant.status,
+    status       :editIdx===-1?(soData(data)<hoje?'Atrasado':'Aguardando'):ant.status,
     confInicio   :ant.confInicio   ??null,
     confFim      :ant.confFim      ??null,
     confSLA      :ant.confSLA      ??null,
@@ -1279,7 +1321,6 @@ function renderAgend(lista){
   document.getElementById('a-vol').textContent =dados.reduce((s,a)=>s+(a.volEsp||0),0);
   document.getElementById('a-peso').textContent=dados.reduce((s,a)=>s+(a.pesoEsp||0),0).toFixed(1)+' kg';
 
-  // SLA Bemais médio
   const slaLista=dados.filter(a=>a.data&&a.dataLiberacao).map(a=>diffDias(a.data,a.dataLiberacao)).filter(v=>v!==null);
   const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
   document.getElementById('agend-sla-bemais-val').textContent=slaMed!==null?slaMed+' dia(s) em média':'—';
@@ -1311,7 +1352,7 @@ function renderAgend(lista){
         <div style="display:flex;gap:4px;flex-wrap:nowrap;">
           ${a.fixo?`<button class="btn-sm bsm-edit" title="Atualizar volumes" onclick="abrirModalFixo(${ri})">📦</button>`:`<button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>`}
           <button class="btn-sm bsm-del"  onclick="excluirAgend(${ri})">🗑️</button>
-          <button class="btn-sm bsm-obs ${hasObs?'':'opacity:0.4'}" title="${hasObs?'Ver ocorrências':'Sem ocorrências'}" onclick="abrirPopupObs(${ri})" ${hasObs?'':'style="opacity:.4"'}>💬</button>
+          <button class="btn-sm bsm-obs" title="${hasObs?'Ver ocorrências':'Sem ocorrências'}" onclick="abrirPopupObs(${ri})" ${hasObs?'':'style="opacity:.4"'}>💬</button>
         </div>
       </td>
     </tr>`;
@@ -1346,19 +1387,19 @@ function filtrarAgend(){
   const f    =document.getElementById('f-fornec').value;
 
   renderAgend(agendamentos.filter(a=>{
-    if(de  && a.data < de)         return false;
-    if(ate && a.data > ate)        return false;
-    if(ds  && a.dataSolic!==ds)    return false;
-    if(dl  && a.dataLiberacao!==dl)return false;
-    if(s   && a.status!==s)        return false;
-    if(nf  && a.statusNF!==nf)     return false;
-    if(nrd==='sim'&&!a.viaNoRdil)  return false;
-    if(nrd==='nao'&& a.viaNoRdil)  return false;
-    if(enc==='sim'&&!a.encaixe)    return false;
-    if(enc==='nao'&& a.encaixe)    return false;
-    if(rea==='sim'&&!a.reagendado) return false;
-    if(rea==='nao'&& a.reagendado) return false;
-    if(f   && a.fornec!==f)        return false;
+    if(de  && soData(a.data)<de)               return false;
+    if(ate && soData(a.data)>ate)              return false;
+    if(ds  && soData(a.dataSolic)!==ds)        return false;
+    if(dl  && soData(a.dataLiberacao)!==dl)    return false;
+    if(s   && a.status!==s)                    return false;
+    if(nf  && a.statusNF!==nf)                 return false;
+    if(nrd==='sim'&&!a.viaNoRdil)              return false;
+    if(nrd==='nao'&& a.viaNoRdil)              return false;
+    if(enc==='sim'&&!a.encaixe)                return false;
+    if(enc==='nao'&& a.encaixe)                return false;
+    if(rea==='sim'&&!a.reagendado)             return false;
+    if(rea==='nao'&& a.reagendado)             return false;
+    if(f   && a.fornec!==f)                    return false;
     return true;
   }));
 }
@@ -1424,10 +1465,10 @@ function getDadosDashFiltrado(){
   const fFornec=document.getElementById('df-fornec')?.value||'';
   const fConfer=document.getElementById('df-conferente')?.value||'';
   return agendamentos.filter(a=>{
-    if(mes     && !(a.data||'').startsWith(mes)) return false;
-    if(fStatus && a.status!==fStatus)            return false;
-    if(fFornec && a.fornec!==fFornec)            return false;
-    if(fConfer && a.confConfer!==fConfer)        return false;
+    if(mes     && !soData(a.data||'').startsWith(mes)) return false;
+    if(fStatus && a.status!==fStatus)                  return false;
+    if(fFornec && a.fornec!==fFornec)                  return false;
+    if(fConfer && a.confConfer!==fConfer)               return false;
     return true;
   });
 }
@@ -1435,7 +1476,8 @@ function getDadosDashFiltrado(){
 let chartDonut=null,chartBarDia=null,chartVolume=null;
 function renderDashboard(){
   atualizarStatusAgendamentos();atualizarFiltrosDash();
-  const hoje=getDataHoje(),diaHoje=getDiaHoje();
+  const hoje=getDataHoje();
+  const diaHoje=getDiaHoje(); // Usa getDay() local — correto
   const dados=getDadosDashFiltrado();
   const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
 
@@ -1450,7 +1492,6 @@ function renderDashboard(){
   const slaLista=dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
   const slaMed  =slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
 
-  // SLA Bemais médio
   const slaBemaLista=dados.filter(a=>a.data&&a.dataLiberacao).map(a=>diffDias(a.data,a.dataLiberacao)).filter(v=>v!==null);
   const slaBemaMed  =slaBemaLista.length?Math.round(slaBemaLista.reduce((s,v)=>s+v,0)/slaBemaLista.length):null;
 
@@ -1489,7 +1530,6 @@ function renderDashboard(){
   setComp('cc-sku-esp','cc-sku-rec','cc-sku-bar','cc-sku-diff',skuEspT,skuRecT,'sku-fill');
   setComp('cc-vol-esp','cc-vol-rec','cc-vol-bar','cc-vol-diff',volEspT,volRecT,'vol-fill');
   setComp('cc-peso-esp','cc-peso-rec','cc-peso-bar','cc-peso-diff',pesoEspT,pesoRecT,'peso-fill');
-
   // Gráfico Donut
   const ctxD=document.getElementById('chartDonut').getContext('2d');
   if(chartDonut)chartDonut.destroy();
@@ -1501,9 +1541,9 @@ function renderDashboard(){
   },options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},cutout:'65%'}});
 
-    // Gráfico por dia
+  // Gráfico por dia
   const porDia={};
-  dados.forEach(a=>{const d=a.data||'';if(d)porDia[d]=(porDia[d]||0)+1;});
+  dados.forEach(a=>{const d=a.data?a.data.split('T')[0]:'';if(d)porDia[d]=(porDia[d]||0)+1;});
   const diasOrdenados=Object.keys(porDia).sort();
   const labDia=diasOrdenados.map(d=>{const idx=diaDaSemana(d);return`${NOMES_DIA_PT[idx]} ${fmtData(d).substring(0,5)}`;});
   const ctxB=document.getElementById('chartBarDia').getContext('2d');
@@ -1559,13 +1599,15 @@ function renderConfLista(){
   const st  =document.getElementById('cf-status').value;
   const forn=document.getElementById('cf-fornec').value;
 
-  const lista=agendamentos.filter((a,i)=>{
-    if(a.status==='Concluído OK') return false;
-    if(de   && a.data<de)         return false;
-    if(ate  && a.data>ate)        return false;
-    if(ds   && a.dataSolic!==ds)  return false;
-    if(st   && a.status!==st)     return false;
-    if(forn && a.fornec!==forn)   return false;
+  function soData(s){return s?s.split('T')[0]:'';}
+
+  const lista=agendamentos.filter(a=>{
+    if(a.status==='Concluído OK')              return false;
+    if(de   && soData(a.data)<de)              return false;
+    if(ate  && soData(a.data)>ate)             return false;
+    if(ds   && soData(a.dataSolic)!==ds)       return false;
+    if(st   && a.status!==st)                  return false;
+    if(forn && a.fornec!==forn)                return false;
     return true;
   });
 
@@ -1634,7 +1676,6 @@ function abrirConferencia(idx){
     editBanner.style.display='none';
   }
 
-  // Timer
   if(timerInterval)clearInterval(timerInterval);
   confIniciado=!!a.confInicio;
   confFinalizado=!!a.confFim;
@@ -1649,7 +1690,6 @@ function abrirConferencia(idx){
     document.getElementById('conf-resultado').style.display='block';
     renderResultado(a);
   }else if(confIniciado){
-    // retomar timer
     const ini=new Date(a._confInicioTs);
     timerSeg=Math.floor((Date.now()-ini.getTime())/1000);
     timerInterval=setInterval(()=>{timerSeg++;document.getElementById('c-timer').textContent=fmtHMS(timerSeg);},1000);
@@ -1674,8 +1714,9 @@ function abrirConferencia(idx){
 function getPontualidade(a){
   if(!a.data)return'—';
   const hoje=getDataHoje();
-  if(a.data===hoje)return'🟢 No prazo';
-  if(a.data<hoje)  return'🔴 Atrasado';
+  const dataAgend=a.data.split('T')[0];
+  if(dataAgend===hoje)return'🟢 No prazo';
+  if(dataAgend<hoje)  return'🔴 Atrasado';
   return'🔵 Antecipado';
 }
 
@@ -1734,12 +1775,12 @@ function habilitarEdicao(){
 
 function salvarEdicao(){
   const a=agendamentos[confAgendIdx];
-  a.skuRec   =parseFloat(document.getElementById('c-sku-rec').value)||null;
-  a.volRec   =parseFloat(document.getElementById('c-vol-rec').value)||null;
-  a.pesoRec  =parseFloat(document.getElementById('c-peso-rec').value)||null;
+  a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
+  a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
+  a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
   a.confConfer=document.getElementById('c-conferente').value.trim();
-  a.confObs  =document.getElementById('c-ocorrencia').value.trim();
-  a.editadoEm=new Date().toLocaleString('pt-BR');
+  a.confObs   =document.getElementById('c-ocorrencia').value.trim();
+  a.editadoEm =new Date().toLocaleString('pt-BR');
   ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
     .forEach(id=>document.getElementById(id).disabled=true);
   document.getElementById('btn-editar-conf').style.display='inline-flex';
@@ -1869,13 +1910,13 @@ function renderAcompanhamento(){
   const hoje=getDataHoje();
   atualizarStatusAgendamentos();
 
-  const agendHoje   =agendamentos.filter(a=>a.data===hoje);
-  const recebidos   =agendamentos.filter(a=>a.data===hoje&&a.status==='Concluído OK');
-  const emConf      =agendamentos.filter(a=>a.data===hoje&&a.status==='Em Conferência');
-  const pendentes   =agendamentos.filter(a=>a.data===hoje&&(a.status==='Aguardando'||a.status==='Atrasado'||a.status==='Pendente'||a.status==='Não Finalizado'));
-  const diaHoje     =getDiaHoje();
-  const fixosHoje   =FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
-  const fixosConf   =fixosHoje.filter(f=>confirmacoes[getKeyFixo(diaHoje,f.codigo)]==='confirmado').length;
+  const agendHoje =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje);
+  const recebidos =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status==='Concluído OK');
+  const emConf    =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status==='Em Conferência');
+  const pendentes =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&(a.status==='Aguardando'||a.status==='Atrasado'||a.status==='Pendente'||a.status==='Não Finalizado'));
+  const diaHoje   =getDiaHoje();
+  const fixosHoje =FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const fixosConf =fixosHoje.filter(f=>confirmacoes[getKeyFixo(diaHoje,f.codigo)]==='confirmado').length;
 
   document.getElementById('acomp-data-label').textContent=
     new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
@@ -1909,12 +1950,12 @@ function renderAcompanhamento(){
 
 function gerarLinkAcomp(){
   const hoje=getDataHoje();
-  const agendHoje =agendamentos.filter(a=>a.data===hoje);
-  const recebidos =agendamentos.filter(a=>a.data===hoje&&a.status==='Concluído OK');
-  const pendentes =agendamentos.filter(a=>a.data===hoje&&a.status!=='Concluído OK');
-  const diaHoje   =getDiaHoje();
-  const fixosHoje =FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
-  const fixosConf =fixosHoje.filter(f=>confirmacoes[getKeyFixo(diaHoje,f.codigo)]==='confirmado').length;
+  const agendHoje=agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje);
+  const recebidos=agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status==='Concluído OK');
+  const pendentes=agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status!=='Concluído OK');
+  const diaHoje  =getDiaHoje();
+  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const fixosConf=fixosHoje.filter(f=>confirmacoes[getKeyFixo(diaHoje,f.codigo)]==='confirmado').length;
 
   const texto=
 `📦 RECEBIMENTO BM — ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'})}
@@ -1931,9 +1972,7 @@ ${pendentes.length?'\n⏳ PENDENTES:\n'+pendentes.map(a=>`  • ${a.fornec} — 
 
   navigator.clipboard.writeText(texto).then(()=>{
     alert('✅ Resumo copiado! Cole no WhatsApp ou onde preferir.');
-  }).catch(()=>{
-    alert(texto);
-  });
+  }).catch(()=>{alert(texto);});
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1967,6 +2006,206 @@ function exportarPDF(){
 }
 
 /* ══════════════════════════════════════════════════════
+   UTILS — datas com hora
+══════════════════════════════════════════════════════ */
+function fmtData(s){
+  if(!s||typeof s!=='string')return'—';
+  const raw=s.split('T');
+  const parts=raw[0].split('-');
+  if(parts.length!==3)return s;
+  const dataPart=`${parts[2]}/${parts[1]}/${parts[0]}`;
+  if(raw[1]){
+    const hora=raw[1].substring(0,5);
+    return`${dataPart} ${hora}`;
+  }
+  return dataPart;
+}
+
+/* ══════════════════════════════════════════════════════
+   INJETAR FIXOS — CORREÇÃO DO MAPA DE DIAS
+══════════════════════════════════════════════════════ */
+function getDataDiaSemana(diaNome,offsetSemanas=0){
+  // CORRETO: SEGUNDA=0 offset a partir da própria segunda-feira
+  const mapa={SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4};
+  const seg=getInicioSemana(offsetSemanas);
+  const target=new Date(seg);
+  target.setDate(seg.getDate()+(mapa[diaNome]??0));
+  const y=target.getFullYear(),m=String(target.getMonth()+1).padStart(2,'0'),d=String(target.getDate()).padStart(2,'0');
+  return`${y}-${m}-${d}`;
+}
+
+function injetarFixosSemana(){
+  FORNECEDORES_FIXOS.forEach(f=>{
+    f.dias.forEach(dia=>{
+      const dataAlvo=getDataDiaSemana(dia);
+      const jaExiste=agendamentos.some(a=>
+        a.fixo===true&&
+        a.fornec===f.nome&&
+        a.data&&a.data.split('T')[0]===dataAlvo
+      );
+      if(!jaExiste){
+        agendamentos.unshift({
+          dataSolic:'',data:dataAlvo,nf:'',fornec:f.nome,
+          skuEsp:0,volEsp:0,pesoEsp:0,
+          statusNF:'',viaNoRdil:false,encaixe:false,reagendado:false,
+          dataOriginal:'',obs:'Fornecedor fixo — preencha SKU, volume e peso',
+          status:'Aguardando',confInicio:null,confFim:null,confSLA:null,
+          confConfer:'',confObs:'',skuRec:null,volRec:null,pesoRec:null,
+          _confInicioTs:null,editadoEm:null,dataLiberacao:'',fixo:true,
+        });
+      }
+    });
+  });
+  localStorage.setItem('bm-agend-v2',JSON.stringify(agendamentos));
+}
+
+/* ══════════════════════════════════════════════════════
+   FILTRAR AGENDAMENTOS — soData helper
+══════════════════════════════════════════════════════ */
+function soData(s){return s?s.split('T')[0]:'';}
+
+function filtrarAgend(){
+  const de  =document.getElementById('f-data-de').value;
+  const ate  =document.getElementById('f-data-ate').value;
+  const ds   =document.getElementById('f-datasolic').value;
+  const dl   =document.getElementById('f-datalib').value;
+  const s    =document.getElementById('f-status').value;
+  const nf   =document.getElementById('f-nf').value;
+  const nrd  =document.getElementById('f-nordil').value;
+  const enc  =document.getElementById('f-encaixe').value;
+  const rea  =document.getElementById('f-reagend').value;
+  const f    =document.getElementById('f-fornec').value;
+
+  renderAgend(agendamentos.filter(a=>{
+    if(de  && soData(a.data)<de)                return false;
+    if(ate && soData(a.data)>ate)               return false;
+    if(ds  && soData(a.dataSolic)!==ds)         return false;
+    if(dl  && soData(a.dataLiberacao)!==dl)     return false;
+    if(s   && a.status!==s)                     return false;
+    if(nf  && a.statusNF!==nf)                  return false;
+    if(nrd==='sim'&&!a.viaNoRdil)               return false;
+    if(nrd==='nao'&& a.viaNoRdil)               return false;
+    if(enc==='sim'&&!a.encaixe)                 return false;
+    if(enc==='nao'&& a.encaixe)                 return false;
+    if(rea==='sim'&&!a.reagendado)              return false;
+    if(rea==='nao'&& a.reagendado)              return false;
+    if(f   && a.fornec!==f)                     return false;
+    return true;
+  }));
+}
+
+function getDadosDashFiltrado(){
+  const mes    =document.getElementById('df-mes')?.value||'';
+  const fStatus=document.getElementById('df-status')?.value||'';
+  const fFornec=document.getElementById('df-fornec')?.value||'';
+  const fConfer=document.getElementById('df-conferente')?.value||'';
+  return agendamentos.filter(a=>{
+    if(mes     && !soData(a.data).startsWith(mes)) return false;
+    if(fStatus && a.status!==fStatus)              return false;
+    if(fFornec && a.fornec!==fFornec)              return false;
+    if(fConfer && a.confConfer!==fConfer)          return false;
+    return true;
+  });
+}
+
+function atualizarStatusAgendamentos(){
+  const hoje=getDataHoje();
+  agendamentos.forEach(a=>{
+    if(a.status==='Aguardando'&&soData(a.data)<hoje)a.status='Atrasado';
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL — campos datetime-local
+══════════════════════════════════════════════════════ */
+function abrirModalAgend(idx=-1){
+  editIdx=idx;
+  document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
+  document.getElementById('modal-agend').classList.add('open');
+  const agoraLocal=()=>{
+    const n=new Date(),off=n.getTimezoneOffset()*60000;
+    return new Date(n-off).toISOString().slice(0,16);
+  };
+  if(idx===-1){
+    document.getElementById('m-datasolic').value=agoraLocal();
+    document.getElementById('m-data').value=agoraLocal();
+    document.getElementById('m-dataliberacao').value='';
+    ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
+    ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
+    setFlagsInit('',false,false);
+  }else{
+    const a=agendamentos[idx];
+    document.getElementById('m-datasolic').value=a.dataSolic||'';
+    document.getElementById('m-data').value=a.data||'';
+    document.getElementById('m-dataliberacao').value=a.dataLiberacao||'';
+    document.getElementById('m-nf').value=a.nf||'';
+    document.getElementById('m-fornec').value=a.fornec||'';
+    document.getElementById('m-sku').value=a.skuEsp||'';
+    document.getElementById('m-vol').value=a.volEsp||'';
+    document.getElementById('m-peso').value=a.pesoEsp||'';
+    document.getElementById('m-obs').value=a.obs||'';
+    setFlagsInit(a.statusNF||'',a.viaNoRdil||false,a.encaixe||false);
+  }
+}
+
+function salvarAgend(){
+  const fornec=document.getElementById('m-fornec').value.trim();
+  const data  =document.getElementById('m-data').value;
+  if(!data||!fornec){alert('Preencha ao menos a Data Agendada e o Fornecedor.');return;}
+
+  const dataOnly=soData(data);
+  const hoje=getDataHoje();
+
+  let isReagend=false,dataOriginal='';
+  if(editIdx!==-1){
+    const ant=agendamentos[editIdx];
+    const antDataOnly=soData(ant.data);
+    if(dataOnly!==antDataOnly){
+      isReagend=confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
+      dataOriginal=ant.dataOriginal||ant.data;
+    }else{
+      isReagend   =ant.reagendado   ||false;
+      dataOriginal=ant.dataOriginal ||'';
+    }
+  }
+
+  const ant=editIdx!==-1?agendamentos[editIdx]:{};
+  const obj={
+    dataSolic    :document.getElementById('m-datasolic').value||'',
+    data,
+    nf           :document.getElementById('m-nf').value.trim(),
+    fornec,
+    skuEsp       :parseFloat(document.getElementById('m-sku').value)||0,
+    volEsp       :parseFloat(document.getElementById('m-vol').value)||0,
+    pesoEsp      :parseFloat(document.getElementById('m-peso').value)||0,
+    statusNF     :flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
+    viaNoRdil    :flagNordil==='sim',
+    encaixe      :flagEncaixe==='sim',
+    reagendado   :isReagend,
+    dataOriginal,
+    obs          :document.getElementById('m-obs').value.trim(),
+    status       :editIdx===-1?(dataOnly<hoje?'Atrasado':'Aguardando'):ant.status,
+    confInicio   :ant.confInicio   ??null,
+    confFim      :ant.confFim      ??null,
+    confSLA      :ant.confSLA      ??null,
+    confConfer   :ant.confConfer   ??'',
+    confObs      :ant.confObs      ??'',
+    skuRec       :ant.skuRec       ??null,
+    volRec       :ant.volRec       ??null,
+    pesoRec      :ant.pesoRec      ??null,
+    _confInicioTs:ant._confInicioTs??null,
+    editadoEm    :ant.editadoEm    ??null,
+    dataLiberacao:document.getElementById('m-dataliberacao').value||'',
+    fixo         :ant.fixo||false,
+  };
+
+  if(editIdx===-1)agendamentos.unshift(obj);
+  else            agendamentos[editIdx]=obj;
+
+  save();fecharModalAgend();atualizarFiltrosDin();renderAgend();
+}
+
+/* ══════════════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════════════ */
 (function init(){
@@ -1983,3 +2222,4 @@ function exportarPDF(){
 </script>
 </body>
 </html>
+
