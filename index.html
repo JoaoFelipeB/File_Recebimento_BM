@@ -314,7 +314,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 
 <div class="main">
 
-<!-- ══════════════ DASHBOARD ══════════════ -->
+<!-- DASHBOARD -->
 <div class="tela active" id="tela-dashboard">
   <div class="page-title">
     📊 Dashboard
@@ -349,7 +349,6 @@ tbody td{padding:11px 14px;color:var(--text);}
       <button class="btn btn-outline" onclick="limparFiltrosDash()">🔄 Limpar</button>
     </div>
   </div>
-
   <div class="dash-section-title">🚦 Status</div>
   <div class="cards-row">
     <div class="card c-black"><div class="card-icon">📋</div><div class="card-val" id="d-total">0</div><div class="card-lbl">Total</div></div>
@@ -362,7 +361,6 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="card c-purple"><div class="card-icon">⏱️</div><div class="card-val" id="d-sla">—</div><div class="card-lbl">Tempo Médio Conf.</div></div>
     <div class="card c-teal"><div class="card-icon">🏬</div><div class="card-val" id="d-sla-bemais">—</div><div class="card-lbl">SLA Méd. Lib. Bemais</div></div>
   </div>
-
   <div class="dash-section-title">📦 Comparativo — Agendado vs. Recebido</div>
   <div class="comp-cards">
     <div class="ccard cc-sku">
@@ -387,14 +385,12 @@ tbody td{padding:11px 14px;color:var(--text);}
       <div class="ccard-diff" id="cc-peso-diff"><span class="diff-neu">— sem dados</span></div>
     </div>
   </div>
-
   <div class="dash-section-title">📈 Gráficos</div>
   <div class="charts-grid">
     <div class="chart-box"><div class="chart-box-title">🍩 Status dos Agendamentos</div><div class="chart-wrap"><canvas id="chartDonut"></canvas></div></div>
     <div class="chart-box"><div class="chart-box-title">📅 Agendamentos por Dia</div><div class="chart-wrap"><canvas id="chartBarDia"></canvas></div></div>
     <div class="chart-box"><div class="chart-box-title">📦 SKU / Volume / Peso — Agendado vs. Recebido</div><div class="chart-wrap"><canvas id="chartVolume"></canvas></div></div>
   </div>
-
   <div class="dash-section-title">🏭 Fornecedores Fixos do Dia</div>
   <div class="table-wrap">
     <div style="overflow-x:auto;">
@@ -406,7 +402,7 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ══════════════ AGENDAMENTOS ══════════════ -->
+<!-- AGENDAMENTOS -->
 <div class="tela" id="tela-agendamentos">
   <div class="page-title">📋 Agendamentos</div>
   <div class="metrics-row">
@@ -414,29 +410,27 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="mc"><div class="mv" id="a-vol">0</div><div class="ml">📫 Volume Esperado</div></div>
     <div class="mc"><div class="mv" id="a-peso">0 kg</div><div class="ml">⚖️ Peso Esperado</div></div>
   </div>
-
-  <div class="sla-bemais-box" style="margin-bottom:14px;" id="agend-sla-bemais-box">
+  <div class="sla-bemais-box" style="margin-bottom:14px;">
     <div>
       <div class="sla-bemais-lbl">⏱️ SLA Médio — Agendamento → Liberação Bemais</div>
       <div class="sla-bemais-val" id="agend-sla-bemais-val">—</div>
     </div>
     <div style="font-size:11px;color:#15803d;max-width:240px;">Tempo médio entre a data agendada e a data de liberação no Bemais.</div>
   </div>
-
   <div class="filtros">
-    <div class="fg-f" style="min-width:140px;">
+    <div class="fg-f" style="min-width:160px;">
       <label>📅 Dt. Agendada (De)</label>
       <input type="date" id="f-data-de" onchange="filtrarAgend()">
     </div>
-    <div class="fg-f" style="min-width:140px;">
+    <div class="fg-f" style="min-width:160px;">
       <label>📅 Dt. Agendada (Até)</label>
       <input type="date" id="f-data-ate" onchange="filtrarAgend()">
     </div>
-    <div class="fg-f" style="min-width:140px;">
+    <div class="fg-f" style="min-width:160px;">
       <label>📋 Dt. Solicitação</label>
       <input type="date" id="f-datasolic" onchange="filtrarAgend()">
     </div>
-    <div class="fg-f" style="min-width:140px;">
+    <div class="fg-f" style="min-width:160px;">
       <label>🏬 Dt. Lib. Bemais</label>
       <input type="date" id="f-datalib" onchange="filtrarAgend()">
     </div>
@@ -489,7 +483,6 @@ tbody td{padding:11px 14px;color:var(--text);}
       <button class="btn btn-outline" onclick="limparFiltrosAgend()">🔄 Limpar</button>
     </div>
   </div>
-
   <div class="table-wrap">
     <div class="table-header">
       <div class="table-title">📋 Lista de Agendamentos</div>
@@ -498,13 +491,8 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div style="overflow-x:auto;">
       <table>
         <thead><tr>
-          <th>Dt. Solicitação</th>
-          <th>Dt. Agendada</th>
-          <th>Dt. Lib. Bemais</th>
-          <th>SLA Bemais</th>
-          <th>NF</th>
-          <th>Fornecedor</th>
-          <th>SKU Esp.</th><th>Vol. Esp.</th><th>Peso Esp.</th>
+          <th>Dt. Solicitação</th><th>Dt. Agendada</th><th>Dt. Lib. Bemais</th><th>SLA Bemais</th>
+          <th>NF</th><th>Fornecedor</th><th>SKU Esp.</th><th>Vol. Esp.</th><th>Peso Esp.</th>
           <th>Flags</th><th>Status NF</th><th>Status Conf.</th><th>SLA Conf.</th><th>Ações</th>
         </tr></thead>
         <tbody id="tbody-agend"></tbody>
@@ -516,21 +504,21 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ══════════════ CONFERÊNCIA ══════════════ -->
+<!-- CONFERÊNCIA -->
 <div class="tela" id="tela-conferencia">
   <div class="conf-page">
     <div id="conf-select-state">
       <div class="page-title">🔍 Conferência</div>
       <div class="filtros">
-        <div class="fg-f" style="min-width:140px;">
+        <div class="fg-f" style="min-width:160px;">
           <label>📅 Dt. Agendada (De)</label>
           <input type="date" id="cf-data-de" onchange="renderConfLista()">
         </div>
-        <div class="fg-f" style="min-width:140px;">
+        <div class="fg-f" style="min-width:160px;">
           <label>📅 Dt. Agendada (Até)</label>
           <input type="date" id="cf-data-ate" onchange="renderConfLista()">
         </div>
-        <div class="fg-f" style="min-width:140px;">
+        <div class="fg-f" style="min-width:160px;">
           <label>📋 Dt. Solicitação</label>
           <input type="date" id="cf-datasolic" onchange="renderConfLista()">
         </div>
@@ -567,8 +555,6 @@ tbody td{padding:11px 14px;color:var(--text);}
         </div>
       </div>
     </div>
-
-    <!-- Conferência Ativa -->
     <div id="conf-active-state" style="display:none;">
       <div class="edit-banner" id="edit-banner" style="display:none;">
         <span class="eb-icon">✏️</span>
@@ -620,24 +606,9 @@ tbody td{padding:11px 14px;color:var(--text);}
         <table class="comp-table">
           <thead><tr><th>Item</th><th>Esperado</th><th>Recebido</th><th>Divergência</th></tr></thead>
           <tbody>
-            <tr>
-              <td class="lbl">📦 SKU</td>
-              <td id="c-sku-esp">—</td>
-              <td><input type="number" id="c-sku-rec" min="0" placeholder="0" oninput="calcDiverg()" disabled></td>
-              <td id="c-sku-div">—</td>
-            </tr>
-            <tr>
-              <td class="lbl">📫 Volume (Cx)</td>
-              <td id="c-vol-esp">—</td>
-              <td><input type="number" id="c-vol-rec" min="0" placeholder="0" oninput="calcDiverg()" disabled></td>
-              <td id="c-vol-div">—</td>
-            </tr>
-            <tr>
-              <td class="lbl">⚖️ Peso (kg)</td>
-              <td id="c-peso-esp">—</td>
-              <td><input type="number" id="c-peso-rec" min="0" step="0.1" placeholder="0.0" oninput="calcDiverg()" disabled></td>
-              <td id="c-peso-div">—</td>
-            </tr>
+            <tr><td class="lbl">📦 SKU</td><td id="c-sku-esp">—</td><td><input type="number" id="c-sku-rec" min="0" placeholder="0" oninput="calcDiverg()" disabled></td><td id="c-sku-div">—</td></tr>
+            <tr><td class="lbl">📫 Volume (Cx)</td><td id="c-vol-esp">—</td><td><input type="number" id="c-vol-rec" min="0" placeholder="0" oninput="calcDiverg()" disabled></td><td id="c-vol-div">—</td></tr>
+            <tr><td class="lbl">⚖️ Peso (kg)</td><td id="c-peso-esp">—</td><td><input type="number" id="c-peso-rec" min="0" step="0.1" placeholder="0.0" oninput="calcDiverg()" disabled></td><td id="c-peso-div">—</td></tr>
           </tbody>
         </table>
       </div>
@@ -659,14 +630,14 @@ tbody td{padding:11px 14px;color:var(--text);}
   </div>
 </div>
 
-<!-- ══════════════ FORNECEDORES FIXOS ══════════════ -->
+<!-- FORNECEDORES FIXOS -->
 <div class="tela" id="tela-fornecedores">
   <div class="page-title">🏭 Fornecedores Fixos — Confirmação de Entrega</div>
   <div class="alert alert-warn">⚠️ As confirmações são salvas por semana. A cada nova semana, tudo reinicia automaticamente.</div>
   <div id="fornec-fixos-container"></div>
 </div>
 
-<!-- ══════════════ ACOMPANHAMENTO ══════════════ -->
+<!-- ACOMPANHAMENTO -->
 <div class="tela" id="tela-acompanhamento">
   <div class="acomp-page">
     <div class="acomp-header">
@@ -698,7 +669,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 
 </div><!-- /main -->
 
-<!-- ══════════════ MODAL AGENDAMENTO ══════════════ -->
+<!-- MODAL AGENDAMENTO -->
 <div class="modal-overlay" id="modal-agend">
 <div class="modal">
   <div class="modal-title">
@@ -719,9 +690,9 @@ tbody td{padding:11px 14px;color:var(--text);}
   <div class="sep"></div>
   <div class="sec-lbl">📦 Volumes Esperados</div>
   <div class="form-grid g3">
-    <div class="fg"><label>SKU (Itens)</label><input type="number" id="m-sku"  placeholder="0"   min="0"></div>
-    <div class="fg"><label>Volume (Cx)</label><input type="number" id="m-vol"  placeholder="0"   min="0"></div>
-    <div class="fg"><label>Peso (KG)</label>  <input type="number" id="m-peso" placeholder="0.0" step="0.1" min="0"></div>
+    <div class="fg"><label>SKU (Itens)</label><input type="number" id="m-sku" placeholder="0" min="0"></div>
+    <div class="fg"><label>Volume (Cx)</label><input type="number" id="m-vol" placeholder="0" min="0"></div>
+    <div class="fg"><label>Peso (KG)</label><input type="number" id="m-peso" placeholder="0.0" step="0.1" min="0"></div>
   </div>
   <div class="sep"></div>
   <div class="sec-lbl">🏷️ Flags</div>
@@ -741,7 +712,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 </div>
 </div>
 
-<!-- ══════════════ MODAL FORNECEDOR FIXO ══════════════ -->
+<!-- MODAL FORNECEDOR FIXO -->
 <div class="modal-overlay" id="modal-fixo">
 <div class="modal" style="max-width:420px;">
   <div class="modal-title">
@@ -761,7 +732,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 </div>
 </div>
 
-<!-- ══════════════ POPUP OCORRÊNCIAS ══════════════ -->
+<!-- POPUP OCORRÊNCIAS -->
 <div class="popup-obs" id="popup-obs">
   <div class="popup-obs-box">
     <div class="popup-obs-title">
@@ -781,14 +752,13 @@ tbody td{padding:11px 14px;color:var(--text);}
   <div class="sync-dot" id="sync-dot"></div>
   <span id="sync-msg">Sincronizado</span>
 </div>
-
-<script>
-/* ══════════════════════════════════════════════════════
-   CONFIG SHEETS
-══════════════════════════════════════════════════════ */
-const API_URL   = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
-const ABA_AGEND = 'agendamentos';
-const ABA_CONF  = 'confirmacoes';
+  <script>
+/* ══════════════════════════════════════════════════
+   CONFIG
+══════════════════════════════════════════════════ */
+const API_URL   ='https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
+const ABA_AGEND ='agendamentos';
+const ABA_CONF  ='confirmacoes';
 
 function showSync(msg,syncing=true){
   const bar=document.getElementById('sync-bar'),dot=document.getElementById('sync-dot');
@@ -798,97 +768,71 @@ function showSync(msg,syncing=true){
   if(!syncing)setTimeout(()=>bar.classList.remove('show'),2500);
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    UTILS
-══════════════════════════════════════════════════════ */
-
-// Retorna data local no formato YYYY-MM-DD (sem bug de fuso horário)
+══════════════════════════════════════════════════ */
 function getDataHoje(){
-  const d=new Date();
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,'0');
-  const dd=String(d.getDate()).padStart(2,'0');
+  const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
   return`${y}-${m}-${dd}`;
 }
 
-// Retorna datetime local no formato YYYY-MM-DDTHH:MM para inputs datetime-local
-function getDatetimeLocal(){
-  const d=new Date();
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,'0');
-  const dd=String(d.getDate()).padStart(2,'0');
-  const hh=String(d.getHours()).padStart(2,'0');
-  const mi=String(d.getMinutes()).padStart(2,'0');
-  return`${y}-${m}-${dd}T${hh}:${mi}`;
-}
-
-// Formata string de data/datetime para exibição DD/MM/YYYY ou DD/MM/YYYY HH:MM
-function fmtData(s){
-  if(!s||typeof s!=='string')return'—';
-  // Suporta ISO (2025-07-01T08:30) e date puro (2025-07-01)
-  const partes=s.split('T');
-  const datePart=partes[0];
-  const timePart=partes[1]?partes[1].substring(0,5):null;
-  const dp=datePart.split('-');
-  if(dp.length!==3)return s;
-  const dataFmt=`${dp[2]}/${dp[1]}/${dp[0]}`;
-  return timePart&&timePart!=='00:00'?`${dataFmt} ${timePart}`:dataFmt;
-}
-
-// Extrai apenas YYYY-MM-DD de qualquer string de data
+// Retorna apenas YYYY-MM-DD de qualquer string de data
 function soData(s){
   if(!s)return'';
   return s.split('T')[0];
 }
 
-function normalizaData(s){
-  if(!s)return'';
-  // Mantém o datetime completo se existir, senão só a data
-  return s.trim();
+// Formata data para exibição: DD/MM/YYYY HH:MM (hora opcional)
+function fmtData(s){
+  if(!s||typeof s!=='string')return'—';
+  const raw=s.split('T');
+  const parts=raw[0].split('-');
+  if(parts.length!==3)return s;
+  const dataPart=`${parts[2]}/${parts[1]}/${parts[0]}`;
+  if(raw[1]){
+    const hora=raw[1].substring(0,5);
+    return`${dataPart} ${hora}`;
+  }
+  return dataPart;
 }
 
-// Retorna o dia da semana LOCAL corretamente (sem bug UTC)
-// usando componentes locais do Date
-function getDiaSemanaLocal(dataStr){
-  // dataStr pode ser YYYY-MM-DD ou YYYY-MM-DDTHH:MM
-  const parts=soData(dataStr).split('-');
-  // Cria data usando construtor local (ano, mês-1, dia) — sem conversão UTC
-  const d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
-  return d.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sab
+function normalizaData(s){if(!s)return'';return s;}
+
+function diaDaSemana(dataStr){
+  const d=soData(dataStr);
+  const parts=d.split('-');
+  const dt=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
+  return dt.getDay();
 }
 
-// Retorna o nome do dia de hoje no padrão do sistema (SEGUNDA, TERCA...)
-function getDiaHoje(){
-  const d=new Date();
-  return DIAS_IDX[d.getDay()];
-}
-
+const getDiaHoje=()=>DIAS_IDX[new Date().getDay()];
 const fmtMin=s=>{if(s==null)return'—';const m=Math.floor(s/60),se=s%60;return`${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;};
 const fmtHMS=s=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),se=s%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;};
 
-// Diferença em dias entre duas datas (extrai só a parte date)
 function diffDias(de,ate){
   if(!de||!ate)return null;
-  const p1=soData(de).split('-');
-  const p2=soData(ate).split('-');
+  const p1=soData(de).split('-'),p2=soData(ate).split('-');
   const d1=new Date(parseInt(p1[0]),parseInt(p1[1])-1,parseInt(p1[2]));
   const d2=new Date(parseInt(p2[0]),parseInt(p2[1])-1,parseInt(p2[2]));
   return Math.round((d2-d1)/(1000*60*60*24));
 }
 
 function getChaveSemana(){
-  const d=new Date();
-  const tmp=new Date(d.getFullYear(),d.getMonth(),d.getDate());
-  tmp.setDate(tmp.getDate()+4-(tmp.getDay()||7));
-  const ano=tmp.getFullYear();
-  const inicio=new Date(ano,0,1);
-  const sem=Math.ceil((((tmp-inicio)/86400000)+1)/7);
+  const d=new Date(),tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
+  const ano=tmp.getUTCFullYear(),sem=Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
   return`${ano}-W${String(sem).padStart(2,'0')}`;
 }
 
-/* ══════════════════════════════════════════════════════
+// Retorna datetime-local no formato YYYY-MM-DDTHH:MM para inputs
+function agoraLocalStr(){
+  const n=new Date(),off=n.getTimezoneOffset()*60000;
+  return new Date(n-off).toISOString().slice(0,16);
+}
+
+/* ══════════════════════════════════════════════════
    CONSTANTES
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 const FORNECEDORES_FIXOS=[
   {nome:'AMBEV S.A -F. PARAIBA',           codigo:17,  dias:['SEGUNDA','SEXTA']},
   {nome:'EBANO DISTRIBUIDORA DE ALIMENTOS', codigo:25,  dias:['SEGUNDA']},
@@ -901,8 +845,8 @@ const FORNECEDORES_FIXOS=[
   {nome:'M.DIAS BRANCO S.A IND E COM',      codigo:139, dias:['SEXTA']},
   {nome:'SAO BRAZ SA IND E COM ALIME',      codigo:160, dias:['SEXTA']},
 ];
-
-// DIAS_IDX[0]=DOMINGO, [1]=SEGUNDA, [2]=TERCA, [3]=QUARTA, [4]=QUINTA, [5]=SEXTA, [6]=SABADO
+// CORRETO: SEGUNDA=offset 0 a partir da segunda-feira da semana
+const MAPA_DIA_OFFSET={SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4,SABADO:5};
 const DIAS_IDX=['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
 const DIAS_LBL={SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
 const BADGE_DIA={SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
@@ -925,37 +869,37 @@ const STATUS_CONF_CLASS={
   'Pendente'      :'sel-pendente',
 };
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    BANCO DE DADOS
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function rowToAgend(r){
   return{
-    dataSolic     :normalizaData(r[0]||''),
-    data          :normalizaData(r[1]||''),
-    nf            :r[2]||'',
-    fornec        :r[3]||'',
-    skuEsp        :parseFloat(r[4])||0,
-    volEsp        :parseFloat(r[5])||0,
-    pesoEsp       :parseFloat(r[6])||0,
-    statusNF      :r[7]||'',
-    viaNoRdil     :r[8]==='true'||r[8]===true,
-    obs           :r[9]||'',
-    status        :r[10]||'Aguardando',
-    confInicio    :r[11]||null,
-    confFim       :r[12]||null,
-    confSLA       :r[13]!==''&&r[13]!=null?parseFloat(r[13]):null,
-    confConfer    :r[14]||'',
-    confObs       :r[15]||'',
-    skuRec        :r[16]!==''&&r[16]!=null?parseFloat(r[16]):null,
-    volRec        :r[17]!==''&&r[17]!=null?parseFloat(r[17]):null,
-    pesoRec       :r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
-    _confInicioTs :r[19]||null,
-    editadoEm     :r[20]||null,
-    encaixe       :r[21]==='true'||r[21]===true,
-    reagendado    :r[22]==='true'||r[22]===true,
-    dataOriginal  :normalizaData(r[23]||''),
-    dataLiberacao :normalizaData(r[24]||''),
-    fixo          :r[25]==='true'||r[25]===true,
+    dataSolic    :r[0]||'',
+    data         :r[1]||'',
+    nf           :r[2]||'',
+    fornec       :r[3]||'',
+    skuEsp       :parseFloat(r[4])||0,
+    volEsp       :parseFloat(r[5])||0,
+    pesoEsp      :parseFloat(r[6])||0,
+    statusNF     :r[7]||'',
+    viaNoRdil    :r[8]==='true'||r[8]===true,
+    obs          :r[9]||'',
+    status       :r[10]||'Aguardando',
+    confInicio   :r[11]||null,
+    confFim      :r[12]||null,
+    confSLA      :r[13]!==''&&r[13]!=null?parseFloat(r[13]):null,
+    confConfer   :r[14]||'',
+    confObs      :r[15]||'',
+    skuRec       :r[16]!==''&&r[16]!=null?parseFloat(r[16]):null,
+    volRec       :r[17]!==''&&r[17]!=null?parseFloat(r[17]):null,
+    pesoRec      :r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
+    _confInicioTs:r[19]||null,
+    editadoEm    :r[20]||null,
+    encaixe      :r[21]==='true'||r[21]===true,
+    reagendado   :r[22]==='true'||r[22]===true,
+    dataOriginal :r[23]||'',
+    dataLiberacao:r[24]||'',
+    fixo         :r[25]==='true'||r[25]===true,
   };
 }
 function agendToRow(a){
@@ -1023,34 +967,32 @@ async function salvarConfSheets(){
 function save()    {localStorage.setItem('bm-agend-v2',JSON.stringify(agendamentos));salvarAgendSheets();}
 function saveConf(){localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));salvarConfSheets();}
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    DADOS EM MEMÓRIA
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 let agendamentos=JSON.parse(localStorage.getItem('bm-agend-v2')||'[]');
 let confirmacoes=JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
 
-/* ══════════════════════════════════════════════════════
-   INJETAR FIXOS DA SEMANA
-   Usa construtor local (ano, mês-1, dia) para evitar
-   bug de fuso horário ao calcular dia da semana
-══════════════════════════════════════════════════════ */
-function getInicioSemanaLocal(){
+/* ══════════════════════════════════════════════════
+   INJETAR FIXOS — MAPA CORRIGIDO
+══════════════════════════════════════════════════ */
+function getInicioSemana(offset=0){
   const hoje=new Date();
-  const diaSemana=hoje.getDay(); // 0=Dom
-  // diff para chegar na segunda-feira
-  const diff=diaSemana===0?-6:1-diaSemana;
-  return new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()+diff);
+  const diaSemana=hoje.getDay(); // 0=Dom,1=Seg...
+  const diff=diaSemana===0?-6:1-diaSemana; // volta até segunda
+  const seg=new Date(hoje);
+  seg.setDate(hoje.getDate()+diff+(offset*7));
+  seg.setHours(0,0,0,0);
+  return seg;
 }
 
-function getDataDiaSemana(diaNome){
-  // Mapa: nome do dia → offset em relação à segunda-feira
-  const mapa={SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4,SABADO:5};
-  const seg=getInicioSemanaLocal();
-  const offset=mapa[diaNome]??0;
-  const target=new Date(seg.getFullYear(),seg.getMonth(),seg.getDate()+offset);
-  const y=target.getFullYear();
-  const m=String(target.getMonth()+1).padStart(2,'0');
-  const d=String(target.getDate()).padStart(2,'0');
+function getDataDiaSemana(diaNome,offsetSemanas=0){
+  // SEGUNDA=0 dias após a segunda-feira, TERCA=1, QUARTA=2, etc.
+  const offset=MAPA_DIA_OFFSET[diaNome]??0;
+  const seg=getInicioSemana(offsetSemanas);
+  const target=new Date(seg);
+  target.setDate(seg.getDate()+offset);
+  const y=target.getFullYear(),m=String(target.getMonth()+1).padStart(2,'0'),d=String(target.getDate()).padStart(2,'0');
   return`${y}-${m}-${d}`;
 }
 
@@ -1059,38 +1001,19 @@ function injetarFixosSemana(){
     f.dias.forEach(dia=>{
       const dataAlvo=getDataDiaSemana(dia);
       const jaExiste=agendamentos.some(a=>
-        a.fixo===true&&
-        a.fornec===f.nome&&
+        a.fixo===true &&
+        a.fornec===f.nome &&
         soData(a.data)===dataAlvo
       );
       if(!jaExiste){
         agendamentos.unshift({
-          dataSolic    :'',
-          data         :dataAlvo,
-          nf           :'',
-          fornec       :f.nome,
-          skuEsp       :0,
-          volEsp       :0,
-          pesoEsp      :0,
-          statusNF     :'',
-          viaNoRdil    :false,
-          encaixe      :false,
-          reagendado   :false,
-          dataOriginal :'',
-          obs          :'Fornecedor fixo — preencha SKU, volume e peso',
-          status       :'Aguardando',
-          confInicio   :null,
-          confFim      :null,
-          confSLA      :null,
-          confConfer   :'',
-          confObs      :'',
-          skuRec       :null,
-          volRec       :null,
-          pesoRec      :null,
-          _confInicioTs:null,
-          editadoEm    :null,
-          dataLiberacao:'',
-          fixo         :true,
+          dataSolic:'',data:dataAlvo,nf:'',fornec:f.nome,
+          skuEsp:0,volEsp:0,pesoEsp:0,
+          statusNF:'',viaNoRdil:false,encaixe:false,reagendado:false,
+          dataOriginal:'',obs:'Fornecedor fixo — preencha SKU, volume e peso',
+          status:'Aguardando',confInicio:null,confFim:null,confSLA:null,
+          confConfer:'',confObs:'',skuRec:null,volRec:null,pesoRec:null,
+          _confInicioTs:null,editadoEm:null,dataLiberacao:'',fixo:true,
         });
       }
     });
@@ -1098,9 +1021,9 @@ function injetarFixosSemana(){
   localStorage.setItem('bm-agend-v2',JSON.stringify(agendamentos));
 }
 
-/* ══════════════════════════════════════════════════════
-   STATUS — compara somente a parte date
-══════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+   STATUS
+══════════════════════════════════════════════════ */
 function atualizarStatusAgendamentos(){
   const hoje=getDataHoje();
   agendamentos.forEach(a=>{
@@ -1108,9 +1031,9 @@ function atualizarStatusAgendamentos(){
   });
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    HEADER
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function atualizarHeader(){
   const n=new Date();
   document.getElementById('headerDate').innerHTML=
@@ -1118,9 +1041,9 @@ function atualizarHeader(){
 }
 setInterval(atualizarHeader,1000);atualizarHeader();
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    NAVEGAÇÃO
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function showTela(nome){
   document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -1134,9 +1057,9 @@ function showTela(nome){
   if(nome==='acompanhamento')renderAcompanhamento();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    FLAGS
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 let flagNF='',flagNordil='',flagEncaixe='';
 function selFlag(grupo,valor){
   if(grupo==='nf')      flagNF      =(flagNF===valor)     ?'':valor;
@@ -1165,27 +1088,28 @@ function setFlagsInit(statusNF,viaNoRdil,encaixe){
   renderFlags();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    MODAL AGENDAMENTO
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 let editIdx=-1;
 function abrirModalAgend(idx=-1){
   editIdx=idx;
   document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
   document.getElementById('modal-agend').classList.add('open');
   if(idx===-1){
-    const dt=getDatetimeLocal();
-    document.getElementById('m-datasolic').value=dt;
-    document.getElementById('m-data').value=dt;
+    document.getElementById('m-datasolic').value=agoraLocalStr();
+    document.getElementById('m-data').value=agoraLocalStr();
     document.getElementById('m-dataliberacao').value='';
     ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
     ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
     setFlagsInit('',false,false);
   }else{
     const a=agendamentos[idx];
-    document.getElementById('m-datasolic').value=a.dataSolic||'';
-    document.getElementById('m-data').value=a.data||'';
-    document.getElementById('m-dataliberacao').value=a.dataLiberacao||'';
+    // Compatibilidade: se vier só YYYY-MM-DD sem hora, adiciona T00:00
+    const toInputVal=v=>v?( v.includes('T')?v.slice(0,16):v+'T00:00' ):'';
+    document.getElementById('m-datasolic').value=toInputVal(a.dataSolic);
+    document.getElementById('m-data').value=toInputVal(a.data);
+    document.getElementById('m-dataliberacao').value=toInputVal(a.dataLiberacao);
     document.getElementById('m-nf').value=a.nf||'';
     document.getElementById('m-fornec').value=a.fornec||'';
     document.getElementById('m-sku').value=a.skuEsp||'';
@@ -1199,16 +1123,19 @@ function fecharModalAgend(){document.getElementById('modal-agend').classList.rem
 
 function salvarAgend(){
   const fornec=document.getElementById('m-fornec').value.trim();
-  const data  =document.getElementById('m-data').value;
+  const data  =document.getElementById('m-data').value; // YYYY-MM-DDTHH:MM
   if(!data||!fornec){alert('Preencha ao menos a Data Agendada e o Fornecedor.');return;}
+
+  const dataOnly=soData(data);
+  const hoje=getDataHoje();
 
   let isReagend=false,dataOriginal='';
   if(editIdx!==-1){
     const ant=agendamentos[editIdx];
-    // Compara apenas a parte date para detectar reagendamento
-    if(soData(data)!==soData(ant.data)){
+    const antOnly=soData(ant.data);
+    if(dataOnly!==antOnly){
       isReagend=confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
-      dataOriginal=ant.dataOriginal||soData(ant.data);
+      dataOriginal=ant.dataOriginal||ant.data;
     }else{
       isReagend   =ant.reagendado   ||false;
       dataOriginal=ant.dataOriginal ||'';
@@ -1216,7 +1143,6 @@ function salvarAgend(){
   }
 
   const ant=editIdx!==-1?agendamentos[editIdx]:{};
-  const hoje=getDataHoje();
   const obj={
     dataSolic    :document.getElementById('m-datasolic').value||'',
     data,
@@ -1231,7 +1157,7 @@ function salvarAgend(){
     reagendado   :isReagend,
     dataOriginal,
     obs          :document.getElementById('m-obs').value.trim(),
-    status       :editIdx===-1?(soData(data)<hoje?'Atrasado':'Aguardando'):ant.status,
+    status       :editIdx===-1?(dataOnly<hoje?'Atrasado':'Aguardando'):ant.status,
     confInicio   :ant.confInicio   ??null,
     confFim      :ant.confFim      ??null,
     confSLA      :ant.confSLA      ??null,
@@ -1248,13 +1174,12 @@ function salvarAgend(){
 
   if(editIdx===-1)agendamentos.unshift(obj);
   else            agendamentos[editIdx]=obj;
-
   save();fecharModalAgend();atualizarFiltrosDin();renderAgend();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    MODAL FORNECEDOR FIXO
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 let editFixoIdx=-1;
 function abrirModalFixo(idx){
   editFixoIdx=idx;
@@ -1276,9 +1201,9 @@ function salvarModalFixo(){
   save();fecharModalFixo();atualizarFiltrosDin();renderAgend();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    POPUP OCORRÊNCIAS
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function abrirPopupObs(idx){
   const a=agendamentos[idx];
   document.getElementById('popup-obs-meta').textContent=`${a.fornec||'—'}  |  NF: ${a.nf||'—'}  |  ${fmtData(a.data)}`;
@@ -1287,9 +1212,9 @@ function abrirPopupObs(idx){
 }
 function fecharPopupObs(){document.getElementById('popup-obs').classList.remove('open');}
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    BADGES
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function badgeNF(v){
   if(v==='Nota OK')      return'<span class="badge b-nfok">✅ Nota OK</span>';
   if(v==='Em Tratativa') return'<span class="badge b-nftrat">⚠️ Em Tratativa</span>';
@@ -1303,15 +1228,15 @@ function badgeStatus(s) {return STATUS_BADGE[s]||`<span class="badge b-aguard">$
 function badgeFlags(a)  {return[badgeNordil(a.viaNoRdil),badgeEncaixe(a.encaixe),badgeReagend(a.reagendado),badgeFixo(a.fixo)].filter(Boolean).join(' ')||'—';}
 
 function slaBemaisBadge(dias){
-  if(dias===null)return'—';
+  if(dias===null||dias===undefined)return'—';
   const cls=dias<=1?'sla-ok':dias<=3?'sla-warn':'sla-bad';
   const ico=dias<=1?'🟢':dias<=3?'🟡':'🔴';
   return`<span class="sla-indicator ${cls}">${ico} ${dias}d</span>`;
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    RENDER AGENDAMENTOS
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function renderAgend(lista){
   const dados=lista!==undefined?lista:agendamentos;
   const tbody=document.getElementById('tbody-agend');
@@ -1351,7 +1276,7 @@ function renderAgend(lista){
       <td onclick="event.stopPropagation()">
         <div style="display:flex;gap:4px;flex-wrap:nowrap;">
           ${a.fixo?`<button class="btn-sm bsm-edit" title="Atualizar volumes" onclick="abrirModalFixo(${ri})">📦</button>`:`<button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>`}
-          <button class="btn-sm bsm-del"  onclick="excluirAgend(${ri})">🗑️</button>
+          <button class="btn-sm bsm-del" onclick="excluirAgend(${ri})">🗑️</button>
           <button class="btn-sm bsm-obs" title="${hasObs?'Ver ocorrências':'Sem ocorrências'}" onclick="abrirPopupObs(${ri})" ${hasObs?'':'style="opacity:.4"'}>💬</button>
         </div>
       </td>
@@ -1375,7 +1300,7 @@ function atualizarFiltrosDin(){
 }
 
 function filtrarAgend(){
-  const de   =document.getElementById('f-data-de').value;
+  const de  =document.getElementById('f-data-de').value;
   const ate  =document.getElementById('f-data-ate').value;
   const ds   =document.getElementById('f-datasolic').value;
   const dl   =document.getElementById('f-datalib').value;
@@ -1387,19 +1312,19 @@ function filtrarAgend(){
   const f    =document.getElementById('f-fornec').value;
 
   renderAgend(agendamentos.filter(a=>{
-    if(de  && soData(a.data)<de)               return false;
-    if(ate && soData(a.data)>ate)              return false;
-    if(ds  && soData(a.dataSolic)!==ds)        return false;
-    if(dl  && soData(a.dataLiberacao)!==dl)    return false;
-    if(s   && a.status!==s)                    return false;
-    if(nf  && a.statusNF!==nf)                 return false;
-    if(nrd==='sim'&&!a.viaNoRdil)              return false;
-    if(nrd==='nao'&& a.viaNoRdil)              return false;
-    if(enc==='sim'&&!a.encaixe)                return false;
-    if(enc==='nao'&& a.encaixe)                return false;
-    if(rea==='sim'&&!a.reagendado)             return false;
-    if(rea==='nao'&& a.reagendado)             return false;
-    if(f   && a.fornec!==f)                    return false;
+    if(de  && soData(a.data)<de)              return false;
+    if(ate && soData(a.data)>ate)             return false;
+    if(ds  && soData(a.dataSolic)!==ds)       return false;
+    if(dl  && soData(a.dataLiberacao)!==dl)   return false;
+    if(s   && a.status!==s)                   return false;
+    if(nf  && a.statusNF!==nf)               return false;
+    if(nrd==='sim'&&!a.viaNoRdil)             return false;
+    if(nrd==='nao'&& a.viaNoRdil)             return false;
+    if(enc==='sim'&&!a.encaixe)               return false;
+    if(enc==='nao'&& a.encaixe)               return false;
+    if(rea==='sim'&&!a.reagendado)            return false;
+    if(rea==='nao'&& a.reagendado)            return false;
+    if(f   && a.fornec!==f)                   return false;
     return true;
   }));
 }
@@ -1421,9 +1346,9 @@ function limparFiltrosAgend(){
   renderAgend();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    FILTROS CONFERÊNCIA
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function atualizarFiltrosConf(){
   const sel=document.getElementById('cf-fornec'),at=sel.value;
   const lista=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
@@ -1440,9 +1365,9 @@ function setDefaultFiltrosConf(){
   document.getElementById('cf-data-ate').value=getDataHoje();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    DASHBOARD
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function setDefaultFiltrosDash(){
   document.getElementById('df-mes').value=getDataHoje().substring(0,7);
 }
@@ -1465,29 +1390,30 @@ function getDadosDashFiltrado(){
   const fFornec=document.getElementById('df-fornec')?.value||'';
   const fConfer=document.getElementById('df-conferente')?.value||'';
   return agendamentos.filter(a=>{
-    if(mes     && !soData(a.data||'').startsWith(mes)) return false;
-    if(fStatus && a.status!==fStatus)                  return false;
-    if(fFornec && a.fornec!==fFornec)                  return false;
-    if(fConfer && a.confConfer!==fConfer)               return false;
+    if(mes     && !soData(a.data).startsWith(mes)) return false;
+    if(fStatus && a.status!==fStatus)              return false;
+    if(fFornec && a.fornec!==fFornec)              return false;
+    if(fConfer && a.confConfer!==fConfer)          return false;
     return true;
   });
 }
 
 let chartDonut=null,chartBarDia=null,chartVolume=null;
 function renderDashboard(){
-  atualizarStatusAgendamentos();atualizarFiltrosDash();
+  atualizarStatusAgendamentos();
+  atualizarFiltrosDash();
   const hoje=getDataHoje();
-  const diaHoje=getDiaHoje(); // Usa getDay() local — correto
+  const diaHoje=getDiaHoje();
   const dados=getDadosDashFiltrado();
   const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
 
-  const conc    =dados.filter(a=>a.status==='Concluído OK').length;
-  const nfinal  =dados.filter(a=>a.status==='Não Finalizado').length;
-  const and     =dados.filter(a=>a.status==='Em Conferência').length;
-  const agua    =dados.filter(a=>a.status==='Aguardando').length;
-  const atr     =dados.filter(a=>a.status==='Atrasado').length;
-  const pend    =dados.filter(a=>a.status==='Pendente').length;
-  const total   =dados.length;
+  const conc  =dados.filter(a=>a.status==='Concluído OK').length;
+  const nfinal=dados.filter(a=>a.status==='Não Finalizado').length;
+  const and   =dados.filter(a=>a.status==='Em Conferência').length;
+  const agua  =dados.filter(a=>a.status==='Aguardando').length;
+  const atr   =dados.filter(a=>a.status==='Atrasado').length;
+  const pend  =dados.filter(a=>a.status==='Pendente').length;
+  const total =dados.length;
 
   const slaLista=dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
   const slaMed  =slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
@@ -1530,6 +1456,7 @@ function renderDashboard(){
   setComp('cc-sku-esp','cc-sku-rec','cc-sku-bar','cc-sku-diff',skuEspT,skuRecT,'sku-fill');
   setComp('cc-vol-esp','cc-vol-rec','cc-vol-bar','cc-vol-diff',volEspT,volRecT,'vol-fill');
   setComp('cc-peso-esp','cc-peso-rec','cc-peso-bar','cc-peso-diff',pesoEspT,pesoRecT,'peso-fill');
+
   // Gráfico Donut
   const ctxD=document.getElementById('chartDonut').getContext('2d');
   if(chartDonut)chartDonut.destroy();
@@ -1543,7 +1470,7 @@ function renderDashboard(){
 
   // Gráfico por dia
   const porDia={};
-  dados.forEach(a=>{const d=a.data?a.data.split('T')[0]:'';if(d)porDia[d]=(porDia[d]||0)+1;});
+  dados.forEach(a=>{const d=soData(a.data);if(d)porDia[d]=(porDia[d]||0)+1;});
   const diasOrdenados=Object.keys(porDia).sort();
   const labDia=diasOrdenados.map(d=>{const idx=diaDaSemana(d);return`${NOMES_DIA_PT[idx]} ${fmtData(d).substring(0,5)}`;});
   const ctxB=document.getElementById('chartBarDia').getContext('2d');
@@ -1572,7 +1499,7 @@ function renderDashboard(){
     scales:{y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},
             x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
 
-  // Tabela Fixos do dia no Dashboard
+  // Tabela Fixos do dia
   const tbFixos=document.getElementById('dash-fixos-tbody');
   if(!fixosHoje.length){
     tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;
@@ -1580,644 +1507,461 @@ function renderDashboard(){
     tbFixos.innerHTML=fixosHoje.map(f=>{
       const k=getKeyFixo(diaHoje,f.codigo);
       const st=confirmacoes[k]||'';
-      const badge=st==='confirmado'?'<span class="badge b-conf">✅ Entregou</span>':
-                  st==='naoveio'  ?'<span class="badge b-atrasado">❌ Não Veio</span>':
-                                   '<span class="badge b-aguard">⏳ Pendente</span>';
+      const badge=st==='confirmado'?
+        '<span class="badge b-conf">✅ Confirmado</span>':
+        st==='naovieram'?'<span class="badge b-atrasado">🚨 Não Vieram</span>':
+        '<span class="badge b-aguard">⏳ Aguardando</span>';
       return`<tr><td><strong>${f.nome}</strong></td><td>${f.codigo}</td><td>${badge}</td></tr>`;
     }).join('');
   }
 }
-
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    CONFERÊNCIA — LISTA
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function renderConfLista(){
-  atualizarStatusAgendamentos();
-  const de  =document.getElementById('cf-data-de').value;
-  const ate =document.getElementById('cf-data-ate').value;
-  const ds  =document.getElementById('cf-datasolic').value;
-  const st  =document.getElementById('cf-status').value;
-  const forn=document.getElementById('cf-fornec').value;
+  const de =document.getElementById('cf-data-de').value;
+  const ate=document.getElementById('cf-data-ate').value;
+  const ds =document.getElementById('cf-datasolic').value;
+  const s  =document.getElementById('cf-status').value;
+  const f  =document.getElementById('cf-fornec').value;
 
-  function soData(s){return s?s.split('T')[0]:'';}
-
-  const lista=agendamentos.filter(a=>{
-    if(a.status==='Concluído OK')              return false;
-    if(de   && soData(a.data)<de)              return false;
-    if(ate  && soData(a.data)>ate)             return false;
-    if(ds   && soData(a.dataSolic)!==ds)       return false;
-    if(st   && a.status!==st)                  return false;
-    if(forn && a.fornec!==forn)                return false;
+  const dados=agendamentos.filter(a=>{
+    if(de  && soData(a.data)<de)              return false;
+    if(ate && soData(a.data)>ate)             return false;
+    if(ds  && soData(a.dataSolic)!==ds)       return false;
+    if(s   && a.status!==s)                   return false;
+    if(f   && a.fornec!==f)                   return false;
     return true;
   });
 
   const tbody=document.getElementById('conf-lista-tbody');
   const empty=document.getElementById('conf-lista-empty');
-
-  if(!lista.length){tbody.innerHTML='';empty.style.display='block';return;}
+  if(!dados.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
 
-  tbody.innerHTML=lista.map(a=>{
+  tbody.innerHTML=dados.map(a=>{
     const ri=agendamentos.indexOf(a);
-    return`<tr onclick="abrirConferencia(${ri})">
+    return`<tr>
       <td>${fmtData(a.dataSolic)}</td>
       <td><strong>${fmtData(a.data)}</strong></td>
       <td>${a.nf||'—'}</td>
       <td>${a.fornec||'—'}</td>
-      <td>${badgeFlags(a)}</td>
+      <td style="white-space:nowrap;">${badgeFlags(a)}</td>
       <td>${badgeStatus(a.status)}</td>
-      <td><button class="btn-sm bsm-conf" onclick="event.stopPropagation();abrirConferencia(${ri})">🔍 Conferir</button></td>
+      <td><button class="btn btn-dark" style="padding:6px 14px;font-size:12px;" onclick="abrirConferencia(${ri})">🔍 Conferir</button></td>
     </tr>`;
   }).join('');
 }
 
-/* ══════════════════════════════════════════════════════
-   CONFERÊNCIA — ATIVA
-══════════════════════════════════════════════════════ */
-let confAgendIdx=-1,timerInterval=null,timerSeg=0,confIniciado=false,confFinalizado=false;
+/* ══════════════════════════════════════════════════
+   CONFERÊNCIA — ACTIVE
+══════════════════════════════════════════════════ */
+let confIdx=-1,timerInterval=null,timerSeg=0,confAtiva=false,edicaoHabilitada=false;
 
 function abrirConferencia(idx){
-  confAgendIdx=idx;
+  confIdx=idx;
   const a=agendamentos[idx];
   document.getElementById('conf-select-state').style.display='none';
   document.getElementById('conf-active-state').style.display='block';
 
   document.getElementById('c-fornec-title').textContent=a.fornec||'—';
-  document.getElementById('c-nf-title').textContent=
-    `NF: ${a.nf||'—'} | Data Agendada: ${fmtData(a.data)} | Solicitação: ${fmtData(a.dataSolic)}`;
+  document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'} | Data: ${fmtData(a.data)}`;
 
   document.getElementById('c-sku-esp').textContent =a.skuEsp||'—';
   document.getElementById('c-vol-esp').textContent =a.volEsp||'—';
   document.getElementById('c-peso-esp').textContent=a.pesoEsp?a.pesoEsp+' kg':'—';
 
-  document.getElementById('c-sku-rec').value =a.skuRec  !=null?a.skuRec:'';
-  document.getElementById('c-vol-rec').value =a.volRec  !=null?a.volRec:'';
-  document.getElementById('c-peso-rec').value=a.pesoRec !=null?a.pesoRec:'';
+  document.getElementById('c-sku-rec').value  =a.skuRec !=null?a.skuRec :'';
+  document.getElementById('c-vol-rec').value  =a.volRec !=null?a.volRec :'';
+  document.getElementById('c-peso-rec').value =a.pesoRec!=null?a.pesoRec:'';
 
   document.getElementById('c-conferente').value =a.confConfer||'';
-  document.getElementById('c-ocorrencia').value =a.confObs   ||'';
+  document.getElementById('c-ocorrencia').value =a.confObs||'';
 
+  // Campos desabilitados por padrão
   ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
     .forEach(id=>document.getElementById(id).disabled=true);
 
-  document.getElementById('c-inicio-label').textContent=a.confInicio||'—';
-  document.getElementById('c-fim-label').textContent   =a.confFim   ||'—';
-  document.getElementById('c-dur-label').textContent   =a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
-  document.getElementById('c-pont-label').textContent  =getPontualidade(a);
-
-  selecionarStatusConf(a.status||'Aguardando');
+  edicaoHabilitada=false;
   calcDiverg();
+  atualizarMetaConf(a);
+  atualizarStatusConfGrid(a.status);
 
-  const editBanner=document.getElementById('edit-banner');
-  if(a.editadoEm){
-    editBanner.style.display='flex';
-    document.getElementById('edit-banner-time').textContent='Editado em: '+a.editadoEm;
-  }else{
-    editBanner.style.display='none';
-  }
-
+  // Cronômetro
   if(timerInterval)clearInterval(timerInterval);
-  confIniciado=!!a.confInicio;
-  confFinalizado=!!a.confFim;
   timerSeg=a.confSLA||0;
+  confAtiva=!!a.confInicio&&!a.confFim;
+  document.getElementById('c-timer').textContent=fmtHMS(timerSeg);
 
-  if(confFinalizado){
-    document.getElementById('c-timer').textContent=fmtHMS(timerSeg);
-    document.getElementById('btn-iniciar-conf').style.display='none';
-    document.getElementById('btn-finalizar-conf').style.display='none';
-    document.getElementById('btn-editar-conf').style.display='inline-flex';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    document.getElementById('conf-resultado').style.display='block';
-    renderResultado(a);
-  }else if(confIniciado){
-    const ini=new Date(a._confInicioTs);
-    timerSeg=Math.floor((Date.now()-ini.getTime())/1000);
+  // Botões
+  document.getElementById('btn-iniciar-conf').style.display  =a.confInicio?'none':'inline-flex';
+  document.getElementById('btn-finalizar-conf').style.display=a.confInicio&&!a.confFim?'inline-flex':'none';
+  document.getElementById('btn-editar-conf').style.display   =a.confFim?'inline-flex':'none';
+  document.getElementById('btn-salvar-edicao').style.display ='none';
+
+  if(confAtiva){
     timerInterval=setInterval(()=>{timerSeg++;document.getElementById('c-timer').textContent=fmtHMS(timerSeg);},1000);
-    document.getElementById('btn-iniciar-conf').style.display='none';
-    document.getElementById('btn-finalizar-conf').style.display='inline-flex';
-    document.getElementById('btn-editar-conf').style.display='none';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    document.getElementById('conf-resultado').style.display='none';
-    ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
-      .forEach(id=>document.getElementById(id).disabled=false);
-  }else{
-    timerSeg=0;
-    document.getElementById('c-timer').textContent='00:00:00';
-    document.getElementById('btn-iniciar-conf').style.display='inline-flex';
-    document.getElementById('btn-finalizar-conf').style.display='none';
-    document.getElementById('btn-editar-conf').style.display='none';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    document.getElementById('conf-resultado').style.display='none';
   }
+
+  // Banner edição
+  const banner=document.getElementById('edit-banner');
+  if(a.editadoEm){
+    banner.style.display='flex';
+    document.getElementById('edit-banner-time').textContent='Editado em: '+fmtData(a.editadoEm);
+  }else{banner.style.display='none';}
+
+  // Resultado
+  const resBox=document.getElementById('conf-resultado');
+  if(a.confFim){resBox.style.display='block';mostrarResultado(a);}
+  else{resBox.style.display='none';}
 }
 
-function getPontualidade(a){
-  if(!a.data)return'—';
-  const hoje=getDataHoje();
-  const dataAgend=a.data.split('T')[0];
-  if(dataAgend===hoje)return'🟢 No prazo';
-  if(dataAgend<hoje)  return'🔴 Atrasado';
-  return'🔵 Antecipado';
+function atualizarMetaConf(a){
+  document.getElementById('c-inicio-label').textContent=a.confInicio?fmtData(a.confInicio):'—';
+  document.getElementById('c-fim-label').textContent   =a.confFim   ?fmtData(a.confFim)   :'—';
+  document.getElementById('c-dur-label').textContent   =a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
+
+  if(a.data){
+    const dataConf=soData(a.confInicio||a.data);
+    const dataAgend=soData(a.data);
+    const pont=dataConf===dataAgend?'✅ No prazo':'⚠️ Fora do prazo';
+    document.getElementById('c-pont-label').textContent=pont;
+  }else{
+    document.getElementById('c-pont-label').textContent='—';
+  }
 }
 
 function iniciarConferencia(){
-  const a=agendamentos[confAgendIdx];
-  const agora=new Date();
-  const agoraStr=agora.toLocaleTimeString('pt-BR');
-  a.confInicio=agoraStr;
-  a._confInicioTs=agora.toISOString();
+  if(confIdx<0)return;
+  const a=agendamentos[confIdx];
+  const agora=agoraLocalStr();
+  a.confInicio=agora;
   a.status='Em Conferência';
-  confIniciado=true;
-  timerSeg=0;
-  if(timerInterval)clearInterval(timerInterval);
-  timerInterval=setInterval(()=>{timerSeg++;document.getElementById('c-timer').textContent=fmtHMS(timerSeg);},1000);
-  document.getElementById('c-inicio-label').textContent=agoraStr;
-  document.getElementById('btn-iniciar-conf').style.display='none';
-  document.getElementById('btn-finalizar-conf').style.display='inline-flex';
+
+  // Habilitar campos
   ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
     .forEach(id=>document.getElementById(id).disabled=false);
+
+  document.getElementById('btn-iniciar-conf').style.display  ='none';
+  document.getElementById('btn-finalizar-conf').style.display='inline-flex';
+  document.getElementById('c-inicio-label').textContent=fmtData(agora);
+
+  timerSeg=0;confAtiva=true;
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{timerSeg++;document.getElementById('c-timer').textContent=fmtHMS(timerSeg);},1000);
+
+  atualizarStatusConfGrid('Em Conferência');
   save();
 }
 
 function finalizarConferencia(){
-  if(timerInterval)clearInterval(timerInterval);
-  const a=agendamentos[confAgendIdx];
-  const agora=new Date();
-  const agoraStr=agora.toLocaleTimeString('pt-BR');
-  a.confFim    =agoraStr;
-  a.confSLA    =timerSeg;
-  a.confConfer =document.getElementById('c-conferente').value.trim();
-  a.confObs    =document.getElementById('c-ocorrencia').value.trim();
-  a.skuRec     =parseFloat(document.getElementById('c-sku-rec').value)||null;
-  a.volRec     =parseFloat(document.getElementById('c-vol-rec').value)||null;
-  a.pesoRec    =parseFloat(document.getElementById('c-peso-rec').value)||null;
-  if(a.status==='Em Conferência')a.status='Concluído OK';
-  confFinalizado=true;
-  document.getElementById('c-fim-label').textContent=agoraStr;
-  document.getElementById('c-dur-label').textContent=fmtMin(timerSeg)+' min';
-  document.getElementById('btn-finalizar-conf').style.display='none';
-  document.getElementById('btn-editar-conf').style.display='inline-flex';
-  document.getElementById('conf-resultado').style.display='block';
+  if(confIdx<0)return;
+  const a=agendamentos[confIdx];
+  if(!a.confInicio){alert('Inicie a conferência primeiro.');return;}
+
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  confAtiva=false;
+
+  const agora=agoraLocalStr();
+  a.confFim  =agora;
+  a.confSLA  =timerSeg;
+
+  a.skuRec  =parseFloat(document.getElementById('c-sku-rec').value)||null;
+  a.volRec  =parseFloat(document.getElementById('c-vol-rec').value)||null;
+  a.pesoRec =parseFloat(document.getElementById('c-peso-rec').value)||null;
+  a.confConfer=document.getElementById('c-conferente').value.trim();
+  a.confObs   =document.getElementById('c-ocorrencia').value.trim();
+
+  const temDiverg=(a.skuRec!=null&&a.skuRec!==a.skuEsp)||(a.volRec!=null&&a.volRec!==a.volEsp)||(a.pesoRec!=null&&Math.abs(a.pesoRec-a.pesoEsp)>0.1);
+  if(a.status==='Em Conferência')a.status=temDiverg?'Não Finalizado':'Concluído OK';
+
   ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
     .forEach(id=>document.getElementById(id).disabled=true);
-  selecionarStatusConf(a.status);
-  renderResultado(a);
+
+  document.getElementById('btn-finalizar-conf').style.display='none';
+  document.getElementById('btn-editar-conf').style.display   ='inline-flex';
+  document.getElementById('c-fim-label').textContent=fmtData(agora);
+  document.getElementById('c-dur-label').textContent=fmtMin(timerSeg)+' min';
+
+  atualizarStatusConfGrid(a.status);
+  const resBox=document.getElementById('conf-resultado');
+  resBox.style.display='block';
+  mostrarResultado(a);
   save();
 }
 
 function habilitarEdicao(){
+  if(confIdx<0)return;
+  edicaoHabilitada=true;
   ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
     .forEach(id=>document.getElementById(id).disabled=false);
-  document.getElementById('btn-editar-conf').style.display='none';
+  document.getElementById('btn-editar-conf').style.display  ='none';
   document.getElementById('btn-salvar-edicao').style.display='inline-flex';
-  document.querySelectorAll('.sc-opt').forEach(el=>el.style.pointerEvents='auto');
 }
 
 function salvarEdicao(){
-  const a=agendamentos[confAgendIdx];
+  if(confIdx<0)return;
+  const a=agendamentos[confIdx];
   a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
   a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
   a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
   a.confConfer=document.getElementById('c-conferente').value.trim();
   a.confObs   =document.getElementById('c-ocorrencia').value.trim();
-  a.editadoEm =new Date().toLocaleString('pt-BR');
+  a.editadoEm =agoraLocalStr();
+
+  const temDiverg=(a.skuRec!=null&&a.skuRec!==a.skuEsp)||(a.volRec!=null&&a.volRec!==a.volEsp)||(a.pesoRec!=null&&Math.abs(a.pesoRec-a.pesoEsp)>0.1);
+  if(a.status==='Concluído OK'||a.status==='Não Finalizado')
+    a.status=temDiverg?'Não Finalizado':'Concluído OK';
+
   ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia']
     .forEach(id=>document.getElementById(id).disabled=true);
-  document.getElementById('btn-editar-conf').style.display='inline-flex';
+
   document.getElementById('btn-salvar-edicao').style.display='none';
-  const eb=document.getElementById('edit-banner');
-  eb.style.display='flex';
-  document.getElementById('edit-banner-time').textContent='Editado em: '+a.editadoEm;
-  calcDiverg();renderResultado(a);
+  document.getElementById('btn-editar-conf').style.display  ='inline-flex';
+
+  const banner=document.getElementById('edit-banner');
+  banner.style.display='flex';
+  document.getElementById('edit-banner-time').textContent='Editado em: '+fmtData(a.editadoEm);
+
+  atualizarStatusConfGrid(a.status);
+  mostrarResultado(a);
   save();
 }
 
 function selecionarStatusConf(val){
-  document.querySelectorAll('.sc-opt').forEach(el=>{
+  if(confIdx<0)return;
+  agendamentos[confIdx].status=val;
+  atualizarStatusConfGrid(val);
+  save();
+}
+function atualizarStatusConfGrid(val){
+  document.querySelectorAll('#status-conf-grid .sc-opt').forEach(el=>{
     el.className='sc-opt';
     if(el.dataset.val===val)el.classList.add(STATUS_CONF_CLASS[val]||'sel-aguard');
   });
-  if(confAgendIdx>=0&&agendamentos[confAgendIdx]){
-    agendamentos[confAgendIdx].status=val;
-  }
 }
 
 function calcDiverg(){
-  const esp={sku:parseFloat(document.getElementById('c-sku-esp').textContent)||0,
-             vol:parseFloat(document.getElementById('c-vol-esp').textContent)||0,
-             peso:parseFloat(document.getElementById('c-peso-esp').textContent)||0};
-  const rec={sku:parseFloat(document.getElementById('c-sku-rec').value)||0,
-             vol:parseFloat(document.getElementById('c-vol-rec').value)||0,
-             peso:parseFloat(document.getElementById('c-peso-rec').value)||0};
-  function fmtDiv(e,r,suf=''){
-    if(!r)return'<span style="color:#9ca3af">—</span>';
-    const d=r-e;
-    if(d===0)  return`<span class="v-ok">✅ OK</span>`;
-    if(d>0)    return`<span class="v-div">▲ +${d.toFixed(suf?1:0)}${suf}</span>`;
-               return`<span class="v-div">▼ ${d.toFixed(suf?1:0)}${suf}</span>`;
-  }
-  document.getElementById('c-sku-div').innerHTML =fmtDiv(esp.sku,rec.sku);
-  document.getElementById('c-vol-div').innerHTML =fmtDiv(esp.vol,rec.vol);
-  document.getElementById('c-peso-div').innerHTML=fmtDiv(esp.peso,rec.peso,' kg');
+  const a=confIdx>=0?agendamentos[confIdx]:null;
+  const esp={sku:a?a.skuEsp:0,vol:a?a.volEsp:0,peso:a?a.pesoEsp:0};
+  [['c-sku-rec','c-sku-div',esp.sku,''],['c-vol-rec','c-vol-div',esp.vol,''],['c-peso-rec','c-peso-div',esp.peso,' kg']]
+    .forEach(([inId,divId,espVal,suf])=>{
+      const rec=parseFloat(document.getElementById(inId).value);
+      const el=document.getElementById(divId);
+      if(isNaN(rec)){el.textContent='—';el.className='';return;}
+      const diff=rec-espVal;
+      if(diff===0) el.innerHTML='<span class="v-ok">✅ OK</span>';
+      else         el.innerHTML=`<span class="v-div">${diff>0?'▲ +':'▼ '}${Math.abs(diff).toFixed(suf?' 1':'0')}${suf}</span>`;
+    });
 }
 
-function renderResultado(a){
+function mostrarResultado(a){
   const box=document.getElementById('conf-resultado-box');
-  const temDiv=(a.skuRec!=null&&a.skuRec!==a.skuEsp)||(a.volRec!=null&&a.volRec!==a.volEsp)||(a.pesoRec!=null&&a.pesoRec!==a.pesoEsp);
-  const pendente=a.status==='Pendente'||a.status==='Não Finalizado';
-  let cls,icon,title,sub;
-  if(pendente){
-    cls='pend';icon='🔔';title='Pendente / Não Finalizado';sub='Verifique as ocorrências registradas.';
-  }else if(temDiv){
-    cls='div';icon='⚠️';title='Divergência encontrada';sub='Verifique os dados e registre ocorrências.';
+  const ico=document.getElementById('c-res-icon');
+  const tit=document.getElementById('c-res-title');
+  const sub=document.getElementById('c-res-sub');
+  const temDiverg=(a.skuRec!=null&&a.skuRec!==a.skuEsp)||(a.volRec!=null&&a.volRec!==a.volEsp)||(a.pesoRec!=null&&Math.abs(a.pesoRec-a.pesoEsp)>0.1);
+  if(a.status==='Concluído OK'){
+    box.className='resultado-box ok';ico.textContent='✅';
+    tit.textContent='Recebimento Concluído com Sucesso';
+    sub.textContent=`Duração: ${fmtMin(a.confSLA)} min | Conferente: ${a.confConfer||'—'}`;
+  }else if(temDiverg||a.status==='Não Finalizado'){
+    box.className='resultado-box div';ico.textContent='⚠️';
+    tit.textContent='Recebimento com Divergências';
+    sub.textContent=`Verifique SKU, volume e peso. Conferente: ${a.confConfer||'—'}`;
   }else{
-    cls='ok';icon='✅';title='Recebimento OK';sub='Sem divergências. Conferência concluída com sucesso.';
+    box.className='resultado-box pend';ico.textContent='🔔';
+    tit.textContent='Status: '+a.status;
+    sub.textContent=`Conferente: ${a.confConfer||'—'}`;
   }
-  box.className=`resultado-box ${cls}`;
-  document.getElementById('c-res-icon').textContent=icon;
-  document.getElementById('c-res-title').textContent=title;
-  document.getElementById('c-res-sub').textContent=sub;
 }
 
 function voltarListaConf(){
-  if(timerInterval)clearInterval(timerInterval);
-  if(confAgendIdx>=0&&confIniciado&&!confFinalizado){
-    const a=agendamentos[confAgendIdx];
-    a.confConfer=document.getElementById('c-conferente').value.trim();
-    a.confObs   =document.getElementById('c-ocorrencia').value.trim();
-    a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
-    a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
-    a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
-    save();
-  }
-  confAgendIdx=-1;confIniciado=false;confFinalizado=false;timerSeg=0;
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  confIdx=-1;confAtiva=false;edicaoHabilitada=false;
   document.getElementById('conf-select-state').style.display='block';
   document.getElementById('conf-active-state').style.display='none';
   renderConfLista();
 }
 
-/* ══════════════════════════════════════════════════════
-   FORNECEDORES FIXOS — ABA
-══════════════════════════════════════════════════════ */
-function getKeyFixo(dia,codigo){return`${getChaveSemana()}-${dia}-${codigo}`;}
+/* ══════════════════════════════════════════════════
+   FORNECEDORES FIXOS
+══════════════════════════════════════════════════ */
+function getKeyFixo(dia,codigo){return`${getChaveSemana()}_${dia}_${codigo}`;}
 
 function renderFornecedores(){
   const container=document.getElementById('fornec-fixos-container');
-  const diasComFixos=[...new Set(FORNECEDORES_FIXOS.flatMap(f=>f.dias))];
-  const ordem=['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
-  const diaHoje=getDiaHoje();
+  const DIAS_SEMANA=['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA'];
+  const hoje=getDiaHoje();
+  let html='';
 
-  container.innerHTML=ordem.filter(d=>diasComFixos.includes(d)).map(dia=>{
+  DIAS_SEMANA.forEach(dia=>{
     const fornsDia=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(dia));
-    const isHoje=dia===diaHoje;
-    const cards=fornsDia.map(f=>{
-      const k=getKeyFixo(dia,f.codigo);
-      const st=confirmacoes[k]||'';
-      const cls=st==='confirmado'?'conf':st==='naoveio'?'nv':'';
-      return`<div class="fc ${cls}">
-        <div class="fc-info">
-          <div class="fc-nome">${f.nome}</div>
-          <div class="fc-cod">Cód: ${f.codigo}</div>
-        </div>
-        <div class="fc-actions">
-          <button class="btn-sm bsm-conf ${st==='confirmado'?'ativo':''}" title="Confirmou entrega" onclick="confFixo('${k}','confirmado')">✅</button>
-          <button class="btn-sm bsm-nv   ${st==='naoveio'   ?'ativo':''}" title="Não veio"          onclick="confFixo('${k}','naoveio')">❌</button>
-          <button class="btn-sm bsm-rst"  title="Limpar"                  onclick="confFixo('${k}','')">↩️</button>
-        </div>
-      </div>`;
-    }).join('');
-
-    return`<div class="dia-sec">
+    if(!fornsDia.length)return;
+    const dataAlvo=getDataDiaSemana(dia);
+    const ehHoje=dia===hoje;
+    html+=`<div class="dia-sec">
       <div class="dia-title">
         <span class="badge ${BADGE_DIA[dia]||''}">${DIAS_LBL[dia]||dia}</span>
-        ${isHoje?'<span class="hoje-pill">HOJE</span>':''}
+        <span style="font-size:12px;color:var(--text3);font-weight:600;">${fmtData(dataAlvo)}</span>
+        ${ehHoje?'<span class="hoje-pill">HOJE</span>':''}
       </div>
-      <div class="fornec-cards">${cards}</div>
-    </div>`;
-  }).join('');
+      <div class="fornec-cards">`;
+
+    fornsDia.forEach(f=>{
+      const k=getKeyFixo(dia,f.codigo);
+      const st=confirmacoes[k]||'';
+      const isConf=st==='confirmado';
+      const isNV  =st==='naovieram';
+      html+=`<div class="fc ${isConf?'conf':isNV?'nv':''}">
+        <div class="fc-info">
+          <div class="fc-nome">${f.nome}</div>
+          <div class="fc-cod">Cód: ${f.codigo} | ${fmtData(dataAlvo)}</div>
+        </div>
+        <div class="fc-actions">
+          <button class="btn-sm bsm-conf ${isConf?'ativo':''}" onclick="toggleConf('${k}','confirmado')">✅</button>
+          <button class="btn-sm bsm-nv   ${isNV  ?'ativo':''}" onclick="toggleConf('${k}','naovieram')">🚨</button>
+          <button class="btn-sm bsm-rst"                        onclick="resetConf('${k}')">🔄</button>
+        </div>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  });
+
+  container.innerHTML=html||'<div class="empty-state"><div class="ei">📭</div><p>Nenhum fornecedor fixo cadastrado.</p></div>';
 }
 
-function confFixo(key,st){
-  if(st==='')delete confirmacoes[key];
-  else confirmacoes[key]=st;
-  saveConf();renderFornecedores();renderDashboard();
+function toggleConf(chave,valor){
+  confirmacoes[chave]=confirmacoes[chave]===valor?'':valor;
+  saveConf();renderFornecedores();
+  renderDashboard();
+}
+function resetConf(chave){
+  delete confirmacoes[chave];
+  saveConf();renderFornecedores();
+  renderDashboard();
 }
 
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    ACOMPANHAMENTO
-══════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════ */
 function renderAcompanhamento(){
   const hoje=getDataHoje();
-  atualizarStatusAgendamentos();
+  document.getElementById('acomp-data-label').textContent='Data: '+fmtData(hoje);
 
-  const agendHoje =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje);
-  const recebidos =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status==='Concluído OK');
-  const emConf    =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status==='Em Conferência');
-  const pendentes =agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&(a.status==='Aguardando'||a.status==='Atrasado'||a.status==='Pendente'||a.status==='Não Finalizado'));
-  const diaHoje   =getDiaHoje();
-  const fixosHoje =FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
-  const fixosConf =fixosHoje.filter(f=>confirmacoes[getKeyFixo(diaHoje,f.codigo)]==='confirmado').length;
-
-  document.getElementById('acomp-data-label').textContent=
-    new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  const agHoje   =agendamentos.filter(a=>soData(a.data)===hoje);
+  const recebidos=agendamentos.filter(a=>soData(a.data)===hoje&&a.status==='Concluído OK');
+  const pendentes=agendamentos.filter(a=>soData(a.data)===hoje&&(a.status==='Em Conferência'||a.status==='Aguardando'||a.status==='Pendente'||a.status==='Não Finalizado'||a.status==='Atrasado'));
 
   document.getElementById('acomp-cards').innerHTML=`
-    <div class="acomp-card"><div class="av">${agendHoje.length}</div><div class="al">📅 Agendados Hoje</div></div>
-    <div class="acomp-card"><div class="av" style="color:#16a34a">${recebidos.length}</div><div class="al">✅ Recebidos</div></div>
-    <div class="acomp-card"><div class="av" style="color:#1d4ed8">${emConf.length}</div><div class="al">🔄 Em Conferência</div></div>
-    <div class="acomp-card"><div class="av" style="color:#d97706">${pendentes.length}</div><div class="al">⏳ Pendentes</div></div>
-    <div class="acomp-card"><div class="av" style="color:#7c3aed">${fixosHoje.length}</div><div class="al">🏭 Fixos do Dia</div></div>
-    <div class="acomp-card"><div class="av" style="color:#16a34a">${fixosConf}</div><div class="al">✅ Fixos Confirmados</div></div>
+    <div class="acomp-card"><div class="av" style="color:#1a1a1a;">${agHoje.length}</div><div class="al">📋 Total Hoje</div></div>
+    <div class="acomp-card"><div class="av" style="color:#16a34a;">${recebidos.length}</div><div class="al">✅ Recebidos</div></div>
+    <div class="acomp-card"><div class="av" style="color:#dc2626;">${pendentes.length}</div><div class="al">⏳ Pendentes</div></div>
+    <div class="acomp-card"><div class="av" style="color:#7c3aed;">${agHoje.filter(a=>a.viaNoRdil).length}</div><div class="al">🔀 Via Nordil</div></div>
   `;
 
-  function buildRows(lista,emptyMsg){
-    if(!lista.length)return`<div style="padding:14px 16px;color:#9ca3af;font-size:13px;">${emptyMsg}</div>`;
-    return lista.map(a=>`
+  function listaHtml(arr,empty){
+    if(!arr.length)return`<div class="acomp-row"><span style="color:var(--text3);font-size:13px;">${empty}</span></div>`;
+    return arr.map(a=>`
       <div class="acomp-row">
         <div class="acomp-row-info">
-          <div class="acomp-row-nome">${a.fornec||'—'} ${a.fixo?'<span class="badge b-fixo" style="font-size:10px">Fixo</span>':''}</div>
-          <div class="acomp-row-meta">NF: ${a.nf||'—'} | SKU: ${a.skuEsp||0} | Vol: ${a.volEsp||0} | ${a.pesoEsp||0}kg</div>
+          <div class="acomp-row-nome">${a.fornec||'—'} ${a.nf?'— NF: '+a.nf:''}</div>
+          <div class="acomp-row-meta">${fmtData(a.data)} ${a.confConfer?'| 👤 '+a.confConfer:''}</div>
         </div>
-        ${badgeStatus(a.status)}
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          ${badgeStatus(a.status)}
+          ${a.confSLA!=null?`<span class="tag">⏱️ ${fmtMin(a.confSLA)} min</span>`:''}
+        </div>
       </div>`).join('');
   }
 
-  document.getElementById('acomp-hoje-list').innerHTML     =buildRows(agendHoje,'Nenhum agendamento para hoje.');
-  document.getElementById('acomp-recebidos-list').innerHTML=buildRows(recebidos,'Nenhum recebimento finalizado ainda.');
-  document.getElementById('acomp-pendentes-list').innerHTML=buildRows([...emConf,...pendentes],'Nenhum pendente no momento. ✅');
-  document.getElementById('acomp-update-time').textContent ='Última atualização: '+new Date().toLocaleTimeString('pt-BR');
+  document.getElementById('acomp-hoje-list').innerHTML    =listaHtml(agHoje,    'Nenhum agendamento para hoje.');
+  document.getElementById('acomp-recebidos-list').innerHTML=listaHtml(recebidos, 'Nenhum recebimento concluído hoje.');
+  document.getElementById('acomp-pendentes-list').innerHTML=listaHtml(pendentes, 'Sem pendências no momento.');
+  document.getElementById('acomp-update-time').textContent='Última atualização: '+new Date().toLocaleTimeString('pt-BR');
 }
 
 function gerarLinkAcomp(){
-  const hoje=getDataHoje();
-  const agendHoje=agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje);
-  const recebidos=agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status==='Concluído OK');
-  const pendentes=agendamentos.filter(a=>a.data&&a.data.split('T')[0]===hoje&&a.status!=='Concluído OK');
-  const diaHoje  =getDiaHoje();
-  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
-  const fixosConf=fixosHoje.filter(f=>confirmacoes[getKeyFixo(diaHoje,f.codigo)]==='confirmado').length;
-
-  const texto=
-`📦 RECEBIMENTO BM — ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'})}
-
-📅 Agendados hoje: ${agendHoje.length}
-✅ Recebidos: ${recebidos.length}
-⏳ Pendentes: ${pendentes.length}
-🏭 Fornecedores fixos: ${fixosHoje.length} | Confirmados: ${fixosConf}
-
-${recebidos.length?'✅ JÁ RECEBIDOS:\n'+recebidos.map(a=>`  • ${a.fornec} (NF: ${a.nf||'—'})`).join('\n'):''}
-${pendentes.length?'\n⏳ PENDENTES:\n'+pendentes.map(a=>`  • ${a.fornec} — ${a.status}`).join('\n'):''}
-
-🕐 Atualizado: ${new Date().toLocaleTimeString('pt-BR')}`;
-
-  navigator.clipboard.writeText(texto).then(()=>{
-    alert('✅ Resumo copiado! Cole no WhatsApp ou onde preferir.');
-  }).catch(()=>{alert(texto);});
+  const url=window.location.href.split('#')[0]+'#acompanhamento';
+  navigator.clipboard.writeText(url).then(()=>alert('✅ Link copiado para a área de transferência:\n'+url));
 }
 
-/* ══════════════════════════════════════════════════════
-   EXPORTAR PDF
-══════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+   EXPORT PDF
+══════════════════════════════════════════════════ */
 function exportarPDF(){
   const{jsPDF}=window.jspdf;
-  const doc=new jsPDF({orientation:'landscape'});
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
   const dados=getDadosDashFiltrado();
+  const hoje=getDataHoje();
+  const mes=document.getElementById('df-mes')?.value||hoje.substring(0,7);
+
   doc.setFontSize(16);doc.setFont('helvetica','bold');
-  doc.text('Relatório de Agendamentos — Recebimento BM',14,16);
+  doc.text('Recebimento-BM — Dashboard',14,16);
   doc.setFontSize(10);doc.setFont('helvetica','normal');
-  doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`,14,23);
+  doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')} | Período: ${mes}`,14,23);
+
+  const conc  =dados.filter(a=>a.status==='Concluído OK').length;
+  const nfinal=dados.filter(a=>a.status==='Não Finalizado').length;
+  const and   =dados.filter(a=>a.status==='Em Conferência').length;
+  const agua  =dados.filter(a=>a.status==='Aguardando').length;
+  const atr   =dados.filter(a=>a.status==='Atrasado').length;
+  const pend  =dados.filter(a=>a.status==='Pendente').length;
+
   doc.autoTable({
     startY:28,
-    head:[['Dt. Solic.','Dt. Agend.','Lib. Bemais','NF','Fornecedor','SKU','Vol','Peso','Status NF','Flags','Status Conf.','SLA Conf.']],
+    head:[['Total','Conc. OK','Não Fin.','Em Conf.','Aguard.','Atrasados','Pendentes']],
+    body:[[dados.length,conc,nfinal,and,agua,atr,pend]],
+    styles:{fontSize:10,halign:'center'},
+    headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
+    margin:{left:14,right:14},
+  });
+
+  doc.autoTable({
+    startY:doc.lastAutoTable.finalY+8,
+    head:[['Dt. Solicitação','Dt. Agendada','Dt. Lib. Bemais','NF','Fornecedor','SKU Esp.','Vol Esp.','Status Conf.','Conferente','SLA Conf.']],
     body:dados.map(a=>[
-      fmtData(a.dataSolic),fmtData(a.data),a.dataLiberacao?fmtData(a.dataLiberacao):'—',
+      fmtData(a.dataSolic),fmtData(a.data),
+      a.dataLiberacao?fmtData(a.dataLiberacao):'—',
       a.nf||'—',a.fornec||'—',
-      a.skuEsp||0,a.volEsp||0,(a.pesoEsp||0)+' kg',
-      a.statusNF||'—',
-      [a.viaNoRdil?'Nordil':'',a.encaixe?'Encaixe':'',a.reagendado?'Reagend.':'',a.fixo?'Fixo':''].filter(Boolean).join(', ')||'—',
-      a.status||'—',
+      a.skuEsp||0,a.volEsp||0,
+      a.status||'—',a.confConfer||'—',
       a.confSLA!=null?fmtMin(a.confSLA)+' min':'—',
     ]),
-    styles:{fontSize:8,cellPadding:3},
+    styles:{fontSize:8},
     headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold'},
     alternateRowStyles:{fillColor:[248,249,250]},
+    margin:{left:14,right:14},
   });
-  doc.save(`recebimento-bm-${getDataHoje()}.pdf`);
+
+  doc.save(`dashboard-bm-${mes}.pdf`);
 }
 
-/* ══════════════════════════════════════════════════════
-   UTILS — datas com hora
-══════════════════════════════════════════════════════ */
-function fmtData(s){
-  if(!s||typeof s!=='string')return'—';
-  const raw=s.split('T');
-  const parts=raw[0].split('-');
-  if(parts.length!==3)return s;
-  const dataPart=`${parts[2]}/${parts[1]}/${parts[0]}`;
-  if(raw[1]){
-    const hora=raw[1].substring(0,5);
-    return`${dataPart} ${hora}`;
-  }
-  return dataPart;
-}
-
-/* ══════════════════════════════════════════════════════
-   INJETAR FIXOS — CORREÇÃO DO MAPA DE DIAS
-══════════════════════════════════════════════════════ */
-function getDataDiaSemana(diaNome,offsetSemanas=0){
-  // CORRETO: SEGUNDA=0 offset a partir da própria segunda-feira
-  const mapa={SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4};
-  const seg=getInicioSemana(offsetSemanas);
-  const target=new Date(seg);
-  target.setDate(seg.getDate()+(mapa[diaNome]??0));
-  const y=target.getFullYear(),m=String(target.getMonth()+1).padStart(2,'0'),d=String(target.getDate()).padStart(2,'0');
-  return`${y}-${m}-${d}`;
-}
-
-function injetarFixosSemana(){
-  FORNECEDORES_FIXOS.forEach(f=>{
-    f.dias.forEach(dia=>{
-      const dataAlvo=getDataDiaSemana(dia);
-      const jaExiste=agendamentos.some(a=>
-        a.fixo===true&&
-        a.fornec===f.nome&&
-        a.data&&a.data.split('T')[0]===dataAlvo
-      );
-      if(!jaExiste){
-        agendamentos.unshift({
-          dataSolic:'',data:dataAlvo,nf:'',fornec:f.nome,
-          skuEsp:0,volEsp:0,pesoEsp:0,
-          statusNF:'',viaNoRdil:false,encaixe:false,reagendado:false,
-          dataOriginal:'',obs:'Fornecedor fixo — preencha SKU, volume e peso',
-          status:'Aguardando',confInicio:null,confFim:null,confSLA:null,
-          confConfer:'',confObs:'',skuRec:null,volRec:null,pesoRec:null,
-          _confInicioTs:null,editadoEm:null,dataLiberacao:'',fixo:true,
-        });
-      }
-    });
-  });
-  localStorage.setItem('bm-agend-v2',JSON.stringify(agendamentos));
-}
-
-/* ══════════════════════════════════════════════════════
-   FILTRAR AGENDAMENTOS — soData helper
-══════════════════════════════════════════════════════ */
-function soData(s){return s?s.split('T')[0]:'';}
-
-function filtrarAgend(){
-  const de  =document.getElementById('f-data-de').value;
-  const ate  =document.getElementById('f-data-ate').value;
-  const ds   =document.getElementById('f-datasolic').value;
-  const dl   =document.getElementById('f-datalib').value;
-  const s    =document.getElementById('f-status').value;
-  const nf   =document.getElementById('f-nf').value;
-  const nrd  =document.getElementById('f-nordil').value;
-  const enc  =document.getElementById('f-encaixe').value;
-  const rea  =document.getElementById('f-reagend').value;
-  const f    =document.getElementById('f-fornec').value;
-
-  renderAgend(agendamentos.filter(a=>{
-    if(de  && soData(a.data)<de)                return false;
-    if(ate && soData(a.data)>ate)               return false;
-    if(ds  && soData(a.dataSolic)!==ds)         return false;
-    if(dl  && soData(a.dataLiberacao)!==dl)     return false;
-    if(s   && a.status!==s)                     return false;
-    if(nf  && a.statusNF!==nf)                  return false;
-    if(nrd==='sim'&&!a.viaNoRdil)               return false;
-    if(nrd==='nao'&& a.viaNoRdil)               return false;
-    if(enc==='sim'&&!a.encaixe)                 return false;
-    if(enc==='nao'&& a.encaixe)                 return false;
-    if(rea==='sim'&&!a.reagendado)              return false;
-    if(rea==='nao'&& a.reagendado)              return false;
-    if(f   && a.fornec!==f)                     return false;
-    return true;
-  }));
-}
-
-function getDadosDashFiltrado(){
-  const mes    =document.getElementById('df-mes')?.value||'';
-  const fStatus=document.getElementById('df-status')?.value||'';
-  const fFornec=document.getElementById('df-fornec')?.value||'';
-  const fConfer=document.getElementById('df-conferente')?.value||'';
-  return agendamentos.filter(a=>{
-    if(mes     && !soData(a.data).startsWith(mes)) return false;
-    if(fStatus && a.status!==fStatus)              return false;
-    if(fFornec && a.fornec!==fFornec)              return false;
-    if(fConfer && a.confConfer!==fConfer)          return false;
-    return true;
-  });
-}
-
-function atualizarStatusAgendamentos(){
-  const hoje=getDataHoje();
-  agendamentos.forEach(a=>{
-    if(a.status==='Aguardando'&&soData(a.data)<hoje)a.status='Atrasado';
-  });
-}
-
-/* ══════════════════════════════════════════════════════
-   MODAL — campos datetime-local
-══════════════════════════════════════════════════════ */
-function abrirModalAgend(idx=-1){
-  editIdx=idx;
-  document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
-  document.getElementById('modal-agend').classList.add('open');
-  const agoraLocal=()=>{
-    const n=new Date(),off=n.getTimezoneOffset()*60000;
-    return new Date(n-off).toISOString().slice(0,16);
-  };
-  if(idx===-1){
-    document.getElementById('m-datasolic').value=agoraLocal();
-    document.getElementById('m-data').value=agoraLocal();
-    document.getElementById('m-dataliberacao').value='';
-    ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
-    ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
-    setFlagsInit('',false,false);
-  }else{
-    const a=agendamentos[idx];
-    document.getElementById('m-datasolic').value=a.dataSolic||'';
-    document.getElementById('m-data').value=a.data||'';
-    document.getElementById('m-dataliberacao').value=a.dataLiberacao||'';
-    document.getElementById('m-nf').value=a.nf||'';
-    document.getElementById('m-fornec').value=a.fornec||'';
-    document.getElementById('m-sku').value=a.skuEsp||'';
-    document.getElementById('m-vol').value=a.volEsp||'';
-    document.getElementById('m-peso').value=a.pesoEsp||'';
-    document.getElementById('m-obs').value=a.obs||'';
-    setFlagsInit(a.statusNF||'',a.viaNoRdil||false,a.encaixe||false);
-  }
-}
-
-function salvarAgend(){
-  const fornec=document.getElementById('m-fornec').value.trim();
-  const data  =document.getElementById('m-data').value;
-  if(!data||!fornec){alert('Preencha ao menos a Data Agendada e o Fornecedor.');return;}
-
-  const dataOnly=soData(data);
-  const hoje=getDataHoje();
-
-  let isReagend=false,dataOriginal='';
-  if(editIdx!==-1){
-    const ant=agendamentos[editIdx];
-    const antDataOnly=soData(ant.data);
-    if(dataOnly!==antDataOnly){
-      isReagend=confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
-      dataOriginal=ant.dataOriginal||ant.data;
-    }else{
-      isReagend   =ant.reagendado   ||false;
-      dataOriginal=ant.dataOriginal ||'';
-    }
-  }
-
-  const ant=editIdx!==-1?agendamentos[editIdx]:{};
-  const obj={
-    dataSolic    :document.getElementById('m-datasolic').value||'',
-    data,
-    nf           :document.getElementById('m-nf').value.trim(),
-    fornec,
-    skuEsp       :parseFloat(document.getElementById('m-sku').value)||0,
-    volEsp       :parseFloat(document.getElementById('m-vol').value)||0,
-    pesoEsp      :parseFloat(document.getElementById('m-peso').value)||0,
-    statusNF     :flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
-    viaNoRdil    :flagNordil==='sim',
-    encaixe      :flagEncaixe==='sim',
-    reagendado   :isReagend,
-    dataOriginal,
-    obs          :document.getElementById('m-obs').value.trim(),
-    status       :editIdx===-1?(dataOnly<hoje?'Atrasado':'Aguardando'):ant.status,
-    confInicio   :ant.confInicio   ??null,
-    confFim      :ant.confFim      ??null,
-    confSLA      :ant.confSLA      ??null,
-    confConfer   :ant.confConfer   ??'',
-    confObs      :ant.confObs      ??'',
-    skuRec       :ant.skuRec       ??null,
-    volRec       :ant.volRec       ??null,
-    pesoRec      :ant.pesoRec      ??null,
-    _confInicioTs:ant._confInicioTs??null,
-    editadoEm    :ant.editadoEm    ??null,
-    dataLiberacao:document.getElementById('m-dataliberacao').value||'',
-    fixo         :ant.fixo||false,
-  };
-
-  if(editIdx===-1)agendamentos.unshift(obj);
-  else            agendamentos[editIdx]=obj;
-
-  save();fecharModalAgend();atualizarFiltrosDin();renderAgend();
-}
-
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════
    INIT
-══════════════════════════════════════════════════════ */
-(function init(){
+══════════════════════════════════════════════════ */
+(async function init(){
+  await carregarDoSheets();
   setDefaultFiltrosDash();
   setDefaultFiltrosAgend();
   setDefaultFiltrosConf();
-  injetarFixosSemana();
-  atualizarStatusAgendamentos();
   atualizarFiltrosDin();
+  atualizarFiltrosDash();
   atualizarFiltrosConf();
   renderDashboard();
-  carregarDoSheets();
+  // Auto-refresh a cada 5 minutos
+  setInterval(async()=>{
+    await carregarDoSheets();
+    const tela=document.querySelector('.tela.active');
+    if(tela){
+      const id=tela.id.replace('tela-','');
+      if(id==='dashboard')     renderDashboard();
+      if(id==='agendamentos')  renderAgend();
+      if(id==='conferencia')   renderConfLista();
+      if(id==='fornecedores')  renderFornecedores();
+      if(id==='acompanhamento')renderAcompanhamento();
+    }
+  },300000);
 })();
 </script>
 </body>
