@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Relatório de Acompanhamento — Recebimento BM</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh;}
+
+/* HEADER */
+.header{background:#1a1a1a;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.header-left{display:flex;align-items:center;gap:14px;}
+.header-logo{width:42px;height:42px;background:#fff;color:#1a1a1a;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;}
+.header-title{color:#fff;font-size:18px;font-weight:700;}
+.header-subtitle{color:#9ca3af;font-size:12px;margin-top:2px;}
+.header-right{color:#9ca3af;font-size:12px;text-align:right;line-height:1.6;}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:24px 16px;}
+
+/* FILTRO */
+.filtro-box{background:#fff;border-radius:14px;padding:20px 24px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,0.08);display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+.filtro-group{display:flex;flex-direction:column;gap:6px;}
+.filtro-group label{font-size:12px;font-weight:600;color:#4b5563;}
+.filtro-group input[type=date]{padding:8px 12px;border:1.5px solid #d1d5db;border-radius:8px;font-size:13px;color:#1a1a1a;outline:none;transition:border .2s;}
+.filtro-group input[type=date]:focus{border-color:#1a1a1a;}
+.btn-filtrar{padding:9px 20px;background:#1a1a1a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.btn-filtrar:hover{opacity:.8;}
+.btn-limpar{padding:9px 16px;background:#f3f4f6;color:#4b5563;border:1.5px solid #d1d5db;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-limpar:hover{background:#e5e7eb;}
+.filtro-label-periodo{font-size:13px;color:#6b7280;display:flex;align-items:center;gap:6px;padding:8px 14px;background:#f8f9fa;border-radius:8px;border:1.5px solid #e5e7eb;}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px;}
+.card{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.08);text-align:center;}
+.card-val{font-size:32px;font-weight:800;line-height:1.1;}
+.card-lbl{font-size:12px;color:#6b7280;margin-top:6px;font-weight:500;}
+
+/* TABELA */
+.tabela-box{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,0.08);overflow:hidden;}
+.tabela-header{padding:16px 22px;border-bottom:1.5px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.tabela-title{font-size:15px;font-weight:700;}
+.tabela-count{font-size:12px;color:#6b7280;background:#f3f4f6;padding:4px 12px;border-radius:20px;}
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{background:#f8f9fa;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;border-bottom:1.5px solid #f3f4f6;}
+tbody tr{border-bottom:1px solid #f9fafb;transition:background .15s;}
+tbody tr:hover{background:#fafafa;}
+tbody tr:last-child{border-bottom:none;}
+tbody td{padding:12px 14px;font-size:13px;vertical-align:middle;}
+.td-fornec{font-weight:600;color:#1a1a1a;}
+.td-meta{font-size:11px;color:#9ca3af;margin-top:2px;}
+
+/* BADGES STATUS */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+.b-verde{background:#dcfce7;color:#16a34a;}
+.b-amarelo{background:#fef3c7;color:#b45309;}
+.b-vermelho{background:#fee2e2;color:#dc2626;}
+.b-azul{background:#dbeafe;color:#1d4ed8;}
+.b-cinza{background:#f3f4f6;color:#6b7280;}
+.b-roxo{background:#ede9fe;color:#7c3aed;}
+.b-laranja{background:#ffedd5;color:#c2410c;}
+
+/* EMPTY */
+.empty-state{padding:60px 20px;text-align:center;color:#9ca3af;}
+.empty-state .ei{font-size:40px;margin-bottom:12px;}
+.empty-state p{font-size:14px;}
+
+/* RODAPÉ */
+.rodape{text-align:center;margin-top:32px;font-size:11px;color:#9ca3af;padding-bottom:24px;}
+
+/* GRUPO POR DATA */
+.grupo-data-header{padding:10px 22px;background:#f8f9fa;border-bottom:1.5px solid #f3f4f6;border-top:1.5px solid #f3f4f6;font-size:12px;font-weight:700;color:#4b5563;display:flex;align-items:center;gap:8px;}
+.grupo-data-header:first-child{border-top:none;}
+.dia-pill{background:#1a1a1a;color:#fff;padding:2px 10px;border-radius:20px;font-size:11px;}
+.hoje-pill{background:#16a34a;color:#fff;padding:2px 10px;border-radius:20px;font-size:11px;}
+
+@media(max-width:600px){
+  .cards-grid{grid-template-columns:repeat(2,1fr);}
+  .filtro-box{flex-direction:column;align-items:stretch;}
+  .btn-filtrar,.btn-limpar{width:100%;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">BM</div>
+    <div>
+      <div class="header-title">Relatório de Acompanhamento</div>
+      <div class="header-subtitle">Recebimento BM — Visualização para Cliente</div>
+    </div>
+  </div>
+  <div class="header-right" id="headerInfo">Carregando...</div>
+</div>
+
+<div class="main">
+
+  <!-- FILTRO DE PERÍODO -->
+  <div class="filtro-box">
+    <div class="filtro-group">
+      <label>📅 Data Inicial</label>
+      <input type="date" id="filtro-de"/>
+    </div>
+    <div class="filtro-group">
+      <label>📅 Data Final</label>
+      <input type="date" id="filtro-ate"/>
+    </div>
+    <button class="btn-filtrar" onclick="aplicarFiltro()">🔍 Filtrar</button>
+    <button class="btn-limpar" onclick="limparFiltro()">✕ Limpar</button>
+    <div class="filtro-label-periodo" id="periodo-label" style="display:none;"></div>
+  </div>
+
+  <!-- CARDS RESUMO -->
+  <div class="cards-grid" id="cards-resumo"></div>
+
+  <!-- TABELA -->
+  <div class="tabela-box">
+    <div class="tabela-header">
+      <span class="tabela-title">📋 Cargas Agendadas</span>
+      <span class="tabela-count" id="tabela-count">0 registros</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fornecedor</th>
+            <th>Data Agendada</th>
+            <th>SKU</th>
+            <th>Volume</th>
+            <th>Peso</th>
+            <th>Status</th>
+            <th>Data Lib. Bemais</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-body"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <div class="ei">📭</div>
+      <p>Nenhuma carga encontrada para o período selecionado.</p>
+    </div>
+  </div>
+
+  <div class="rodape" id="rodape-update"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   CONFIG
+══════════════════════════════════════════════════ */
+const API_URL = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd';
+const ABA_AGEND = 'agendamentos';
+
+let agendamentos = [];
+let filtroAtivo = { de: null, ate: null };
+
+/* ══════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════ */
+function soData(s){ return s ? String(s).split('T')[0] : ''; }
+
+function fmtData(s){
+  if(!s) return '—';
+  const d = soData(s);
+  if(!d) return '—';
+  const [y,m,dd] = d.split('-');
+  return `${dd}/${m}/${y}`;
+}
+
+function getDataHoje(){
+  return new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'})
+    .split('/').reverse().join('-');
+}
+
+const DIAS_PT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+function diaSemanaStr(dataStr){
+  if(!dataStr) return '';
+  const [y,m,d] = dataStr.split('-').map(Number);
+  return DIAS_PT[new Date(y, m-1, d).getDay()];
+}
+
+function rowToAgend(r){
+  const [dataSolic,data,nf,fornec,skuEsp,volEsp,pesoEsp,statusNF,
+         viaNoRdil,obs,status,confInicio,confFim,confSLA,confConfer,
+         confObs,skuRec,volRec,pesoRec,_confInicioTs,editadoEm,
+         encaixe,reagendado,dataOriginal,dataLiberacao,fixo] = r;
+  return {
+    dataSolic,data,nf,fornec,
+    skuEsp : skuEsp  != null && skuEsp  !== '' ? Number(skuEsp)  : null,
+    volEsp : volEsp  != null && volEsp  !== '' ? Number(volEsp)  : null,
+    pesoEsp: pesoEsp != null && pesoEsp !== '' ? Number(pesoEsp) : null,
+    statusNF, viaNoRdil, obs, status,
+    confInicio, confFim,
+    confSLA    : confSLA != null && confSLA !== '' ? Number(confSLA) : null,
+    confConfer, confObs,
+    skuRec : skuRec  != null && skuRec  !== '' ? Number(skuRec)  : null,
+    volRec : volRec  != null && volRec  !== '' ? Number(volRec)  : null,
+    pesoRec: pesoRec != null && pesoRec !== '' ? Number(pesoRec) : null,
+    editadoEm, encaixe, reagendado,
+    dataOriginal, dataLiberacao, fixo
+  };
+}
+
+function badgeStatus(s){
+  const map = {
+    'Concluído OK'    : ['b-verde',  '✅'],
+    'Em Conferência'  : ['b-azul',   '🔍'],
+    'Aguardando'      : ['b-amarelo','⏳'],
+    'Pendente'        : ['b-amarelo','🔔'],
+    'Não Finalizado'  : ['b-laranja','⚠️'],
+    'Atrasado'        : ['b-vermelho','🚨'],
+    'Cancelado'       : ['b-cinza',  '✕'],
+    'Reagendado'      : ['b-roxo',   '🔀'],
+  };
+  const [cls, ico] = map[s] || ['b-cinza','•'];
+  return `<span class="badge ${cls}">${ico} ${s||'—'}</span>`;
+}
+
+/* ══════════════════════════════════════════════════
+   FILTRO
+══════════════════════════════════════════════════ */
+function aplicarFiltro(){
+  const de  = document.getElementById('filtro-de').value;
+  const ate = document.getElementById('filtro-ate').value;
+  if(de && ate && de > ate){
+    alert('A data inicial não pode ser maior que a data final.');
+    return;
+  }
+  filtroAtivo = { de: de||null, ate: ate||null };
+  renderTabela();
+}
+
+function limparFiltro(){
+  document.getElementById('filtro-de').value  = '';
+  document.getElementById('filtro-ate').value = '';
+  filtroAtivo = { de: null, ate: null };
+  renderTabela();
+}
+
+function getDadosFiltrados(){
+  let lista = [...agendamentos];
+  if(filtroAtivo.de){
+    lista = lista.filter(a => soData(a.data) >= filtroAtivo.de);
+  }
+  if(filtroAtivo.ate){
+    lista = lista.filter(a => soData(a.data) <= filtroAtivo.ate);
+  }
+  // Ordena por data de agendamento
+  lista.sort((a,b) => soData(a.data).localeCompare(soData(b.data)));
+  return lista;
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════════════ */
+function renderCards(lista){
+  const total   = lista.length;
+  const conc    = lista.filter(a => a.status === 'Concluído OK').length;
+  const pend    = lista.filter(a => ['Em Conferência','Aguardando','Pendente','Não Finalizado','Atrasado'].includes(a.status)).length;
+  const atr     = lista.filter(a => a.status === 'Atrasado').length;
+  const nordil  = lista.filter(a => a.viaNoRdil).length;
+
+  document.getElementById('cards-resumo').innerHTML = `
+    <div class="card">
+      <div class="card-val" style="color:#1a1a1a;">${total}</div>
+      <div class="card-lbl">📋 Total de Cargas</div>
+    </div>
+    <div class="card">
+      <div class="card-val" style="color:#16a34a;">${conc}</div>
+      <div class="card-lbl">✅ Concluídas</div>
+    </div>
+    <div class="card">
+      <div class="card-val" style="color:#b45309;">${pend}</div>
+      <div class="card-lbl">⏳ Pendentes</div>
+    </div>
+    <div class="card">
+      <div class="card-val" style="color:#dc2626;">${atr}</div>
+      <div class="card-lbl">🚨 Atrasadas</div>
+    </div>
+    <div class="card">
+      <div class="card-val" style="color:#7c3aed;">${nordil}</div>
+      <div class="card-lbl">🔀 Via Nordil</div>
+    </div>`;
+}
+
+function renderTabela(){
+  const lista  = getDadosFiltrados();
+  const hoje   = getDataHoje();
+  const tbody  = document.getElementById('tabela-body');
+  const empty  = document.getElementById('empty-state');
+  const count  = document.getElementById('tabela-count');
+  const perLbl = document.getElementById('periodo-label');
+
+  // Label período
+  if(filtroAtivo.de || filtroAtivo.ate){
+    perLbl.style.display = 'flex';
+    const de  = filtroAtivo.de  ? fmtData(filtroAtivo.de)  : '...';
+    const ate = filtroAtivo.ate ? fmtData(filtroAtivo.ate) : '...';
+    perLbl.textContent = `📆 Período: ${de} → ${ate}`;
+  } else {
+    perLbl.style.display = 'none';
+  }
+
+  renderCards(lista);
+  count.textContent = `${lista.length} registro${lista.length!==1?'s':''}`;
+
+  if(!lista.length){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  // Agrupa por data
+  const grupos = {};
+  lista.forEach(a => {
+    const k = soData(a.data) || 'sem-data';
+    if(!grupos[k]) grupos[k] = [];
+    grupos[k].push(a);
+  });
+
+  let html = '';
+  Object.keys(grupos).sort().forEach(dataKey => {
+    const isHoje = dataKey === hoje;
+    const diaNome = diaSemanaStr(dataKey);
+    html += `<tr>
+      <td colspan="7" style="padding:0;">
+        <div class="grupo-data-header">
+          <span class="${isHoje?'hoje-pill':'dia-pill'}">${isHoje?'HOJE — ':''} ${diaNome}, ${fmtData(dataKey)}</span>
+          <span style="color:#9ca3af;font-weight:400;">${grupos[dataKey].length} carga${grupos[dataKey].length!==1?'s':''}</span>
+        </div>
+      </td>
+    </tr>`;
+
+    grupos[dataKey].forEach(a => {
+      html += `<tr>
+        <td>
+          <div class="td-fornec">${a.fornec||'—'}</div>
+          ${a.nf?`<div class="td-meta">NF: ${a.nf}</div>`:''}
+        </td>
+        <td>${fmtData(a.data)}</td>
+        <td>${a.skuEsp != null ? a.skuEsp : '—'}</td>
+        <td>${a.volEsp != null ? a.volEsp : '—'}</td>
+        <td>${a.pesoEsp != null ? a.pesoEsp+' kg' : '—'}</td>
+        <td>${badgeStatus(a.status)}</td>
+        <td>${a.dataLiberacao ? fmtData(a.dataLiberacao) : '<span style="color:#9ca3af;font-size:12px;">Aguardando</span>'}</td>
+      </tr>`;
+    });
+  });
+
+  tbody.innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════════
+   CARGA DOS DADOS
+══════════════════════════════════════════════════ */
+async function carregarDados(){
+  document.getElementById('headerInfo').textContent = '⏳ Carregando dados…';
+  try{
+    // Tenta Google Sheets
+    const res  = await fetch(`${API_URL}?aba=${ABA_AGEND}`);
+    const json = await res.json();
+    if(json.ok && json.data.length > 1){
+      const [, ...rows] = json.data;
+      agendamentos = rows.map(rowToAgend);
+      // Salva cache local
+      localStorage.setItem('bm-relatorio-cache', JSON.stringify({ts: Date.now(), dados: agendamentos}));
+    }
+  } catch(e){
+    // Tenta cache local
+    console.warn('Sheets offline, usando cache.', e);
+    const cache = localStorage.getItem('bm-relatorio-cache');
+    if(cache){
+      const obj = JSON.parse(cache);
+      agendamentos = obj.dados || [];
+    }
+  }
+
+  // Define filtro padrão: semana atual (seg → dom)
+  const hoje = new Date();
+  const diaSemana = hoje.getDay(); // 0=dom
+  const diffSeg = diaSemana === 0 ? -6 : 1 - diaSemana;
+  const seg = new Date(hoje); seg.setDate(hoje.getDate() + diffSeg);
+  const dom = new Date(seg);  dom.setDate(seg.getDate() + 6);
+  const toISO = d => d.toISOString().split('T')[0];
+
+  document.getElementById('filtro-de').value  = toISO(seg);
+  document.getElementById('filtro-ate').value = toISO(dom);
+  filtroAtivo = { de: toISO(seg), ate: toISO(dom) };
+
+  // Verifica se veio com ?data= na URL
+  const params = new URLSearchParams(location.search);
+  const dataParam = params.get('data');
+  if(dataParam){
+    document.getElementById('filtro-de').value  = dataParam;
+    document.getElementById('filtro-ate').value = dataParam;
+    filtroAtivo = { de: dataParam, ate: dataParam };
+  }
+
+  renderTabela();
+
+  const agora = new Date().toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'});
+  document.getElementById('headerInfo').innerHTML =
+    `Dados atualizados em:<br><strong>${agora}</strong>`;
+  document.getElementById('rodape-update').textContent =
+    `Relatório gerado em ${agora} · Recebimento BM`;
+}
+
+carregarDados();
+</script>
+</body>
+</html>
