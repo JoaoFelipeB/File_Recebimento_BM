@@ -1880,10 +1880,121 @@ function renderAcompanhamento(){
   document.getElementById('acomp-pendentes-list').innerHTML=listaHtml(pendentes, 'Sem pendências no momento.');
   document.getElementById('acomp-update-time').textContent='Última atualização: '+new Date().toLocaleTimeString('pt-BR');
 }
-
 function gerarLinkAcomp(){
-  const url=window.location.href.split('#')[0]+'#acompanhamento';
-  navigator.clipboard.writeText(url).then(()=>alert('✅ Link copiado para a área de transferência:\n'+url));
+  const hoje = getDataHoje();
+  const agHoje    = agendamentos.filter(a => soData(a.data) === hoje);
+  const recebidos = agendamentos.filter(a => soData(a.data) === hoje && a.status === 'Concluído OK');
+  const pendentes = agendamentos.filter(a => soData(a.data) === hoje && 
+    ['Em Conferência','Aguardando','Pendente','Não Finalizado','Atrasado'].includes(a.status));
+
+  function badgeStatusSimples(s){
+    const map = {
+      'Concluído OK':   '<span style="background:#16a34a;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">✅ Concluído OK</span>',
+      'Em Conferência': '<span style="background:#3b82f6;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">🔄 Em Conferência</span>',
+      'Aguardando':     '<span style="background:#9ca3af;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">⏳ Aguardando</span>',
+      'Não Finalizado': '<span style="background:#facc15;color:#1a1a1a;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">🔶 Não Finalizado</span>',
+      'Atrasado':       '<span style="background:#dc2626;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">🚨 Atrasado</span>',
+      'Pendente':       '<span style="background:#a21caf;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">🔔 Pendente</span>',
+    };
+    return map[s] || `<span style="background:#e5e7eb;color:#374151;padding:3px 10px;border-radius:20px;font-size:11px;">${s}</span>`;
+  }
+
+  function rowsHtml(arr, vazio){
+    if(!arr.length) return `<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:20px;">${vazio}</td></tr>`;
+    return arr.map(a => `
+      <tr>
+        <td style="padding:10px 12px;font-weight:600;color:#1a1a1a;">${a.fornec || '—'}</td>
+        <td style="padding:10px 12px;color:#374151;">${a.nf || '—'}</td>
+        <td style="padding:10px 12px;color:#374151;">${a.data ? (a.data.slice(11,16)||'—') : '—'}</td>
+        <td style="padding:10px 12px;">${badgeStatusSimples(a.status)}</td>
+        <td style="padding:10px 12px;color:#6b7280;font-size:12px;">${a.confConfer || '—'}</td>
+      </tr>`).join('');
+  }
+
+  const dataFmt = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>📡 Acompanhamento — Recebimento BM</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1a1a1a;}
+    .header{background:#1a1a1a;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+    .logo{background:#fff;color:#1a1a1a;font-weight:900;font-size:18px;width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .header-title{color:#fff;font-size:16px;font-weight:700;}
+    .header-sub{color:#9ca3af;font-size:12px;margin-top:2px;}
+    .refresh-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;}
+    .refresh-btn:hover{background:rgba(255,255,255,0.2);}
+    .cards{display:flex;gap:14px;flex-wrap:wrap;padding:24px 28px 0;}
+    .card{flex:1;min-width:130px;background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.08);text-align:center;}
+    .card-val{font-size:32px;font-weight:900;line-height:1;}
+    .card-lbl{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;margin-top:6px;letter-spacing:.5px;}
+    .section{margin:24px 28px 0;}
+    .section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#374151;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+    .section-title::after{content:'';flex:1;height:1px;background:#e5e7eb;}
+    .table-wrap{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:#1a1a1a;}
+    thead th{padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.4px;}
+    tbody tr:nth-child(even){background:#f8fafc;}
+    tbody tr:hover{background:#f0f9ff;}
+    .footer{text-align:center;color:#9ca3af;font-size:11px;padding:24px 28px 32px;}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="logo">BM</div>
+    <div>
+      <div class="header-title">📡 Acompanhamento em Tempo Real</div>
+      <div class="header-sub">${dataFmt}</div>
+    </div>
+  </div>
+  <button class="refresh-btn" onclick="location.reload()">🔄 Atualizar</button>
+</div>
+
+<div class="cards">
+  <div class="card"><div class="card-val" style="color:#1a1a1a;">${agHoje.length}</div><div class="card-lbl">📋 Total Hoje</div></div>
+  <div class="card"><div class="card-val" style="color:#16a34a;">${recebidos.length}</div><div class="card-lbl">✅ Recebidos</div></div>
+  <div class="card"><div class="card-val" style="color:#dc2626;">${pendentes.filter(a=>a.status==='Atrasado').length}</div><div class="card-lbl">🚨 Atrasados</div></div>
+  <div class="card"><div class="card-val" style="color:#3b82f6;">${pendentes.filter(a=>a.status==='Em Conferência').length}</div><div class="card-lbl">🔄 Em Conferência</div></div>
+  <div class="card"><div class="card-val" style="color:#7c3aed;">${agHoje.filter(a=>a.viaNoRdil).length}</div><div class="card-lbl">🔀 Via Nordil</div></div>
+</div>
+
+<div class="section">
+  <div class="section-title">📅 Agendado para Hoje</div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Fornecedor</th><th>NF</th><th>Horário</th><th>Status</th><th>Conferente</th></tr></thead>
+    <tbody>${rowsHtml(agHoje,'📭 Nenhum agendamento para hoje.')}</tbody>
+  </table></div>
+</div>
+
+<div class="section">
+  <div class="section-title">✅ Já Recebidos Hoje</div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Fornecedor</th><th>NF</th><th>Horário</th><th>Status</th><th>Conferente</th></tr></thead>
+    <tbody>${rowsHtml(recebidos,'📭 Nenhum recebimento concluído ainda.')}</tbody>
+  </table></div>
+</div>
+
+<div class="section">
+  <div class="section-title">⏳ Pendentes / Em Conferência</div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Fornecedor</th><th>NF</th><th>Horário</th><th>Status</th><th>Conferente</th></tr></thead>
+    <tbody>${rowsHtml(pendentes,'✅ Sem pendências no momento.')}</tbody>
+  </table></div>
+</div>
+
+<div class="footer">Recebimento-BM © ${new Date().getFullYear()} — Gerado em: ${new Date().toLocaleString('pt-BR')}</div>
+</body></html>`;
+
+  const popup = window.open('','acomp_bm','width=960,height=700,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no');
+  popup.document.open();
+  popup.document.write(html);
+  popup.document.close();
 }
 
 /* ══════════════════════════════════════════════════
