@@ -47,6 +47,7 @@ body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;min-heig
 .card.c-purple::before{background:#7c3aed;}
 .card.c-gray::before{background:#6b7280;}
 .card.c-teal::before{background:#0d9488;}
+.card.c-orange::before{background:#ea580c;}
 .card-icon{font-size:22px;margin-bottom:6px;}
 .card-val{font-size:26px;font-weight:900;color:var(--text);}
 .card-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
@@ -104,6 +105,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 .b-qua{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
 .b-qui{background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
 .b-sex{background:#fff1f2;color:#be123c;border:1px solid #fecdd3;}
+.b-iniciado  {background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd;}
 .btn{padding:9px 18px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:6px;font-family:inherit;}
 .btn-dark{background:#1a1a1a;color:#fff;}
 .btn-dark:hover{background:#333;}
@@ -218,8 +220,27 @@ tbody td{padding:11px 14px;color:var(--text);}
 .comp-table input[type="number"]{background:#f8f9fa;border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:14px;font-weight:700;width:100px;font-family:inherit;}
 .comp-table input[type="number"]:focus{outline:none;border-color:#1a1a1a;background:#fff;}
 .comp-table input[type="number"]:disabled{background:#f3f4f6;color:#9ca3af;}
-.timer-box{background:#f8f9fa;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.timer-val{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:2px;}
+/* ── Tempo da conferência ── */
+.conf-tempo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.conf-tempo-item{display:flex;flex-direction:column;gap:5px;}
+.conf-tempo-item label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
+.conf-tempo-item input[type="datetime-local"]{background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;width:100%;font-family:inherit;transition:border .2s;}
+.conf-tempo-item input[type="datetime-local"]:focus{outline:none;border-color:#1a1a1a;background:#fff;}
+.conf-tempo-item input[type="datetime-local"]:disabled{background:#f3f4f6;color:#9ca3af;}
+.conf-tempo-dur{background:#f8f9fa;border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.conf-tempo-dur-lbl{font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;margin-bottom:2px;}
+.conf-tempo-dur-val{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:2px;font-variant-numeric:tabular-nums;}
+/* ── Cargas em andamento ── */
+.cargas-ativas-bar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.cargas-ativas-title{font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;}
+.carga-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #93c5fd;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:#1d4ed8;cursor:pointer;transition:all .2s;}
+.carga-chip:hover{background:#1d4ed8;color:#fff;}
+.carga-chip-dot{width:7px;height:7px;border-radius:50%;background:#1d4ed8;animation:pulse .8s infinite;flex-shrink:0;}
+/* ── Finalizar carga ── */
+.btn-finalizar-carga{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;font-family:inherit;}
+.btn-finalizar-carga:hover{background:#15803d;transform:translateY(-1px);box-shadow:0 4px 12px rgba(22,163,74,.3);}
+.aviso-obrig{background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400e;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+/* ── Resultado ── */
 .resultado-box{border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .resultado-box.ok  {background:#dcfce7;border:1px solid #86efac;}
 .resultado-box.div {background:#fef3c7;border:1px solid #fcd34d;}
@@ -248,7 +269,7 @@ tbody td{padding:11px 14px;color:var(--text);}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;}
 .sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.sla-bemais-box{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13px;}
+.sla-bemais-box{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13px;margin-bottom:14px;}
 .sla-bemais-val{font-size:22px;font-weight:900;color:#16a34a;}
 .sla-bemais-lbl{font-size:11px;color:#15803d;font-weight:700;text-transform:uppercase;}
 .popup-obs{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;}
@@ -288,6 +309,7 @@ tbody td{padding:11px 14px;color:var(--text);}
   .nav{padding:8px 10px;}
   .status-conf-grid{grid-template-columns:repeat(2,1fr);}
   .flags-grid{grid-template-columns:1fr;}
+  .conf-tempo-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -405,12 +427,19 @@ tbody td{padding:11px 14px;color:var(--text);}
 <!-- AGENDAMENTOS -->
 <div class="tela" id="tela-agendamentos">
   <div class="page-title">📋 Agendamentos</div>
+
+  <!-- ★ NOVOS CARDS: Agendados Hoje + Via Nordil Hoje -->
+  <div class="cards-row" style="margin-bottom:14px;">
+    <div class="card c-blue"><div class="card-icon">📅</div><div class="card-val" id="a-hoje-count">0</div><div class="card-lbl">Agendados Hoje</div></div>
+    <div class="card c-purple"><div class="card-icon">🔀</div><div class="card-val" id="a-nordil-hoje-count">0</div><div class="card-lbl">Via Nordil Hoje</div></div>
+  </div>
+
   <div class="metrics-row">
     <div class="mc"><div class="mv" id="a-sku">0</div><div class="ml">📦 SKUs Esperados</div></div>
     <div class="mc"><div class="mv" id="a-vol">0</div><div class="ml">📫 Volume Esperado</div></div>
     <div class="mc"><div class="mv" id="a-peso">0 kg</div><div class="ml">⚖️ Peso Esperado</div></div>
   </div>
-  <div class="sla-bemais-box" style="margin-bottom:14px;">
+  <div class="sla-bemais-box">
     <div>
       <div class="sla-bemais-lbl">⏱️ SLA Médio — Agendamento → Liberação Bemais</div>
       <div class="sla-bemais-val" id="agend-sla-bemais-val">—</div>
@@ -418,22 +447,10 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div style="font-size:11px;color:#15803d;max-width:240px;">Tempo médio entre a data agendada e a data de liberação no Bemais.</div>
   </div>
   <div class="filtros">
-    <div class="fg-f" style="min-width:160px;">
-      <label>📅 Dt. Agendada (De)</label>
-      <input type="date" id="f-data-de" onchange="filtrarAgend()">
-    </div>
-    <div class="fg-f" style="min-width:160px;">
-      <label>📅 Dt. Agendada (Até)</label>
-      <input type="date" id="f-data-ate" onchange="filtrarAgend()">
-    </div>
-    <div class="fg-f" style="min-width:160px;">
-      <label>📋 Dt. Solicitação</label>
-      <input type="date" id="f-datasolic" onchange="filtrarAgend()">
-    </div>
-    <div class="fg-f" style="min-width:160px;">
-      <label>🏬 Dt. Lib. Bemais</label>
-      <input type="date" id="f-datalib" onchange="filtrarAgend()">
-    </div>
+    <div class="fg-f" style="min-width:160px;"><label>📅 Dt. Agendada (De)</label><input type="date" id="f-data-de" onchange="filtrarAgend()"></div>
+    <div class="fg-f" style="min-width:160px;"><label>📅 Dt. Agendada (Até)</label><input type="date" id="f-data-ate" onchange="filtrarAgend()"></div>
+    <div class="fg-f" style="min-width:160px;"><label>📋 Dt. Solicitação</label><input type="date" id="f-datasolic" onchange="filtrarAgend()"></div>
+    <div class="fg-f" style="min-width:160px;"><label>🏬 Dt. Lib. Bemais</label><input type="date" id="f-datalib" onchange="filtrarAgend()"></div>
     <div class="fg-f">
       <label>🚦 Status Conf.</label>
       <select id="f-status" onchange="filtrarAgend()">
@@ -493,7 +510,7 @@ tbody td{padding:11px 14px;color:var(--text);}
         <thead><tr>
           <th>Dt. Solicitação</th><th>Dt. Agendada</th><th>Dt. Lib. Bemais</th><th>SLA Bemais</th>
           <th>NF</th><th>Fornecedor</th><th>SKU Esp.</th><th>Vol. Esp.</th><th>Peso Esp.</th>
-          <th>Flags</th><th>Status NF</th><th>Status Conf.</th><th>SLA Conf.</th><th>Ações</th>
+          <th>Flags</th><th>Status NF</th><th>Status Conf.</th><th>Tempo Rec. (min)</th><th>Ações</th>
         </tr></thead>
         <tbody id="tbody-agend"></tbody>
       </table>
@@ -507,21 +524,22 @@ tbody td{padding:11px 14px;color:var(--text);}
 <!-- CONFERÊNCIA -->
 <div class="tela" id="tela-conferencia">
   <div class="conf-page">
+
+    <!-- Lista de seleção -->
     <div id="conf-select-state">
       <div class="page-title">🔍 Conferência</div>
+
+      <!-- Barra de cargas em andamento -->
+      <div class="cargas-ativas-bar" id="cargas-ativas-bar" style="display:none;">
+        <div class="carga-chip-dot"></div>
+        <span class="cargas-ativas-title">Em andamento:</span>
+        <div id="cargas-ativas-chips" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+
       <div class="filtros">
-        <div class="fg-f" style="min-width:160px;">
-          <label>📅 Dt. Agendada (De)</label>
-          <input type="date" id="cf-data-de" onchange="renderConfLista()">
-        </div>
-        <div class="fg-f" style="min-width:160px;">
-          <label>📅 Dt. Agendada (Até)</label>
-          <input type="date" id="cf-data-ate" onchange="renderConfLista()">
-        </div>
-        <div class="fg-f" style="min-width:160px;">
-          <label>📋 Dt. Solicitação</label>
-          <input type="date" id="cf-datasolic" onchange="renderConfLista()">
-        </div>
+        <div class="fg-f" style="min-width:160px;"><label>📅 Dt. Agendada (De)</label><input type="date" id="cf-data-de" onchange="renderConfLista()"></div>
+        <div class="fg-f" style="min-width:160px;"><label>📅 Dt. Agendada (Até)</label><input type="date" id="cf-data-ate" onchange="renderConfLista()"></div>
+        <div class="fg-f" style="min-width:160px;"><label>📋 Dt. Solicitação</label><input type="date" id="cf-datasolic" onchange="renderConfLista()"></div>
         <div class="fg-f">
           <label>🚦 Status</label>
           <select id="cf-status" onchange="renderConfLista()">
@@ -533,15 +551,12 @@ tbody td{padding:11px 14px;color:var(--text);}
             <option value="Pendente">🔔 Pendente</option>
           </select>
         </div>
-        <div class="fg-f">
-          <label>🏭 Fornecedor</label>
-          <select id="cf-fornec" onchange="renderConfLista()"><option value="">Todos</option></select>
-        </div>
+        <div class="fg-f"><label>🏭 Fornecedor</label><select id="cf-fornec" onchange="renderConfLista()"><option value="">Todos</option></select></div>
         <div style="display:flex;align-items:flex-end;gap:6px;">
           <button class="btn btn-outline" onclick="limparFiltrosConf()">🔄 Limpar</button>
         </div>
       </div>
-      <div class="alert alert-info">ℹ️ Clique em um agendamento para iniciar a conferência.</div>
+      <div class="alert alert-info">ℹ️ Clique em <strong>🔍 Conferir</strong> para abrir uma carga. Você pode iniciar múltiplas conferências simultâneas e navegar entre elas.</div>
       <div class="table-wrap">
         <div class="table-header"><div class="table-title">📋 Selecione o Agendamento</div></div>
         <div style="overflow-x:auto;">
@@ -555,6 +570,8 @@ tbody td{padding:11px 14px;color:var(--text);}
         </div>
       </div>
     </div>
+
+    <!-- Estado ativo da conferência -->
     <div id="conf-active-state" style="display:none;">
       <div class="edit-banner" id="edit-banner" style="display:none;">
         <span class="eb-icon">✏️</span>
@@ -564,6 +581,7 @@ tbody td{padding:11px 14px;color:var(--text);}
         </div>
         <span class="badge b-editado">Editado</span>
       </div>
+
       <div class="conf-header-box">
         <h2 id="c-fornec-title">Fornecedor</h2>
         <p id="c-nf-title">NF: — | Data: —</p>
@@ -574,22 +592,34 @@ tbody td{padding:11px 14px;color:var(--text);}
           <div class="conf-meta-item"><span>Pontualidade</span><span id="c-pont-label">—</span></div>
         </div>
       </div>
+
+      <!-- ★ SEÇÃO DE TEMPO REFORMULADA -->
       <div class="conf-section">
-        <div class="conf-section-title">⏱️ Cronômetro</div>
-        <div class="timer-box">
-          <div>
-            <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Tempo decorrido</div>
-            <div class="timer-val" id="c-timer">00:00:00</div>
+        <div class="conf-section-title">⏱️ Tempo de Conferência</div>
+        <div class="conf-tempo-grid">
+          <div class="conf-tempo-item">
+            <label>🟢 Início da Conferência</label>
+            <input type="datetime-local" id="c-tempo-inicio" onchange="recalcularDuracao()">
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-dark"    id="btn-iniciar-conf"   onclick="iniciarConferencia()">▶️ Iniciar</button>
-            <button class="btn btn-green"   id="btn-finalizar-conf" onclick="finalizarConferencia()" style="display:none;">✅ Finalizar</button>
-            <button class="btn btn-purple"  id="btn-editar-conf"    onclick="habilitarEdicao()"      style="display:none;">✏️ Editar</button>
-            <button class="btn btn-dark"    id="btn-salvar-edicao"  onclick="salvarEdicao()"         style="display:none;">💾 Salvar</button>
+          <div class="conf-tempo-item">
+            <label>🔴 Fim da Conferência</label>
+            <input type="datetime-local" id="c-tempo-fim" onchange="recalcularDuracao()" disabled>
+          </div>
+        </div>
+        <div class="conf-tempo-dur">
+          <div>
+            <div class="conf-tempo-dur-lbl">⏱️ Tempo Decorrido</div>
+            <div class="conf-tempo-dur-val" id="c-timer">00:00:00</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="btn btn-dark"    id="btn-iniciar-conf"  onclick="iniciarConferencia()">▶️ Iniciar</button>
+            <button class="btn btn-purple"  id="btn-editar-conf"   onclick="habilitarEdicao()"   style="display:none;">✏️ Editar</button>
+            <button class="btn btn-dark"    id="btn-salvar-edicao" onclick="salvarEdicao()"      style="display:none;">💾 Salvar</button>
             <button class="btn btn-outline" onclick="voltarListaConf()">← Voltar</button>
           </div>
         </div>
       </div>
+
       <div class="conf-section">
         <div class="conf-section-title">🚦 Alterar Status da Conferência</div>
         <div class="status-conf-grid" id="status-conf-grid">
@@ -601,6 +631,7 @@ tbody td{padding:11px 14px;color:var(--text);}
           <div class="sc-opt" data-val="Pendente"       onclick="selecionarStatusConf('Pendente')"><div class="sc-ico">🔔</div><div class="sc-lbl">Pendente</div></div>
         </div>
       </div>
+
       <div class="conf-section">
         <div class="conf-section-title">📊 Comparativo — Esperado vs. Recebido</div>
         <table class="comp-table">
@@ -612,18 +643,37 @@ tbody td{padding:11px 14px;color:var(--text);}
           </tbody>
         </table>
       </div>
+
       <div class="conf-section">
         <div class="conf-section-title">📝 Conferente & Observações</div>
         <div class="form-grid">
-          <div class="fg form-full"><label>👤 Conferente Responsável</label><input type="text" id="c-conferente" placeholder="Nome do conferente"></div>
-          <div class="fg form-full"><label>📝 Ocorrências / Observações</label><textarea id="c-ocorrencia" placeholder="Descreva ocorrências, avarias, divergências..."></textarea></div>
+          <div class="fg form-full"><label>👤 Conferente Responsável *</label><input type="text" id="c-conferente" placeholder="Nome do conferente (obrigatório)" disabled></div>
+          <div class="fg form-full"><label>📝 Ocorrências / Observações</label><textarea id="c-ocorrencia" placeholder="Descreva ocorrências, avarias, divergências..." disabled></textarea></div>
         </div>
       </div>
+
+      <!-- ★ SEÇÃO FINALIZAR CARGA -->
+      <div class="conf-section" id="section-finalizar" style="display:none;">
+        <div class="conf-section-title">🏁 Finalizar Carga</div>
+        <div class="aviso-obrig" id="aviso-obrig" style="display:none;">
+          ⚠️ Preencha o <strong>Conferente</strong> e o <strong>Fim da Conferência</strong> antes de finalizar.
+        </div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">
+          Após finalizar, o tempo de recebimento (em minutos) será registrado e a carga concluída.
+        </p>
+        <button class="btn-finalizar-carga" onclick="finalizarConferencia()">✅ Finalizar Carga</button>
+      </div>
+
       <div id="conf-resultado" style="display:none;" class="conf-section">
         <div class="conf-section-title">🏁 Resultado</div>
         <div class="resultado-box" id="conf-resultado-box">
           <div class="res-icon" id="c-res-icon">✅</div>
           <div><div class="res-title" id="c-res-title">—</div><div class="res-sub" id="c-res-sub">—</div></div>
+        </div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border2);display:flex;align-items:center;gap:10px;">
+          <span style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;">⏱️ Tempo de Recebimento:</span>
+          <span id="c-tempo-rec-final" style="font-size:22px;font-weight:900;color:#1a1a1a;">—</span>
+          <span style="font-size:12px;color:var(--text3);">minutos</span>
         </div>
       </div>
     </div>
@@ -651,18 +701,9 @@ tbody td{padding:11px 14px;color:var(--text);}
       </div>
     </div>
     <div class="acomp-cards" id="acomp-cards"></div>
-    <div class="acomp-section">
-      <div class="acomp-section-title">📅 Agendado para Hoje</div>
-      <div id="acomp-hoje-list"></div>
-    </div>
-    <div class="acomp-section">
-      <div class="acomp-section-title">✅ Já Recebidos Hoje</div>
-      <div id="acomp-recebidos-list"></div>
-    </div>
-    <div class="acomp-section">
-      <div class="acomp-section-title">⏳ Pendentes / Em Conferência</div>
-      <div id="acomp-pendentes-list"></div>
-    </div>
+    <div class="acomp-section"><div class="acomp-section-title">📅 Agendado para Hoje</div><div id="acomp-hoje-list"></div></div>
+    <div class="acomp-section"><div class="acomp-section-title">✅ Já Recebidos Hoje</div><div id="acomp-recebidos-list"></div></div>
+    <div class="acomp-section"><div class="acomp-section-title">⏳ Pendentes / Em Conferência</div><div id="acomp-pendentes-list"></div></div>
     <div class="acomp-update" id="acomp-update-time"></div>
   </div>
 </div>
@@ -683,10 +724,7 @@ tbody td{padding:11px 14px;color:var(--text);}
     <div class="fg"><label>🏬 Liberação Bemais</label><input type="datetime-local" id="m-dataliberacao"></div>
     <div class="fg"><label>🧾 Número da NF</label><input type="text" id="m-nf" placeholder="Ex: 123456"></div>
   </div>
-  <div class="fg" style="margin-top:10px;">
-    <label>🏭 Fornecedor</label>
-    <input type="text" id="m-fornec" placeholder="Digite o nome do fornecedor">
-  </div>
+  <div class="fg" style="margin-top:10px;"><label>🏭 Fornecedor</label><input type="text" id="m-fornec" placeholder="Digite o nome do fornecedor"></div>
   <div class="sep"></div>
   <div class="sec-lbl">📦 Volumes Esperados</div>
   <div class="form-grid g3">
@@ -752,7 +790,6 @@ tbody td{padding:11px 14px;color:var(--text);}
   <div class="sync-dot" id="sync-dot"></div>
   <span id="sync-msg">Sincronizado</span>
 </div>
-
 <script>
 /* ══════════════════════════════════════════════════
    CONFIG
@@ -773,8 +810,8 @@ function showSync(msg, syncing=true){
    UTILS
 ══════════════════════════════════════════════════ */
 function getDataHoje(){
-  const d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${dd}`;
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 function soData(s){ if(!s) return ''; return s.split('T')[0]; }
 function fmtData(s){
@@ -783,35 +820,53 @@ function fmtData(s){
   const parts=raw[0].split('-');
   if(parts.length!==3) return s;
   const dataPart=`${parts[2]}/${parts[1]}/${parts[0]}`;
-  if(raw[1]){ const hora=raw[1].substring(0,5); return `${dataPart} ${hora}`; }
+  if(raw[1]){ return `${dataPart} ${raw[1].substring(0,5)}`; }
   return dataPart;
 }
-function normalizaData(s){ if(!s) return ''; return s; }
 function diaDaSemana(dataStr){
-  const d=soData(dataStr);
-  const parts=d.split('-');
-  const dt=new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
-  return dt.getDay();
+  const d=soData(dataStr), parts=d.split('-');
+  return new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2])).getDay();
 }
 const getDiaHoje = () => DIAS_IDX[new Date().getDay()];
-const fmtMin = s => { if(s==null) return '—'; const m=Math.floor(s/60), se=s%60; return `${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`; };
-const fmtHMS = s => { const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), se=s%60; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`; };
+const fmtHMS = s => {
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), se=s%60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;
+};
+
+/* ★ diffSegundos: calcula diferença em segundos entre dois datetime-local strings */
+function diffSegundos(inicio, fim){
+  if(!inicio||!fim) return null;
+  try{
+    const d1=new Date(inicio.includes('T')?inicio:inicio+'T00:00');
+    const d2=new Date(fim.includes('T')?fim:fim+'T00:00');
+    const diff=Math.round((d2-d1)/1000);
+    return diff>=0?diff:0;
+  }catch(e){ return null; }
+}
+
 function diffDias(de, ate){
   if(!de||!ate) return null;
   const p1=soData(de).split('-'), p2=soData(ate).split('-');
-  const d1=new Date(parseInt(p1[0]), parseInt(p1[1])-1, parseInt(p1[2]));
-  const d2=new Date(parseInt(p2[0]), parseInt(p2[1])-1, parseInt(p2[2]));
+  const d1=new Date(parseInt(p1[0]),parseInt(p1[1])-1,parseInt(p1[2]));
+  const d2=new Date(parseInt(p2[0]),parseInt(p2[1])-1,parseInt(p2[2]));
   return Math.round((d2-d1)/(1000*60*60*24));
 }
 function getChaveSemana(){
-  const d=new Date(), tmp=new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const d=new Date(), tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
   tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
   const ano=tmp.getUTCFullYear(), sem=Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
   return `${ano}-W${String(sem).padStart(2,'0')}`;
 }
+
+/* ★ agoraLocalStr: usa o relógio do navegador (que segue o SO / Windows) */
 function agoraLocalStr(){
-  const n=new Date(), off=n.getTimezoneOffset()*60000;
-  return new Date(n-off).toISOString().slice(0,16);
+  const n=new Date();
+  const y=n.getFullYear();
+  const mo=String(n.getMonth()+1).padStart(2,'0');
+  const d=String(n.getDate()).padStart(2,'0');
+  const h=String(n.getHours()).padStart(2,'0');
+  const mi=String(n.getMinutes()).padStart(2,'0');
+  return `${y}-${mo}-${d}T${h}:${mi}`;
 }
 
 /* ══════════════════════════════════════════════════
@@ -959,8 +1014,7 @@ let confirmacoes = JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
    INJETAR FIXOS
 ══════════════════════════════════════════════════ */
 function getInicioSemana(offset=0){
-  const hoje=new Date();
-  const diaSemana=hoje.getDay();
+  const hoje=new Date(), diaSemana=hoje.getDay();
   const diff=diaSemana===0?-6:1-diaSemana;
   const seg=new Date(hoje);
   seg.setDate(hoje.getDate()+diff+(offset*7));
@@ -972,8 +1026,7 @@ function getDataDiaSemana(diaNome, offsetSemanas=0){
   const seg=getInicioSemana(offsetSemanas);
   const target=new Date(seg);
   target.setDate(seg.getDate()+offset);
-  const y=target.getFullYear(), m=String(target.getMonth()+1).padStart(2,'0'), d=String(target.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
+  return `${target.getFullYear()}-${String(target.getMonth()+1).padStart(2,'0')}-${String(target.getDate()).padStart(2,'0')}`;
 }
 function injetarFixosSemana(){
   FORNECEDORES_FIXOS.forEach(f=>{
@@ -1012,7 +1065,7 @@ function atualizarHeader(){
   document.getElementById('headerDate').innerHTML=
     n.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'<br>'+n.toLocaleTimeString('pt-BR');
 }
-setInterval(atualizarHeader, 1000); atualizarHeader();
+setInterval(atualizarHeader,1000); atualizarHeader();
 
 /* ══════════════════════════════════════════════════
    NAVEGAÇÃO
@@ -1209,6 +1262,12 @@ function renderAgend(lista){
   const tbody=document.getElementById('tbody-agend');
   const empty=document.getElementById('empty-agend');
 
+  // ★ Cards: Agendados Hoje + Via Nordil Hoje (sempre baseado em TODOS os agendamentos)
+  const hoje=getDataHoje();
+  const agHoje=agendamentos.filter(a=>soData(a.data)===hoje);
+  document.getElementById('a-hoje-count').textContent=agHoje.length;
+  document.getElementById('a-nordil-hoje-count').textContent=agHoje.filter(a=>a.viaNoRdil).length;
+
   document.getElementById('a-sku').textContent =dados.reduce((s,a)=>s+(a.skuEsp||0),0);
   document.getElementById('a-vol').textContent =dados.reduce((s,a)=>s+(a.volEsp||0),0);
   document.getElementById('a-peso').textContent=dados.reduce((s,a)=>s+(a.pesoEsp||0),0).toFixed(1)+' kg';
@@ -1222,7 +1281,8 @@ function renderAgend(lista){
 
   tbody.innerHTML=dados.map(a=>{
     const ri=agendamentos.indexOf(a);
-    const slaConf=a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
+    // ★ Tempo em minutos na tabela
+    const tempoMin=a.confSLA!=null?Math.round(a.confSLA/60)+' min':'—';
     const slaBemais=diffDias(a.data,a.dataLiberacao);
     const editBadge=a.editadoEm?'<span class="badge b-editado" style="margin-left:4px;">✏️</span>':'';
     const hasObs=a.confObs&&a.confObs.trim().length>0;
@@ -1239,10 +1299,12 @@ function renderAgend(lista){
       <td style="white-space:nowrap;">${badgeFlags(a)}</td>
       <td>${badgeNF(a.statusNF)}</td>
       <td>${badgeStatus(a.status)}${editBadge}</td>
-      <td>${slaConf}</td>
+      <td><strong>${tempoMin}</strong></td>
       <td onclick="event.stopPropagation()">
         <div style="display:flex;gap:4px;flex-wrap:nowrap;">
-          ${a.fixo?`<button class="btn-sm bsm-edit" title="Atualizar volumes" onclick="abrirModalFixo(${ri})">📦</button>`:`<button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>`}
+          ${a.fixo
+            ?`<button class="btn-sm bsm-edit" title="Atualizar volumes" onclick="abrirModalFixo(${ri})">📦</button>`
+            :`<button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>`}
           <button class="btn-sm bsm-del" onclick="excluirAgend(${ri})">🗑️</button>
           <button class="btn-sm bsm-obs" title="${hasObs?'Ver ocorrências':'Sem ocorrências'}" onclick="abrirPopupObs(${ri})" ${hasObs?'':'style="opacity:.4"'}>💬</button>
         </div>
@@ -1278,19 +1340,19 @@ function filtrarAgend(){
   const rea =document.getElementById('f-reagend').value;
   const f   =document.getElementById('f-fornec').value;
   renderAgend(agendamentos.filter(a=>{
-    if(de  && soData(a.data)<de)             return false;
-    if(ate && soData(a.data)>ate)            return false;
-    if(ds  && soData(a.dataSolic)!==ds)      return false;
-    if(dl  && soData(a.dataLiberacao)!==dl)  return false;
-    if(s   && a.status!==s)                  return false;
-    if(nf  && a.statusNF!==nf)              return false;
-    if(nrd==='sim'&&!a.viaNoRdil)            return false;
-    if(nrd==='nao'&& a.viaNoRdil)            return false;
-    if(enc==='sim'&&!a.encaixe)              return false;
-    if(enc==='nao'&& a.encaixe)              return false;
-    if(rea==='sim'&&!a.reagendado)           return false;
-    if(rea==='nao'&& a.reagendado)           return false;
-    if(f   && a.fornec!==f)                  return false;
+    if(de  && soData(a.data)<de)            return false;
+    if(ate && soData(a.data)>ate)           return false;
+    if(ds  && soData(a.dataSolic)!==ds)     return false;
+    if(dl  && soData(a.dataLiberacao)!==dl) return false;
+    if(s   && a.status!==s)                 return false;
+    if(nf  && a.statusNF!==nf)             return false;
+    if(nrd==='sim'&&!a.viaNoRdil)           return false;
+    if(nrd==='nao'&& a.viaNoRdil)           return false;
+    if(enc==='sim'&&!a.encaixe)             return false;
+    if(enc==='nao'&& a.encaixe)             return false;
+    if(rea==='sim'&&!a.reagendado)          return false;
+    if(rea==='nao'&& a.reagendado)          return false;
+    if(f   && a.fornec!==f)                 return false;
     return true;
   }));
 }
@@ -1381,8 +1443,9 @@ function renderDashboard(){
   const pend  =dados.filter(a=>a.status==='Pendente').length;
   const total =dados.length;
 
+  // ★ confSLA em segundos → converter para minutos na exibição
   const slaLista=dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
-  const slaMed  =slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
+  const slaMedSeg=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
   const slaBemaLista=dados.filter(a=>a.data&&a.dataLiberacao).map(a=>diffDias(a.data,a.dataLiberacao)).filter(v=>v!==null);
   const slaBemaMed  =slaBemaLista.length?Math.round(slaBemaLista.reduce((s,v)=>s+v,0)/slaBemaLista.length):null;
 
@@ -1393,7 +1456,7 @@ function renderDashboard(){
   document.getElementById('d-aguardando').textContent=agua;
   document.getElementById('d-atrasados').textContent =atr;
   document.getElementById('d-pendentes').textContent =pend;
-  document.getElementById('d-sla').textContent       =slaMed!=null?fmtMin(slaMed)+' min':'—';
+  document.getElementById('d-sla').textContent       =slaMedSeg!=null?Math.round(slaMedSeg/60)+' min':'—';
   document.getElementById('d-sla-bemais').textContent=slaBemaMed!=null?slaBemaMed+'d':'—';
 
   const dadosConf=dados.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
@@ -1478,8 +1541,36 @@ function renderDashboard(){
 }
 
 /* ══════════════════════════════════════════════════
+   CONFERÊNCIA — TIMER (baseado em diffSegundos)
+══════════════════════════════════════════════════ */
+let timerInterval=null;
+
+function iniciarTimer(idx){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+  timerInterval=setInterval(()=>{
+    const a=agendamentos[idx];
+    if(!a||!a.confInicio) return;
+    const agora=agoraLocalStr();
+    const seg=diffSegundos(a.confInicio, agora);
+    document.getElementById('c-timer').textContent=fmtHMS(seg!=null?seg:0);
+  },1000);
+}
+
+/* Recalcula duração ao editar manualmente os campos datetime */
+function recalcularDuracao(){
+  const ini=document.getElementById('c-tempo-inicio').value;
+  const fim=document.getElementById('c-tempo-fim').value;
+  if(ini&&fim){
+    const seg=diffSegundos(ini,fim);
+    document.getElementById('c-timer').textContent=seg!=null?fmtHMS(seg):'00:00:00';
+  }
+}
+
+/* ══════════════════════════════════════════════════
    CONFERÊNCIA — LISTA
 ══════════════════════════════════════════════════ */
+let confIdx=-1, confAtiva=false, edicaoAtiva=false;
+
 function renderConfLista(){
   const de =document.getElementById('cf-data-de').value;
   const ate=document.getElementById('cf-data-ate').value;
@@ -1494,21 +1585,44 @@ function renderConfLista(){
     if(f   && a.fornec!==f)             return false;
     return true;
   });
+
+  // ★ Barra de cargas em andamento (iniciadas mas não finalizadas)
+  const emAndamento=agendamentos.filter(a=>a.confInicio&&!a.confFim);
+  const barEl=document.getElementById('cargas-ativas-bar');
+  const chipsEl=document.getElementById('cargas-ativas-chips');
+  if(emAndamento.length){
+    barEl.style.display='flex';
+    chipsEl.innerHTML=emAndamento.map(a=>{
+      const ri=agendamentos.indexOf(a);
+      const seg=diffSegundos(a.confInicio, agoraLocalStr());
+      const min=seg!=null?Math.floor(seg/60):0;
+      return `<span class="carga-chip" onclick="abrirConferencia(${ri})">
+        🔄 ${a.fornec||'—'} <span style="opacity:.7;font-size:11px;">(${min} min)</span>
+      </span>`;
+    }).join('');
+  }else{
+    barEl.style.display='none';
+  }
+
   const tbody=document.getElementById('conf-lista-tbody');
-    const empty=document.getElementById('conf-lista-empty');
+  const empty=document.getElementById('conf-lista-empty');
   if(!dados.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
+
   tbody.innerHTML=dados.map(a=>{
     const ri=agendamentos.indexOf(a);
+    const emAnd=!!(a.confInicio&&!a.confFim);
     return `<tr>
       <td><strong>${fmtData(a.dataSolic)}</strong></td>
       <td><strong>${fmtData(a.data)}</strong></td>
       <td>${a.nf||'—'}</td>
       <td>${a.fornec||'—'}</td>
       <td>${badgeFlags(a)}</td>
-      <td>${badgeStatus(a.status)}</td>
+      <td>${badgeStatus(a.status)}${emAnd?'<span class="badge b-iniciado" style="margin-left:4px;">🔄 Iniciado</span>':''}</td>
       <td onclick="event.stopPropagation()">
-        <button class="btn-sm bsm-edit" onclick="abrirConferencia(${ri})">🔍 Conferir</button>
+        <button class="btn-sm ${emAnd?'bsm-conf':'bsm-edit'}" onclick="abrirConferencia(${ri})">
+          ${emAnd?'🔄 Continuar':'🔍 Conferir'}
+        </button>
       </td>
     </tr>`;
   }).join('');
@@ -1517,90 +1631,121 @@ function renderConfLista(){
 /* ══════════════════════════════════════════════════
    CONFERÊNCIA — ACTIVE
 ══════════════════════════════════════════════════ */
-let confIdx=-1, timerInterval=null, timerSeg=0, confAtiva=false, edicaoAtiva=false;
-
 function abrirConferencia(idx){
   confIdx=idx;
   edicaoAtiva=false;
   const a=agendamentos[idx];
+
+  // Mudar para estado ativo
   document.getElementById('conf-select-state').style.display='none';
   document.getElementById('conf-active-state').style.display='block';
+
+  // Cabeçalho
   document.getElementById('c-fornec-title').textContent=a.fornec||'—';
   document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'} | Data: ${fmtData(a.data)}`;
+
+  // Comparativo
   document.getElementById('c-sku-esp').textContent=a.skuEsp||'—';
   document.getElementById('c-vol-esp').textContent=a.volEsp||'—';
   document.getElementById('c-peso-esp').textContent=a.pesoEsp?a.pesoEsp+' kg':'—';
   document.getElementById('c-sku-rec').value=a.skuRec!=null?a.skuRec:'';
   document.getElementById('c-vol-rec').value=a.volRec!=null?a.volRec:'';
   document.getElementById('c-peso-rec').value=a.pesoRec!=null?a.pesoRec:'';
-  document.getElementById('c-sku-rec').disabled=true;
-  document.getElementById('c-vol-rec').disabled=true;
-  document.getElementById('c-peso-rec').disabled=true;
   document.getElementById('c-conferente').value=a.confConfer||'';
   document.getElementById('c-ocorrencia').value=a.confObs||'';
-  document.getElementById('c-conferente').disabled=true;
-  document.getElementById('c-ocorrencia').disabled=true;
+
+  // ★ Campos de data/hora início e fim
+  document.getElementById('c-tempo-inicio').value=a.confInicio||'';
+  document.getElementById('c-tempo-fim').value=a.confFim||'';
+
+  // Reset timer
+  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+
+  const jaIniciado =!!(a.confInicio);
+  const jaFinalizado=!!(a.confFim);
+
+  if(jaFinalizado){
+    // — Já finalizado
+    const seg=diffSegundos(a.confInicio, a.confFim);
+    document.getElementById('c-timer').textContent=seg!=null?fmtHMS(seg):'00:00:00';
+    document.getElementById('c-tempo-inicio').disabled=true;
+    document.getElementById('c-tempo-fim').disabled=true;
+    _setInputsConf(true);
+    document.getElementById('btn-iniciar-conf').style.display='none';
+    document.getElementById('section-finalizar').style.display='none';
+    document.getElementById('btn-editar-conf').style.display='inline-flex';
+    document.getElementById('btn-salvar-edicao').style.display='none';
+    mostrarResultado(a);
+    document.getElementById('conf-resultado').style.display='block';
+    confAtiva=false;
+
+  }else if(jaIniciado){
+    // — Em andamento: continuar timer
+    document.getElementById('c-tempo-inicio').disabled=false;
+    document.getElementById('c-tempo-fim').disabled=false;
+    _setInputsConf(false);
+    document.getElementById('btn-iniciar-conf').style.display='none';
+    document.getElementById('section-finalizar').style.display='block';
+    document.getElementById('btn-editar-conf').style.display='none';
+    document.getElementById('btn-salvar-edicao').style.display='none';
+    document.getElementById('conf-resultado').style.display='none';
+    iniciarTimer(idx);
+    confAtiva=true;
+
+  }else{
+    // — Não iniciado
+    document.getElementById('c-timer').textContent='00:00:00';
+    document.getElementById('c-tempo-inicio').disabled=false;
+    document.getElementById('c-tempo-fim').disabled=true;
+    _setInputsConf(true);
+    document.getElementById('btn-iniciar-conf').style.display='inline-flex';
+    document.getElementById('section-finalizar').style.display='none';
+    document.getElementById('btn-editar-conf').style.display='none';
+    document.getElementById('btn-salvar-edicao').style.display='none';
+    document.getElementById('conf-resultado').style.display='none';
+    confAtiva=false;
+  }
+
+  // Aviso obrigatório oculto
+  document.getElementById('aviso-obrig').style.display='none';
+
   calcDiverg();
   atualizarMetaConf(a);
   atualizarStatusConfGrid(a.status);
 
-  const jaIniciado=a.confInicio!=null;
-  const jaFinalizado=a.confFim!=null;
-
-  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-  timerSeg=a.confSLA!=null?a.confSLA:0;
-  document.getElementById('c-timer').textContent=fmtHMS(timerSeg);
-
-  if(jaFinalizado){
-    document.getElementById('btn-iniciar-conf').style.display='none';
-    document.getElementById('btn-finalizar-conf').style.display='none';
-    document.getElementById('btn-editar-conf').style.display='inline-flex';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    mostrarResultado(a);
-    confAtiva=false;
-  } else if(jaIniciado){
-    document.getElementById('btn-iniciar-conf').style.display='none';
-    document.getElementById('btn-finalizar-conf').style.display='inline-flex';
-    document.getElementById('btn-editar-conf').style.display='none';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    document.getElementById('c-sku-rec').disabled=false;
-    document.getElementById('c-vol-rec').disabled=false;
-    document.getElementById('c-peso-rec').disabled=false;
-    document.getElementById('c-conferente').disabled=false;
-    document.getElementById('c-ocorrencia').disabled=false;
-    confAtiva=true;
-    timerInterval=setInterval(()=>{
-      timerSeg++;
-      document.getElementById('c-timer').textContent=fmtHMS(timerSeg);
-    },1000);
-  } else {
-    document.getElementById('btn-iniciar-conf').style.display='inline-flex';
-    document.getElementById('btn-finalizar-conf').style.display='none';
-    document.getElementById('btn-editar-conf').style.display='none';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    confAtiva=false;
-  }
-
+  // Edit banner
   const editBanner=document.getElementById('edit-banner');
   if(a.editadoEm){
     editBanner.style.display='flex';
     document.getElementById('edit-banner-time').textContent='Editado em: '+fmtData(a.editadoEm);
-  } else {
+  }else{
     editBanner.style.display='none';
   }
+}
 
-  document.getElementById('conf-resultado').style.display=jaFinalizado?'block':'none';
+/* Helper: habilita/desabilita inputs de conferência */
+function _setInputsConf(disabled){
+  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>{
+    document.getElementById(id).disabled=disabled;
+  });
 }
 
 function atualizarMetaConf(a){
   document.getElementById('c-inicio-label').textContent=a.confInicio?fmtData(a.confInicio):'—';
   document.getElementById('c-fim-label').textContent=a.confFim?fmtData(a.confFim):'—';
-  document.getElementById('c-dur-label').textContent=a.confSLA!=null?fmtMin(a.confSLA)+' min':'—';
+  if(a.confSLA!=null){
+    document.getElementById('c-dur-label').textContent=Math.round(a.confSLA/60)+' min';
+  }else if(a.confInicio&&a.confFim){
+    const seg=diffSegundos(a.confInicio,a.confFim);
+    document.getElementById('c-dur-label').textContent=seg!=null?Math.round(seg/60)+' min':'—';
+  }else{
+    document.getElementById('c-dur-label').textContent='—';
+  }
   if(a.data){
     const hoje=getDataHoje(), dataAg=soData(a.data);
     document.getElementById('c-pont-label').textContent=
       dataAg===hoje?'✅ No prazo':dataAg<hoje?'⚠️ Atrasado':'📅 Antecipado';
-  } else {
+  }else{
     document.getElementById('c-pont-label').textContent='—';
   }
 }
@@ -1608,9 +1753,7 @@ function atualizarMetaConf(a){
 function atualizarStatusConfGrid(status){
   document.querySelectorAll('.sc-opt').forEach(el=>{
     el.className='sc-opt';
-    if(el.dataset.val===status){
-      el.classList.add(STATUS_CONF_CLASS[status]||'sel-aguard');
-    }
+    if(el.dataset.val===status) el.classList.add(STATUS_CONF_CLASS[status]||'sel-aguard');
   });
 }
 
@@ -1621,69 +1764,101 @@ function selecionarStatusConf(val){
   save();
 }
 
+/* ★ INICIAR CONFERÊNCIA — registra horário atual do sistema */
 function iniciarConferencia(){
   if(confIdx<0) return;
   const a=agendamentos[confIdx];
-  const agora=agoraLocalStr();
+  const agora=agoraLocalStr();   // horário do Windows/navegador
   a.confInicio=agora;
   a.status='Em Conferência';
-  timerSeg=0;
-  document.getElementById('c-timer').textContent=fmtHMS(0);
-  if(timerInterval){ clearInterval(timerInterval); }
-  timerInterval=setInterval(()=>{
-    timerSeg++;
-    document.getElementById('c-timer').textContent=fmtHMS(timerSeg);
-  },1000);
+
+  document.getElementById('c-tempo-inicio').value=agora;
+  document.getElementById('c-tempo-inicio').disabled=false;
+  document.getElementById('c-tempo-fim').disabled=false;
+
+  _setInputsConf(false);
   document.getElementById('btn-iniciar-conf').style.display='none';
-  document.getElementById('btn-finalizar-conf').style.display='inline-flex';
-  document.getElementById('c-sku-rec').disabled=false;
-  document.getElementById('c-vol-rec').disabled=false;
-  document.getElementById('c-peso-rec').disabled=false;
-  document.getElementById('c-conferente').disabled=false;
-  document.getElementById('c-ocorrencia').disabled=false;
+  document.getElementById('section-finalizar').style.display='block';
+  document.getElementById('conf-resultado').style.display='none';
+  document.getElementById('aviso-obrig').style.display='none';
+
   atualizarStatusConfGrid('Em Conferência');
   atualizarMetaConf(a);
+  iniciarTimer(confIdx);
   save();
+  renderConfLista(); // atualiza chips da barra de andamento
   confAtiva=true;
 }
 
+/* ★ FINALIZAR CARGA — validação obrigatória: conferente + fim */
 function finalizarConferencia(){
   if(confIdx<0) return;
   const a=agendamentos[confIdx];
-  const agora=agoraLocalStr();
-  a.confFim=agora;
-  a.confSLA=timerSeg;
+  const conferente=document.getElementById('c-conferente').value.trim();
+  let fimVal=document.getElementById('c-tempo-fim').value;
+
+  // Se fim não preenchido, auto-preenche com agora
+  if(!fimVal){
+    fimVal=agoraLocalStr();
+    document.getElementById('c-tempo-fim').value=fimVal;
+  }
+
+  // Conferente é obrigatório
+  if(!conferente){
+    document.getElementById('aviso-obrig').style.display='flex';
+    document.getElementById('c-conferente').focus();
+    return;
+  }
+  document.getElementById('aviso-obrig').style.display='none';
+
+  const inicioVal=document.getElementById('c-tempo-inicio').value||a.confInicio;
+
+  a.confInicio=inicioVal;
+  a.confFim   =fimVal;
+
+  // ★ SLA em SEGUNDOS (calculado pela diferença real dos campos)
+  const seg=diffSegundos(inicioVal, fimVal);
+  a.confSLA=seg!=null?seg:0;
+
+  // Parar timer e exibir tempo final
   if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-  a.skuRec =parseFloat(document.getElementById('c-sku-rec').value)||null;
-  a.volRec =parseFloat(document.getElementById('c-vol-rec').value)||null;
-  a.pesoRec=parseFloat(document.getElementById('c-peso-rec').value)||null;
-  a.confConfer=document.getElementById('c-conferente').value.trim();
+  document.getElementById('c-timer').textContent=fmtHMS(a.confSLA);
+
+  a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
+  a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
+  a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
+  a.confConfer=conferente;
   a.confObs   =document.getElementById('c-ocorrencia').value.trim();
+
   if(a.status==='Em Conferência') a.status='Concluído OK';
-  document.getElementById('btn-finalizar-conf').style.display='none';
+
+  // Desabilitar campos
+  document.getElementById('c-tempo-inicio').disabled=true;
+  document.getElementById('c-tempo-fim').disabled=true;
+  _setInputsConf(true);
+
+  document.getElementById('section-finalizar').style.display='none';
   document.getElementById('btn-editar-conf').style.display='inline-flex';
-  document.getElementById('c-sku-rec').disabled=true;
-  document.getElementById('c-vol-rec').disabled=true;
-  document.getElementById('c-peso-rec').disabled=true;
-  document.getElementById('c-conferente').disabled=true;
-  document.getElementById('c-ocorrencia').disabled=true;
+  document.getElementById('btn-salvar-edicao').style.display='none';
+
   atualizarStatusConfGrid(a.status);
   atualizarMetaConf(a);
+  calcDiverg();
   mostrarResultado(a);
   document.getElementById('conf-resultado').style.display='block';
+
   confAtiva=false;
   edicaoAtiva=false;
   save();
+  renderConfLista();
 }
 
 function habilitarEdicao(){
   if(confIdx<0) return;
   edicaoAtiva=true;
-  document.getElementById('c-sku-rec').disabled=false;
-  document.getElementById('c-vol-rec').disabled=false;
-  document.getElementById('c-peso-rec').disabled=false;
-  document.getElementById('c-conferente').disabled=false;
-  document.getElementById('c-ocorrencia').disabled=false;
+  document.getElementById('c-tempo-inicio').disabled=false;
+  document.getElementById('c-tempo-fim').disabled=false;
+  _setInputsConf(false);
   document.getElementById('btn-editar-conf').style.display='none';
   document.getElementById('btn-salvar-edicao').style.display='inline-flex';
 }
@@ -1691,22 +1866,39 @@ function habilitarEdicao(){
 function salvarEdicao(){
   if(confIdx<0) return;
   const a=agendamentos[confIdx];
-  a.skuRec =parseFloat(document.getElementById('c-sku-rec').value)||null;
-  a.volRec =parseFloat(document.getElementById('c-vol-rec').value)||null;
-  a.pesoRec=parseFloat(document.getElementById('c-peso-rec').value)||null;
+  const inicioVal=document.getElementById('c-tempo-inicio').value;
+  const fimVal   =document.getElementById('c-tempo-fim').value;
+
+  if(inicioVal) a.confInicio=inicioVal;
+  if(fimVal)    a.confFim   =fimVal;
+
+  // Recalcular SLA em segundos
+  if(a.confInicio&&a.confFim){
+    const seg=diffSegundos(a.confInicio,a.confFim);
+    if(seg!=null){
+      a.confSLA=seg;
+      document.getElementById('c-timer').textContent=fmtHMS(seg);
+    }
+  }
+
+  a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
+  a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
+  a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
   a.confConfer=document.getElementById('c-conferente').value.trim();
   a.confObs   =document.getElementById('c-ocorrencia').value.trim();
   a.editadoEm =agoraLocalStr();
-  document.getElementById('c-sku-rec').disabled=true;
-  document.getElementById('c-vol-rec').disabled=true;
-  document.getElementById('c-peso-rec').disabled=true;
-  document.getElementById('c-conferente').disabled=true;
-  document.getElementById('c-ocorrencia').disabled=true;
+
+  document.getElementById('c-tempo-inicio').disabled=true;
+  document.getElementById('c-tempo-fim').disabled=true;
+  _setInputsConf(true);
   document.getElementById('btn-salvar-edicao').style.display='none';
   document.getElementById('btn-editar-conf').style.display='inline-flex';
+
   const editBanner=document.getElementById('edit-banner');
   editBanner.style.display='flex';
   document.getElementById('edit-banner-time').textContent='Editado em: '+fmtData(a.editadoEm);
+
+  atualizarMetaConf(a);
   calcDiverg();
   mostrarResultado(a);
   edicaoAtiva=false;
@@ -1722,17 +1914,20 @@ function mostrarResultado(a){
     document.getElementById('c-res-icon').textContent='🔔';
     document.getElementById('c-res-title').textContent='Conferência com Pendência';
     document.getElementById('c-res-sub').textContent='Verifique as observações e resolva as pendências.';
-  } else if(temDiv){
+  }else if(temDiv){
     box.className='resultado-box div';
     document.getElementById('c-res-icon').textContent='⚠️';
     document.getElementById('c-res-title').textContent='Divergência encontrada';
     document.getElementById('c-res-sub').textContent='Os volumes recebidos diferem dos agendados.';
-  } else {
+  }else{
     box.className='resultado-box ok';
     document.getElementById('c-res-icon').textContent='✅';
     document.getElementById('c-res-title').textContent='Conferência OK — Sem divergências';
     document.getElementById('c-res-sub').textContent='Todos os volumes conferem com o agendamento.';
   }
+  // ★ Exibe tempo de recebimento em minutos
+  const minutos=a.confSLA!=null?Math.round(a.confSLA/60):0;
+  document.getElementById('c-tempo-rec-final').textContent=minutos;
 }
 
 function calcDiverg(){
@@ -1742,20 +1937,14 @@ function calcDiverg(){
     {esp:'c-peso-esp',rec:'c-peso-rec',div:'c-peso-div',peso:true},
   ];
   campos.forEach(({esp,rec,div,peso})=>{
-    const espTxt=document.getElementById(esp).textContent.replace(' kg','').trim();
-    const espVal=parseFloat(espTxt)||0;
+    const espVal=parseFloat(document.getElementById(esp).textContent.replace(' kg','').trim())||0;
     const recVal=parseFloat(document.getElementById(rec).value)||0;
     const divEl=document.getElementById(div);
     if(!document.getElementById(rec).value){ divEl.textContent='—'; divEl.className=''; return; }
-    const diff=recVal-espVal;
-    const suf=peso?' kg':'';
-    if(diff===0){
-      divEl.innerHTML='<span class="v-ok">✅ OK</span>';
-    } else if(diff>0){
-      divEl.innerHTML=`<span class="v-div">▲ +${diff.toFixed(peso?1:0)}${suf}</span>`;
-    } else {
-      divEl.innerHTML=`<span class="v-div">▼ ${diff.toFixed(peso?1:0)}${suf}</span>`;
-    }
+    const diff=recVal-espVal, suf=peso?' kg':'';
+    if(diff===0)    divEl.innerHTML='<span class="v-ok">✅ OK</span>';
+    else if(diff>0) divEl.innerHTML=`<span class="v-div">▲ +${diff.toFixed(peso?1:0)}${suf}</span>`;
+    else            divEl.innerHTML=`<span class="v-div">▼ ${diff.toFixed(peso?1:0)}${suf}</span>`;
   });
 }
 
@@ -1773,7 +1962,6 @@ function voltarListaConf(){
 function getKeyFixo(dia, codigo){ return `${getChaveSemana()}-${dia}-${codigo}`; }
 
 function renderFornecedores(){
-  const semana=getChaveSemana();
   const diasOrdem=['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
   const container=document.getElementById('fornec-fixos-container');
   container.innerHTML='';
@@ -1815,14 +2003,8 @@ function renderFornecedores(){
   });
 }
 
-function toggleConf(key, val, dia){
-  confirmacoes[key]=confirmacoes[key]===val?'':val;
-  saveConf(); renderFornecedores(); renderDashboard();
-}
-function resetConf(key, dia){
-  delete confirmacoes[key];
-  saveConf(); renderFornecedores(); renderDashboard();
-}
+function toggleConf(key,val){ confirmacoes[key]=confirmacoes[key]===val?'':val; saveConf(); renderFornecedores(); renderDashboard(); }
+function resetConf(key)      { delete confirmacoes[key];                        saveConf(); renderFornecedores(); renderDashboard(); }
 
 /* ══════════════════════════════════════════════════
    ACOMPANHAMENTO
@@ -1849,7 +2031,7 @@ function renderAcompanhamento(){
         </div>
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
           ${badgeStatus(a.status)}
-          ${a.confSLA!=null?`<span class="tag">⏱️ ${fmtMin(a.confSLA)} min</span>`:''}
+          ${a.confSLA!=null?`<span class="tag">⏱️ ${Math.round(a.confSLA/60)} min</span>`:''}
         </div>
       </div>`).join('');
 
@@ -1860,13 +2042,8 @@ function renderAcompanhamento(){
 }
 
 function gerarLinkAcomp(){
-  const hoje=getDataHoje();
-  const url=`${location.origin}${location.pathname}?data=${hoje}`;
-  navigator.clipboard.writeText(url).then(()=>{
-    showSync('Link copiado ✓', false);
-  }).catch(()=>{
-    prompt('Copie o link abaixo:', url);
-  });
+  const url=`${location.origin}${location.pathname}?data=${getDataHoje()}`;
+  navigator.clipboard.writeText(url).then(()=>showSync('Link copiado ✓',false)).catch(()=>prompt('Copie o link:',url));
 }
 
 /* ══════════════════════════════════════════════════
@@ -1878,41 +2055,38 @@ function exportarPDF(){
   const dados=getDadosDashFiltrado();
   const mes=document.getElementById('df-mes').value||getDataHoje().substring(0,7);
 
-  doc.setFillColor(26,26,26);
-  doc.rect(0,0,297,22,'F');
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(14); doc.setFont(undefined,'bold');
+  doc.setFillColor(26,26,26); doc.rect(0,0,297,22,'F');
+  doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont(undefined,'bold');
   doc.text('Recebimento-BM — Relatório de Agendamentos',14,14);
   doc.setFontSize(10); doc.setFont(undefined,'normal');
   doc.text(`Mês: ${mes} | Gerado em: ${new Date().toLocaleString('pt-BR')}`,14,20);
 
-  const total =dados.length;
-  const conc  =dados.filter(a=>a.status==='Concluído OK').length;
-  const atr   =dados.filter(a=>a.status==='Atrasado').length;
-  const pend  =dados.filter(a=>a.status==='Pendente').length;
-  const slaL  =dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
+  const total=dados.length;
+  const conc =dados.filter(a=>a.status==='Concluído OK').length;
+  const atr  =dados.filter(a=>a.status==='Atrasado').length;
+  const pend =dados.filter(a=>a.status==='Pendente').length;
+  const slaL =dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
   const slaMed=slaL.length?Math.round(slaL.reduce((s,v)=>s+v,0)/slaL.length):null;
 
   doc.setTextColor(26,26,26); doc.setFontSize(10); doc.setFont(undefined,'bold');
-  doc.text(`Total: ${total}  |  Concluídos: ${conc}  |  Atrasados: ${atr}  |  Pendentes: ${pend}  |  SLA médio: ${slaMed!=null?fmtMin(slaMed)+' min':'—'}`,14,30);
+  doc.text(`Total: ${total}  |  Concluídos: ${conc}  |  Atrasados: ${atr}  |  Pendentes: ${pend}  |  Tempo médio: ${slaMed!=null?Math.round(slaMed/60)+' min':'—'}`,14,30);
 
   doc.autoTable({
     startY:36,
-    head:[['Dt. Solicit.','Dt. Agendada','Dt. Lib.','NF','Fornecedor','SKU Esp.','Vol. Esp.','Peso Esp.','Status NF','Status Conf.','SLA Conf.']],
+    head:[['Dt. Solicit.','Dt. Agendada','Dt. Lib.','NF','Fornecedor','SKU Esp.','Vol. Esp.','Peso Esp.','Status NF','Status Conf.','Tempo Rec. (min)']],
     body:dados.map(a=>[
       fmtData(a.dataSolic),fmtData(a.data),a.dataLiberacao?fmtData(a.dataLiberacao):'—',
       a.nf||'—',a.fornec||'—',
       a.skuEsp||'—',a.volEsp||'—',a.pesoEsp?a.pesoEsp+' kg':'—',
       a.statusNF||'—',a.status||'—',
-      a.confSLA!=null?fmtMin(a.confSLA)+' min':'—',
+      a.confSLA!=null?Math.round(a.confSLA/60)+' min':'—',
     ]),
     styles:{fontSize:8,cellPadding:3,overflow:'linebreak'},
     headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold',fontSize:8},
     alternateRowStyles:{fillColor:[248,249,250]},
-    columnStyles:{4:{cellWidth:40},10:{cellWidth:20}},
+    columnStyles:{4:{cellWidth:40},10:{cellWidth:22}},
     margin:{left:14,right:14},
   });
-
   doc.save(`recebimento-bm-${mes}.pdf`);
 }
 
@@ -1929,7 +2103,7 @@ function init(){
   atualizarFiltrosConf();
   renderDashboard();
 
-  // Verifica se veio com o parâmetro ?data= na URL
+  // Parâmetro ?data= na URL (acompanhamento externo)
   const _urlParams=new URLSearchParams(location.search);
   const _dataParam=_urlParams.get('data');
   if(_dataParam){
@@ -1943,7 +2117,7 @@ function init(){
       <div class="acomp-card"><div class="av" style="color:#16a34a;">${_recebidos.length}</div><div class="al">✅ Recebidos</div></div>
       <div class="acomp-card"><div class="av" style="color:#dc2626;">${_pendentes.length}</div><div class="al">⏳ Pendentes</div></div>
       <div class="acomp-card"><div class="av" style="color:#7c3aed;">${_agDia.filter(a=>a.viaNoRdil).length}</div><div class="al">🔀 Via Nordil</div></div>`;
-    const _listaHtml=(arr,empty)=>!arr.length
+    const _lHtml=(arr,empty)=>!arr.length
       ?`<div class="acomp-row"><span style="color:var(--text3);font-size:13px;">${empty}</span></div>`
       :arr.map(a=>`<div class="acomp-row">
           <div class="acomp-row-info">
@@ -1952,21 +2126,28 @@ function init(){
           </div>
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
             ${badgeStatus(a.status)}
-            ${a.confSLA!=null?`<span class="tag">⏱️ ${fmtMin(a.confSLA)} min</span>`:''}
+            ${a.confSLA!=null?`<span class="tag">⏱️ ${Math.round(a.confSLA/60)} min</span>`:''}
           </div>
         </div>`).join('');
-    document.getElementById('acomp-hoje-list').innerHTML    =_listaHtml(_agDia,    'Nenhum agendamento nesta data.');
-    document.getElementById('acomp-recebidos-list').innerHTML=_listaHtml(_recebidos,'Nenhum recebimento concluído.');
-    document.getElementById('acomp-pendentes-list').innerHTML=_listaHtml(_pendentes,'Sem pendências.');
+    document.getElementById('acomp-hoje-list').innerHTML    =_lHtml(_agDia,    'Nenhum agendamento nesta data.');
+    document.getElementById('acomp-recebidos-list').innerHTML=_lHtml(_recebidos,'Nenhum recebimento concluído.');
+    document.getElementById('acomp-pendentes-list').innerHTML=_lHtml(_pendentes,'Sem pendências.');
     document.getElementById('acomp-update-time').textContent='Última atualização: '+new Date().toLocaleTimeString('pt-BR');
   }
 
   carregarDoSheets();
-  setInterval(()=>{ atualizarStatusAgendamentos(); renderDashboard(); }, 60000);
+  // Atualiza status e chips da barra a cada 60s
+  setInterval(()=>{
+    atualizarStatusAgendamentos();
+    renderDashboard();
+    const confEl=document.getElementById('tela-conferencia');
+    if(confEl&&confEl.classList.contains('active')&&document.getElementById('conf-select-state').style.display!=='none'){
+      renderConfLista();
+    }
+  }, 60000);
 }
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
-
