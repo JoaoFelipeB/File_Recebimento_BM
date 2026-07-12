@@ -220,7 +220,6 @@ tbody td{padding:11px 14px;color:var(--text);}
 .comp-table input[type="number"]{background:#f8f9fa;border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:14px;font-weight:700;width:100px;font-family:inherit;}
 .comp-table input[type="number"]:focus{outline:none;border-color:#1a1a1a;background:#fff;}
 .comp-table input[type="number"]:disabled{background:#f3f4f6;color:#9ca3af;}
-/* ── Tempo da conferência ── */
 .conf-tempo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .conf-tempo-item{display:flex;flex-direction:column;gap:5px;}
 .conf-tempo-item label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
@@ -230,17 +229,14 @@ tbody td{padding:11px 14px;color:var(--text);}
 .conf-tempo-dur{background:#f8f9fa;border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .conf-tempo-dur-lbl{font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;margin-bottom:2px;}
 .conf-tempo-dur-val{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:2px;font-variant-numeric:tabular-nums;}
-/* ── Cargas em andamento ── */
 .cargas-ativas-bar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .cargas-ativas-title{font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;}
 .carga-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #93c5fd;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:#1d4ed8;cursor:pointer;transition:all .2s;}
 .carga-chip:hover{background:#1d4ed8;color:#fff;}
 .carga-chip-dot{width:7px;height:7px;border-radius:50%;background:#1d4ed8;animation:pulse .8s infinite;flex-shrink:0;}
-/* ── Finalizar carga ── */
 .btn-finalizar-carga{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;font-family:inherit;}
 .btn-finalizar-carga:hover{background:#15803d;transform:translateY(-1px);box-shadow:0 4px 12px rgba(22,163,74,.3);}
 .aviso-obrig{background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400e;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-/* ── Resultado ── */
 .resultado-box{border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .resultado-box.ok  {background:#dcfce7;border:1px solid #86efac;}
 .resultado-box.div {background:#fef3c7;border:1px solid #fcd34d;}
@@ -264,11 +260,32 @@ tbody td{padding:11px 14px;color:var(--text);}
 .mc .ml{font-size:11px;color:var(--text3);text-transform:uppercase;font-weight:700;margin-top:3px;}
 .dash-section-title{font-size:13px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin:18px 0 10px;display:flex;align-items:center;gap:8px;}
 .dash-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+/* ── #2 Login ── */
+.login-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+.login-overlay.open{display:flex;}
+.login-box{background:#fff;border-radius:16px;padding:32px;width:90%;max-width:400px;box-shadow:var(--shadow-md);border:1px solid var(--border);text-align:center;}
+.login-logo{width:56px;height:56px;background:#1a1a1a;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#fff;margin:0 auto 16px;}
+.login-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--text3);margin-bottom:24px;}
+.login-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;}
+.login-item{padding:12px 16px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;text-align:left;background:#f8f9fa;font-size:14px;font-weight:700;color:var(--text);}
+.login-item:hover{border-color:#1a1a1a;background:#fff;}
+.login-item.sel{border-color:#16a34a;background:#dcfce7;color:#15803d;}
+/* ── Sync bar ── */
 .sync-bar{position:fixed;bottom:16px;right:16px;background:#1a1a1a;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
 .sync-bar.show{opacity:1;}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;}
 .sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+/* ── Notificação de atraso ── */
+.notif-banner{position:fixed;top:70px;right:16px;z-index:1500;display:flex;flex-direction:column;gap:8px;max-width:320px;}
+.notif-item{background:#1a1a1a;color:#fff;border-radius:12px;padding:12px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-md);animation:slideIn .3s ease;}
+.notif-item.warn{background:#dc2626;}
+.notif-close{background:none;border:none;color:#fff;cursor:pointer;font-size:16px;margin-left:auto;opacity:.7;}
+.notif-close:hover{opacity:1;}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+/* ── Fila pendente badge ── */
+.fila-badge{position:fixed;bottom:16px;left:16px;background:#f59e0b;color:#fff;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:800;z-index:9998;display:none;align-items:center;gap:6px;}
+.fila-badge.show{display:flex;}
 .sla-bemais-box{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13px;margin-bottom:14px;}
 .sla-bemais-val{font-size:22px;font-weight:900;color:#16a34a;}
 .sla-bemais-lbl{font-size:11px;color:#15803d;font-weight:700;text-transform:uppercase;}
@@ -314,16 +331,34 @@ tbody td{padding:11px 14px;color:var(--text);}
 </style>
 </head>
 <body>
+<!-- ── LOGIN OVERLAY (#10) ── -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">BM</div>
+    <div class="login-title">Recebimento-BM</div>
+    <div class="login-sub">Selecione seu nome para continuar</div>
+    <div class="login-list" id="login-list"></div>
+  </div>
+</div>
+
+<!-- ── NOTIFICAÇÕES (#9) ── -->
+<div class="notif-banner" id="notif-banner"></div>
+
+<!-- ── FILA PENDENTE BADGE (#4) ── -->
+<div class="fila-badge" id="fila-badge">⏳ <span id="fila-count">0</span> pendente(s) na fila</div>
 
 <div class="header">
   <div class="header-left">
     <div class="header-logo">BM</div>
     <div>
       <div class="header-title">Recebimento-BM</div>
-      <div class="header-subtitle">Sistema de Controle de Recebimento</div>
+      <div class="header-subtitle" id="header-conferente-label">Sistema de Controle de Recebimento</div>
     </div>
   </div>
-  <div class="header-date" id="headerDate"></div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="header-date" id="headerDate"></div>
+    <button class="btn btn-outline" id="btn-trocar-conf" onclick="abrirLogin()" style="display:none;font-size:11px;padding:6px 12px;">👤 Trocar</button>
+  </div>
 </div>
 
 <div class="nav">
@@ -427,13 +462,10 @@ tbody td{padding:11px 14px;color:var(--text);}
 <!-- AGENDAMENTOS -->
 <div class="tela" id="tela-agendamentos">
   <div class="page-title">📋 Agendamentos</div>
-
-  <!-- ★ NOVOS CARDS: Agendados Hoje + Via Nordil Hoje -->
   <div class="cards-row" style="margin-bottom:14px;">
     <div class="card c-blue"><div class="card-icon">📅</div><div class="card-val" id="a-hoje-count">0</div><div class="card-lbl">Agendados Hoje</div></div>
     <div class="card c-purple"><div class="card-icon">🔀</div><div class="card-val" id="a-nordil-hoje-count">0</div><div class="card-lbl">Via Nordil Hoje</div></div>
   </div>
-
   <div class="metrics-row">
     <div class="mc"><div class="mv" id="a-sku">0</div><div class="ml">📦 SKUs Esperados</div></div>
     <div class="mc"><div class="mv" id="a-vol">0</div><div class="ml">📫 Volume Esperado</div></div>
@@ -524,18 +556,13 @@ tbody td{padding:11px 14px;color:var(--text);}
 <!-- CONFERÊNCIA -->
 <div class="tela" id="tela-conferencia">
   <div class="conf-page">
-
-    <!-- Lista de seleção -->
     <div id="conf-select-state">
       <div class="page-title">🔍 Conferência</div>
-
-      <!-- Barra de cargas em andamento -->
       <div class="cargas-ativas-bar" id="cargas-ativas-bar" style="display:none;">
         <div class="carga-chip-dot"></div>
         <span class="cargas-ativas-title">Em andamento:</span>
         <div id="cargas-ativas-chips" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
       </div>
-
       <div class="filtros">
         <div class="fg-f" style="min-width:160px;"><label>📅 Dt. Agendada (De)</label><input type="date" id="cf-data-de" onchange="renderConfLista()"></div>
         <div class="fg-f" style="min-width:160px;"><label>📅 Dt. Agendada (Até)</label><input type="date" id="cf-data-ate" onchange="renderConfLista()"></div>
@@ -561,7 +588,7 @@ tbody td{padding:11px 14px;color:var(--text);}
         <div class="table-header"><div class="table-title">📋 Selecione o Agendamento</div></div>
         <div style="overflow-x:auto;">
           <table>
-            <thead><tr><th>Dt. Solicitação</th><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th><th>Flags</th><th>Status</th><th>Ação</th></tr></thead>
+            <thead><tr><th>Dt. Solicitação</th><th>Dt. Agendada</th><th>NF</th><th>Fornecedor</th><th>Flags</th><th>Status</th><th>Detalhes</th><th>Conferir</th></tr></thead>
             <tbody id="conf-lista-tbody"></tbody>
           </table>
         </div>
@@ -571,7 +598,6 @@ tbody td{padding:11px 14px;color:var(--text);}
       </div>
     </div>
 
-    <!-- Estado ativo da conferência -->
     <div id="conf-active-state" style="display:none;">
       <div class="edit-banner" id="edit-banner" style="display:none;">
         <span class="eb-icon">✏️</span>
@@ -581,7 +607,6 @@ tbody td{padding:11px 14px;color:var(--text);}
         </div>
         <span class="badge b-editado">Editado</span>
       </div>
-
       <div class="conf-header-box">
         <h2 id="c-fornec-title">Fornecedor</h2>
         <p id="c-nf-title">NF: — | Data: —</p>
@@ -592,8 +617,6 @@ tbody td{padding:11px 14px;color:var(--text);}
           <div class="conf-meta-item"><span>Pontualidade</span><span id="c-pont-label">—</span></div>
         </div>
       </div>
-
-      <!-- ★ SEÇÃO DE TEMPO REFORMULADA -->
       <div class="conf-section">
         <div class="conf-section-title">⏱️ Tempo de Conferência</div>
         <div class="conf-tempo-grid">
@@ -619,7 +642,6 @@ tbody td{padding:11px 14px;color:var(--text);}
           </div>
         </div>
       </div>
-
       <div class="conf-section">
         <div class="conf-section-title">🚦 Alterar Status da Conferência</div>
         <div class="status-conf-grid" id="status-conf-grid">
@@ -631,7 +653,6 @@ tbody td{padding:11px 14px;color:var(--text);}
           <div class="sc-opt" data-val="Pendente"       onclick="selecionarStatusConf('Pendente')"><div class="sc-ico">🔔</div><div class="sc-lbl">Pendente</div></div>
         </div>
       </div>
-
       <div class="conf-section">
         <div class="conf-section-title">📊 Comparativo — Esperado vs. Recebido</div>
         <table class="comp-table">
@@ -643,7 +664,6 @@ tbody td{padding:11px 14px;color:var(--text);}
           </tbody>
         </table>
       </div>
-
       <div class="conf-section">
         <div class="conf-section-title">📝 Conferente & Observações</div>
         <div class="form-grid">
@@ -651,19 +671,16 @@ tbody td{padding:11px 14px;color:var(--text);}
           <div class="fg form-full"><label>📝 Ocorrências / Observações</label><textarea id="c-ocorrencia" placeholder="Descreva ocorrências, avarias, divergências..." disabled></textarea></div>
         </div>
       </div>
-
-      <!-- ★ SEÇÃO FINALIZAR CARGA -->
       <div class="conf-section" id="section-finalizar" style="display:none;">
         <div class="conf-section-title">🏁 Finalizar Carga</div>
         <div class="aviso-obrig" id="aviso-obrig" style="display:none;">
-          ⚠️ Preencha o <strong>Conferente</strong> e o <strong>Fim da Conferência</strong> antes de finalizar.
+          ⚠️ Preencha o <strong>Conferente</strong> antes de finalizar.
         </div>
         <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">
           Após finalizar, o tempo de recebimento (em minutos) será registrado e a carga concluída.
         </p>
         <button class="btn-finalizar-carga" onclick="finalizarConferencia()">✅ Finalizar Carga</button>
       </div>
-
       <div id="conf-resultado" style="display:none;" class="conf-section">
         <div class="conf-section-title">🏁 Resultado</div>
         <div class="resultado-box" id="conf-resultado-box">
@@ -797,251 +814,390 @@ tbody td{padding:11px 14px;color:var(--text);}
 const API_URL   = 'https://script.google.com/macros/s/AKfycbx-1oFAZZ2k-H6GE0oM1Pd2AQDn-KDJ0U_2Gz9jWI8VmPLBoq_zHYHHLF9VYSBHg9yd/exec';
 const ABA_AGEND = 'agendamentos';
 const ABA_CONF  = 'confirmacoes';
+const ABA_HIST  = 'historico';
 
-function showSync(msg, syncing=true){
-  const bar=document.getElementById('sync-bar'), dot=document.getElementById('sync-dot');
-  document.getElementById('sync-msg').textContent=msg;
-  dot.className='sync-dot'+(syncing?' syncing':'');
+/* ══════════════════════════════════════════════════
+   #10 — CONFERENTES / LOGIN
+══════════════════════════════════════════════════ */
+let conferenteAtivo  = localStorage.getItem('bm-conferente') || '';
+let listaConferentes = [];
+
+async function carregarConferentes() {
+  try {
+    const res  = await fetch(`${API_URL}?aba=conferentes`);
+    const json = await res.json();
+    if (json.ok && json.dados && json.dados.data && json.dados.data.length > 1) {
+      const [,...rows] = json.dados.data;
+      listaConferentes = rows.map(r => r[0]).filter(Boolean);
+    }
+  } catch(e) { listaConferentes = []; }
+  if (!conferenteAtivo) abrirLogin();
+  else aplicarConferente(conferenteAtivo);
+}
+
+function abrirLogin() {
+  const overlay = document.getElementById('login-overlay');
+  const lista   = document.getElementById('login-list');
+  overlay.classList.add('open');
+  if (!listaConferentes.length) {
+    lista.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <input type="text" id="login-manual-input"
+          style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;"
+          placeholder="Digite seu nome...">
+        <button class="btn btn-dark" onclick="confirmarLoginManual()">Confirmar →</button>
+      </div>`;
+    return;
+  }
+  lista.innerHTML = listaConferentes.map(n =>
+    `<div class="login-item${n === conferenteAtivo ? ' sel' : ''}" onclick="selecionarConferente('${n}')">${n}</div>`
+  ).join('');
+}
+
+function confirmarLoginManual() {
+  const v = document.getElementById('login-manual-input').value.trim();
+  if (!v) return;
+  selecionarConferente(v);
+}
+
+function selecionarConferente(nome) {
+  conferenteAtivo = nome;
+  localStorage.setItem('bm-conferente', nome);
+  document.getElementById('login-overlay').classList.remove('open');
+  aplicarConferente(nome);
+}
+
+function aplicarConferente(nome) {
+  document.getElementById('header-conferente-label').textContent = `👤 ${nome}`;
+  document.getElementById('btn-trocar-conf').style.display = 'inline-flex';
+  const inp = document.getElementById('c-conferente');
+  if (inp && !inp.value) inp.value = nome;
+}
+
+/* ══════════════════════════════════════════════════
+   SYNC BAR
+══════════════════════════════════════════════════ */
+function showSync(msg, syncing = true) {
+  const bar = document.getElementById('sync-bar');
+  const dot = document.getElementById('sync-dot');
+  document.getElementById('sync-msg').textContent = msg;
+  dot.className = 'sync-dot' + (syncing ? ' syncing' : '');
   bar.classList.add('show');
-  if(!syncing) setTimeout(()=>bar.classList.remove('show'), 2500);
+  if (!syncing) setTimeout(() => bar.classList.remove('show'), 2500);
 }
 
 /* ══════════════════════════════════════════════════
    UTILS
 ══════════════════════════════════════════════════ */
-function getDataHoje(){
-  const d=new Date();
+function getDataHoje() {
+  const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function soData(s){ if(!s) return ''; return s.split('T')[0]; }
-function fmtData(s){
-  if(!s||typeof s!=='string') return '—';
-  const raw=s.split('T');
-  const parts=raw[0].split('-');
-  if(parts.length!==3) return s;
-  const dataPart=`${parts[2]}/${parts[1]}/${parts[0]}`;
-  if(raw[1]){ return `${dataPart} ${raw[1].substring(0,5)}`; }
-  return dataPart;
+function soData(s)  { if (!s) return ''; return s.split('T')[0]; }
+function fmtData(s) {
+  if (!s || typeof s !== 'string') return '—';
+  const raw = s.split('T'), parts = raw[0].split('-');
+  if (parts.length !== 3) return s;
+  const dataPart = `${parts[2]}/${parts[1]}/${parts[0]}`;
+  return raw[1] ? `${dataPart} ${raw[1].substring(0,5)}` : dataPart;
 }
-function diaDaSemana(dataStr){
-  const d=soData(dataStr), parts=d.split('-');
+function diaDaSemana(dataStr) {
+  const d = soData(dataStr), parts = d.split('-');
   return new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2])).getDay();
 }
 const getDiaHoje = () => DIAS_IDX[new Date().getDay()];
 const fmtHMS = s => {
-  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), se=s%60;
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), se = s%60;
   return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(se).padStart(2,'0')}`;
 };
-
-/* ★ diffSegundos: calcula diferença em segundos entre dois datetime-local strings */
-function diffSegundos(inicio, fim){
-  if(!inicio||!fim) return null;
-  try{
-    const d1=new Date(inicio.includes('T')?inicio:inicio+'T00:00');
-    const d2=new Date(fim.includes('T')?fim:fim+'T00:00');
-    const diff=Math.round((d2-d1)/1000);
-    return diff>=0?diff:0;
-  }catch(e){ return null; }
+function diffSegundos(inicio, fim) {
+  if (!inicio || !fim) return null;
+  try {
+    const d1   = new Date(inicio.includes('T') ? inicio : inicio+'T00:00');
+    const d2   = new Date(fim.includes('T')    ? fim    : fim+'T00:00');
+    const diff = Math.round((d2-d1)/1000);
+    return diff >= 0 ? diff : 0;
+  } catch(e) { return null; }
 }
-
-function diffDias(de, ate){
-  if(!de||!ate) return null;
-  const p1=soData(de).split('-'), p2=soData(ate).split('-');
-  const d1=new Date(parseInt(p1[0]),parseInt(p1[1])-1,parseInt(p1[2]));
-  const d2=new Date(parseInt(p2[0]),parseInt(p2[1])-1,parseInt(p2[2]));
+function diffDias(de, ate) {
+  if (!de || !ate) return null;
+  const p1 = soData(de).split('-'), p2 = soData(ate).split('-');
+  const d1 = new Date(parseInt(p1[0]),parseInt(p1[1])-1,parseInt(p1[2]));
+  const d2 = new Date(parseInt(p2[0]),parseInt(p2[1])-1,parseInt(p2[2]));
   return Math.round((d2-d1)/(1000*60*60*24));
 }
-function getChaveSemana(){
-  const d=new Date(), tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+function getChaveSemana() {
+  const d   = new Date();
+  const tmp = new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
   tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
-  const ano=tmp.getUTCFullYear(), sem=Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
+  const ano = tmp.getUTCFullYear();
+  const sem = Math.ceil((((tmp-new Date(Date.UTC(ano,0,1)))/86400000)+1)/7);
   return `${ano}-W${String(sem).padStart(2,'0')}`;
 }
-
-/* ★ agoraLocalStr: usa o relógio do navegador (que segue o SO / Windows) */
-function agoraLocalStr(){
-  const n=new Date();
-  const y=n.getFullYear();
-  const mo=String(n.getMonth()+1).padStart(2,'0');
-  const d=String(n.getDate()).padStart(2,'0');
-  const h=String(n.getHours()).padStart(2,'0');
-  const mi=String(n.getMinutes()).padStart(2,'0');
-  return `${y}-${mo}-${d}T${h}:${mi}`;
+function agoraLocalStr() {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}T${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
 }
 
 /* ══════════════════════════════════════════════════
    CONSTANTES
 ══════════════════════════════════════════════════ */
-const FORNECEDORES_FIXOS=[
-  {nome:'AMBEV S.A -F. PARAIBA',           codigo:17,  dias:['SEGUNDA','SEXTA']},
-  {nome:'EBANO DISTRIBUIDORA DE ALIMENTOS', codigo:25,  dias:['SEGUNDA']},
-  {nome:'MULTIGIRO DISTRIBUIDORA LTDA',     codigo:118, dias:['SEGUNDA']},
-  {nome:'REFRESCOS GUARARAPES (SOLAR)',      codigo:166, dias:['SEGUNDA','TERCA']},
-  {nome:'NORDECE- NE REPRESENTACAO',        codigo:13,  dias:['SEGUNDA','TERCA']},
-  {nome:'NORDIL - NE DISTRIB E LOGIST',     codigo:20,  dias:['TERCA']},
-  {nome:'RIOGRANDENSE DISTRIBUIDORA',       codigo:114, dias:['QUARTA']},
-  {nome:'POLYBALAS DIST E LOGISTICA',       codigo:16,  dias:['QUINTA']},
-  {nome:'M.DIAS BRANCO S.A IND E COM',      codigo:139, dias:['SEXTA']},
-  {nome:'SAO BRAZ SA IND E COM ALIME',      codigo:160, dias:['SEXTA']},
+const FORNECEDORES_FIXOS = [
+  {nome:'AMBEV S.A -F. PARAIBA',            codigo:17,  dias:['SEGUNDA','SEXTA']},
+  {nome:'EBANO DISTRIBUIDORA DE ALIMENTOS',  codigo:25,  dias:['SEGUNDA']},
+  {nome:'MULTIGIRO DISTRIBUIDORA LTDA',      codigo:118, dias:['SEGUNDA']},
+  {nome:'REFRESCOS GUARARAPES (SOLAR)',       codigo:166, dias:['SEGUNDA','TERCA']},
+  {nome:'NORDECE- NE REPRESENTACAO',         codigo:13,  dias:['SEGUNDA','TERCA']},
+  {nome:'NORDIL - NE DISTRIB E LOGIST',      codigo:20,  dias:['TERCA']},
+  {nome:'RIOGRANDENSE DISTRIBUIDORA',        codigo:114, dias:['QUARTA']},
+  {nome:'POLYBALAS DIST E LOGISTICA',        codigo:16,  dias:['QUINTA']},
+  {nome:'M.DIAS BRANCO S.A IND E COM',       codigo:139, dias:['SEXTA']},
+  {nome:'SAO BRAZ SA IND E COM ALIME',       codigo:160, dias:['SEXTA']},
 ];
-const MAPA_DIA_OFFSET={SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4,SABADO:5};
-const DIAS_IDX=['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
-const DIAS_LBL={SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
-const BADGE_DIA={SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
-const NOMES_DIA_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-const STATUS_BADGE={
-  'Aguardando'    :'<span class="badge b-aguard">⏳ Aguardando</span>',
-  'Em Conferência':'<span class="badge b-andamento">🔄 Em Conferência</span>',
-  'Concluído OK'  :'<span class="badge b-conf">✅ Concluído OK</span>',
-  'Não Finalizado':'<span class="badge b-nfinal">🔶 Não Finalizado</span>',
-  'Atrasado'      :'<span class="badge b-atrasado">🚨 Atrasado</span>',
-  'Pendente'      :'<span class="badge b-pendente">🔔 Pendente</span>',
+const MAPA_DIA_OFFSET = {SEGUNDA:0,TERCA:1,QUARTA:2,QUINTA:3,SEXTA:4,SABADO:5};
+const DIAS_IDX        = ['DOMINGO','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
+const DIAS_LBL        = {SEGUNDA:'Segunda-Feira',TERCA:'Terça-Feira',QUARTA:'Quarta-Feira',QUINTA:'Quinta-Feira',SEXTA:'Sexta-Feira',SABADO:'Sábado',DOMINGO:'Domingo'};
+const BADGE_DIA       = {SEGUNDA:'b-seg',TERCA:'b-ter',QUARTA:'b-qua',QUINTA:'b-qui',SEXTA:'b-sex'};
+const NOMES_DIA_PT    = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const STATUS_BADGE    = {
+  'Aguardando'    : '<span class="badge b-aguard">⏳ Aguardando</span>',
+  'Em Conferência': '<span class="badge b-andamento">🔄 Em Conferência</span>',
+  'Concluído OK'  : '<span class="badge b-conf">✅ Concluído OK</span>',
+  'Não Finalizado': '<span class="badge b-nfinal">🔶 Não Finalizado</span>',
+  'Atrasado'      : '<span class="badge b-atrasado">🚨 Atrasado</span>',
+  'Pendente'      : '<span class="badge b-pendente">🔔 Pendente</span>',
 };
-const STATUS_CONF_CLASS={
-  'Aguardando'    :'sel-aguard',
-  'Em Conferência':'sel-andamento',
-  'Concluído OK'  :'sel-ok',
-  'Não Finalizado':'sel-nfinal',
-  'Atrasado'      :'sel-atrasado',
-  'Pendente'      :'sel-pendente',
+const STATUS_CONF_CLASS = {
+  'Aguardando'    : 'sel-aguard',
+  'Em Conferência': 'sel-andamento',
+  'Concluído OK'  : 'sel-ok',
+  'Não Finalizado': 'sel-nfinal',
+  'Atrasado'      : 'sel-atrasado',
+  'Pendente'      : 'sel-pendente',
 };
 
 /* ══════════════════════════════════════════════════
-   BANCO DE DADOS
+   BANCO DE DADOS — mapeamento de linhas
 ══════════════════════════════════════════════════ */
-function rowToAgend(r){
-  return{
-    dataSolic    :r[0]||'',
-    data         :r[1]||'',
-    nf           :r[2]||'',
-    fornec       :r[3]||'',
-    skuEsp       :parseFloat(r[4])||0,
-    volEsp       :parseFloat(r[5])||0,
-    pesoEsp      :parseFloat(r[6])||0,
-    statusNF     :r[7]||'',
-    viaNoRdil    :r[8]==='true'||r[8]===true,
-    obs          :r[9]||'',
-    status       :r[10]||'Aguardando',
-    confInicio   :r[11]||null,
-    confFim      :r[12]||null,
-    confSLA      :r[13]!==''&&r[13]!=null?parseFloat(r[13]):null,
-    confConfer   :r[14]||'',
-    confObs      :r[15]||'',
-    skuRec       :r[16]!==''&&r[16]!=null?parseFloat(r[16]):null,
-    volRec       :r[17]!==''&&r[17]!=null?parseFloat(r[17]):null,
-    pesoRec      :r[18]!==''&&r[18]!=null?parseFloat(r[18]):null,
-    _confInicioTs:r[19]||null,
-    editadoEm    :r[20]||null,
-    encaixe      :r[21]==='true'||r[21]===true,
-    reagendado   :r[22]==='true'||r[22]===true,
-    dataOriginal :r[23]||'',
-    dataLiberacao:r[24]||'',
-    fixo         :r[25]==='true'||r[25]===true,
+function rowToAgend(r) {
+  return {
+    dataSolic    : r[0]||'',   data         : r[1]||'',
+    nf           : r[2]||'',   fornec       : r[3]||'',
+    skuEsp       : parseFloat(r[4])||0,
+    volEsp       : parseFloat(r[5])||0,
+    pesoEsp      : parseFloat(r[6])||0,
+    statusNF     : r[7]||'',
+    viaNoRdil    : r[8]==='true'||r[8]===true,
+    obs          : r[9]||'',   status       : r[10]||'Aguardando',
+    confInicio   : r[11]||null,confFim      : r[12]||null,
+    confSLA      : r[13]!==''&&r[13]!=null ? parseFloat(r[13]) : null,
+    confConfer   : r[14]||'',  confObs      : r[15]||'',
+    skuRec       : r[16]!==''&&r[16]!=null ? parseFloat(r[16]) : null,
+    volRec       : r[17]!==''&&r[17]!=null ? parseFloat(r[17]) : null,
+    pesoRec      : r[18]!==''&&r[18]!=null ? parseFloat(r[18]) : null,
+    _confInicioTs: r[19]||null,editadoEm    : r[20]||null,
+    encaixe      : r[21]==='true'||r[21]===true,
+    reagendado   : r[22]==='true'||r[22]===true,
+    dataOriginal : r[23]||'',  dataLiberacao: r[24]||'',
+    fixo         : r[25]==='true'||r[25]===true,
+    updatedAt    : r[26]||null,
   };
 }
-function agendToRow(a){
-  return[
-    a.dataSolic||'',a.data||'',a.nf||'',a.fornec||'',
-    a.skuEsp||0,a.volEsp||0,a.pesoEsp||0,
-    a.statusNF||'',a.viaNoRdil?'true':'false',a.obs||'',
+function agendToRow(a) {
+  return [
+    a.dataSolic||'', a.data||'', a.nf||'', a.fornec||'',
+    a.skuEsp||0, a.volEsp||0, a.pesoEsp||0,
+    a.statusNF||'', a.viaNoRdil?'true':'false', a.obs||'',
     a.status||'Aguardando',
-    a.confInicio||'',a.confFim||'',
-    a.confSLA!=null?a.confSLA:'',
-    a.confConfer||'',a.confObs||'',
-    a.skuRec!=null?a.skuRec:'',
-    a.volRec!=null?a.volRec:'',
-    a.pesoRec!=null?a.pesoRec:'',
-    a._confInicioTs||'',a.editadoEm||'',
-    a.encaixe?'true':'false',
-    a.reagendado?'true':'false',
-    a.dataOriginal||'',
-    a.dataLiberacao||'',
-    a.fixo?'true':'false',
+    a.confInicio||'', a.confFim||'',
+    a.confSLA  != null ? a.confSLA  : '',
+    a.confConfer||'', a.confObs||'',
+    a.skuRec   != null ? a.skuRec   : '',
+    a.volRec   != null ? a.volRec   : '',
+    a.pesoRec  != null ? a.pesoRec  : '',
+    a._confInicioTs||'', a.editadoEm||'',
+    a.encaixe   ? 'true' : 'false',
+    a.reagendado? 'true' : 'false',
+    a.dataOriginal||'', a.dataLiberacao||'',
+    a.fixo      ? 'true' : 'false',
+    a.updatedAt||'',
   ];
 }
-const HEADER_AGEND=['dataSolic','data','nf','fornec','skuEsp','volEsp','pesoEsp','statusNF','viaNoRdil','obs','status','confInicio','confFim','confSLA','confConfer','confObs','skuRec','volRec','pesoRec','_confInicioTs','editadoEm','encaixe','reagendado','dataOriginal','dataLiberacao','fixo'];
-const HEADER_CONF=['chave','valor'];
+const HEADER_AGEND = ['dataSolic','data','nf','fornec','skuEsp','volEsp','pesoEsp','statusNF','viaNoRdil','obs','status','confInicio','confFim','confSLA','confConfer','confObs','skuRec','volRec','pesoRec','_confInicioTs','editadoEm','encaixe','reagendado','dataOriginal','dataLiberacao','fixo','updatedAt'];
+const HEADER_CONF  = ['chave','valor'];
 
-async function carregarDoSheets(){
+/* ══════════════════════════════════════════════════
+   #4 — FILA DE PENDÊNCIAS + RETRY AUTOMÁTICO
+══════════════════════════════════════════════════ */
+let filaPendencias = JSON.parse(localStorage.getItem('bm-fila') || '[]');
+
+function atualizarBadgeFila() {
+  const badge = document.getElementById('fila-badge');
+  const count = document.getElementById('fila-count');
+  if (filaPendencias.length) {
+    count.textContent = filaPendencias.length;
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+function enfileirar(payload) {
+  filaPendencias.push({ payload, tentativas: 0, ts: Date.now() });
+  localStorage.setItem('bm-fila', JSON.stringify(filaPendencias));
+  atualizarBadgeFila();
+}
+
+async function processarFila() {
+  if (!filaPendencias.length) return;
+  const novaFila = [];
+  for (const item of filaPendencias) {
+    try {
+      const res  = await fetch(API_URL, { method:'POST', body: JSON.stringify(item.payload) });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.erro || 'Erro');
+    } catch(e) {
+      item.tentativas = (item.tentativas || 0) + 1;
+      if (item.tentativas < 5) novaFila.push(item);
+    }
+  }
+  filaPendencias = novaFila;
+  localStorage.setItem('bm-fila', JSON.stringify(filaPendencias));
+  atualizarBadgeFila();
+}
+
+setInterval(processarFila, 30000);
+
+/* ══════════════════════════════════════════════════
+   #8 — HISTÓRICO DE ALTERAÇÕES
+══════════════════════════════════════════════════ */
+async function registrarHistorico(agendId, campo, valorAnterior, valorNovo) {
+  const payload = {
+    aba  : ABA_HIST,
+    acao : 'salvar-historico',
+    dados: [conferenteAtivo || 'sistema', agendId, campo, String(valorAnterior), String(valorNovo)],
+  };
+  try {
+    const res  = await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.erro);
+  } catch(e) { enfileirar(payload); }
+}
+
+/* ══════════════════════════════════════════════════
+   #1 — DEBOUNCE 1,5s + SAVE
+══════════════════════════════════════════════════ */
+let _saveTimer = null;
+
+async function salvarAgendSheets() {
+  showSync('Salvando…', true);
+  try {
+    const dados = [HEADER_AGEND, ...agendamentos.map(agendToRow)];
+    const res   = await fetch(API_URL, { method:'POST', body: JSON.stringify({ aba: ABA_AGEND, acao:'salvar', dados }) });
+    const json  = await res.json();
+    if (!json.ok) throw new Error(json.erro);
+    showSync('Salvo ✓', false);
+  } catch(e) {
+    showSync('Offline — na fila', false);
+    enfileirar({ aba: ABA_AGEND, acao:'salvar', dados: [HEADER_AGEND, ...agendamentos.map(agendToRow)] });
+  }
+}
+
+async function salvarConfSheets() {
+  showSync('Salvando…', true);
+  try {
+    const dados = [HEADER_CONF, ...Object.entries(confirmacoes).map(([k,v]) => [k,v])];
+    const res   = await fetch(API_URL, { method:'POST', body: JSON.stringify({ aba: ABA_CONF, acao:'salvar', dados }) });
+    const json  = await res.json();
+    if (!json.ok) throw new Error(json.erro);
+    showSync('Salvo ✓', false);
+  } catch(e) {
+    showSync('Offline — na fila', false);
+    enfileirar({ aba: ABA_CONF, acao:'salvar', dados: [HEADER_CONF, ...Object.entries(confirmacoes).map(([k,v]) => [k,v])] });
+  }
+}
+
+function save() {
+  localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos));
+  if (_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => { salvarAgendSheets(); _saveTimer = null; }, 1500);
+}
+
+function saveConf() {
+  localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));
+  salvarConfSheets();
+}
+
+/* ══════════════════════════════════════════════════
+   CARREGAR DO SHEETS
+══════════════════════════════════════════════════ */
+async function carregarDoSheets() {
   showSync('Carregando dados…', true);
-  try{
-    const resA=await fetch(`${API_URL}?aba=${ABA_AGEND}`), jsonA=await resA.json();
-    if(jsonA.ok&&jsonA.data.length>1){
-      const[,...rows]=jsonA.data;
-      agendamentos=rows.map(rowToAgend);
+  try {
+    const resA  = await fetch(`${API_URL}?aba=${ABA_AGEND}`);
+    const jsonA = await resA.json();
+    if (jsonA.ok && jsonA.dados.data.length > 1) {
+      const [,...rows] = jsonA.dados.data;
+      agendamentos = rows.map(rowToAgend);
       localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos));
     }
-    const resC=await fetch(`${API_URL}?aba=${ABA_CONF}`), jsonC=await resC.json();
-    if(jsonC.ok&&jsonC.data.length>1){
-      confirmacoes={};
-      const[,...rowsC]=jsonC.data;
-      rowsC.forEach(r=>{ if(r[0]) confirmacoes[r[0]]=r[1]; });
+    const resC  = await fetch(`${API_URL}?aba=${ABA_CONF}`);
+    const jsonC = await resC.json();
+    if (jsonC.ok && jsonC.dados.data.length > 1) {
+      confirmacoes = {};
+      const [,...rowsC] = jsonC.dados.data;
+      rowsC.forEach(r => { if (r[0]) confirmacoes[r[0]] = r[1]; });
       localStorage.setItem('bm-conf-v2', JSON.stringify(confirmacoes));
     }
     showSync('Sincronizado ✓', false);
-  }catch(e){ console.warn('Sheets offline.',e); showSync('Offline — dados locais', false); }
+  } catch(e) {
+    console.warn('Sheets offline.', e);
+    showSync('Offline — dados locais', false);
+  }
   injetarFixosSemana();
   atualizarStatusAgendamentos();
+  verificarAtrasosNotificacao();
   renderDashboard();
 }
-
-async function salvarAgendSheets(){
-  showSync('Salvando…', true);
-  try{
-    const dados=[HEADER_AGEND,...agendamentos.map(agendToRow)];
-    await fetch(API_URL,{method:'POST',body:JSON.stringify({aba:ABA_AGEND,acao:'salvar',dados})});
-    showSync('Salvo ✓', false);
-  }catch(e){ showSync('Erro ao salvar', false); }
-}
-async function salvarConfSheets(){
-  showSync('Salvando…', true);
-  try{
-    const dados=[HEADER_CONF,...Object.entries(confirmacoes).map(([k,v])=>[k,v])];
-    await fetch(API_URL,{method:'POST',body:JSON.stringify({aba:ABA_CONF,acao:'salvar',dados})});
-    showSync('Salvo ✓', false);
-  }catch(e){ showSync('Erro ao salvar', false); }
-}
-function save()    { localStorage.setItem('bm-agend-v2', JSON.stringify(agendamentos)); salvarAgendSheets(); }
-function saveConf(){ localStorage.setItem('bm-conf-v2',  JSON.stringify(confirmacoes)); salvarConfSheets(); }
 
 /* ══════════════════════════════════════════════════
    DADOS EM MEMÓRIA
 ══════════════════════════════════════════════════ */
-let agendamentos = JSON.parse(localStorage.getItem('bm-agend-v2')||'[]');
-let confirmacoes = JSON.parse(localStorage.getItem('bm-conf-v2') ||'{}');
+let agendamentos = JSON.parse(localStorage.getItem('bm-agend-v2') || '[]');
+let confirmacoes = JSON.parse(localStorage.getItem('bm-conf-v2')  || '{}');
 
 /* ══════════════════════════════════════════════════
-   INJETAR FIXOS
+   INJETAR FIXOS DA SEMANA
 ══════════════════════════════════════════════════ */
-function getInicioSemana(offset=0){
-  const hoje=new Date(), diaSemana=hoje.getDay();
-  const diff=diaSemana===0?-6:1-diaSemana;
-  const seg=new Date(hoje);
-  seg.setDate(hoje.getDate()+diff+(offset*7));
+function getInicioSemana(offset = 0) {
+  const hoje = new Date(), diaSemana = hoje.getDay();
+  const diff = diaSemana === 0 ? -6 : 1 - diaSemana;
+  const seg  = new Date(hoje);
+  seg.setDate(hoje.getDate() + diff + (offset * 7));
   seg.setHours(0,0,0,0);
   return seg;
 }
-function getDataDiaSemana(diaNome, offsetSemanas=0){
-  const offset=MAPA_DIA_OFFSET[diaNome]??0;
-  const seg=getInicioSemana(offsetSemanas);
-  const target=new Date(seg);
-  target.setDate(seg.getDate()+offset);
+function getDataDiaSemana(diaNome, offsetSemanas = 0) {
+  const offset = MAPA_DIA_OFFSET[diaNome] ?? 0;
+  const seg    = getInicioSemana(offsetSemanas);
+  const target = new Date(seg);
+  target.setDate(seg.getDate() + offset);
   return `${target.getFullYear()}-${String(target.getMonth()+1).padStart(2,'0')}-${String(target.getDate()).padStart(2,'0')}`;
 }
-function injetarFixosSemana(){
-  FORNECEDORES_FIXOS.forEach(f=>{
-    f.dias.forEach(dia=>{
-      const dataAlvo=getDataDiaSemana(dia);
-      const jaExiste=agendamentos.some(a=>a.fixo===true&&a.fornec===f.nome&&soData(a.data)===dataAlvo);
-      if(!jaExiste){
+function injetarFixosSemana() {
+  FORNECEDORES_FIXOS.forEach(f => {
+    f.dias.forEach(dia => {
+      const dataAlvo = getDataDiaSemana(dia);
+      const jaExiste = agendamentos.some(a => a.fixo === true && a.fornec === f.nome && soData(a.data) === dataAlvo);
+      if (!jaExiste) {
         agendamentos.unshift({
-          dataSolic:'',data:dataAlvo,nf:'',fornec:f.nome,
-          skuEsp:0,volEsp:0,pesoEsp:0,
-          statusNF:'',viaNoRdil:false,encaixe:false,reagendado:false,
-          dataOriginal:'',obs:'Fornecedor fixo — preencha SKU, volume e peso',
-          status:'Aguardando',confInicio:null,confFim:null,confSLA:null,
-          confConfer:'',confObs:'',skuRec:null,volRec:null,pesoRec:null,
-          _confInicioTs:null,editadoEm:null,dataLiberacao:'',fixo:true,
+          dataSolic:'', data:dataAlvo, nf:'', fornec:f.nome,
+          skuEsp:0, volEsp:0, pesoEsp:0,
+          statusNF:'', viaNoRdil:false, encaixe:false, reagendado:false,
+          dataOriginal:'', obs:'Fornecedor fixo — preencha SKU, volume e peso',
+          status:'Aguardando', confInicio:null, confFim:null, confSLA:null,
+          confConfer:'', confObs:'', skuRec:null, volRec:null, pesoRec:null,
+          _confInicioTs:null, editadoEm:null, dataLiberacao:'', fixo:true, updatedAt:null,
         });
       }
     });
@@ -1050,568 +1206,647 @@ function injetarFixosSemana(){
 }
 
 /* ══════════════════════════════════════════════════
-   STATUS
+   STATUS AUTOMÁTICO
 ══════════════════════════════════════════════════ */
-function atualizarStatusAgendamentos(){
-  const hoje=getDataHoje();
-  agendamentos.forEach(a=>{ if(a.status==='Aguardando'&&soData(a.data)<hoje) a.status='Atrasado'; });
+function atualizarStatusAgendamentos() {
+  const hoje = getDataHoje();
+  agendamentos.forEach(a => {
+    if (a.status === 'Aguardando' && soData(a.data) < hoje) a.status = 'Atrasado';
+  });
 }
 
 /* ══════════════════════════════════════════════════
-   HEADER
+   #9 — NOTIFICAÇÕES NATIVAS (cargas atrasadas)
 ══════════════════════════════════════════════════ */
-function atualizarHeader(){
-  const n=new Date();
-  document.getElementById('headerDate').innerHTML=
-    n.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'<br>'+n.toLocaleTimeString('pt-BR');
+let notifEnviadas = new Set(JSON.parse(localStorage.getItem('bm-notif-enviadas') || '[]'));
+
+function verificarAtrasosNotificacao() {
+  const hoje  = getDataHoje();
+  const atras = agendamentos.filter(a =>
+    a.status === 'Atrasado' &&
+    soData(a.data) < hoje   &&
+    !notifEnviadas.has(a.nf + a.data)
+  );
+  if (!atras.length) return;
+
+  if ('Notification' in window && Notification.permission === 'granted') {
+    atras.forEach(a => {
+      new Notification('🚨 Carga Atrasada — Recebimento BM', {
+        body: `${a.fornec||'—'} | NF: ${a.nf||'—'} | Previsto: ${fmtData(a.data)}`,
+      });
+      notifEnviadas.add(a.nf + a.data);
+    });
+  } else if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().then(p => { if (p === 'granted') verificarAtrasosNotificacao(); });
+  }
+
+  // banner visual fallback
+  const banner = document.getElementById('notif-banner');
+  atras.slice(0,3).forEach(a => {
+    const item = document.createElement('div');
+    item.className = 'notif-item warn';
+    item.innerHTML = `<span>🚨</span><span>${a.fornec||'—'} — NF ${a.nf||'—'} (${fmtData(a.data)})</span>
+      <button class="notif-close" onclick="this.parentElement.remove()">✕</button>`;
+    banner.appendChild(item);
+    setTimeout(() => item.remove(), 8000);
+  });
+
+  localStorage.setItem('bm-notif-enviadas', JSON.stringify([...notifEnviadas]));
 }
-setInterval(atualizarHeader,1000); atualizarHeader();
 
 /* ══════════════════════════════════════════════════
-   NAVEGAÇÃO
+   HEADER — relógio
 ══════════════════════════════════════════════════ */
-function showTela(nome){
-  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+function atualizarHeader() {
+  const n = new Date();
+  document.getElementById('headerDate').innerHTML =
+    n.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}) +
+    '<br>' + n.toLocaleTimeString('pt-BR');
+}
+setInterval(atualizarHeader, 1000);
+atualizarHeader();
+
+/* ══════════════════════════════════════════════════
+   NAVEGAÇÃO + #6 PERSISTIR FILTROS (sessionStorage)
+══════════════════════════════════════════════════ */
+function showTela(nome) {
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tela-'+nome).classList.add('active');
-  document.getElementById('nav-'+nome).classList.add('active');
+  document.getElementById('nav-' +nome).classList.add('active');
+  sessionStorage.setItem('bm-tela-ativa', nome);
   atualizarStatusAgendamentos();
-  if(nome==='dashboard')     renderDashboard();
-  if(nome==='agendamentos')  { atualizarFiltrosDin(); renderAgend(); }
-  if(nome==='conferencia')   { atualizarFiltrosConf(); renderConfLista(); }
-  if(nome==='fornecedores')  renderFornecedores();
-  if(nome==='acompanhamento') renderAcompanhamento();
+  if (nome === 'dashboard')      renderDashboard();
+  if (nome === 'agendamentos')   { atualizarFiltrosDin(); restaurarFiltrosAgend(); renderAgend(); }
+  if (nome === 'conferencia')    { atualizarFiltrosConf(); restaurarFiltrosConf(); renderConfLista(); }
+  if (nome === 'fornecedores')   renderFornecedores();
+  if (nome === 'acompanhamento') renderAcompanhamento();
 }
+
+function _salvarFiltros(key, ids) {
+  const obj = {};
+  ids.forEach(id => { obj[id] = document.getElementById(id)?.value || ''; });
+  sessionStorage.setItem(key, JSON.stringify(obj));
+}
+function _restaurarFiltros(key, ids) {
+  const raw = sessionStorage.getItem(key);
+  if (!raw) return;
+  const obj = JSON.parse(raw);
+  ids.forEach(id => { const el = document.getElementById(id); if (el && obj[id] !== undefined) el.value = obj[id]; });
+}
+
+const IDS_F_AGEND = ['f-data-de','f-data-ate','f-datasolic','f-datalib','f-status','f-nf','f-nordil','f-encaixe','f-reagend','f-fornec'];
+const IDS_F_CONF  = ['cf-data-de','cf-data-ate','cf-datasolic','cf-status','cf-fornec'];
+
+function salvarFiltrosAgend()    { _salvarFiltros('bm-f-agend', IDS_F_AGEND); }
+function restaurarFiltrosAgend() { _restaurarFiltros('bm-f-agend', IDS_F_AGEND); }
+function salvarFiltrosConf()     { _salvarFiltros('bm-f-conf', IDS_F_CONF); }
+function restaurarFiltrosConf()  { _restaurarFiltros('bm-f-conf', IDS_F_CONF); }
 
 /* ══════════════════════════════════════════════════
    FLAGS
 ══════════════════════════════════════════════════ */
-let flagNF='', flagNordil='', flagEncaixe='';
-function selFlag(grupo, valor){
-  if(grupo==='nf')      flagNF      =(flagNF===valor)     ?'':valor;
-  if(grupo==='nordil')  flagNordil  =(flagNordil===valor) ?'':valor;
-  if(grupo==='encaixe') flagEncaixe =(flagEncaixe===valor)?'':valor;
+let flagNF = '', flagNordil = '', flagEncaixe = '';
+function selFlag(grupo, valor) {
+  if (grupo === 'nf')      flagNF      = (flagNF      === valor) ? '' : valor;
+  if (grupo === 'nordil')  flagNordil  = (flagNordil  === valor) ? '' : valor;
+  if (grupo === 'encaixe') flagEncaixe = (flagEncaixe === valor) ? '' : valor;
   renderFlags();
 }
-function renderFlags(){
-  const pairs=[
+function renderFlags() {
+  [
     ['sb-ok','ck-ok','nf','ok','sel-ok'],
     ['sb-trat','ck-trat','nf','trat','sel-trat'],
     ['sb-nordil','ck-nordil','nordil','sim','sel-nordil'],
     ['sb-encaixe','ck-encaixe','encaixe','sim','sel-encaixe'],
-  ];
-  pairs.forEach(([sbId,ckId,grupo,val,cls])=>{
-    const sb=document.getElementById(sbId), ck=document.getElementById(ckId);
-    sb.className='sb'; ck.textContent='';
-    const cur=grupo==='nf'?flagNF:grupo==='nordil'?flagNordil:flagEncaixe;
-    if(cur===val){ sb.classList.add(cls); ck.textContent='✓'; }
+  ].forEach(([sbId,ckId,grupo,val,cls]) => {
+    const sb = document.getElementById(sbId), ck = document.getElementById(ckId);
+    sb.className = 'sb'; ck.textContent = '';
+    const cur = grupo === 'nf' ? flagNF : grupo === 'nordil' ? flagNordil : flagEncaixe;
+    if (cur === val) { sb.classList.add(cls); ck.textContent = '✓'; }
   });
 }
-function setFlagsInit(statusNF, viaNoRdil, encaixe){
-  flagNF      =statusNF==='Nota OK'?'ok':statusNF==='Em Tratativa'?'trat':'';
-  flagNordil  =viaNoRdil?'sim':'';
-  flagEncaixe =encaixe?'sim':'';
+function setFlagsInit(statusNF, viaNoRdil, encaixe) {
+  flagNF      = statusNF === 'Nota OK' ? 'ok' : statusNF === 'Em Tratativa' ? 'trat' : '';
+  flagNordil  = viaNoRdil ? 'sim' : '';
+  flagEncaixe = encaixe   ? 'sim' : '';
   renderFlags();
+}
+
+/* ══════════════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════════════ */
+function badgeNF(v)      { return v==='Nota OK'?'<span class="badge b-nfok">✅ Nota OK</span>':v==='Em Tratativa'?'<span class="badge b-nftrat">⚠️ Em Tratativa</span>':'<span class="badge b-nfnone">— Sem info</span>'; }
+function badgeNordil(v)  { return v?'<span class="badge b-nordil">🔀 Nordil</span>':''; }
+function badgeEncaixe(v) { return v?'<span class="badge b-encaixe">📌 Encaixe</span>':''; }
+function badgeReagend(v) { return v?'<span class="badge b-reagend">🔁 Reagendado</span>':''; }
+function badgeFixo(v)    { return v?'<span class="badge b-fixo">📌 Fixo</span>':''; }
+function badgeStatus(s)  { return STATUS_BADGE[s]||`<span class="badge b-aguard">${s}</span>`; }
+function badgeFlags(a)   { return [badgeNordil(a.viaNoRdil),badgeEncaixe(a.encaixe),badgeReagend(a.reagendado),badgeFixo(a.fixo)].filter(Boolean).join(' ')||'—'; }
+function slaBemaisBadge(dias) {
+  if (dias===null||dias===undefined) return '—';
+  const cls = dias<=1?'sla-ok':dias<=3?'sla-warn':'sla-bad';
+  const ico = dias<=1?'🟢':dias<=3?'🟡':'🔴';
+  return `<span class="sla-indicator ${cls}">${ico} ${dias}d</span>`;
 }
 
 /* ══════════════════════════════════════════════════
    MODAL AGENDAMENTO
 ══════════════════════════════════════════════════ */
-let editIdx=-1;
-function abrirModalAgend(idx=-1){
-  editIdx=idx;
-  document.getElementById('modal-agend-title').textContent=idx===-1?'📋 Novo Agendamento':'✏️ Editar Agendamento';
+let editIdx = -1;
+function abrirModalAgend(idx = -1) {
+  editIdx = idx;
+  document.getElementById('modal-agend-title').textContent = idx === -1 ? '📋 Novo Agendamento' : '✏️ Editar Agendamento';
   document.getElementById('modal-agend').classList.add('open');
-  if(idx===-1){
-    document.getElementById('m-datasolic').value=agoraLocalStr();
-    document.getElementById('m-data').value=agoraLocalStr();
-    document.getElementById('m-dataliberacao').value='';
-    ['m-nf','m-fornec','m-obs'].forEach(id=>document.getElementById(id).value='');
-    ['m-sku','m-vol','m-peso'].forEach(id=>document.getElementById(id).value='');
-    setFlagsInit('',false,false);
-  }else{
-    const a=agendamentos[idx];
-    const toInputVal=v=>v?(v.includes('T')?v.slice(0,16):v+'T00:00'):'';
-    document.getElementById('m-datasolic').value=toInputVal(a.dataSolic);
-    document.getElementById('m-data').value=toInputVal(a.data);
-    document.getElementById('m-dataliberacao').value=toInputVal(a.dataLiberacao);
-    document.getElementById('m-nf').value=a.nf||'';
-    document.getElementById('m-fornec').value=a.fornec||'';
-    document.getElementById('m-sku').value=a.skuEsp||'';
-    document.getElementById('m-vol').value=a.volEsp||'';
-    document.getElementById('m-peso').value=a.pesoEsp||'';
-    document.getElementById('m-obs').value=a.obs||'';
+  if (idx === -1) {
+    document.getElementById('m-datasolic').value     = agoraLocalStr();
+    document.getElementById('m-data').value          = agoraLocalStr();
+    document.getElementById('m-dataliberacao').value = '';
+    ['m-nf','m-fornec','m-obs'].forEach(id  => document.getElementById(id).value = '');
+    ['m-sku','m-vol','m-peso'].forEach(id   => document.getElementById(id).value = '');
+    setFlagsInit('', false, false);
+  } else {
+    const a = agendamentos[idx];
+    const toV = v => v ? (v.includes('T') ? v.slice(0,16) : v+'T00:00') : '';
+    document.getElementById('m-datasolic').value     = toV(a.dataSolic);
+    document.getElementById('m-data').value          = toV(a.data);
+    document.getElementById('m-dataliberacao').value = toV(a.dataLiberacao);
+    document.getElementById('m-nf').value     = a.nf     || '';
+    document.getElementById('m-fornec').value = a.fornec || '';
+    document.getElementById('m-sku').value    = a.skuEsp || '';
+    document.getElementById('m-vol').value    = a.volEsp || '';
+    document.getElementById('m-peso').value   = a.pesoEsp|| '';
+    document.getElementById('m-obs').value    = a.obs    || '';
     setFlagsInit(a.statusNF||'', a.viaNoRdil||false, a.encaixe||false);
   }
 }
-function fecharModalAgend(){ document.getElementById('modal-agend').classList.remove('open'); }
+function fecharModalAgend() { document.getElementById('modal-agend').classList.remove('open'); }
 
-function salvarAgend(){
-  const fornec=document.getElementById('m-fornec').value.trim();
-  const data  =document.getElementById('m-data').value;
-  if(!data||!fornec){ alert('Preencha ao menos a Data Agendada e o Fornecedor.'); return; }
-  const dataOnly=soData(data);
-  const hoje=getDataHoje();
-  let isReagend=false, dataOriginal='';
-  if(editIdx!==-1){
-    const ant=agendamentos[editIdx];
-    const antOnly=soData(ant.data);
-    if(dataOnly!==antOnly){
-      isReagend=confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
-      dataOriginal=ant.dataOriginal||ant.data;
-    }else{
-      isReagend   =ant.reagendado   ||false;
-      dataOriginal=ant.dataOriginal ||'';
+function salvarAgend() {
+  const fornec = document.getElementById('m-fornec').value.trim();
+  const data   = document.getElementById('m-data').value;
+  if (!data || !fornec) { alert('Preencha ao menos a Data Agendada e o Fornecedor.'); return; }
+  const dataOnly = soData(data), hoje = getDataHoje();
+  let isReagend = false, dataOriginal = '';
+  if (editIdx !== -1) {
+    const ant = agendamentos[editIdx];
+    if (dataOnly !== soData(ant.data)) {
+      isReagend    = confirm(`⚠️ A data foi alterada de ${fmtData(ant.data)} para ${fmtData(data)}.\n\nÉ um reagendamento?`);
+      dataOriginal = ant.dataOriginal || ant.data;
+    } else {
+      isReagend    = ant.reagendado   || false;
+      dataOriginal = ant.dataOriginal || '';
     }
   }
-  const ant=editIdx!==-1?agendamentos[editIdx]:{};
-  const obj={
-    dataSolic    :document.getElementById('m-datasolic').value||'',
-    data,
-    nf           :document.getElementById('m-nf').value.trim(),
-    fornec,
-    skuEsp       :parseFloat(document.getElementById('m-sku').value)||0,
-    volEsp       :parseFloat(document.getElementById('m-vol').value)||0,
-    pesoEsp      :parseFloat(document.getElementById('m-peso').value)||0,
-    statusNF     :flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
-    viaNoRdil    :flagNordil==='sim',
-    encaixe      :flagEncaixe==='sim',
-    reagendado   :isReagend,
-    dataOriginal,
-    obs          :document.getElementById('m-obs').value.trim(),
-    status       :editIdx===-1?(dataOnly<hoje?'Atrasado':'Aguardando'):ant.status,
-    confInicio   :ant.confInicio   ??null,
-    confFim      :ant.confFim      ??null,
-    confSLA      :ant.confSLA      ??null,
-    confConfer   :ant.confConfer   ??'',
-    confObs      :ant.confObs      ??'',
-    skuRec       :ant.skuRec       ??null,
-    volRec       :ant.volRec       ??null,
-    pesoRec      :ant.pesoRec      ??null,
-    _confInicioTs:ant._confInicioTs??null,
-    editadoEm    :ant.editadoEm    ??null,
-    dataLiberacao:document.getElementById('m-dataliberacao').value||'',
-    fixo         :ant.fixo||false,
+  const ant = editIdx !== -1 ? agendamentos[editIdx] : {};
+  const obj = {
+    dataSolic    : document.getElementById('m-datasolic').value || '',
+    data, nf: document.getElementById('m-nf').value.trim(), fornec,
+    skuEsp       : parseFloat(document.getElementById('m-sku').value)  || 0,
+    volEsp       : parseFloat(document.getElementById('m-vol').value)  || 0,
+    pesoEsp      : parseFloat(document.getElementById('m-peso').value) || 0,
+    statusNF     : flagNF==='ok'?'Nota OK':flagNF==='trat'?'Em Tratativa':'',
+    viaNoRdil    : flagNordil==='sim', encaixe: flagEncaixe==='sim',
+    reagendado   : isReagend, dataOriginal,
+    obs          : document.getElementById('m-obs').value.trim(),
+    status       : editIdx===-1?(dataOnly<hoje?'Atrasado':'Aguardando'):ant.status,
+    confInicio   : ant.confInicio    ??null, confFim    : ant.confFim      ??null,
+    confSLA      : ant.confSLA       ??null, confConfer : ant.confConfer   ??'',
+    confObs      : ant.confObs       ??'',   skuRec     : ant.skuRec       ??null,
+    volRec       : ant.volRec        ??null, pesoRec    : ant.pesoRec      ??null,
+    _confInicioTs: ant._confInicioTs ??null, editadoEm  : ant.editadoEm   ??null,
+    dataLiberacao: document.getElementById('m-dataliberacao').value || '',
+    fixo: ant.fixo||false, updatedAt: null,
   };
-  if(editIdx===-1) agendamentos.unshift(obj);
-  else             agendamentos[editIdx]=obj;
+  if (editIdx === -1) agendamentos.unshift(obj);
+  else                agendamentos[editIdx] = obj;
   save(); fecharModalAgend(); atualizarFiltrosDin(); renderAgend();
 }
 
 /* ══════════════════════════════════════════════════
    MODAL FORNECEDOR FIXO
 ══════════════════════════════════════════════════ */
-let editFixoIdx=-1;
-function abrirModalFixo(idx){
-  editFixoIdx=idx;
-  const a=agendamentos[idx];
-  document.getElementById('modal-fixo-title').textContent='✏️ '+a.fornec;
-  document.getElementById('modal-fixo-sub').textContent=`Data: ${fmtData(a.data)} — Atualize SKU, volume e peso esperados.`;
-  document.getElementById('mf-sku').value=a.skuEsp||'';
-  document.getElementById('mf-vol').value=a.volEsp||'';
-  document.getElementById('mf-peso').value=a.pesoEsp||'';
+let editFixoIdx = -1;
+function abrirModalFixo(idx) {
+  editFixoIdx = idx;
+  const a = agendamentos[idx];
+  document.getElementById('modal-fixo-title').textContent = '✏️ ' + a.fornec;
+  document.getElementById('modal-fixo-sub').textContent   = `Data: ${fmtData(a.data)} — Atualize SKU, volume e peso esperados.`;
+  document.getElementById('mf-sku').value  = a.skuEsp  || '';
+  document.getElementById('mf-vol').value  = a.volEsp  || '';
+  document.getElementById('mf-peso').value = a.pesoEsp || '';
   document.getElementById('modal-fixo').classList.add('open');
 }
-function fecharModalFixo(){ document.getElementById('modal-fixo').classList.remove('open'); editFixoIdx=-1; }
-function salvarModalFixo(){
-  if(editFixoIdx<0) return;
-  const a=agendamentos[editFixoIdx];
-  a.skuEsp =parseFloat(document.getElementById('mf-sku').value)||0;
-  a.volEsp =parseFloat(document.getElementById('mf-vol').value)||0;
-  a.pesoEsp=parseFloat(document.getElementById('mf-peso').value)||0;
+function fecharModalFixo() { document.getElementById('modal-fixo').classList.remove('open'); editFixoIdx = -1; }
+function salvarModalFixo() {
+  if (editFixoIdx < 0) return;
+  const a   = agendamentos[editFixoIdx];
+  a.skuEsp  = parseFloat(document.getElementById('mf-sku').value)  || 0;
+  a.volEsp  = parseFloat(document.getElementById('mf-vol').value)  || 0;
+  a.pesoEsp = parseFloat(document.getElementById('mf-peso').value) || 0;
   save(); fecharModalFixo(); atualizarFiltrosDin(); renderAgend();
 }
 
 /* ══════════════════════════════════════════════════
    POPUP OCORRÊNCIAS
 ══════════════════════════════════════════════════ */
-function abrirPopupObs(idx){
-  const a=agendamentos[idx];
-  document.getElementById('popup-obs-meta').textContent=`${a.fornec||'—'}  |  NF: ${a.nf||'—'}  |  ${fmtData(a.data)}`;
-  document.getElementById('popup-obs-text').textContent=a.confObs||'(Sem ocorrências registradas)';
+function abrirPopupObs(idx) {
+  const a = agendamentos[idx];
+  document.getElementById('popup-obs-meta').textContent = `${a.fornec||'—'}  |  NF: ${a.nf||'—'}  |  ${fmtData(a.data)}`;
+  document.getElementById('popup-obs-text').textContent = a.confObs || '(Sem ocorrências registradas)';
   document.getElementById('popup-obs').classList.add('open');
 }
-function fecharPopupObs(){ document.getElementById('popup-obs').classList.remove('open'); }
-
-/* ══════════════════════════════════════════════════
-   BADGES
-══════════════════════════════════════════════════ */
-function badgeNF(v){
-  if(v==='Nota OK')      return '<span class="badge b-nfok">✅ Nota OK</span>';
-  if(v==='Em Tratativa') return '<span class="badge b-nftrat">⚠️ Em Tratativa</span>';
-  return '<span class="badge b-nfnone">— Sem info</span>';
-}
-function badgeNordil(v) { return v?'<span class="badge b-nordil">🔀 Nordil</span>':''; }
-function badgeEncaixe(v){ return v?'<span class="badge b-encaixe">📌 Encaixe</span>':''; }
-function badgeReagend(v){ return v?'<span class="badge b-reagend">🔁 Reagendado</span>':''; }
-function badgeFixo(v)   { return v?'<span class="badge b-fixo">📌 Fixo</span>':''; }
-function badgeStatus(s) { return STATUS_BADGE[s]||`<span class="badge b-aguard">${s}</span>`; }
-function badgeFlags(a)  { return [badgeNordil(a.viaNoRdil),badgeEncaixe(a.encaixe),badgeReagend(a.reagendado),badgeFixo(a.fixo)].filter(Boolean).join(' ')||'—'; }
-function slaBemaisBadge(dias){
-  if(dias===null||dias===undefined) return '—';
-  const cls=dias<=1?'sla-ok':dias<=3?'sla-warn':'sla-bad';
-  const ico=dias<=1?'🟢':dias<=3?'🟡':'🔴';
-  return `<span class="sla-indicator ${cls}">${ico} ${dias}d</span>`;
-}
+function fecharPopupObs() { document.getElementById('popup-obs').classList.remove('open'); }
 
 /* ══════════════════════════════════════════════════
    RENDER AGENDAMENTOS
 ══════════════════════════════════════════════════ */
-function renderAgend(lista){
-  const dados=lista!==undefined?lista:agendamentos;
-  const tbody=document.getElementById('tbody-agend');
-  const empty=document.getElementById('empty-agend');
+function renderAgend(lista) {
+  const dados = lista !== undefined ? lista : agendamentos;
+  const tbody = document.getElementById('tbody-agend');
+  const empty = document.getElementById('empty-agend');
+  const hoje  = getDataHoje();
 
-  // ★ Cards: Agendados Hoje + Via Nordil Hoje (sempre baseado em TODOS os agendamentos)
-  const hoje=getDataHoje();
-  const agHoje=agendamentos.filter(a=>soData(a.data)===hoje);
-  document.getElementById('a-hoje-count').textContent=agHoje.length;
-  document.getElementById('a-nordil-hoje-count').textContent=agHoje.filter(a=>a.viaNoRdil).length;
+  const agHoje = agendamentos.filter(a => soData(a.data) === hoje);
+  document.getElementById('a-hoje-count').textContent        = agHoje.length;
+  document.getElementById('a-nordil-hoje-count').textContent = agHoje.filter(a => a.viaNoRdil).length;
+  document.getElementById('a-sku').textContent               = dados.reduce((s,a) => s+(a.skuEsp||0),0);
+  document.getElementById('a-vol').textContent               = dados.reduce((s,a) => s+(a.volEsp||0),0);
+  document.getElementById('a-peso').textContent              = dados.reduce((s,a) => s+(a.pesoEsp||0),0).toFixed(1)+' kg';
 
-  document.getElementById('a-sku').textContent =dados.reduce((s,a)=>s+(a.skuEsp||0),0);
-  document.getElementById('a-vol').textContent =dados.reduce((s,a)=>s+(a.volEsp||0),0);
-  document.getElementById('a-peso').textContent=dados.reduce((s,a)=>s+(a.pesoEsp||0),0).toFixed(1)+' kg';
+  const slaLista = dados.filter(a => a.data&&a.dataLiberacao).map(a => diffDias(a.data,a.dataLiberacao)).filter(v => v!==null);
+  const slaMed   = slaLista.length ? Math.round(slaLista.reduce((s,v) => s+v,0)/slaLista.length) : null;
+  document.getElementById('agend-sla-bemais-val').textContent = slaMed !== null ? slaMed+' dia(s) em média' : '—';
 
-  const slaLista=dados.filter(a=>a.data&&a.dataLiberacao).map(a=>diffDias(a.data,a.dataLiberacao)).filter(v=>v!==null);
-  const slaMed=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
-  document.getElementById('agend-sla-bemais-val').textContent=slaMed!==null?slaMed+' dia(s) em média':'—';
+  if (!dados.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
 
-  if(!dados.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-
-  tbody.innerHTML=dados.map(a=>{
-    const ri=agendamentos.indexOf(a);
-    // ★ Tempo em minutos na tabela
-    const tempoMin=a.confSLA!=null?Math.round(a.confSLA/60)+' min':'—';
-    const slaBemais=diffDias(a.data,a.dataLiberacao);
-    const editBadge=a.editadoEm?'<span class="badge b-editado" style="margin-left:4px;">✏️</span>':'';
-    const hasObs=a.confObs&&a.confObs.trim().length>0;
+  tbody.innerHTML = dados.map(a => {
+    const ri       = agendamentos.indexOf(a);
+    const tempoMin = a.confSLA != null ? Math.round(a.confSLA/60)+' min' : '—';
+    const slaBem   = diffDias(a.data, a.dataLiberacao);
+    const editB    = a.editadoEm ? '<span class="badge b-editado" style="margin-left:4px;">✏️</span>' : '';
+    const hasObs   = a.confObs && a.confObs.trim().length > 0;
     return `<tr onclick="abrirConferencia(${ri})" title="Clique para conferir">
       <td><strong>${fmtData(a.dataSolic)}</strong></td>
       <td><strong>${fmtData(a.data)}</strong></td>
-      <td>${a.dataLiberacao?fmtData(a.dataLiberacao):'<span style="color:var(--text3)">—</span>'}</td>
-      <td>${slaBemaisBadge(slaBemais)}</td>
+      <td>${a.dataLiberacao ? fmtData(a.dataLiberacao) : '<span style="color:var(--text3)">—</span>'}</td>
+      <td>${slaBemaisBadge(slaBem)}</td>
       <td><strong>${a.nf||'—'}</strong></td>
       <td>${a.fornec||'—'}</td>
       <td>${a.skuEsp||'—'}</td>
       <td>${a.volEsp||'—'}</td>
-      <td>${a.pesoEsp?a.pesoEsp+' kg':'—'}</td>
+      <td>${a.pesoEsp ? a.pesoEsp+' kg' : '—'}</td>
       <td style="white-space:nowrap;">${badgeFlags(a)}</td>
       <td>${badgeNF(a.statusNF)}</td>
-      <td>${badgeStatus(a.status)}${editBadge}</td>
+      <td>${badgeStatus(a.status)}${editB}</td>
       <td><strong>${tempoMin}</strong></td>
       <td onclick="event.stopPropagation()">
         <div style="display:flex;gap:4px;flex-wrap:nowrap;">
           ${a.fixo
-            ?`<button class="btn-sm bsm-edit" title="Atualizar volumes" onclick="abrirModalFixo(${ri})">📦</button>`
-            :`<button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>`}
+            ? `<button class="btn-sm bsm-edit" title="Atualizar volumes" onclick="abrirModalFixo(${ri})">📦</button>`
+            : `<button class="btn-sm bsm-edit" onclick="abrirModalAgend(${ri})">✏️</button>`}
           <button class="btn-sm bsm-del" onclick="excluirAgend(${ri})">🗑️</button>
-          <button class="btn-sm bsm-obs" title="${hasObs?'Ver ocorrências':'Sem ocorrências'}" onclick="abrirPopupObs(${ri})" ${hasObs?'':'style="opacity:.4"'}>💬</button>
+          <button class="btn-sm bsm-obs" title="${hasObs?'Ver ocorrências':'Sem ocorrências'}"
+            onclick="abrirPopupObs(${ri})" ${hasObs?'':'style="opacity:.4"'}>💬</button>
         </div>
       </td>
     </tr>`;
   }).join('');
+
+  salvarFiltrosAgend();
 }
 
-function excluirAgend(idx){
-  if(agendamentos[idx]&&agendamentos[idx].fixo){
-    if(!confirm('Este é um fornecedor fixo. Deseja excluir mesmo assim?')) return;
-  }else{
-    if(!confirm('Excluir este agendamento?')) return;
-  }
-  agendamentos.splice(idx,1); save(); atualizarFiltrosDin(); renderAgend();
+function excluirAgend(idx) {
+  if (agendamentos[idx]?.fixo) { if (!confirm('Este é um fornecedor fixo. Deseja excluir mesmo assim?')) return; }
+  else                          { if (!confirm('Excluir este agendamento?')) return; }
+  agendamentos.splice(idx, 1);
+  save(); atualizarFiltrosDin(); renderAgend();
 }
 
-function atualizarFiltrosDin(){
-  const sel=document.getElementById('f-fornec'), at=sel.value;
-  const lista=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
-  sel.innerHTML='<option value="">Todos</option>'+lista.map(f=>`<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
+function atualizarFiltrosDin() {
+  const sel = document.getElementById('f-fornec'), at = sel.value;
+  const lista = [...new Set(agendamentos.map(a => a.fornec).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">Todos</option>' + lista.map(f => `<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
 }
 
-function filtrarAgend(){
-  const de  =document.getElementById('f-data-de').value;
-  const ate =document.getElementById('f-data-ate').value;
-  const ds  =document.getElementById('f-datasolic').value;
-  const dl  =document.getElementById('f-datalib').value;
-  const s   =document.getElementById('f-status').value;
-  const nf  =document.getElementById('f-nf').value;
-  const nrd =document.getElementById('f-nordil').value;
-  const enc =document.getElementById('f-encaixe').value;
-  const rea =document.getElementById('f-reagend').value;
-  const f   =document.getElementById('f-fornec').value;
-  renderAgend(agendamentos.filter(a=>{
-    if(de  && soData(a.data)<de)            return false;
-    if(ate && soData(a.data)>ate)           return false;
-    if(ds  && soData(a.dataSolic)!==ds)     return false;
-    if(dl  && soData(a.dataLiberacao)!==dl) return false;
-    if(s   && a.status!==s)                 return false;
-    if(nf  && a.statusNF!==nf)             return false;
-    if(nrd==='sim'&&!a.viaNoRdil)           return false;
-    if(nrd==='nao'&& a.viaNoRdil)           return false;
-    if(enc==='sim'&&!a.encaixe)             return false;
-    if(enc==='nao'&& a.encaixe)             return false;
-    if(rea==='sim'&&!a.reagendado)          return false;
-    if(rea==='nao'&& a.reagendado)          return false;
-    if(f   && a.fornec!==f)                 return false;
+function filtrarAgend() {
+  salvarFiltrosAgend();
+  const de  = document.getElementById('f-data-de').value;
+  const ate = document.getElementById('f-data-ate').value;
+  const ds  = document.getElementById('f-datasolic').value;
+  const dl  = document.getElementById('f-datalib').value;
+  const s   = document.getElementById('f-status').value;
+  const nf  = document.getElementById('f-nf').value;
+  const nrd = document.getElementById('f-nordil').value;
+  const enc = document.getElementById('f-encaixe').value;
+  const rea = document.getElementById('f-reagend').value;
+  const f   = document.getElementById('f-fornec').value;
+  renderAgend(agendamentos.filter(a => {
+    if (de  && soData(a.data)<de)             return false;
+    if (ate && soData(a.data)>ate)            return false;
+    if (ds  && soData(a.dataSolic)!==ds)      return false;
+    if (dl  && soData(a.dataLiberacao)!==dl)  return false;
+    if (s   && a.status!==s)                  return false;
+    if (nf  && a.statusNF!==nf)              return false;
+    if (nrd==='sim' && !a.viaNoRdil)          return false;
+    if (nrd==='nao' &&  a.viaNoRdil)          return false;
+    if (enc==='sim' && !a.encaixe)            return false;
+    if (enc==='nao' &&  a.encaixe)            return false;
+    if (rea==='sim' && !a.reagendado)         return false;
+    if (rea==='nao' &&  a.reagendado)         return false;
+    if (f   && a.fornec!==f)                  return false;
     return true;
   }));
 }
 
-function setDefaultFiltrosAgend(){
-  const hoje=getDataHoje();
-  const primeiroDia=hoje.substring(0,7)+'-01';
-  const parts=hoje.split('-');
-  const ultimoDia=new Date(parseInt(parts[0]),parseInt(parts[1]),0);
-  const ultimoDiaStr=`${ultimoDia.getFullYear()}-${String(ultimoDia.getMonth()+1).padStart(2,'0')}-${String(ultimoDia.getDate()).padStart(2,'0')}`;
-  document.getElementById('f-data-de').value=primeiroDia;
-  document.getElementById('f-data-ate').value=ultimoDiaStr;
+function setDefaultFiltrosAgend() {
+  const hoje = getDataHoje();
+  document.getElementById('f-data-de').value  = hoje.substring(0,7)+'-01';
+  const parts = hoje.split('-');
+  const ult   = new Date(parseInt(parts[0]), parseInt(parts[1]), 0);
+  document.getElementById('f-data-ate').value =
+    `${ult.getFullYear()}-${String(ult.getMonth()+1).padStart(2,'0')}-${String(ult.getDate()).padStart(2,'0')}`;
 }
-function limparFiltrosAgend(){
-  document.getElementById('f-data-de').value='';
-  document.getElementById('f-data-ate').value='';
-  ['f-datasolic','f-datalib','f-status','f-nf','f-nordil','f-encaixe','f-reagend','f-fornec']
-    .forEach(id=>document.getElementById(id).value='');
+function limparFiltrosAgend() {
+  IDS_F_AGEND.forEach(id => document.getElementById(id).value = '');
+  sessionStorage.removeItem('bm-f-agend');
   renderAgend();
 }
 
 /* ══════════════════════════════════════════════════
    FILTROS CONFERÊNCIA
 ══════════════════════════════════════════════════ */
-function atualizarFiltrosConf(){
-  const sel=document.getElementById('cf-fornec'), at=sel.value;
-  const lista=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
-  sel.innerHTML='<option value="">Todos</option>'+lista.map(f=>`<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
+function atualizarFiltrosConf() {
+  const sel = document.getElementById('cf-fornec'), at = sel.value;
+  const lista = [...new Set(agendamentos.map(a => a.fornec).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">Todos</option>' + lista.map(f => `<option value="${f}"${f===at?' selected':''}>${f}</option>`).join('');
 }
-function limparFiltrosConf(){
-  ['cf-data-de','cf-data-ate','cf-datasolic'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('cf-status').value='';
-  document.getElementById('cf-fornec').value='';
+function limparFiltrosConf() {
+  IDS_F_CONF.forEach(id => document.getElementById(id).value = '');
+  sessionStorage.removeItem('bm-f-conf');
   renderConfLista();
 }
-function setDefaultFiltrosConf(){
-  document.getElementById('cf-data-de').value=getDataHoje();
-  document.getElementById('cf-data-ate').value=getDataHoje();
+function setDefaultFiltrosConf() {
+  document.getElementById('cf-data-de').value  = getDataHoje();
+  document.getElementById('cf-data-ate').value = getDataHoje();
 }
 
 /* ══════════════════════════════════════════════════
    DASHBOARD
 ══════════════════════════════════════════════════ */
-function setDefaultFiltrosDash(){
-  document.getElementById('df-mes').value=getDataHoje().substring(0,7);
-}
-function limparFiltrosDash(){
+function setDefaultFiltrosDash() { document.getElementById('df-mes').value = getDataHoje().substring(0,7); }
+function limparFiltrosDash() {
   setDefaultFiltrosDash();
-  ['df-status','df-fornec','df-conferente'].forEach(id=>document.getElementById(id).value='');
+  ['df-status','df-fornec','df-conferente'].forEach(id => document.getElementById(id).value = '');
   renderDashboard();
 }
-function atualizarFiltrosDash(){
-  const selF=document.getElementById('df-fornec'), atF=selF.value;
-  const listaF=[...new Set(agendamentos.map(a=>a.fornec).filter(Boolean))].sort();
-  selF.innerHTML='<option value="">Todos</option>'+listaF.map(f=>`<option value="${f}"${f===atF?' selected':''}>${f}</option>`).join('');
-  const selC=document.getElementById('df-conferente'), atC=selC.value;
-  const listaC=[...new Set(agendamentos.map(a=>a.confConfer).filter(Boolean))].sort();
-  selC.innerHTML='<option value="">Todos</option>'+listaC.map(c=>`<option value="${c}"${c===atC?' selected':''}>${c}</option>`).join('');
+function atualizarFiltrosDash() {
+  const selF = document.getElementById('df-fornec'), atF = selF.value;
+  const listaF = [...new Set(agendamentos.map(a => a.fornec).filter(Boolean))].sort();
+  selF.innerHTML = '<option value="">Todos</option>' + listaF.map(f => `<option value="${f}"${f===atF?' selected':''}>${f}</option>`).join('');
+  const selC = document.getElementById('df-conferente'), atC = selC.value;
+  const listaC = [...new Set(agendamentos.map(a => a.confConfer).filter(Boolean))].sort();
+  selC.innerHTML = '<option value="">Todos</option>' + listaC.map(c => `<option value="${c}"${c===atC?' selected':''}>${c}</option>`).join('');
 }
-function getDadosDashFiltrado(){
-  const mes    =document.getElementById('df-mes')?.value||'';
-  const fStatus=document.getElementById('df-status')?.value||'';
-  const fFornec=document.getElementById('df-fornec')?.value||'';
-  const fConfer=document.getElementById('df-conferente')?.value||'';
-  return agendamentos.filter(a=>{
-    if(mes     && !soData(a.data).startsWith(mes)) return false;
-    if(fStatus && a.status!==fStatus)              return false;
-    if(fFornec && a.fornec!==fFornec)              return false;
-    if(fConfer && a.confConfer!==fConfer)          return false;
+function getDadosDashFiltrado() {
+  const mes     = document.getElementById('df-mes')?.value     || '';
+  const fStatus = document.getElementById('df-status')?.value  || '';
+  const fFornec = document.getElementById('df-fornec')?.value  || '';
+  const fConfer = document.getElementById('df-conferente')?.value || '';
+  return agendamentos.filter(a => {
+    if (mes     && !soData(a.data).startsWith(mes)) return false;
+    if (fStatus && a.status!==fStatus)              return false;
+    if (fFornec && a.fornec!==fFornec)              return false;
+    if (fConfer && a.confConfer!==fConfer)          return false;
     return true;
   });
 }
 
-let chartDonut=null, chartBarDia=null, chartVolume=null;
-function renderDashboard(){
+/* ══════════════════════════════════════════════════
+   #5 — GRÁFICOS com chart.update() em vez de recriar
+══════════════════════════════════════════════════ */
+let chartDonut = null, chartBarDia = null, chartVolume = null;
+
+function _updateOuCriar(chartRef, ctxId, config) {
+  const ctx = document.getElementById(ctxId).getContext('2d');
+  if (chartRef) {
+    chartRef.data    = config.data;
+    chartRef.options = config.options;
+    chartRef.update();
+    return chartRef;
+  }
+  return new Chart(ctx, config);
+}
+
+function renderDashboard() {
   atualizarStatusAgendamentos();
   atualizarFiltrosDash();
-  const hoje=getDataHoje();
-  const diaHoje=getDiaHoje();
-  const dados=getDadosDashFiltrado();
-  const fixosHoje=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(diaHoje));
+  const hoje     = getDataHoje();
+  const diaHoje  = getDiaHoje();
+  const dados    = getDadosDashFiltrado();
+  const fixosHoje= FORNECEDORES_FIXOS.filter(f => f.dias.includes(diaHoje));
 
-  const conc  =dados.filter(a=>a.status==='Concluído OK').length;
-  const nfinal=dados.filter(a=>a.status==='Não Finalizado').length;
-  const and   =dados.filter(a=>a.status==='Em Conferência').length;
-  const agua  =dados.filter(a=>a.status==='Aguardando').length;
-  const atr   =dados.filter(a=>a.status==='Atrasado').length;
-  const pend  =dados.filter(a=>a.status==='Pendente').length;
-  const total =dados.length;
+  const conc   = dados.filter(a => a.status==='Concluído OK').length;
+  const nfinal = dados.filter(a => a.status==='Não Finalizado').length;
+  const and    = dados.filter(a => a.status==='Em Conferência').length;
+  const agua   = dados.filter(a => a.status==='Aguardando').length;
+  const atr    = dados.filter(a => a.status==='Atrasado').length;
+  const pend   = dados.filter(a => a.status==='Pendente').length;
 
-  // ★ confSLA em segundos → converter para minutos na exibição
-  const slaLista=dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
-  const slaMedSeg=slaLista.length?Math.round(slaLista.reduce((s,v)=>s+v,0)/slaLista.length):null;
-  const slaBemaLista=dados.filter(a=>a.data&&a.dataLiberacao).map(a=>diffDias(a.data,a.dataLiberacao)).filter(v=>v!==null);
-  const slaBemaMed  =slaBemaLista.length?Math.round(slaBemaLista.reduce((s,v)=>s+v,0)/slaBemaLista.length):null;
+  const slaLista   = dados.filter(a => a.confSLA!=null).map(a => a.confSLA);
+  const slaMedSeg  = slaLista.length ? Math.round(slaLista.reduce((s,v) => s+v,0)/slaLista.length) : null;
+  const slaBemaL   = dados.filter(a => a.data&&a.dataLiberacao).map(a => diffDias(a.data,a.dataLiberacao)).filter(v => v!==null);
+  const slaBemaMed = slaBemaL.length ? Math.round(slaBemaL.reduce((s,v) => s+v,0)/slaBemaL.length) : null;
 
-  document.getElementById('d-total').textContent     =total;
-  document.getElementById('d-concluidos').textContent=conc;
-  document.getElementById('d-nfinal').textContent    =nfinal;
-  document.getElementById('d-andamento').textContent =and;
-  document.getElementById('d-aguardando').textContent=agua;
-  document.getElementById('d-atrasados').textContent =atr;
-  document.getElementById('d-pendentes').textContent =pend;
-  document.getElementById('d-sla').textContent       =slaMedSeg!=null?Math.round(slaMedSeg/60)+' min':'—';
-  document.getElementById('d-sla-bemais').textContent=slaBemaMed!=null?slaBemaMed+'d':'—';
+  document.getElementById('d-total').textContent      = dados.length;
+  document.getElementById('d-concluidos').textContent = conc;
+  document.getElementById('d-nfinal').textContent     = nfinal;
+  document.getElementById('d-andamento').textContent  = and;
+  document.getElementById('d-aguardando').textContent = agua;
+  document.getElementById('d-atrasados').textContent  = atr;
+  document.getElementById('d-pendentes').textContent  = pend;
+  document.getElementById('d-sla').textContent        = slaMedSeg!=null ? Math.round(slaMedSeg/60)+' min' : '—';
+  document.getElementById('d-sla-bemais').textContent = slaBemaMed!=null ? slaBemaMed+'d' : '—';
 
-  const dadosConf=dados.filter(a=>a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
-  const skuEspT =dados.reduce((s,a)=>s+(a.skuEsp||0),0);
-  const skuRecT =dadosConf.reduce((s,a)=>s+(a.skuRec||0),0);
-  const volEspT =dados.reduce((s,a)=>s+(a.volEsp||0),0);
-  const volRecT =dadosConf.reduce((s,a)=>s+(a.volRec||0),0);
-  const pesoEspT=dados.reduce((s,a)=>s+(a.pesoEsp||0),0);
-  const pesoRecT=dadosConf.reduce((s,a)=>s+(a.pesoRec||0),0);
+  const dadosConf = dados.filter(a => a.skuRec!=null||a.volRec!=null||a.pesoRec!=null);
+  const skuEspT   = dados.reduce((s,a) => s+(a.skuEsp||0),0);
+  const skuRecT   = dadosConf.reduce((s,a) => s+(a.skuRec||0),0);
+  const volEspT   = dados.reduce((s,a) => s+(a.volEsp||0),0);
+  const volRecT   = dadosConf.reduce((s,a) => s+(a.volRec||0),0);
+  const pesoEspT  = dados.reduce((s,a) => s+(a.pesoEsp||0),0);
+  const pesoRecT  = dadosConf.reduce((s,a) => s+(a.pesoRec||0),0);
 
-  function setComp(eId,rId,bId,dId,esp,rec,cls){
-    document.getElementById(eId).textContent=cls==='peso-fill'?esp.toFixed(1)+' kg':esp;
-    document.getElementById(rId).textContent=cls==='peso-fill'?rec.toFixed(1)+' kg':rec;
-    const pct=esp>0?Math.min((rec/esp)*100,150):0;
-    const bar=document.getElementById(bId);
-    bar.style.width=pct+'%';
-    bar.className=`ccard-bar-fill ${cls}${pct>100?' over':''}`;
-    const dEl=document.getElementById(dId);
-    if(!dadosConf.length){ dEl.innerHTML='<span class="diff-neu">— sem conferências</span>'; return; }
-    const diff=rec-esp, suf=cls==='peso-fill'?' kg':'';
-    if(diff===0)    dEl.innerHTML='<span class="diff-ok">✅ Sem divergência</span>';
-    else if(diff>0) dEl.innerHTML=`<span class="diff-div">▲ +${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a mais</span>`;
-    else            dEl.innerHTML=`<span class="diff-div">▼ ${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a menos</span>`;
+  function setComp(eId,rId,bId,dId,esp,rec,cls) {
+    document.getElementById(eId).textContent = cls==='peso-fill' ? esp.toFixed(1)+' kg' : esp;
+    document.getElementById(rId).textContent = cls==='peso-fill' ? rec.toFixed(1)+' kg' : rec;
+    const pct  = esp>0 ? Math.min((rec/esp)*100,150) : 0;
+    const bar  = document.getElementById(bId);
+    bar.style.width   = pct+'%';
+    bar.className     = `ccard-bar-fill ${cls}${pct>100?' over':''}`;
+    const dEl  = document.getElementById(dId);
+    if (!dadosConf.length) { dEl.innerHTML = '<span class="diff-neu">— sem conferências</span>'; return; }
+    const diff = rec-esp, suf = cls==='peso-fill'?' kg':'';
+    if (diff===0)    dEl.innerHTML = '<span class="diff-ok">✅ Sem divergência</span>';
+    else if (diff>0) dEl.innerHTML = `<span class="diff-div">▲ +${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a mais</span>`;
+    else             dEl.innerHTML = `<span class="diff-div">▼ ${diff.toFixed(cls==='peso-fill'?1:0)}${suf} a menos</span>`;
   }
   setComp('cc-sku-esp','cc-sku-rec','cc-sku-bar','cc-sku-diff',skuEspT,skuRecT,'sku-fill');
   setComp('cc-vol-esp','cc-vol-rec','cc-vol-bar','cc-vol-diff',volEspT,volRecT,'vol-fill');
   setComp('cc-peso-esp','cc-peso-rec','cc-peso-bar','cc-peso-diff',pesoEspT,pesoRecT,'peso-fill');
 
-  const ctxD=document.getElementById('chartDonut').getContext('2d');
-  if(chartDonut) chartDonut.destroy();
-  chartDonut=new Chart(ctxD,{type:'doughnut',data:{
-    labels:['Concluído OK','Não Finalizado','Em Conferência','Aguardando','Atrasado','Pendente'],
-    datasets:[{data:[conc,nfinal,and,agua,atr,pend],
+  // #5 — Donut
+  const donutData = {
+    labels  : ['Concluído OK','Não Finalizado','Em Conferência','Aguardando','Atrasado','Pendente'],
+    datasets: [{ data:[conc,nfinal,and,agua,atr,pend],
       backgroundColor:['#16a34a','#d97706','#1d4ed8','#9ca3af','#dc2626','#a21caf'],
-      borderColor:'#fff',borderWidth:2}]
-  },options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151',padding:10}}},cutout:'65%'}});
+      borderColor:'#fff', borderWidth:2 }],
+  };
+  if (chartDonut) {
+    chartDonut.data = donutData; chartDonut.update();
+  } else {
+    chartDonut = new Chart(document.getElementById('chartDonut').getContext('2d'), {
+      type:'doughnut', data: donutData,
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ position:'bottom', labels:{ font:{size:11}, color:'#374151', padding:10 } } },
+        cutout:'65%' },
+    });
+  }
 
-  const porDia={};
-  dados.forEach(a=>{ const d=soData(a.data); if(d) porDia[d]=(porDia[d]||0)+1; });
-  const diasOrdenados=Object.keys(porDia).sort();
-  const labDia=diasOrdenados.map(d=>{ const idx=diaDaSemana(d); return `${NOMES_DIA_PT[idx]} ${fmtData(d).substring(0,5)}`; });
-  const ctxB=document.getElementById('chartBarDia').getContext('2d');
-  if(chartBarDia) chartBarDia.destroy();
-  chartBarDia=new Chart(ctxB,{type:'bar',data:{
-    labels:labDia,
-    datasets:[{label:'Agendamentos',data:diasOrdenados.map(d=>porDia[d]),
-      backgroundColor:diasOrdenados.map(d=>d===hoje?'#16a34a':'#1a1a1a'),
-      borderRadius:6,borderSkipped:false}]
-  },options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false}},
-    scales:{y:{beginAtZero:true,ticks:{stepSize:1,color:'#6b7280'},grid:{color:'#f3f4f6'}},
-            x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
+  // #5 — Bar por dia
+  const porDia = {};
+  dados.forEach(a => { const d = soData(a.data); if (d) porDia[d] = (porDia[d]||0)+1; });
+  const diasOrd = Object.keys(porDia).sort();
+  const labDia  = diasOrd.map(d => { const idx = diaDaSemana(d); return `${NOMES_DIA_PT[idx]} ${fmtData(d).substring(0,5)}`; });
+  const barDiaData = {
+    labels  : labDia,
+    datasets: [{ label:'Agendamentos', data: diasOrd.map(d => porDia[d]),
+      backgroundColor: diasOrd.map(d => d===hoje?'#16a34a':'#1a1a1a'),
+      borderRadius:6, borderSkipped:false }],
+  };
+  if (chartBarDia) {
+    chartBarDia.data = barDiaData; chartBarDia.update();
+  } else {
+    chartBarDia = new Chart(document.getElementById('chartBarDia').getContext('2d'), {
+      type:'bar', data: barDiaData,
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ display:false } },
+        scales:{ y:{ beginAtZero:true, ticks:{stepSize:1,color:'#6b7280'}, grid:{color:'#f3f4f6'} },
+                 x:{ ticks:{color:'#374151',font:{weight:'700'}}, grid:{display:false} } } },
+    });
+  }
 
-  const ctxV=document.getElementById('chartVolume').getContext('2d');
-  if(chartVolume) chartVolume.destroy();
-  chartVolume=new Chart(ctxV,{type:'bar',data:{
-    labels:['SKU','Volume (Cx)','Peso (kg)'],
-    datasets:[
-      {label:'Agendado',data:[skuEspT,volEspT,pesoEspT],backgroundColor:'#9ca3af',borderRadius:4,borderSkipped:false},
-      {label:'Recebido',data:[skuRecT,volRecT,pesoRecT],backgroundColor:'#1a1a1a',borderRadius:4,borderSkipped:false},
-    ]
-  },options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#374151'}}},
-    scales:{y:{beginAtZero:true,ticks:{color:'#6b7280'},grid:{color:'#f3f4f6'}},
-            x:{ticks:{color:'#374151',font:{weight:'700'}},grid:{display:false}}}}});
+  // #5 — Volume agend vs rec
+  const volData = {
+    labels  : ['SKU','Volume (Cx)','Peso (kg)'],
+    datasets: [
+      { label:'Agendado', data:[skuEspT,volEspT,pesoEspT], backgroundColor:'#9ca3af', borderRadius:4, borderSkipped:false },
+      { label:'Recebido', data:[skuRecT,volRecT,pesoRecT], backgroundColor:'#1a1a1a', borderRadius:4, borderSkipped:false },
+    ],
+  };
+  if (chartVolume) {
+    chartVolume.data = volData; chartVolume.update();
+  } else {
+    chartVolume = new Chart(document.getElementById('chartVolume').getContext('2d'), {
+      type:'bar', data: volData,
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ position:'bottom', labels:{ font:{size:11}, color:'#374151' } } },
+        scales:{ y:{ beginAtZero:true, ticks:{color:'#6b7280'}, grid:{color:'#f3f4f6'} },
+                 x:{ ticks:{color:'#374151',font:{weight:'700'}}, grid:{display:false} } } },
+    });
+  }
 
-  const tbFixos=document.getElementById('dash-fixos-tbody');
-  if(!fixosHoje.length){
-    tbFixos.innerHTML=`<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;
-  }else{
-    tbFixos.innerHTML=fixosHoje.map(f=>{
-      const k=getKeyFixo(diaHoje,f.codigo);
-      const st=confirmacoes[k]||'';
-      const badge=st==='confirmado'?
-        '<span class="badge b-conf">✅ Confirmado</span>':
-        st==='naovieram'?'<span class="badge b-atrasado">🚨 Não Vieram</span>':
-        '<span class="badge b-aguard">⏳ Aguardando</span>';
+  // Fixos do dia
+  const tbFixos = document.getElementById('dash-fixos-tbody');
+  if (!fixosHoje.length) {
+    tbFixos.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Nenhum fornecedor fixo hoje.</td></tr>`;
+  } else {
+    tbFixos.innerHTML = fixosHoje.map(f => {
+      const k  = getKeyFixo(diaHoje, f.codigo);
+      const st = confirmacoes[k] || '';
+      const badge = st==='confirmado'
+        ? '<span class="badge b-conf">✅ Confirmado</span>'
+        : st==='naovieram'
+          ? '<span class="badge b-atrasado">🚨 Não Vieram</span>'
+          : '<span class="badge b-aguard">⏳ Aguardando</span>';
       return `<tr><td><strong>${f.nome}</strong></td><td>${f.codigo}</td><td>${badge}</td></tr>`;
     }).join('');
   }
 }
 
 /* ══════════════════════════════════════════════════
-   CONFERÊNCIA — TIMER (baseado em diffSegundos)
+   CONFERÊNCIA — TIMER
 ══════════════════════════════════════════════════ */
-let timerInterval=null;
+let timerInterval = null;
 
-function iniciarTimer(idx){
-  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-  timerInterval=setInterval(()=>{
-    const a=agendamentos[idx];
-    if(!a||!a.confInicio) return;
-    const agora=agoraLocalStr();
-    const seg=diffSegundos(a.confInicio, agora);
-    document.getElementById('c-timer').textContent=fmtHMS(seg!=null?seg:0);
-  },1000);
+function iniciarTimer(idx) {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  timerInterval = setInterval(() => {
+    const a = agendamentos[idx];
+    if (!a || !a.confInicio) return;
+    // #2 — usar Date.now() - inicioTimestamp para maior precisão
+    const seg = diffSegundos(a.confInicio, agoraLocalStr());
+    document.getElementById('c-timer').textContent = fmtHMS(seg != null ? seg : 0);
+  }, 1000);
 }
 
-/* Recalcula duração ao editar manualmente os campos datetime */
-function recalcularDuracao(){
-  const ini=document.getElementById('c-tempo-inicio').value;
-  const fim=document.getElementById('c-tempo-fim').value;
-  if(ini&&fim){
-    const seg=diffSegundos(ini,fim);
-    document.getElementById('c-timer').textContent=seg!=null?fmtHMS(seg):'00:00:00';
+function recalcularDuracao() {
+  const ini = document.getElementById('c-tempo-inicio').value;
+  const fim = document.getElementById('c-tempo-fim').value;
+  if (ini && fim) {
+    const seg = diffSegundos(ini, fim);
+    document.getElementById('c-timer').textContent = seg != null ? fmtHMS(seg) : '00:00:00';
   }
 }
 
 /* ══════════════════════════════════════════════════
    CONFERÊNCIA — LISTA
 ══════════════════════════════════════════════════ */
-let confIdx=-1, confAtiva=false, edicaoAtiva=false;
+let confIdx = -1, confAtiva = false, edicaoAtiva = false;
 
-function renderConfLista(){
-  const de =document.getElementById('cf-data-de').value;
-  const ate=document.getElementById('cf-data-ate').value;
-  const ds =document.getElementById('cf-datasolic').value;
-  const s  =document.getElementById('cf-status').value;
-  const f  =document.getElementById('cf-fornec').value;
-  const dados=agendamentos.filter(a=>{
-    if(de  && soData(a.data)<de)        return false;
-    if(ate && soData(a.data)>ate)       return false;
-    if(ds  && soData(a.dataSolic)!==ds) return false;
-    if(s   && a.status!==s)             return false;
-    if(f   && a.fornec!==f)             return false;
+function renderConfLista() {
+  const de  = document.getElementById('cf-data-de').value;
+  const ate = document.getElementById('cf-data-ate').value;
+  const ds  = document.getElementById('cf-datasolic').value;
+  const s   = document.getElementById('cf-status').value;
+  const f   = document.getElementById('cf-fornec').value;
+  const dados = agendamentos.filter(a => {
+    if (de  && soData(a.data)<de)        return false;
+    if (ate && soData(a.data)>ate)       return false;
+    if (ds  && soData(a.dataSolic)!==ds) return false;
+    if (s   && a.status!==s)             return false;
+    if (f   && a.fornec!==f)             return false;
     return true;
   });
+  salvarFiltrosConf();
 
-  // ★ Barra de cargas em andamento (iniciadas mas não finalizadas)
-  const emAndamento=agendamentos.filter(a=>a.confInicio&&!a.confFim);
-  const barEl=document.getElementById('cargas-ativas-bar');
-  const chipsEl=document.getElementById('cargas-ativas-chips');
-  if(emAndamento.length){
-    barEl.style.display='flex';
-    chipsEl.innerHTML=emAndamento.map(a=>{
-      const ri=agendamentos.indexOf(a);
-      const seg=diffSegundos(a.confInicio, agoraLocalStr());
-      const min=seg!=null?Math.floor(seg/60):0;
+  // Barra cargas em andamento
+  const emAnd   = agendamentos.filter(a => a.confInicio && !a.confFim);
+  const barEl   = document.getElementById('cargas-ativas-bar');
+  const chipsEl = document.getElementById('cargas-ativas-chips');
+  if (emAnd.length) {
+    barEl.style.display = 'flex';
+    chipsEl.innerHTML   = emAnd.map(a => {
+      const ri  = agendamentos.indexOf(a);
+      const seg = diffSegundos(a.confInicio, agoraLocalStr());
+      const min = seg != null ? Math.floor(seg/60) : 0;
       return `<span class="carga-chip" onclick="abrirConferencia(${ri})">
         🔄 ${a.fornec||'—'} <span style="opacity:.7;font-size:11px;">(${min} min)</span>
       </span>`;
     }).join('');
-  }else{
-    barEl.style.display='none';
+  } else {
+    barEl.style.display = 'none';
   }
 
-  const tbody=document.getElementById('conf-lista-tbody');
-  const empty=document.getElementById('conf-lista-empty');
-  if(!dados.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
+  const tbody = document.getElementById('conf-lista-tbody');
+  const empty = document.getElementById('conf-lista-empty');
+  if (!dados.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
 
-  tbody.innerHTML=dados.map(a=>{
-    const ri=agendamentos.indexOf(a);
-    const emAnd=!!(a.confInicio&&!a.confFim);
+  // #7 — separar "ver detalhes" de "abrir conferência"
+  tbody.innerHTML = dados.map(a => {
+    const ri    = agendamentos.indexOf(a);
+    const emAnd = !!(a.confInicio && !a.confFim);
     return `<tr>
       <td><strong>${fmtData(a.dataSolic)}</strong></td>
       <td><strong>${fmtData(a.data)}</strong></td>
@@ -1619,6 +1854,9 @@ function renderConfLista(){
       <td>${a.fornec||'—'}</td>
       <td>${badgeFlags(a)}</td>
       <td>${badgeStatus(a.status)}${emAnd?'<span class="badge b-iniciado" style="margin-left:4px;">🔄 Iniciado</span>':''}</td>
+      <td onclick="event.stopPropagation()">
+        <button class="btn-sm bsm-obs" onclick="abrirPopupObs(${ri})" title="Ver detalhes / ocorrências">📋 Detalhes</button>
+      </td>
       <td onclick="event.stopPropagation()">
         <button class="btn-sm ${emAnd?'bsm-conf':'bsm-edit'}" onclick="abrirConferencia(${ri})">
           ${emAnd?'🔄 Continuar':'🔍 Conferir'}
@@ -1631,400 +1869,377 @@ function renderConfLista(){
 /* ══════════════════════════════════════════════════
    CONFERÊNCIA — ACTIVE
 ══════════════════════════════════════════════════ */
-function abrirConferencia(idx){
-  confIdx=idx;
-  edicaoAtiva=false;
-  const a=agendamentos[idx];
+function abrirConferencia(idx) {
+  confIdx     = idx;
+  edicaoAtiva = false;
+  const a     = agendamentos[idx];
 
-  // Mudar para estado ativo
-  document.getElementById('conf-select-state').style.display='none';
-  document.getElementById('conf-active-state').style.display='block';
+  document.getElementById('conf-select-state').style.display = 'none';
+  document.getElementById('conf-active-state').style.display = 'block';
 
-  // Cabeçalho
-  document.getElementById('c-fornec-title').textContent=a.fornec||'—';
-  document.getElementById('c-nf-title').textContent=`NF: ${a.nf||'—'} | Data: ${fmtData(a.data)}`;
+  document.getElementById('c-fornec-title').textContent = a.fornec || '—';
+  document.getElementById('c-nf-title').textContent     = `NF: ${a.nf||'—'} | Data: ${fmtData(a.data)}`;
 
-  // Comparativo
-  document.getElementById('c-sku-esp').textContent=a.skuEsp||'—';
-  document.getElementById('c-vol-esp').textContent=a.volEsp||'—';
-  document.getElementById('c-peso-esp').textContent=a.pesoEsp?a.pesoEsp+' kg':'—';
-  document.getElementById('c-sku-rec').value=a.skuRec!=null?a.skuRec:'';
-  document.getElementById('c-vol-rec').value=a.volRec!=null?a.volRec:'';
-  document.getElementById('c-peso-rec').value=a.pesoRec!=null?a.pesoRec:'';
-  document.getElementById('c-conferente').value=a.confConfer||'';
-  document.getElementById('c-ocorrencia').value=a.confObs||'';
+  document.getElementById('c-sku-esp').textContent  = a.skuEsp  || '—';
+  document.getElementById('c-vol-esp').textContent  = a.volEsp  || '—';
+  document.getElementById('c-peso-esp').textContent = a.pesoEsp ? a.pesoEsp+' kg' : '—';
+  document.getElementById('c-sku-rec').value         = a.skuRec  != null ? a.skuRec  : '';
+  document.getElementById('c-vol-rec').value         = a.volRec  != null ? a.volRec  : '';
+  document.getElementById('c-peso-rec').value        = a.pesoRec != null ? a.pesoRec : '';
+  document.getElementById('c-conferente').value      = a.confConfer || conferenteAtivo || '';
+  document.getElementById('c-ocorrencia').value      = a.confObs    || '';
+  document.getElementById('c-tempo-inicio').value    = a.confInicio || '';
+  document.getElementById('c-tempo-fim').value       = a.confFim    || '';
 
-  // ★ Campos de data/hora início e fim
-  document.getElementById('c-tempo-inicio').value=a.confInicio||'';
-  document.getElementById('c-tempo-fim').value=a.confFim||'';
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
 
-  // Reset timer
-  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+  const jaIniciado  = !!(a.confInicio);
+  const jaFinalizado= !!(a.confFim);
 
-  const jaIniciado =!!(a.confInicio);
-  const jaFinalizado=!!(a.confFim);
-
-  if(jaFinalizado){
-    // — Já finalizado
-    const seg=diffSegundos(a.confInicio, a.confFim);
-    document.getElementById('c-timer').textContent=seg!=null?fmtHMS(seg):'00:00:00';
-    document.getElementById('c-tempo-inicio').disabled=true;
-    document.getElementById('c-tempo-fim').disabled=true;
+  if (jaFinalizado) {
+    const seg = diffSegundos(a.confInicio, a.confFim);
+    document.getElementById('c-timer').textContent = seg != null ? fmtHMS(seg) : '00:00:00';
+    document.getElementById('c-tempo-inicio').disabled = true;
+    document.getElementById('c-tempo-fim').disabled    = true;
     _setInputsConf(true);
-    document.getElementById('btn-iniciar-conf').style.display='none';
-    document.getElementById('section-finalizar').style.display='none';
-    document.getElementById('btn-editar-conf').style.display='inline-flex';
-    document.getElementById('btn-salvar-edicao').style.display='none';
+    document.getElementById('btn-iniciar-conf').style.display  = 'none';
+    document.getElementById('section-finalizar').style.display = 'none';
+    document.getElementById('btn-editar-conf').style.display   = 'inline-flex';
+    document.getElementById('btn-salvar-edicao').style.display = 'none';
     mostrarResultado(a);
-    document.getElementById('conf-resultado').style.display='block';
-    confAtiva=false;
+    document.getElementById('conf-resultado').style.display = 'block';
+    confAtiva = false;
 
-  }else if(jaIniciado){
-    // — Em andamento: continuar timer
-    document.getElementById('c-tempo-inicio').disabled=false;
-    document.getElementById('c-tempo-fim').disabled=false;
+  } else if (jaIniciado) {
+    document.getElementById('c-tempo-inicio').disabled = false;
+    document.getElementById('c-tempo-fim').disabled    = false;
     _setInputsConf(false);
-    document.getElementById('btn-iniciar-conf').style.display='none';
-    document.getElementById('section-finalizar').style.display='block';
-    document.getElementById('btn-editar-conf').style.display='none';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    document.getElementById('conf-resultado').style.display='none';
+    document.getElementById('btn-iniciar-conf').style.display  = 'none';
+    document.getElementById('section-finalizar').style.display = 'block';
+    document.getElementById('btn-editar-conf').style.display   = 'none';
+    document.getElementById('btn-salvar-edicao').style.display = 'none';
+    document.getElementById('conf-resultado').style.display    = 'none';
     iniciarTimer(idx);
-    confAtiva=true;
+    confAtiva = true;
 
-  }else{
-    // — Não iniciado
-    document.getElementById('c-timer').textContent='00:00:00';
-    document.getElementById('c-tempo-inicio').disabled=false;
-    document.getElementById('c-tempo-fim').disabled=true;
+  } else {
+    document.getElementById('c-timer').textContent            = '00:00:00';
+    document.getElementById('c-tempo-inicio').disabled        = false;
+    document.getElementById('c-tempo-fim').disabled           = true;
     _setInputsConf(true);
-    document.getElementById('btn-iniciar-conf').style.display='inline-flex';
-    document.getElementById('section-finalizar').style.display='none';
-    document.getElementById('btn-editar-conf').style.display='none';
-    document.getElementById('btn-salvar-edicao').style.display='none';
-    document.getElementById('conf-resultado').style.display='none';
-    confAtiva=false;
+    document.getElementById('btn-iniciar-conf').style.display  = 'inline-flex';
+    document.getElementById('section-finalizar').style.display = 'none';
+    document.getElementById('btn-editar-conf').style.display   = 'none';
+    document.getElementById('btn-salvar-edicao').style.display = 'none';
+    document.getElementById('conf-resultado').style.display    = 'none';
+    confAtiva = false;
   }
 
-  // Aviso obrigatório oculto
-  document.getElementById('aviso-obrig').style.display='none';
-
+  document.getElementById('aviso-obrig').style.display = 'none';
   calcDiverg();
   atualizarMetaConf(a);
   atualizarStatusConfGrid(a.status);
 
-  // Edit banner
-  const editBanner=document.getElementById('edit-banner');
-  if(a.editadoEm){
-    editBanner.style.display='flex';
-    document.getElementById('edit-banner-time').textContent='Editado em: '+fmtData(a.editadoEm);
-  }else{
-    editBanner.style.display='none';
+  const editBanner = document.getElementById('edit-banner');
+  if (a.editadoEm) {
+    editBanner.style.display = 'flex';
+    document.getElementById('edit-banner-time').textContent = 'Editado em: ' + fmtData(a.editadoEm);
+  } else {
+    editBanner.style.display = 'none';
   }
 }
 
-/* Helper: habilita/desabilita inputs de conferência */
-function _setInputsConf(disabled){
-  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id=>{
-    document.getElementById(id).disabled=disabled;
+function _setInputsConf(disabled) {
+  ['c-sku-rec','c-vol-rec','c-peso-rec','c-conferente','c-ocorrencia'].forEach(id => {
+    document.getElementById(id).disabled = disabled;
   });
 }
 
-function atualizarMetaConf(a){
-  document.getElementById('c-inicio-label').textContent=a.confInicio?fmtData(a.confInicio):'—';
-  document.getElementById('c-fim-label').textContent=a.confFim?fmtData(a.confFim):'—';
-  if(a.confSLA!=null){
-    document.getElementById('c-dur-label').textContent=Math.round(a.confSLA/60)+' min';
-  }else if(a.confInicio&&a.confFim){
-    const seg=diffSegundos(a.confInicio,a.confFim);
-    document.getElementById('c-dur-label').textContent=seg!=null?Math.round(seg/60)+' min':'—';
-  }else{
-    document.getElementById('c-dur-label').textContent='—';
+function atualizarMetaConf(a) {
+  document.getElementById('c-inicio-label').textContent = a.confInicio ? fmtData(a.confInicio) : '—';
+  document.getElementById('c-fim-label').textContent    = a.confFim    ? fmtData(a.confFim)    : '—';
+  if (a.confSLA != null) {
+    document.getElementById('c-dur-label').textContent = Math.round(a.confSLA/60)+' min';
+  } else if (a.confInicio && a.confFim) {
+    const seg = diffSegundos(a.confInicio, a.confFim);
+    document.getElementById('c-dur-label').textContent = seg != null ? Math.round(seg/60)+' min' : '—';
+  } else {
+    document.getElementById('c-dur-label').textContent = '—';
   }
-  if(a.data){
-    const hoje=getDataHoje(), dataAg=soData(a.data);
-    document.getElementById('c-pont-label').textContent=
-      dataAg===hoje?'✅ No prazo':dataAg<hoje?'⚠️ Atrasado':'📅 Antecipado';
-  }else{
-    document.getElementById('c-pont-label').textContent='—';
+  if (a.data) {
+    const hoje = getDataHoje(), dataAg = soData(a.data);
+    document.getElementById('c-pont-label').textContent =
+      dataAg===hoje ? '✅ No prazo' : dataAg<hoje ? '⚠️ Atrasado' : '📅 Antecipado';
+  } else {
+    document.getElementById('c-pont-label').textContent = '—';
   }
 }
 
-function atualizarStatusConfGrid(status){
-  document.querySelectorAll('.sc-opt').forEach(el=>{
-    el.className='sc-opt';
-    if(el.dataset.val===status) el.classList.add(STATUS_CONF_CLASS[status]||'sel-aguard');
+function atualizarStatusConfGrid(status) {
+  document.querySelectorAll('.sc-opt').forEach(el => {
+    el.className = 'sc-opt';
+    if (el.dataset.val === status) el.classList.add(STATUS_CONF_CLASS[status] || 'sel-aguard');
   });
 }
 
-function selecionarStatusConf(val){
-  if(confIdx<0) return;
-  agendamentos[confIdx].status=val;
+function selecionarStatusConf(val) {
+  if (confIdx < 0) return;
+  const ant = agendamentos[confIdx].status;
+  agendamentos[confIdx].status = val;
   atualizarStatusConfGrid(val);
+  // #8 — histórico
+  if (ant !== val) registrarHistorico(confIdx, 'status', ant, val);
   save();
 }
 
-/* ★ INICIAR CONFERÊNCIA — registra horário atual do sistema */
-function iniciarConferencia(){
-  if(confIdx<0) return;
-  const a=agendamentos[confIdx];
-  const agora=agoraLocalStr();   // horário do Windows/navegador
-  a.confInicio=agora;
-  a.status='Em Conferência';
+function iniciarConferencia() {
+  if (confIdx < 0) return;
+  const a    = agendamentos[confIdx];
+  const agora= agoraLocalStr();
+  a.confInicio = agora;
+  a.status     = 'Em Conferência';
 
-  document.getElementById('c-tempo-inicio').value=agora;
-  document.getElementById('c-tempo-inicio').disabled=false;
-  document.getElementById('c-tempo-fim').disabled=false;
-
+  document.getElementById('c-tempo-inicio').value    = agora;
+  document.getElementById('c-tempo-inicio').disabled = false;
+  document.getElementById('c-tempo-fim').disabled    = false;
   _setInputsConf(false);
-  document.getElementById('btn-iniciar-conf').style.display='none';
-  document.getElementById('section-finalizar').style.display='block';
-  document.getElementById('conf-resultado').style.display='none';
-  document.getElementById('aviso-obrig').style.display='none';
+  document.getElementById('btn-iniciar-conf').style.display  = 'none';
+  document.getElementById('section-finalizar').style.display = 'block';
+  document.getElementById('conf-resultado').style.display    = 'none';
+  document.getElementById('aviso-obrig').style.display       = 'none';
 
   atualizarStatusConfGrid('Em Conferência');
   atualizarMetaConf(a);
   iniciarTimer(confIdx);
   save();
-  renderConfLista(); // atualiza chips da barra de andamento
-  confAtiva=true;
+  renderConfLista();
+  confAtiva = true;
 }
 
-/* ★ FINALIZAR CARGA — validação obrigatória: conferente + fim */
-function finalizarConferencia(){
-  if(confIdx<0) return;
-  const a=agendamentos[confIdx];
-  const conferente=document.getElementById('c-conferente').value.trim();
-  let fimVal=document.getElementById('c-tempo-fim').value;
+function finalizarConferencia() {
+  if (confIdx < 0) return;
+  const a          = agendamentos[confIdx];
+  const conferente = document.getElementById('c-conferente').value.trim();
+  let   fimVal     = document.getElementById('c-tempo-fim').value;
+  if (!fimVal) { fimVal = agoraLocalStr(); document.getElementById('c-tempo-fim').value = fimVal; }
 
-  // Se fim não preenchido, auto-preenche com agora
-  if(!fimVal){
-    fimVal=agoraLocalStr();
-    document.getElementById('c-tempo-fim').value=fimVal;
-  }
-
-  // Conferente é obrigatório
-  if(!conferente){
-    document.getElementById('aviso-obrig').style.display='flex';
+  if (!conferente) {
+    document.getElementById('aviso-obrig').style.display = 'flex';
     document.getElementById('c-conferente').focus();
     return;
   }
-  document.getElementById('aviso-obrig').style.display='none';
+  document.getElementById('aviso-obrig').style.display = 'none';
 
-  const inicioVal=document.getElementById('c-tempo-inicio').value||a.confInicio;
+  const inicioVal   = document.getElementById('c-tempo-inicio').value || a.confInicio;
+  const antStatus   = a.status;
+  const antConfer   = a.confConfer;
 
-  a.confInicio=inicioVal;
-  a.confFim   =fimVal;
+  a.confInicio  = inicioVal;
+  a.confFim     = fimVal;
+  const seg     = diffSegundos(inicioVal, fimVal);
+  a.confSLA     = seg != null ? seg : 0;
 
-  // ★ SLA em SEGUNDOS (calculado pela diferença real dos campos)
-  const seg=diffSegundos(inicioVal, fimVal);
-  a.confSLA=seg!=null?seg:0;
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  document.getElementById('c-timer').textContent = fmtHMS(a.confSLA);
 
-  // Parar timer e exibir tempo final
-  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-  document.getElementById('c-timer').textContent=fmtHMS(a.confSLA);
+  a.skuRec     = parseFloat(document.getElementById('c-sku-rec').value)  || null;
+  a.volRec     = parseFloat(document.getElementById('c-vol-rec').value)  || null;
+  a.pesoRec    = parseFloat(document.getElementById('c-peso-rec').value) || null;
+  a.confConfer = conferente;
+  a.confObs    = document.getElementById('c-ocorrencia').value.trim();
+  if (a.status === 'Em Conferência') a.status = 'Concluído OK';
 
-  a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
-  a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
-  a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
-  a.confConfer=conferente;
-  a.confObs   =document.getElementById('c-ocorrencia').value.trim();
-
-  if(a.status==='Em Conferência') a.status='Concluído OK';
-
-  // Desabilitar campos
-  document.getElementById('c-tempo-inicio').disabled=true;
-  document.getElementById('c-tempo-fim').disabled=true;
+  document.getElementById('c-tempo-inicio').disabled        = true;
+  document.getElementById('c-tempo-fim').disabled           = true;
   _setInputsConf(true);
-
-  document.getElementById('section-finalizar').style.display='none';
-  document.getElementById('btn-editar-conf').style.display='inline-flex';
-  document.getElementById('btn-salvar-edicao').style.display='none';
+  document.getElementById('section-finalizar').style.display = 'none';
+  document.getElementById('btn-editar-conf').style.display   = 'inline-flex';
+  document.getElementById('btn-salvar-edicao').style.display = 'none';
 
   atualizarStatusConfGrid(a.status);
   atualizarMetaConf(a);
   calcDiverg();
   mostrarResultado(a);
-  document.getElementById('conf-resultado').style.display='block';
+  document.getElementById('conf-resultado').style.display = 'block';
 
-  confAtiva=false;
-  edicaoAtiva=false;
-  save();
-  renderConfLista();
+  // #8 — histórico
+  if (antStatus  !== a.status)    registrarHistorico(confIdx, 'status',      antStatus,  a.status);
+  if (antConfer  !== a.confConfer) registrarHistorico(confIdx, 'confConfer',  antConfer,  a.confConfer);
+  registrarHistorico(confIdx, 'finalizacao', '', `SLA=${a.confSLA}s`);
+
+  confAtiva = false; edicaoAtiva = false;
+  save(); renderConfLista();
 }
 
-function habilitarEdicao(){
-  if(confIdx<0) return;
-  edicaoAtiva=true;
-  document.getElementById('c-tempo-inicio').disabled=false;
-  document.getElementById('c-tempo-fim').disabled=false;
+function habilitarEdicao() {
+  if (confIdx < 0) return;
+  edicaoAtiva = true;
+  document.getElementById('c-tempo-inicio').disabled        = false;
+  document.getElementById('c-tempo-fim').disabled           = false;
   _setInputsConf(false);
-  document.getElementById('btn-editar-conf').style.display='none';
-  document.getElementById('btn-salvar-edicao').style.display='inline-flex';
+  document.getElementById('btn-editar-conf').style.display   = 'none';
+  document.getElementById('btn-salvar-edicao').style.display = 'inline-flex';
 }
 
-function salvarEdicao(){
-  if(confIdx<0) return;
-  const a=agendamentos[confIdx];
-  const inicioVal=document.getElementById('c-tempo-inicio').value;
-  const fimVal   =document.getElementById('c-tempo-fim').value;
+function salvarEdicao() {
+  if (confIdx < 0) return;
+  const a        = agendamentos[confIdx];
+  const inicioV  = document.getElementById('c-tempo-inicio').value;
+  const fimV     = document.getElementById('c-tempo-fim').value;
+  const antObs   = a.confObs;
+  const antConfer= a.confConfer;
 
-  if(inicioVal) a.confInicio=inicioVal;
-  if(fimVal)    a.confFim   =fimVal;
+  if (inicioV) a.confInicio = inicioV;
+  if (fimV)    a.confFim    = fimV;
 
-  // Recalcular SLA em segundos
-  if(a.confInicio&&a.confFim){
-    const seg=diffSegundos(a.confInicio,a.confFim);
-    if(seg!=null){
-      a.confSLA=seg;
-      document.getElementById('c-timer').textContent=fmtHMS(seg);
-    }
+  if (a.confInicio && a.confFim) {
+    const seg = diffSegundos(a.confInicio, a.confFim);
+    if (seg != null) { a.confSLA = seg; document.getElementById('c-timer').textContent = fmtHMS(seg); }
   }
 
-  a.skuRec    =parseFloat(document.getElementById('c-sku-rec').value)||null;
-  a.volRec    =parseFloat(document.getElementById('c-vol-rec').value)||null;
-  a.pesoRec   =parseFloat(document.getElementById('c-peso-rec').value)||null;
-  a.confConfer=document.getElementById('c-conferente').value.trim();
-  a.confObs   =document.getElementById('c-ocorrencia').value.trim();
-  a.editadoEm =agoraLocalStr();
+  a.skuRec     = parseFloat(document.getElementById('c-sku-rec').value)  || null;
+  a.volRec     = parseFloat(document.getElementById('c-vol-rec').value)  || null;
+  a.pesoRec    = parseFloat(document.getElementById('c-peso-rec').value) || null;
+  a.confConfer = document.getElementById('c-conferente').value.trim();
+  a.confObs    = document.getElementById('c-ocorrencia').value.trim();
+  a.editadoEm  = agoraLocalStr();
 
-  document.getElementById('c-tempo-inicio').disabled=true;
-  document.getElementById('c-tempo-fim').disabled=true;
+  document.getElementById('c-tempo-inicio').disabled        = true;
+  document.getElementById('c-tempo-fim').disabled           = true;
   _setInputsConf(true);
-  document.getElementById('btn-salvar-edicao').style.display='none';
-  document.getElementById('btn-editar-conf').style.display='inline-flex';
+  document.getElementById('btn-salvar-edicao').style.display = 'none';
+  document.getElementById('btn-editar-conf').style.display   = 'inline-flex';
 
-  const editBanner=document.getElementById('edit-banner');
-  editBanner.style.display='flex';
-  document.getElementById('edit-banner-time').textContent='Editado em: '+fmtData(a.editadoEm);
+  const editBanner = document.getElementById('edit-banner');
+  editBanner.style.display = 'flex';
+  document.getElementById('edit-banner-time').textContent = 'Editado em: ' + fmtData(a.editadoEm);
+
+  // #8 — histórico de edição
+  if (antConfer !== a.confConfer) registrarHistorico(confIdx, 'confConfer', antConfer, a.confConfer);
+  if (antObs    !== a.confObs)    registrarHistorico(confIdx, 'confObs',    antObs,    a.confObs);
 
   atualizarMetaConf(a);
   calcDiverg();
   mostrarResultado(a);
-  edicaoAtiva=false;
+  edicaoAtiva = false;
   save();
 }
 
-function mostrarResultado(a){
-  const box=document.getElementById('conf-resultado-box');
-  const temDiv=(a.skuRec!=null&&a.skuRec!==a.skuEsp)||(a.volRec!=null&&a.volRec!==a.volEsp)||(a.pesoRec!=null&&Math.abs(a.pesoRec-a.pesoEsp)>0.05);
-  const isPend=a.status==='Pendente'||a.status==='Não Finalizado';
-  if(isPend){
-    box.className='resultado-box pend';
-    document.getElementById('c-res-icon').textContent='🔔';
-    document.getElementById('c-res-title').textContent='Conferência com Pendência';
-    document.getElementById('c-res-sub').textContent='Verifique as observações e resolva as pendências.';
-  }else if(temDiv){
-    box.className='resultado-box div';
-    document.getElementById('c-res-icon').textContent='⚠️';
-    document.getElementById('c-res-title').textContent='Divergência encontrada';
-    document.getElementById('c-res-sub').textContent='Os volumes recebidos diferem dos agendados.';
-  }else{
-    box.className='resultado-box ok';
-    document.getElementById('c-res-icon').textContent='✅';
-    document.getElementById('c-res-title').textContent='Conferência OK — Sem divergências';
-    document.getElementById('c-res-sub').textContent='Todos os volumes conferem com o agendamento.';
+function mostrarResultado(a) {
+  const box    = document.getElementById('conf-resultado-box');
+  const temDiv = (a.skuRec!=null&&a.skuRec!==a.skuEsp)||(a.volRec!=null&&a.volRec!==a.volEsp)||(a.pesoRec!=null&&Math.abs(a.pesoRec-a.pesoEsp)>0.05);
+  const isPend = a.status==='Pendente'||a.status==='Não Finalizado';
+  if (isPend) {
+    box.className = 'resultado-box pend';
+    document.getElementById('c-res-icon').textContent  = '🔔';
+    document.getElementById('c-res-title').textContent = 'Conferência com Pendência';
+    document.getElementById('c-res-sub').textContent   = 'Verifique as observações e resolva as pendências.';
+  } else if (temDiv) {
+    box.className = 'resultado-box div';
+    document.getElementById('c-res-icon').textContent  = '⚠️';
+    document.getElementById('c-res-title').textContent = 'Divergência encontrada';
+    document.getElementById('c-res-sub').textContent   = 'Os volumes recebidos diferem dos agendados.';
+  } else {
+    box.className = 'resultado-box ok';
+    document.getElementById('c-res-icon').textContent  = '✅';
+    document.getElementById('c-res-title').textContent = 'Conferência OK — Sem divergências';
+    document.getElementById('c-res-sub').textContent   = 'Todos os volumes conferem com o agendamento.';
   }
-  // ★ Exibe tempo de recebimento em minutos
-  const minutos=a.confSLA!=null?Math.round(a.confSLA/60):0;
-  document.getElementById('c-tempo-rec-final').textContent=minutos;
+  document.getElementById('c-tempo-rec-final').textContent = a.confSLA != null ? Math.round(a.confSLA/60) : 0;
 }
 
-function calcDiverg(){
-  const campos=[
-    {esp:'c-sku-esp', rec:'c-sku-rec', div:'c-sku-div', peso:false},
-    {esp:'c-vol-esp', rec:'c-vol-rec', div:'c-vol-div', peso:false},
-    {esp:'c-peso-esp',rec:'c-peso-rec',div:'c-peso-div',peso:true},
-  ];
-  campos.forEach(({esp,rec,div,peso})=>{
-    const espVal=parseFloat(document.getElementById(esp).textContent.replace(' kg','').trim())||0;
-    const recVal=parseFloat(document.getElementById(rec).value)||0;
-    const divEl=document.getElementById(div);
-    if(!document.getElementById(rec).value){ divEl.textContent='—'; divEl.className=''; return; }
-    const diff=recVal-espVal, suf=peso?' kg':'';
-    if(diff===0)    divEl.innerHTML='<span class="v-ok">✅ OK</span>';
-    else if(diff>0) divEl.innerHTML=`<span class="v-div">▲ +${diff.toFixed(peso?1:0)}${suf}</span>`;
-    else            divEl.innerHTML=`<span class="v-div">▼ ${diff.toFixed(peso?1:0)}${suf}</span>`;
+function calcDiverg() {
+  [
+    {esp:'c-sku-esp',  rec:'c-sku-rec',  div:'c-sku-div',  peso:false},
+    {esp:'c-vol-esp',  rec:'c-vol-rec',  div:'c-vol-div',  peso:false},
+    {esp:'c-peso-esp', rec:'c-peso-rec', div:'c-peso-div', peso:true},
+  ].forEach(({esp,rec,div,peso}) => {
+    const espVal = parseFloat(document.getElementById(esp).textContent.replace(' kg','').trim()) || 0;
+    const recVal = parseFloat(document.getElementById(rec).value) || 0;
+    const divEl  = document.getElementById(div);
+    if (!document.getElementById(rec).value) { divEl.textContent = '—'; divEl.className = ''; return; }
+    const diff = recVal-espVal, suf = peso?' kg':'';
+    if (diff===0)    divEl.innerHTML = '<span class="v-ok">✅ OK</span>';
+    else if (diff>0) divEl.innerHTML = `<span class="v-div">▲ +${diff.toFixed(peso?1:0)}${suf}</span>`;
+    else             divEl.innerHTML = `<span class="v-div">▼ ${diff.toFixed(peso?1:0)}${suf}</span>`;
   });
 }
 
-function voltarListaConf(){
-  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-  confAtiva=false; edicaoAtiva=false; confIdx=-1;
-  document.getElementById('conf-select-state').style.display='block';
-  document.getElementById('conf-active-state').style.display='none';
+function voltarListaConf() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  confAtiva = false; edicaoAtiva = false; confIdx = -1;
+  document.getElementById('conf-select-state').style.display = 'block';
+  document.getElementById('conf-active-state').style.display = 'none';
   renderConfLista();
 }
 
 /* ══════════════════════════════════════════════════
    FORNECEDORES FIXOS
 ══════════════════════════════════════════════════ */
-function getKeyFixo(dia, codigo){ return `${getChaveSemana()}-${dia}-${codigo}`; }
+function getKeyFixo(dia, codigo) { return `${getChaveSemana()}-${dia}-${codigo}`; }
 
-function renderFornecedores(){
-  const diasOrdem=['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
-  const container=document.getElementById('fornec-fixos-container');
-  container.innerHTML='';
-  diasOrdem.forEach(dia=>{
-    const lista=FORNECEDORES_FIXOS.filter(f=>f.dias.includes(dia));
-    if(!lista.length) return;
-    const dataStr=getDataDiaSemana(dia);
-    const hoje=getDataHoje();
-    const isHoje=dataStr===hoje;
-    const sec=document.createElement('div');
-    sec.className='dia-sec';
-    sec.innerHTML=`<div class="dia-title">
+function renderFornecedores() {
+  const diasOrdem  = ['SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO'];
+  const container  = document.getElementById('fornec-fixos-container');
+  container.innerHTML = '';
+  diasOrdem.forEach(dia => {
+    const lista  = FORNECEDORES_FIXOS.filter(f => f.dias.includes(dia));
+    if (!lista.length) return;
+    const dataStr = getDataDiaSemana(dia);
+    const isHoje  = dataStr === getDataHoje();
+    const sec     = document.createElement('div');
+    sec.className = 'dia-sec';
+    sec.innerHTML = `<div class="dia-title">
       <span class="badge ${BADGE_DIA[dia]||'b-seg'}">${DIAS_LBL[dia]||dia}</span>
       <span style="font-size:12px;color:var(--text3);">${fmtData(dataStr)}</span>
       ${isHoje?'<span class="hoje-pill">HOJE</span>':''}
-    </div>
-    <div class="fornec-cards" id="cards-dia-${dia}"></div>`;
+    </div><div class="fornec-cards" id="cards-dia-${dia}"></div>`;
     container.appendChild(sec);
-    const cardsEl=document.getElementById('cards-dia-'+dia);
-    lista.forEach(f=>{
-      const k=getKeyFixo(dia, f.codigo);
-      const st=confirmacoes[k]||'';
-      const isConf=st==='confirmado', isNV=st==='naovieram';
-      const card=document.createElement('div');
-      card.className=`fc${isConf?' conf':isNV?' nv':''}`;
-      card.id=`fc-${k}`;
-      card.innerHTML=`
+    const cardsEl = document.getElementById('cards-dia-'+dia);
+    lista.forEach(f => {
+      const k    = getKeyFixo(dia, f.codigo);
+      const st   = confirmacoes[k] || '';
+      const isC  = st==='confirmado', isNV = st==='naovieram';
+      const card = document.createElement('div');
+      card.className = `fc${isC?' conf':isNV?' nv':''}`;
+      card.id        = `fc-${k}`;
+      card.innerHTML = `
         <div class="fc-info">
           <div class="fc-nome">${f.nome}</div>
           <div class="fc-cod">Cód. ${f.codigo} — ${DIAS_LBL[dia]||dia}</div>
         </div>
         <div class="fc-actions">
-          <button class="btn-sm bsm-conf ${isConf?'ativo':''}" onclick="toggleConf('${k}','confirmado','${dia}')">✅ Conf.</button>
-          <button class="btn-sm bsm-nv   ${isNV  ?'ativo':''}" onclick="toggleConf('${k}','naovieram','${dia}')">🚨 N.V.</button>
-          <button class="btn-sm bsm-rst"                        onclick="resetConf('${k}','${dia}')">↩</button>
+          <button class="btn-sm bsm-conf ${isC ?'ativo':''}" onclick="toggleConf('${k}','confirmado')">✅ Conf.</button>
+          <button class="btn-sm bsm-nv   ${isNV?'ativo':''}" onclick="toggleConf('${k}','naovieram')">🚨 N.V.</button>
+          <button class="btn-sm bsm-rst"                      onclick="resetConf('${k}')">↩</button>
         </div>`;
       cardsEl.appendChild(card);
     });
   });
 }
 
-function toggleConf(key,val){ confirmacoes[key]=confirmacoes[key]===val?'':val; saveConf(); renderFornecedores(); renderDashboard(); }
-function resetConf(key)      { delete confirmacoes[key];                        saveConf(); renderFornecedores(); renderDashboard(); }
+function toggleConf(key, val) { confirmacoes[key] = confirmacoes[key]===val ? '' : val; saveConf(); renderFornecedores(); renderDashboard(); }
+function resetConf(key)       { delete confirmacoes[key];                               saveConf(); renderFornecedores(); renderDashboard(); }
 
 /* ══════════════════════════════════════════════════
    ACOMPANHAMENTO
 ══════════════════════════════════════════════════ */
-function renderAcompanhamento(){
-  const hoje=getDataHoje();
-  const agDia    =agendamentos.filter(a=>soData(a.data)===hoje);
-  const recebidos=agDia.filter(a=>a.status==='Concluído OK');
-  const pendentes=agDia.filter(a=>['Em Conferência','Aguardando','Pendente','Não Finalizado','Atrasado'].includes(a.status));
+function renderAcompanhamento() {
+  const hoje     = getDataHoje();
+  const agDia    = agendamentos.filter(a => soData(a.data)===hoje);
+  const recebidos= agDia.filter(a => a.status==='Concluído OK');
+  const pendentes= agDia.filter(a => ['Em Conferência','Aguardando','Pendente','Não Finalizado','Atrasado'].includes(a.status));
 
-  document.getElementById('acomp-data-label').textContent='Data: '+fmtData(hoje);
-  document.getElementById('acomp-cards').innerHTML=`
+  document.getElementById('acomp-data-label').textContent = 'Data: ' + fmtData(hoje);
+  document.getElementById('acomp-cards').innerHTML = `
     <div class="acomp-card"><div class="av" style="color:#1a1a1a;">${agDia.length}</div><div class="al">📋 Total</div></div>
     <div class="acomp-card"><div class="av" style="color:#16a34a;">${recebidos.length}</div><div class="al">✅ Recebidos</div></div>
     <div class="acomp-card"><div class="av" style="color:#dc2626;">${pendentes.length}</div><div class="al">⏳ Pendentes</div></div>
     <div class="acomp-card"><div class="av" style="color:#7c3aed;">${agDia.filter(a=>a.viaNoRdil).length}</div><div class="al">🔀 Via Nordil</div></div>`;
 
-  const listaHtml=(arr,empty)=>!arr.length
-    ?`<div class="acomp-row"><span style="color:var(--text3);font-size:13px;">${empty}</span></div>`
-    :arr.map(a=>`<div class="acomp-row">
+  const listaHtml = (arr, empty) => !arr.length
+    ? `<div class="acomp-row"><span style="color:var(--text3);font-size:13px;">${empty}</span></div>`
+    : arr.map(a => `<div class="acomp-row">
         <div class="acomp-row-info">
           <div class="acomp-row-nome">${a.fornec||'—'}${a.nf?' — NF: '+a.nf:''}</div>
           <div class="acomp-row-meta">${fmtData(a.data)}${a.confConfer?' | 👤 '+a.confConfer:''}</div>
@@ -2035,57 +2250,59 @@ function renderAcompanhamento(){
         </div>
       </div>`).join('');
 
-  document.getElementById('acomp-hoje-list').innerHTML    =listaHtml(agDia,    'Nenhum agendamento para hoje.');
-  document.getElementById('acomp-recebidos-list').innerHTML=listaHtml(recebidos,'Nenhum recebimento concluído.');
-  document.getElementById('acomp-pendentes-list').innerHTML=listaHtml(pendentes,'Sem pendências.');
-  document.getElementById('acomp-update-time').textContent='Última atualização: '+new Date().toLocaleTimeString('pt-BR');
+  document.getElementById('acomp-hoje-list').innerHTML     = listaHtml(agDia,     'Nenhum agendamento para hoje.');
+  document.getElementById('acomp-recebidos-list').innerHTML= listaHtml(recebidos, 'Nenhum recebimento concluído.');
+  document.getElementById('acomp-pendentes-list').innerHTML= listaHtml(pendentes, 'Sem pendências.');
+  document.getElementById('acomp-update-time').textContent = 'Última atualização: ' + new Date().toLocaleTimeString('pt-BR');
 }
 
-function gerarLinkAcomp(){
-  const url=`${location.origin}${location.pathname}?data=${getDataHoje()}`;
-  navigator.clipboard.writeText(url).then(()=>showSync('Link copiado ✓',false)).catch(()=>prompt('Copie o link:',url));
+function gerarLinkAcomp() {
+  const url = `${location.origin}${location.pathname}?data=${getDataHoje()}`;
+  navigator.clipboard.writeText(url)
+    .then(()  => showSync('Link copiado ✓', false))
+    .catch(()  => prompt('Copie o link:', url));
 }
 
 /* ══════════════════════════════════════════════════
    EXPORTAR PDF
 ══════════════════════════════════════════════════ */
-function exportarPDF(){
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  const dados=getDadosDashFiltrado();
-  const mes=document.getElementById('df-mes').value||getDataHoje().substring(0,7);
+function exportarPDF() {
+  const {jsPDF} = window.jspdf;
+  const doc     = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const dados   = getDadosDashFiltrado();
+  const mes     = document.getElementById('df-mes').value || getDataHoje().substring(0,7);
 
   doc.setFillColor(26,26,26); doc.rect(0,0,297,22,'F');
   doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont(undefined,'bold');
-  doc.text('Recebimento-BM — Relatório de Agendamentos',14,14);
+  doc.text('Recebimento-BM — Relatório de Agendamentos', 14, 14);
   doc.setFontSize(10); doc.setFont(undefined,'normal');
-  doc.text(`Mês: ${mes} | Gerado em: ${new Date().toLocaleString('pt-BR')}`,14,20);
+  doc.text(`Mês: ${mes} | Gerado em: ${new Date().toLocaleString('pt-BR')}`, 14, 20);
 
-  const total=dados.length;
-  const conc =dados.filter(a=>a.status==='Concluído OK').length;
-  const atr  =dados.filter(a=>a.status==='Atrasado').length;
-  const pend =dados.filter(a=>a.status==='Pendente').length;
-  const slaL =dados.filter(a=>a.confSLA!=null).map(a=>a.confSLA);
-  const slaMed=slaL.length?Math.round(slaL.reduce((s,v)=>s+v,0)/slaL.length):null;
+  const total  = dados.length;
+  const conc   = dados.filter(a => a.status==='Concluído OK').length;
+  const atr    = dados.filter(a => a.status==='Atrasado').length;
+  const pend   = dados.filter(a => a.status==='Pendente').length;
+  const slaL   = dados.filter(a => a.confSLA!=null).map(a => a.confSLA);
+  const slaMed = slaL.length ? Math.round(slaL.reduce((s,v) => s+v,0)/slaL.length) : null;
 
   doc.setTextColor(26,26,26); doc.setFontSize(10); doc.setFont(undefined,'bold');
-  doc.text(`Total: ${total}  |  Concluídos: ${conc}  |  Atrasados: ${atr}  |  Pendentes: ${pend}  |  Tempo médio: ${slaMed!=null?Math.round(slaMed/60)+' min':'—'}`,14,30);
+  doc.text(`Total: ${total}  |  Concluídos: ${conc}  |  Atrasados: ${atr}  |  Pendentes: ${pend}  |  Tempo médio: ${slaMed!=null?Math.round(slaMed/60)+' min':'—'}`, 14, 30);
 
   doc.autoTable({
-    startY:36,
-    head:[['Dt. Solicit.','Dt. Agendada','Dt. Lib.','NF','Fornecedor','SKU Esp.','Vol. Esp.','Peso Esp.','Status NF','Status Conf.','Tempo Rec. (min)']],
-    body:dados.map(a=>[
-      fmtData(a.dataSolic),fmtData(a.data),a.dataLiberacao?fmtData(a.dataLiberacao):'—',
-      a.nf||'—',a.fornec||'—',
-      a.skuEsp||'—',a.volEsp||'—',a.pesoEsp?a.pesoEsp+' kg':'—',
-      a.statusNF||'—',a.status||'—',
-      a.confSLA!=null?Math.round(a.confSLA/60)+' min':'—',
+    startY: 36,
+    head  : [['Dt. Solicit.','Dt. Agendada','Dt. Lib.','NF','Fornecedor','SKU Esp.','Vol. Esp.','Peso Esp.','Status NF','Status Conf.','Tempo Rec. (min)']],
+    body  : dados.map(a => [
+      fmtData(a.dataSolic), fmtData(a.data), a.dataLiberacao?fmtData(a.dataLiberacao):'—',
+      a.nf||'—', a.fornec||'—',
+      a.skuEsp||'—', a.volEsp||'—', a.pesoEsp?a.pesoEsp+' kg':'—',
+      a.statusNF||'—', a.status||'—',
+      a.confSLA!=null ? Math.round(a.confSLA/60)+' min' : '—',
     ]),
-    styles:{fontSize:8,cellPadding:3,overflow:'linebreak'},
-    headStyles:{fillColor:[26,26,26],textColor:255,fontStyle:'bold',fontSize:8},
-    alternateRowStyles:{fillColor:[248,249,250]},
-    columnStyles:{4:{cellWidth:40},10:{cellWidth:22}},
-    margin:{left:14,right:14},
+    styles           : {fontSize:8, cellPadding:3, overflow:'linebreak'},
+    headStyles       : {fillColor:[26,26,26], textColor:255, fontStyle:'bold', fontSize:8},
+    alternateRowStyles: {fillColor:[248,249,250]},
+    columnStyles     : {4:{cellWidth:40}, 10:{cellWidth:22}},
+    margin           : {left:14, right:14},
   });
   doc.save(`recebimento-bm-${mes}.pdf`);
 }
@@ -2093,7 +2310,7 @@ function exportarPDF(){
 /* ══════════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════════ */
-function init(){
+function init() {
   atualizarStatusAgendamentos();
   setDefaultFiltrosDash();
   setDefaultFiltrosAgend();
@@ -2101,25 +2318,30 @@ function init(){
   atualizarFiltrosDin();
   atualizarFiltrosDash();
   atualizarFiltrosConf();
+  atualizarBadgeFila();
   renderDashboard();
 
+  // Restaurar tela ativa da sessão (#6)
+  const telaAtiva = sessionStorage.getItem('bm-tela-ativa');
+  if (telaAtiva && telaAtiva !== 'dashboard') showTela(telaAtiva);
+
   // Parâmetro ?data= na URL (acompanhamento externo)
-  const _urlParams=new URLSearchParams(location.search);
-  const _dataParam=_urlParams.get('data');
-  if(_dataParam){
+  const urlParams  = new URLSearchParams(location.search);
+  const dataParam  = urlParams.get('data');
+  if (dataParam) {
     showTela('acompanhamento');
-    const _agDia    =agendamentos.filter(a=>soData(a.data)===_dataParam);
-    const _recebidos=_agDia.filter(a=>a.status==='Concluído OK');
-    const _pendentes=_agDia.filter(a=>['Em Conferência','Aguardando','Pendente','Não Finalizado','Atrasado'].includes(a.status));
-    document.getElementById('acomp-data-label').textContent='Data: '+fmtData(_dataParam);
-    document.getElementById('acomp-cards').innerHTML=`
+    const _agDia     = agendamentos.filter(a => soData(a.data)===dataParam);
+    const _recebidos = _agDia.filter(a => a.status==='Concluído OK');
+    const _pendentes = _agDia.filter(a => ['Em Conferência','Aguardando','Pendente','Não Finalizado','Atrasado'].includes(a.status));
+    document.getElementById('acomp-data-label').textContent = 'Data: ' + fmtData(dataParam);
+    document.getElementById('acomp-cards').innerHTML = `
       <div class="acomp-card"><div class="av" style="color:#1a1a1a;">${_agDia.length}</div><div class="al">📋 Total</div></div>
       <div class="acomp-card"><div class="av" style="color:#16a34a;">${_recebidos.length}</div><div class="al">✅ Recebidos</div></div>
       <div class="acomp-card"><div class="av" style="color:#dc2626;">${_pendentes.length}</div><div class="al">⏳ Pendentes</div></div>
       <div class="acomp-card"><div class="av" style="color:#7c3aed;">${_agDia.filter(a=>a.viaNoRdil).length}</div><div class="al">🔀 Via Nordil</div></div>`;
-    const _lHtml=(arr,empty)=>!arr.length
-      ?`<div class="acomp-row"><span style="color:var(--text3);font-size:13px;">${empty}</span></div>`
-      :arr.map(a=>`<div class="acomp-row">
+    const _lHtml = (arr, empty) => !arr.length
+      ? `<div class="acomp-row"><span style="color:var(--text3);font-size:13px;">${empty}</span></div>`
+      : arr.map(a => `<div class="acomp-row">
           <div class="acomp-row-info">
             <div class="acomp-row-nome">${a.fornec||'—'}${a.nf?' — NF: '+a.nf:''}</div>
             <div class="acomp-row-meta">${fmtData(a.data)}${a.confConfer?' | 👤 '+a.confConfer:''}</div>
@@ -2129,19 +2351,22 @@ function init(){
             ${a.confSLA!=null?`<span class="tag">⏱️ ${Math.round(a.confSLA/60)} min</span>`:''}
           </div>
         </div>`).join('');
-    document.getElementById('acomp-hoje-list').innerHTML    =_lHtml(_agDia,    'Nenhum agendamento nesta data.');
-    document.getElementById('acomp-recebidos-list').innerHTML=_lHtml(_recebidos,'Nenhum recebimento concluído.');
-    document.getElementById('acomp-pendentes-list').innerHTML=_lHtml(_pendentes,'Sem pendências.');
-    document.getElementById('acomp-update-time').textContent='Última atualização: '+new Date().toLocaleTimeString('pt-BR');
+    document.getElementById('acomp-hoje-list').innerHTML     = _lHtml(_agDia,     'Nenhum agendamento nesta data.');
+    document.getElementById('acomp-recebidos-list').innerHTML= _lHtml(_recebidos, 'Nenhum recebimento concluído.');
+    document.getElementById('acomp-pendentes-list').innerHTML= _lHtml(_pendentes, 'Sem pendências.');
+    document.getElementById('acomp-update-time').textContent = 'Última atualização: ' + new Date().toLocaleTimeString('pt-BR');
   }
 
+  carregarConferentes();
   carregarDoSheets();
-  // Atualiza status e chips da barra a cada 60s
-  setInterval(()=>{
+
+  // Auto-refresh a cada 60s
+  setInterval(() => {
     atualizarStatusAgendamentos();
     renderDashboard();
-    const confEl=document.getElementById('tela-conferencia');
-    if(confEl&&confEl.classList.contains('active')&&document.getElementById('conf-select-state').style.display!=='none'){
+    verificarAtrasosNotificacao();
+    const confEl = document.getElementById('tela-conferencia');
+    if (confEl?.classList.contains('active') && document.getElementById('conf-select-state').style.display !== 'none') {
       renderConfLista();
     }
   }, 60000);
